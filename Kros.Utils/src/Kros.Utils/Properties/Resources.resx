@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Check_Equal" xml:space="preserve">
+    <value>Hodnota parametra musí byť {0}, ale skutočná hodnota je {1}.</value>
+  </data>
+  <data name="Check_GreaterOrEqualThan" xml:space="preserve">
+    <value>Hodnota parametra musí byť väčšia alebo rovná {0}, ale skutočná hodnota je {1}.</value>
+  </data>
+  <data name="Check_GreaterThan" xml:space="preserve">
+    <value>Hodnota parametra musí byť väčšia ako {0}, ale skutočná hodnota je {1}.</value>
+  </data>
+  <data name="Check_IsInListDefaultMessage" xml:space="preserve">
+    <value>Hodnota "{0}" musí byť zo zoznamu hodnôt "{1}".</value>
+  </data>
+  <data name="Check_IsNotInListDefaultMessage" xml:space="preserve">
+    <value>Hodnota "{0}" nesmie byť zo zoznamu hodnôt "{1}".</value>
+  </data>
+  <data name="Check_IsNotOfType" xml:space="preserve">
+    <value>Parameter nemôže byť typu {0}.</value>
+  </data>
+  <data name="Check_IsOfType" xml:space="preserve">
+    <value>Parameter nie je požadovaného typu. Požadovaný typ: {0}. Typ parametra: {1}.</value>
+  </data>
+  <data name="Check_LessOrEqualThan" xml:space="preserve">
+    <value>Hodnota parametra musí byť menšia alebo rovná {0}, ale skutočná hodnota je {1}.</value>
+  </data>
+  <data name="Check_LessThan" xml:space="preserve">
+    <value>Hodnota parametra musí byť menšia ako {0}, ale skutočná hodnota je {1}.</value>
+  </data>
+  <data name="Check_NotEmptyGuid" xml:space="preserve">
+    <value>Prázdny GUID nie je povolený.</value>
+  </data>
+  <data name="Check_NotEqual" xml:space="preserve">
+    <value>Hodnota parametrov nesmie byť rovnaká {0}.</value>
+  </data>
+  <data name="Check_NotNull" xml:space="preserve">
+    <value>Hodnota nemôže byť null.</value>
+  </data>
+  <data name="Check_StringNotNullOrEmpty" xml:space="preserve">
+    <value>Reťazec nemôže byť null, alebo prázdny.</value>
+  </data>
+  <data name="Check_StringNotNullOrWhiteSpace" xml:space="preserve">
+    <value>Reťazec nemôže byť null, prázdny, ani zložený iba z bielych znakov.</value>
+  </data>
+  <data name="DatabaseSchemaCache_UnsupportedDatabaseType" xml:space="preserve">
+    <value>Nepodporovaný typ pripojenia na databázu: {0}</value>
+  </data>
+  <data name="DatabaseSchemaLoader_UnsupportedConnectionType" xml:space="preserve">
+    <value>Nepodporovaný typ spojenia na databázu.</value>
+  </data>
+  <data name="IndexSchema_CannotChangeIndexNameWhenBelongsToTable" xml:space="preserve">
+    <value>Nie je možné zmeniť názov indexu, ak je v zozname indexov tabuľky. Tento index patrí tabuľke "{0}".</value>
+  </data>
+  <data name="SchemaCacheKeyGenerator_UnsupportedConnectionType" xml:space="preserve">
+    <value>Nepodporovaný typ pripojenia na databázu. Podporované pripojenia na databázy sú: {0}</value>
+  </data>
+  <data name="Schema_ColumnBelongsToAnotherIndex" xml:space="preserve">
+    <value>Stĺpec "{0}" nie je možné pridať indexu "{1}", pretože už patrí indexu "{2}".</value>
+  </data>
+  <data name="Schema_ColumnBelongsToAnotherTable" xml:space="preserve">
+    <value>Stĺpec "{0}" nie je možné pridať tabuľke "{1}", pretože už patrí tabuľke "{2}".</value>
+  </data>
+  <data name="Schema_ForeignKeyBelongsToAnotherTable" xml:space="preserve">
+    <value>Cudzí kľúč "{0}" nie je možné pridať tabuľke "{1}", pretože už patrí tabuľke "{2}".</value>
+  </data>
+  <data name="Schema_IndexBelongsToAnotherTable" xml:space="preserve">
+    <value>Index "{0}" nie je možné pridať tabuľke "{1}", pretože už patrí tabuľke "{2}".</value>
+  </data>
+  <data name="Schema_TableBelongsToAnotherDatabase" xml:space="preserve">
+    <value>Tabuľku "{0}" nie je možné pridať databáze "{1}", pretože už patrí databáze "{2}".</value>
+  </data>
+  <data name="SqlServerSchemaLoader_NoInitialCatalog" xml:space="preserve">
+    <value>Pre načítanie schémy je nutné, aby spojenie na databázu malo špecifikovanú konkrétnu databázu (Initial Catalog).</value>
+  </data>
+  <data name="SqlServerSchemaLoader_UnsupportedConnectionType" xml:space="preserve">
+    <value>Nepodporovaný typ spojenia na databázu. Spojenie musí byť typu SqlConnection.</value>
+  </data>
+</root>

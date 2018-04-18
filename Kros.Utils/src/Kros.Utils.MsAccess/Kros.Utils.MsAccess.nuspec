@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <!--<licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>-->
+    <projectUrl>http://wiki/docs/html/1a18f3d2-1aaa-4c09-b6f0-d3eccbccf85d.htm</projectUrl>
+    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright © KROS a.s.</copyright>
+    <tags>Kros, Utils, MsAccess</tags>
+    <dependencies>
+      <dependency id="Kros.Utils" version="1.4.0" />
+    </dependencies>
+  </metadata>
+</package>
