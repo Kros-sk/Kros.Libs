@@ -5,22 +5,26 @@ This repo contains Kros.Utils, Kros.Utils.MsAccess, Kros.KORM and Kros.KORM.MsAc
 ## Kros.Utils
 
 Universal library of various tools to simplify the work of the programmer. It is platform-independent (also applicable to desktop applications and server services) and is independent of third-party libraries.
-[link](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.Utils/README.md "Kros.Utils")
+
+[Kros.Utils Readme](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.Utils/README.md "Kros.Utils")
 
 ## Kros.Utils.MsAccess
 
 Kros.Utils library extension for MS Access support. Only applicable in the full .NET framework.
-[link](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.Utils/README.md "Kros.Utils.MsAccess")
+
+[Kros.Utils.MsAccess Readme](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.Utils/README.md "Kros.Utils.MsAccess")
 
 ## Kros.KORM
 
 Simple and fast micro-ORM framework for .NET.
-[link](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.KORM/README.md "Kros.KORM")
+
+[Kros.KORM Readme](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.KORM/README.md "Kros.KORM")
 
 ## Kros.KORM.MsAccess
 
 Kros.KORM library extension for MS Access support. Only applicable in the full .NET framework.
-[link](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.KORM/README.md "Kros.KORM.MsAccess")
+
+[Kros.KORM.MsAccess](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.KORM/README.md "Kros.KORM.MsAccess")
 
 ## Contributing Guide
 
@@ -33,16 +37,16 @@ Kros.KORM library extension for MS Access support. Only applicable in the full .
 
 ### Contributing to Kros.Libs
 
-* Do you miss something? Create new issue.
-* Did you find a bug? Create new issue.
+* Do you miss something? [Create new issue](https://github.com/Kros-sk/Kros.Libs/issues/new).
+* Did you find a bug? [Create new issue](https://github.com/Kros-sk/Kros.Libs/issues/new).
 * Do you want to fix a bug?
-    * Ask for an issue labeled _up-for-grabs_.
+    * Ask for an issue labeled [_up-for-grabs_](https://github.com/Kros-sk/Kros.Libs/issues?utf8=✓&q=is%3Aopen+label%3Abug+label%3Aup-for-grabs).
     * Write the unit tests.
     * Fix the bug.
     * Create pull request.
 
 * Do you want to implement a feature?
-    * Ask for an feature labeled _up-for-grabs_.
+    * Ask for an feature labeled [_up-for-grabs_](https://github.com/Kros-sk/Kros.Libs/labels/up-for-grabs).
     * Implement the feature.
     * Write unit tests.
     * Create pull request.
