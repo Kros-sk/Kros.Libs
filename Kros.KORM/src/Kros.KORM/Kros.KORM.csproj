@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
+    <Company>KROS a.s.</Company>
+    <Version>3.5.0</Version>
+    <Authors>KROS a.s.</Authors>
+    <Description>Kros Object Relation Mapper.</Description>
+    <Copyright>Copyright © KROS a.s.</Copyright>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>Kros.KORM.snk</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RootNamespace>Kros.KORM</RootNamespace>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <Product>Kros.KORM</Product>
+    <PackageId>Kros.KORM</PackageId>
+    <PackageIconUrl></PackageIconUrl>
+    <PackageProjectUrl>http://wiki/docs/html/c20613b6-879a-4e80-b152-3ba4c7c3b89e.htm</PackageProjectUrl>
+    <PackageTags>KORM, ORM</PackageTags>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <AssemblyName>Kros.KORM</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DocumentationFile>$(OutDir)Kros.KORM.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Configuration.ConfigurationManager">
+      <Version>4.4.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Kros.Utils\src\Kros.Utils\Kros.Utils.csproj" />
+  </ItemGroup>
+</Project>
