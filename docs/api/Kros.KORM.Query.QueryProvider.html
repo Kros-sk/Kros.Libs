@@ -1,0 +1,1334 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class QueryProvider
+   | Kros.Libs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class QueryProvider
+   | Kros.Libs ">
+    <meta name="generator" content="docfx 2.34.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Kros.KORM.Query.QueryProvider">
+  
+  
+  <h1 id="Kros_KORM_Query_QueryProvider" data-uid="Kros.KORM.Query.QueryProvider" class="text-break">Class QueryProvider
+  </h1>
+  <div class="markdown level0 summary"><p>Provider, which know execute query.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">QueryProvider</span></div>
+      <div class="level2"><a class="xref" href="Kros.KORM.Query.MsAccess.MsAccessQueryProvider.html">MsAccessQueryProvider</a></div>
+      <div class="level2"><a class="xref" href="Kros.KORM.Query.SqlServerQueryProvider.html">SqlServerQueryProvider</a></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Kros.KORM.Query.IQueryProvider.html">IQueryProvider</a></div>
+    <div><span class="xref">System.Linq.IQueryProvider</span></div>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Kros.KORM.Query.html">Kros.KORM.Query</a></h6>
+  <h6><strong>Assembly</strong>: Kros.KORM.dll</h6>
+  <h5 id="Kros_KORM_Query_QueryProvider_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class QueryProvider : IQueryProvider, IQueryProvider, IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <a id="Kros_KORM_Query_QueryProvider__ctor_" data-uid="Kros.KORM.Query.QueryProvider.#ctor*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider__ctor_System_Configuration_ConnectionStringSettings_Kros_KORM_Query_Sql_ISqlExpressionVisitor_Kros_KORM_Materializer_IModelBuilder_Kros_KORM_Helper_ILogger_" data-uid="Kros.KORM.Query.QueryProvider.#ctor(System.Configuration.ConnectionStringSettings,Kros.KORM.Query.Sql.ISqlExpressionVisitor,Kros.KORM.Materializer.IModelBuilder,Kros.KORM.Helper.ILogger)">QueryProvider(ConnectionStringSettings, ISqlExpressionVisitor, IModelBuilder, ILogger)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Kros.KORM.Query.QueryProvider.html">QueryProvider</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public QueryProvider(ConnectionStringSettings connectionSettings, ISqlExpressionVisitor sqlGenerator, IModelBuilder modelBuilder, ILogger logger)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Configuration.ConnectionStringSettings</span></td>
+        <td><span class="parametername">connectionSettings</span></td>
+        <td><p>The connection string settings.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.Sql.ISqlExpressionVisitor.html">ISqlExpressionVisitor</a></td>
+        <td><span class="parametername">sqlGenerator</span></td>
+        <td><p>The SQL generator.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Materializer.IModelBuilder.html">IModelBuilder</a></td>
+        <td><span class="parametername">modelBuilder</span></td>
+        <td><p>The model builder.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Helper.ILogger.html">ILogger</a></td>
+        <td><span class="parametername">logger</span></td>
+        <td><p>The logger.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider__ctor_" data-uid="Kros.KORM.Query.QueryProvider.#ctor*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider__ctor_System_Data_Common_DbConnection_Kros_KORM_Query_Sql_ISqlExpressionVisitor_Kros_KORM_Materializer_IModelBuilder_Kros_KORM_Helper_ILogger_" data-uid="Kros.KORM.Query.QueryProvider.#ctor(System.Data.Common.DbConnection,Kros.KORM.Query.Sql.ISqlExpressionVisitor,Kros.KORM.Materializer.IModelBuilder,Kros.KORM.Helper.ILogger)">QueryProvider(DbConnection, ISqlExpressionVisitor, IModelBuilder, ILogger)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Kros.KORM.Query.QueryProvider.html">QueryProvider</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public QueryProvider(DbConnection externalConnection, ISqlExpressionVisitor sqlGenerator, IModelBuilder modelBuilder, ILogger logger)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.Common.DbConnection</span></td>
+        <td><span class="parametername">externalConnection</span></td>
+        <td><p>The connection.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.Sql.ISqlExpressionVisitor.html">ISqlExpressionVisitor</a></td>
+        <td><span class="parametername">sqlGenerator</span></td>
+        <td><p>The SQL generator.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Materializer.IModelBuilder.html">IModelBuilder</a></td>
+        <td><span class="parametername">modelBuilder</span></td>
+        <td><p>The model builder.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Helper.ILogger.html">ILogger</a></td>
+        <td><span class="parametername">logger</span></td>
+        <td><p>The logger.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <a id="Kros_KORM_Query_QueryProvider_Connection_" data-uid="Kros.KORM.Query.QueryProvider.Connection*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_Connection" data-uid="Kros.KORM.Query.QueryProvider.Connection">Connection</h4>
+  <div class="markdown level1 summary"><p>Vráti spojenie na databázu s ktorou trieda pracuje. Ak trieda bola vytvorená iba so zadaným
+connection string-om, je vytvorené nové spojenie.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected DbConnection Connection { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.Common.DbConnection</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_ConnectionString_" data-uid="Kros.KORM.Query.QueryProvider.ConnectionString*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_ConnectionString" data-uid="Kros.KORM.Query.QueryProvider.ConnectionString">ConnectionString</h4>
+  <div class="markdown level1 summary"><p>Connection string na databázu, ktorý bol zadaný pri vytvorení inštancie triedy
+(<a class="xref" href="Kros.KORM.Query.QueryProvider.html#Kros_KORM_Query_QueryProvider__ctor_System_Configuration_ConnectionStringSettings_Kros_KORM_Query_Sql_ISqlExpressionVisitor_Kros_KORM_Materializer_IModelBuilder_Kros_KORM_Helper_ILogger_">QueryProvider(ConnectionStringSettings, ISqlExpressionVisitor, IModelBuilder, ILogger)</a>).
+Ak bola trieda vytvorená konkrétnou inštanciou spojenia, vráti <code>null</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected string ConnectionString { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_DbProviderFactory_" data-uid="Kros.KORM.Query.QueryProvider.DbProviderFactory*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_DbProviderFactory" data-uid="Kros.KORM.Query.QueryProvider.DbProviderFactory">DbProviderFactory</h4>
+  <div class="markdown level1 summary"><p>Returns <a class="xref" href="Kros.KORM.Query.QueryProvider.html#Kros_KORM_Query_QueryProvider_DbProviderFactory">DbProviderFactory</a> for current provider.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract DbProviderFactory DbProviderFactory { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.Common.DbProviderFactory</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_IsExternalConnection_" data-uid="Kros.KORM.Query.QueryProvider.IsExternalConnection*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_IsExternalConnection" data-uid="Kros.KORM.Query.QueryProvider.IsExternalConnection">IsExternalConnection</h4>
+  <div class="markdown level1 summary"><p>Vráti, či spojenie na databázu je externé, tzn. či bolo explicitne zadané zvonka v konštruktore.
+Ak bolo spojenie zadané explicitne, vráti <span class="xref">true</span>, ak bol v konštruktore zadaný iba connection
+string a spojenie je vytvorené interne, vráti <span class="xref">false</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool IsExternalConnection { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Kros_KORM_Query_QueryProvider_BeginTransaction_" data-uid="Kros.KORM.Query.QueryProvider.BeginTransaction*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_BeginTransaction_System_Data_IsolationLevel_" data-uid="Kros.KORM.Query.QueryProvider.BeginTransaction(System.Data.IsolationLevel)">BeginTransaction(IsolationLevel)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ITransaction BeginTransaction(IsolationLevel isolationLevel)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IsolationLevel</span></td>
+        <td><span class="parametername">isolationLevel</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Data.ITransaction.html">ITransaction</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_CreateBulkInsert_" data-uid="Kros.KORM.Query.QueryProvider.CreateBulkInsert*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_CreateBulkInsert" data-uid="Kros.KORM.Query.QueryProvider.CreateBulkInsert">CreateBulkInsert()</h4>
+  <div class="markdown level1 summary"><p>Creates instance of <a class="xref" href="Kros.Data.BulkActions.IBulkInsert.html">IBulkInsert</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract IBulkInsert CreateBulkInsert()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.BulkActions.IBulkInsert.html">IBulkInsert</a></td>
+        <td><p>Instance of <a class="xref" href="Kros.Data.BulkActions.IBulkInsert.html">IBulkInsert</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_CreateBulkUpdate_" data-uid="Kros.KORM.Query.QueryProvider.CreateBulkUpdate*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_CreateBulkUpdate" data-uid="Kros.KORM.Query.QueryProvider.CreateBulkUpdate">CreateBulkUpdate()</h4>
+  <div class="markdown level1 summary"><p>Creates instance of <a class="xref" href="Kros.Data.BulkActions.IBulkUpdate.html">IBulkUpdate</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract IBulkUpdate CreateBulkUpdate()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.BulkActions.IBulkUpdate.html">IBulkUpdate</a></td>
+        <td><p>Instance of <a class="xref" href="Kros.Data.BulkActions.IBulkUpdate.html">IBulkUpdate</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_CreateIdGenerator_" data-uid="Kros.KORM.Query.QueryProvider.CreateIdGenerator*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_CreateIdGenerator_System_String_System_Int32_" data-uid="Kros.KORM.Query.QueryProvider.CreateIdGenerator(System.String,System.Int32)">CreateIdGenerator(String, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IIdGenerator CreateIdGenerator(string tableName, int batchSize)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">tableName</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">batchSize</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.IIdGenerator.html">IIdGenerator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_CreateQuery_" data-uid="Kros.KORM.Query.QueryProvider.CreateQuery*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_CreateQuery_System_Linq_Expressions_Expression_" data-uid="Kros.KORM.Query.QueryProvider.CreateQuery(System.Linq.Expressions.Expression)">CreateQuery(Expression)</h4>
+  <div class="markdown level1 summary"><p>Not implemented.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IQueryable CreateQuery(Expression expression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><span class="parametername">expression</span></td>
+        <td><p>An expression tree that represents a LINQ query.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.IQueryable</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.NotImplementedException</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_CreateQuery_" data-uid="Kros.KORM.Query.QueryProvider.CreateQuery*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_CreateQuery__1_System_Linq_Expressions_Expression_" data-uid="Kros.KORM.Query.QueryProvider.CreateQuery``1(System.Linq.Expressions.Expression)">CreateQuery&lt;TElement&gt;(Expression)</h4>
+  <div class="markdown level1 summary"><p>Constructs an <span class="xref">System.Linq.IQueryable&lt;T&gt;</span> object that can evaluate the query represented by a specified expression tree.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IQueryable&lt;TElement&gt; CreateQuery&lt;TElement&gt;(Expression expression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><span class="parametername">expression</span></td>
+        <td><p>An expression tree that represents a LINQ query.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.IQueryable</span>&lt;TElement&gt;</td>
+        <td><p>An <span class="xref">System.Linq.IQueryable&lt;T&gt;</span> that can evaluate the query represented by the specified expression tree.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TElement</span></td>
+        <td><p>The type of the elements of the <span class="xref">System.Linq.IQueryable&lt;T&gt;</span> that is returned.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_Dispose_" data-uid="Kros.KORM.Query.QueryProvider.Dispose*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_Dispose" data-uid="Kros.KORM.Query.QueryProvider.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  <a id="Kros_KORM_Query_QueryProvider_Dispose_" data-uid="Kros.KORM.Query.QueryProvider.Dispose*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_Dispose_System_Boolean_" data-uid="Kros.KORM.Query.QueryProvider.Dispose(System.Boolean)">Dispose(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">disposing</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_Execute_" data-uid="Kros.KORM.Query.QueryProvider.Execute*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_Execute_System_Linq_Expressions_Expression_" data-uid="Kros.KORM.Query.QueryProvider.Execute(System.Linq.Expressions.Expression)">Execute(Expression)</h4>
+  <div class="markdown level1 summary"><p>Executing non generic result is not actualy supported.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object Execute(Expression expression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><span class="parametername">expression</span></td>
+        <td><p>An expression tree that represents a LINQ query.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.NotImplementedException</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_Execute_" data-uid="Kros.KORM.Query.QueryProvider.Execute*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_Execute__1_Kros_KORM_Query_IQuery___0__" data-uid="Kros.KORM.Query.QueryProvider.Execute``1(Kros.KORM.Query.IQuery{``0})">Execute&lt;T&gt;(IQuery&lt;T&gt;)</h4>
+  <div class="markdown level1 summary"><p>Executes the specified query.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;T&gt; Execute&lt;T&gt;(IQuery&lt;T&gt; query)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.IQuery-1.html">IQuery</a>&lt;T&gt;</td>
+        <td><span class="parametername">query</span></td>
+        <td><p>The query.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;T&gt;</td>
+        <td><p>IEnumerable of models, which was materialized by query</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>Type of model result.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p>If query is null.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_Execute_" data-uid="Kros.KORM.Query.QueryProvider.Execute*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_Execute__1_System_Linq_Expressions_Expression_" data-uid="Kros.KORM.Query.QueryProvider.Execute``1(System.Linq.Expressions.Expression)">Execute&lt;TResult&gt;(Expression)</h4>
+  <div class="markdown level1 summary"><p>Executes the strongly-typed query represented by a specified expression tree.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TResult Execute&lt;TResult&gt;(Expression expression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><span class="parametername">expression</span></td>
+        <td><p>An expression tree that represents a LINQ query.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TResult</span></td>
+        <td><p>The value that results from executing the specified query.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td><p>The type of the value that results from executing the query.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_ExecuteInTransaction_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteInTransaction*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_ExecuteInTransaction_System_Action_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteInTransaction(System.Action)">ExecuteInTransaction(Action)</h4>
+  <div class="markdown level1 summary"><p>Executes action in transaction.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ExecuteInTransaction(Action action)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">action</span></td>
+        <td><p>Action which will be executed.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_ExecuteNonQuery_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteNonQuery*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_ExecuteNonQuery_System_String_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteNonQuery(System.String)">ExecuteNonQuery(String)</h4>
+  <div class="markdown level1 summary"><p>Executes arbitrary query.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int ExecuteNonQuery(string query)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">query</span></td>
+        <td><p>Arbitrary SQL query. It should not be SELECT query.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>Number of affected rows.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_ExecuteNonQuery_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteNonQuery*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_ExecuteNonQuery_System_String_Kros_KORM_Query_CommandParameterCollection_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteNonQuery(System.String,Kros.KORM.Query.CommandParameterCollection)">ExecuteNonQuery(String, CommandParameterCollection)</h4>
+  <div class="markdown level1 summary"><p>Executes arbitrary query with parameters.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int ExecuteNonQuery(string query, CommandParameterCollection parameters)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">query</span></td>
+        <td><p>Arbitrary SQL query. It should not be SELECT query.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.CommandParameterCollection.html">CommandParameterCollection</a></td>
+        <td><span class="parametername">parameters</span></td>
+        <td><p>The query parameters.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>Number of affected rows.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>Value of any of the parameters is NULL and its data type
+(<a class="xref" href="Kros.KORM.Query.CommandParameter.html#Kros_KORM_Query_CommandParameter_DataType">DataType</a>) is not set.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_ExecuteNonQueryCommand_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteNonQueryCommand*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_ExecuteNonQueryCommand_System_Data_IDbCommand_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteNonQueryCommand(System.Data.IDbCommand)">ExecuteNonQueryCommand(IDbCommand)</h4>
+  <div class="markdown level1 summary"><p>Executes the command.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int ExecuteNonQueryCommand(IDbCommand command)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IDbCommand</span></td>
+        <td><span class="parametername">command</span></td>
+        <td><p>The command.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.NotImplementedException</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_ExecuteScalar_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteScalar*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_ExecuteScalar__1_Kros_KORM_Query_IQuery___0__" data-uid="Kros.KORM.Query.QueryProvider.ExecuteScalar``1(Kros.KORM.Query.IQuery{``0})">ExecuteScalar&lt;T&gt;(IQuery&lt;T&gt;)</h4>
+  <div class="markdown level1 summary"><p>Executes the query, and returns the first column of the first row in the result set returned by the query.
+Additional columns or rows are ignored.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object ExecuteScalar&lt;T&gt;(IQuery&lt;T&gt; query)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.IQuery-1.html">IQuery</a>&lt;T&gt;</td>
+        <td><span class="parametername">query</span></td>
+        <td><p>The query.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><p>The first column of the first row in the result set, or <span class="xref">null</span> if the result set is empty.
+Returns a maximum of 2033 characters.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>Type of model.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p>If query is null.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_ExecuteStoredProcedure_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteStoredProcedure*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_ExecuteStoredProcedure__1_System_String_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteStoredProcedure``1(System.String)">ExecuteStoredProcedure&lt;TResult&gt;(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TResult ExecuteStoredProcedure&lt;TResult&gt;(string storedProcedureName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">storedProcedureName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_ExecuteStoredProcedure_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteStoredProcedure*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_ExecuteStoredProcedure__1_System_String_Kros_KORM_Query_CommandParameterCollection_" data-uid="Kros.KORM.Query.QueryProvider.ExecuteStoredProcedure``1(System.String,Kros.KORM.Query.CommandParameterCollection)">ExecuteStoredProcedure&lt;TResult&gt;(String, CommandParameterCollection)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TResult ExecuteStoredProcedure&lt;TResult&gt;(string storedProcedureName, CommandParameterCollection parameters)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">storedProcedureName</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.CommandParameterCollection.html">CommandParameterCollection</a></td>
+        <td><span class="parametername">parameters</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TResult</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_GetCommandForCurrentTransaction_" data-uid="Kros.KORM.Query.QueryProvider.GetCommandForCurrentTransaction*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_GetCommandForCurrentTransaction" data-uid="Kros.KORM.Query.QueryProvider.GetCommandForCurrentTransaction">GetCommandForCurrentTransaction()</h4>
+  <div class="markdown level1 summary"><p>Vytvorí inicializovaný príkaz <span class="xref">System.Data.Common.DbCommand</span>, pre aktuálnu transakciu.
+Používa sa iba v rámci volania <a class="xref" href="Kros.KORM.Query.QueryProvider.html#Kros_KORM_Query_QueryProvider_ExecuteInTransaction_System_Action_">ExecuteInTransaction(Action)</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DbCommand GetCommandForCurrentTransaction()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.Common.DbCommand</span></td>
+        <td><p>Inicializovaný príkaz.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_GetCurrentTransaction_" data-uid="Kros.KORM.Query.QueryProvider.GetCurrentTransaction*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_GetCurrentTransaction" data-uid="Kros.KORM.Query.QueryProvider.GetCurrentTransaction">GetCurrentTransaction()</h4>
+  <div class="markdown level1 summary"><p>Gets current the transaction.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected DbTransaction GetCurrentTransaction()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.Common.DbTransaction</span></td>
+        <td><p>Current transaction if is opened; otherwise null;</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_GetSchemaLoader_" data-uid="Kros.KORM.Query.QueryProvider.GetSchemaLoader*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_GetSchemaLoader" data-uid="Kros.KORM.Query.QueryProvider.GetSchemaLoader">GetSchemaLoader()</h4>
+  <div class="markdown level1 summary"><p>Creates <a class="xref" href="Kros.Data.Schema.IDatabaseSchemaLoader.html">IDatabaseSchemaLoader</a> for specific database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract IDatabaseSchemaLoader GetSchemaLoader()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.Schema.IDatabaseSchemaLoader.html">IDatabaseSchemaLoader</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_QueryProvider_SetParameterDbType_" data-uid="Kros.KORM.Query.QueryProvider.SetParameterDbType*"></a>
+  <h4 id="Kros_KORM_Query_QueryProvider_SetParameterDbType_System_Data_Common_DbParameter_System_String_System_String_" data-uid="Kros.KORM.Query.QueryProvider.SetParameterDbType(System.Data.Common.DbParameter,System.String,System.String)">SetParameterDbType(DbParameter, String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetParameterDbType(DbParameter parameter, string tableName, string columnName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.Common.DbParameter</span></td>
+        <td><span class="parametername">parameter</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">tableName</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">columnName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Kros.KORM.Query.IQueryProvider.html">IQueryProvider</a>
+  </div>
+  <div>
+      <span class="xref">System.Linq.IQueryProvider</span>
+  </div>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+  <h3 id="seealso">See Also</h3>
+  <div class="seealso">
+      <div><a class="xref" href="Kros.KORM.Query.IQueryProvider.html">IQueryProvider</a></div>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright © 1995 - 2018 KROS a.s.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

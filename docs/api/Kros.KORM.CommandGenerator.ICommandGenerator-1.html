@@ -1,0 +1,423 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Interface ICommandGenerator&lt;T&gt;
+   | Kros.Libs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Interface ICommandGenerator&lt;T&gt;
+   | Kros.Libs ">
+    <meta name="generator" content="docfx 2.34.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1">
+  
+  
+  <h1 id="Kros_KORM_CommandGenerator_ICommandGenerator_1" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1" class="text-break">Interface ICommandGenerator&lt;T&gt;
+  </h1>
+  <div class="markdown level0 summary"><p>Iterface, which describes generating single-table commands that are used to commit changes made to a DbSet
+with the associated database.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Kros.KORM.CommandGenerator.html">Kros.KORM.CommandGenerator</a></h6>
+  <h6><strong>Assembly</strong>: Kros.KORM.dll</h6>
+  <h5 id="Kros_KORM_CommandGenerator_ICommandGenerator_1_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface ICommandGenerator&lt;T&gt;</code></pre>
+  </div>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Kros_KORM_CommandGenerator_ICommandGenerator_1_FillCommand_" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.FillCommand*"></a>
+  <h4 id="Kros_KORM_CommandGenerator_ICommandGenerator_1_FillCommand_System_Data_Common_DbCommand__0_" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.FillCommand(System.Data.Common.DbCommand,`0)">FillCommand(DbCommand, T)</h4>
+  <div class="markdown level1 summary"><p>Fills command&apos;s parameters with values from <code data-dev-comment-type="paramref" class="paramref">item</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void FillCommand(DbCommand command, T item)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.Common.DbCommand</span></td>
+        <td><span class="parametername">command</span></td>
+        <td><p>Command which parameters are filled.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><span class="parametername">item</span></td>
+        <td><p>Item, from which command is filled.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p>Either <code data-dev-comment-type="paramref" class="paramref">command</code> or <code data-dev-comment-type="paramref" class="paramref">item</code>
+is <code>null</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_CommandGenerator_ICommandGenerator_1_GetColumnValue_" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.GetColumnValue*"></a>
+  <h4 id="Kros_KORM_CommandGenerator_ICommandGenerator_1_GetColumnValue_Kros_KORM_Metadata_ColumnInfo__0_" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.GetColumnValue(Kros.KORM.Metadata.ColumnInfo,`0)">GetColumnValue(ColumnInfo, T)</h4>
+  <div class="markdown level1 summary"><p>Gets value from the specific column.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">object GetColumnValue(ColumnInfo columnInfo, T item)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Metadata.ColumnInfo.html">ColumnInfo</a></td>
+        <td><span class="parametername">columnInfo</span></td>
+        <td><p>The specific column.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><span class="parametername">item</span></td>
+        <td><p>The item whose value will be returned.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><p>Value from the specific column.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_CommandGenerator_ICommandGenerator_1_GetDeleteCommand_" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.GetDeleteCommand*"></a>
+  <h4 id="Kros_KORM_CommandGenerator_ICommandGenerator_1_GetDeleteCommand" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.GetDeleteCommand">GetDeleteCommand()</h4>
+  <div class="markdown level1 summary"><p>Gets the automatically generated DbCommand object required to perform deletions on the database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">DbCommand GetDeleteCommand()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.Common.DbCommand</span></td>
+        <td><p>Delete command.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Exceptions.MissingPrimaryKeyException.html">MissingPrimaryKeyException</a></td>
+        <td><p>GetDeleteCommand doesn&apos;t supported when entity doesn&apos;t have primary key.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_CommandGenerator_ICommandGenerator_1_GetDeleteCommands_" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.GetDeleteCommands*"></a>
+  <h4 id="Kros_KORM_CommandGenerator_ICommandGenerator_1_GetDeleteCommands_System_Collections_Generic_IEnumerable__0__" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.GetDeleteCommands(System.Collections.Generic.IEnumerable{`0})">GetDeleteCommands(IEnumerable&lt;T&gt;)</h4>
+  <div class="markdown level1 summary"><p>Gets the automatically generated DbCommands object required to perform deletions on the database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IEnumerable&lt;DbCommand&gt; GetDeleteCommands(IEnumerable&lt;T&gt; items)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;T&gt;</td>
+        <td><span class="parametername">items</span></td>
+        <td><p>Type class of model collection.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Data.Common.DbCommand</span>&gt;</td>
+        <td><p>Delete command collection.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Exceptions.MissingPrimaryKeyException.html">MissingPrimaryKeyException</a></td>
+        <td><p>GetDeleteCommands doesn&apos;t supported when entity doesn&apos;t have primary key.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_CommandGenerator_ICommandGenerator_1_GetInsertCommand_" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.GetInsertCommand*"></a>
+  <h4 id="Kros_KORM_CommandGenerator_ICommandGenerator_1_GetInsertCommand" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.GetInsertCommand">GetInsertCommand()</h4>
+  <div class="markdown level1 summary"><p>Gets the automatically generated DbCommand object required to perform insertions on the database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">DbCommand GetInsertCommand()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.Common.DbCommand</span></td>
+        <td><p>Insert command.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_CommandGenerator_ICommandGenerator_1_GetQueryColumns_" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.GetQueryColumns*"></a>
+  <h4 id="Kros_KORM_CommandGenerator_ICommandGenerator_1_GetQueryColumns" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.GetQueryColumns">GetQueryColumns()</h4>
+  <div class="markdown level1 summary"><p>Get columns for query.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IEnumerable&lt;ColumnInfo&gt; GetQueryColumns()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Kros.KORM.Metadata.ColumnInfo.html">ColumnInfo</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_CommandGenerator_ICommandGenerator_1_GetUpdateCommand_" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.GetUpdateCommand*"></a>
+  <h4 id="Kros_KORM_CommandGenerator_ICommandGenerator_1_GetUpdateCommand" data-uid="Kros.KORM.CommandGenerator.ICommandGenerator`1.GetUpdateCommand">GetUpdateCommand()</h4>
+  <div class="markdown level1 summary"><p>Gets the automatically generated DbCommand object required to perform updates on the database</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">DbCommand GetUpdateCommand()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.Common.DbCommand</span></td>
+        <td><p>Update command.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Exceptions.MissingPrimaryKeyException.html">MissingPrimaryKeyException</a></td>
+        <td><p>GetUpdateCommand doesn&apos;t supported when entity doesn&apos;t have primary key.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright © 1995 - 2018 KROS a.s.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
