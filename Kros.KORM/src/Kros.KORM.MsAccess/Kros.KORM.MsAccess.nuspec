@@ -6,16 +6,17 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <projectUrl>http://wiki/docs/html/c20613b6-879a-4e80-b152-3ba4c7c3b89e.htm</projectUrl>
-    <!--<iconUrl></iconUrl>-->
+    <licenseUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/README.md</projectUrl>
+    <iconUrl>https://en.gravatar.com/userimage/137934964/524e95fbd8c2e8779e02819ab6902bef.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright © KROS a.s.</copyright>
-    <tags>KORM, ORM, MsAccess</tags>
+    <tags>Kros;KORM;ORM;Database;DAL;SQL;Database;MSSQL;Data;BulkInsert;BulkOperation;BulkCopy;MsAccess</tags>
     <dependencies>
-      <dependency id="Kros.Utils.MsAccess" version="1.4.0" />
-      <dependency id="Kros.KORM" version="3.4.0" />
+      <dependency id="Kros.Utils.MsAccess" version="1.4.6" />
+      <dependency id="Kros.KORM" version="3.6.1" />
     </dependencies>
   </metadata>
 </package>

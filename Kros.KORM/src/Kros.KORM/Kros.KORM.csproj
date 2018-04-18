@@ -2,9 +2,10 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
     <Company>KROS a.s.</Company>
-    <Version>3.5.0</Version>
+    <Version>3.6.2</Version>
     <Authors>KROS a.s.</Authors>
-    <Description>Kros Object Relation Mapper.</Description>
+    <Title>Kros.KORM</Title>
+    <Description>KORM is fast, easy to use, micro .NET Standard ORM tool. (Kros Object Relation Mapper)</Description>
     <Copyright>Copyright © KROS a.s.</Copyright>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Kros.KORM.snk</AssemblyOriginatorKeyFile>
@@ -12,15 +13,18 @@
     <RootNamespace>Kros.KORM</RootNamespace>
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <Product>Kros.KORM</Product>
-    <PackageId>Kros.KORM</PackageId>
-    <PackageIconUrl></PackageIconUrl>
-    <PackageProjectUrl>http://wiki/docs/html/c20613b6-879a-4e80-b152-3ba4c7c3b89e.htm</PackageProjectUrl>
-    <PackageTags>KORM, ORM</PackageTags>
-    <PackageReleaseNotes></PackageReleaseNotes>
     <AssemblyName>Kros.KORM</AssemblyName>
+    <DocumentationFile>$(OutDir)Kros.KORM.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <DocumentationFile>$(OutDir)Kros.KORM.xml</DocumentationFile>
+    <PackageId>Kros.KORM</PackageId>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/README.md</PackageProjectUrl>
+    <PackageTags>Kros;KORM;ORM;Database;DAL;SQL;Database;MSSQL;Data;BulkInsert;BulkOperation;BulkCopy</PackageTags>
+    <PackageLicenseUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://en.gravatar.com/userimage/137934964/524e95fbd8c2e8779e02819ab6902bef.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Kros-sk/Kros.Libs</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <Reference Include="System.Configuration" />
