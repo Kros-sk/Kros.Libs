@@ -1,0 +1,1649 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class SelectExpression
+   | Kros.Libs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class SelectExpression
+   | Kros.Libs ">
+    <meta name="generator" content="docfx 2.34.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Kros.KORM.Query.Expressions.SelectExpression">
+  
+  
+  <h1 id="Kros_KORM_Query_Expressions_SelectExpression" data-uid="Kros.KORM.Query.Expressions.SelectExpression" class="text-break">Class SelectExpression
+  </h1>
+  <div class="markdown level0 summary"><p>Expression, which represent SELECT query.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">System.Linq.Expressions.Expression</span></div>
+    <div class="level2"><a class="xref" href="Kros.KORM.Query.Expressions.QueryExpression.html">QueryExpression</a></div>
+    <div class="level3"><span class="xref">SelectExpression</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Add(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Add(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AddAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AddAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AddAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AddAssignChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AddAssignChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AddAssignChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AddChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AddChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.And(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.And(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AndAlso(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AndAlso(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AndAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AndAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.AndAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ArrayAccess(System.Linq.Expressions.Expression, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ArrayAccess(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ArrayIndex(System.Linq.Expressions.Expression, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ArrayIndex(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ArrayIndex(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ArrayLength(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Assign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Bind(System.Reflection.MemberInfo, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Bind(System.Reflection.MethodInfo, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Block(System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Block(System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Block(System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Block(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Block(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Block(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Block(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Block(System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Block(System.Type, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Block(System.Type, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Block(System.Type, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Block(System.Type, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Break(System.Linq.Expressions.LabelTarget)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Break(System.Linq.Expressions.LabelTarget, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Break(System.Linq.Expressions.LabelTarget, System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Break(System.Linq.Expressions.LabelTarget, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression, System.String, System.Type[], System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Reflection.MethodInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Reflection.MethodInfo, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Reflection.MethodInfo, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Reflection.MethodInfo, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Reflection.MethodInfo, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Reflection.MethodInfo, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Reflection.MethodInfo, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Call(System.Type, System.String, System.Type[], System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Catch(System.Linq.Expressions.ParameterExpression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Catch(System.Linq.Expressions.ParameterExpression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Catch(System.Type, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Catch(System.Type, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ClearDebugInfo(System.Linq.Expressions.SymbolDocumentInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Coalesce(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Coalesce(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Condition(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Condition(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Constant(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Constant(System.Object, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Continue(System.Linq.Expressions.LabelTarget)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Continue(System.Linq.Expressions.LabelTarget, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Convert(System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Convert(System.Linq.Expressions.Expression, System.Type, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ConvertChecked(System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ConvertChecked(System.Linq.Expressions.Expression, System.Type, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.DebugInfo(System.Linq.Expressions.SymbolDocumentInfo, System.Int32, System.Int32, System.Int32, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Decrement(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Decrement(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Default(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Divide(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Divide(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.DivideAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.DivideAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.DivideAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Dynamic(System.Runtime.CompilerServices.CallSiteBinder, System.Type, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Dynamic(System.Runtime.CompilerServices.CallSiteBinder, System.Type, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Dynamic(System.Runtime.CompilerServices.CallSiteBinder, System.Type, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Dynamic(System.Runtime.CompilerServices.CallSiteBinder, System.Type, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Dynamic(System.Runtime.CompilerServices.CallSiteBinder, System.Type, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Dynamic(System.Runtime.CompilerServices.CallSiteBinder, System.Type, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ElementInit(System.Reflection.MethodInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ElementInit(System.Reflection.MethodInfo, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Empty()</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Equal(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Equal(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Boolean, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ExclusiveOr(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ExclusiveOr(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ExclusiveOrAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ExclusiveOrAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ExclusiveOrAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Field(System.Linq.Expressions.Expression, System.Reflection.FieldInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Field(System.Linq.Expressions.Expression, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Field(System.Linq.Expressions.Expression, System.Type, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.GetActionType(System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.GetDelegateType(System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.GetFuncType(System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Goto(System.Linq.Expressions.LabelTarget)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Goto(System.Linq.Expressions.LabelTarget, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Goto(System.Linq.Expressions.LabelTarget, System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Goto(System.Linq.Expressions.LabelTarget, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.GreaterThan(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.GreaterThan(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Boolean, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.GreaterThanOrEqual(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.GreaterThanOrEqual(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Boolean, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.IfThen(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.IfThenElse(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Increment(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Increment(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Invoke(System.Linq.Expressions.Expression, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Invoke(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.IsFalse(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.IsFalse(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.IsTrue(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.IsTrue(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Label()</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Label(System.Linq.Expressions.LabelTarget)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Label(System.Linq.Expressions.LabelTarget, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Label(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Label(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Label(System.Type, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda(System.Linq.Expressions.Expression, System.Boolean, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda(System.Linq.Expressions.Expression, System.Boolean, System.Linq.Expressions.ParameterExpression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda(System.Linq.Expressions.Expression, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda(System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda(System.Linq.Expressions.Expression, System.String, System.Boolean, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda(System.Linq.Expressions.Expression, System.String, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda(System.Type, System.Linq.Expressions.Expression, System.Boolean, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda(System.Type, System.Linq.Expressions.Expression, System.Boolean, System.Linq.Expressions.ParameterExpression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda(System.Type, System.Linq.Expressions.Expression, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda(System.Type, System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda(System.Type, System.Linq.Expressions.Expression, System.String, System.Boolean, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda(System.Type, System.Linq.Expressions.Expression, System.String, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda&lt;TDelegate&gt;(System.Linq.Expressions.Expression, System.Boolean, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda&lt;TDelegate&gt;(System.Linq.Expressions.Expression, System.Boolean, System.Linq.Expressions.ParameterExpression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda&lt;TDelegate&gt;(System.Linq.Expressions.Expression, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda&lt;TDelegate&gt;(System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda&lt;TDelegate&gt;(System.Linq.Expressions.Expression, System.String, System.Boolean, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Lambda&lt;TDelegate&gt;(System.Linq.Expressions.Expression, System.String, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.LeftShift(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.LeftShift(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.LeftShiftAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.LeftShiftAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.LeftShiftAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.LessThan(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.LessThan(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Boolean, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.LessThanOrEqual(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.LessThanOrEqual(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Boolean, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ListBind(System.Reflection.MemberInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ElementInit&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ListBind(System.Reflection.MemberInfo, System.Linq.Expressions.ElementInit[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ListBind(System.Reflection.MethodInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ElementInit&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ListBind(System.Reflection.MethodInfo, System.Linq.Expressions.ElementInit[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ListInit(System.Linq.Expressions.NewExpression, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ElementInit&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ListInit(System.Linq.Expressions.NewExpression, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ListInit(System.Linq.Expressions.NewExpression, System.Linq.Expressions.ElementInit[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ListInit(System.Linq.Expressions.NewExpression, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ListInit(System.Linq.Expressions.NewExpression, System.Reflection.MethodInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ListInit(System.Linq.Expressions.NewExpression, System.Reflection.MethodInfo, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Loop(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Loop(System.Linq.Expressions.Expression, System.Linq.Expressions.LabelTarget)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Loop(System.Linq.Expressions.Expression, System.Linq.Expressions.LabelTarget, System.Linq.Expressions.LabelTarget)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeBinary(System.Linq.Expressions.ExpressionType, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeBinary(System.Linq.Expressions.ExpressionType, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Boolean, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeBinary(System.Linq.Expressions.ExpressionType, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Boolean, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeCatchBlock(System.Type, System.Linq.Expressions.ParameterExpression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeDynamic(System.Type, System.Runtime.CompilerServices.CallSiteBinder, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeDynamic(System.Type, System.Runtime.CompilerServices.CallSiteBinder, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeDynamic(System.Type, System.Runtime.CompilerServices.CallSiteBinder, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeDynamic(System.Type, System.Runtime.CompilerServices.CallSiteBinder, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeDynamic(System.Type, System.Runtime.CompilerServices.CallSiteBinder, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeDynamic(System.Type, System.Runtime.CompilerServices.CallSiteBinder, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeGoto(System.Linq.Expressions.GotoExpressionKind, System.Linq.Expressions.LabelTarget, System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeIndex(System.Linq.Expressions.Expression, System.Reflection.PropertyInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeMemberAccess(System.Linq.Expressions.Expression, System.Reflection.MemberInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeTry(System.Type, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.CatchBlock&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeUnary(System.Linq.Expressions.ExpressionType, System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MakeUnary(System.Linq.Expressions.ExpressionType, System.Linq.Expressions.Expression, System.Type, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MemberBind(System.Reflection.MemberInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.MemberBinding&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MemberBind(System.Reflection.MemberInfo, System.Linq.Expressions.MemberBinding[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MemberBind(System.Reflection.MethodInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.MemberBinding&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MemberBind(System.Reflection.MethodInfo, System.Linq.Expressions.MemberBinding[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MemberInit(System.Linq.Expressions.NewExpression, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.MemberBinding&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MemberInit(System.Linq.Expressions.NewExpression, System.Linq.Expressions.MemberBinding[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Modulo(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Modulo(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ModuloAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ModuloAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ModuloAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Multiply(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Multiply(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MultiplyAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MultiplyAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MultiplyAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MultiplyAssignChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MultiplyAssignChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MultiplyAssignChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MultiplyChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.MultiplyChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Negate(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Negate(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.NegateChecked(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.NegateChecked(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.New(System.Reflection.ConstructorInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.New(System.Reflection.ConstructorInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.New(System.Reflection.ConstructorInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;, System.Collections.Generic.IEnumerable&lt;System.Reflection.MemberInfo&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.New(System.Reflection.ConstructorInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;, System.Reflection.MemberInfo[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.New(System.Reflection.ConstructorInfo, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.New(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.NewArrayBounds(System.Type, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.NewArrayBounds(System.Type, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.NewArrayInit(System.Type, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.NewArrayInit(System.Type, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Not(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Not(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.NotEqual(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.NotEqual(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Boolean, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.OnesComplement(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.OnesComplement(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Or(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Or(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.OrAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.OrAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.OrAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.OrElse(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.OrElse(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Parameter(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Parameter(System.Type, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.PostDecrementAssign(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.PostDecrementAssign(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.PostIncrementAssign(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.PostIncrementAssign(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Power(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Power(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.PowerAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.PowerAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.PowerAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.PreDecrementAssign(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.PreDecrementAssign(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.PreIncrementAssign(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.PreIncrementAssign(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Property(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Property(System.Linq.Expressions.Expression, System.Reflection.PropertyInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Property(System.Linq.Expressions.Expression, System.Reflection.PropertyInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Property(System.Linq.Expressions.Expression, System.Reflection.PropertyInfo, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Property(System.Linq.Expressions.Expression, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Property(System.Linq.Expressions.Expression, System.String, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Property(System.Linq.Expressions.Expression, System.Type, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.PropertyOrField(System.Linq.Expressions.Expression, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Quote(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Reduce()</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ReduceAndCheck()</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ReduceExtensions()</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ReferenceEqual(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ReferenceNotEqual(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Rethrow()</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Rethrow(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Return(System.Linq.Expressions.LabelTarget)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Return(System.Linq.Expressions.LabelTarget, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Return(System.Linq.Expressions.LabelTarget, System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Return(System.Linq.Expressions.LabelTarget, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.RightShift(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.RightShift(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.RightShiftAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.RightShiftAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.RightShiftAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.RuntimeVariables(System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.ParameterExpression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.RuntimeVariables(System.Linq.Expressions.ParameterExpression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Subtract(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Subtract(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SubtractAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SubtractAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SubtractAssign(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SubtractAssignChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SubtractAssignChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SubtractAssignChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.LambdaExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SubtractChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SubtractChecked(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Switch(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.SwitchCase[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Switch(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.SwitchCase&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Switch(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.SwitchCase[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Switch(System.Linq.Expressions.Expression, System.Linq.Expressions.SwitchCase[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Switch(System.Type, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.SwitchCase&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Switch(System.Type, System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.SwitchCase[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SwitchCase(System.Linq.Expressions.Expression, System.Collections.Generic.IEnumerable&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SwitchCase(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SymbolDocument(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SymbolDocument(System.String, System.Guid)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SymbolDocument(System.String, System.Guid, System.Guid)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.SymbolDocument(System.String, System.Guid, System.Guid, System.Guid)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Throw(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Throw(System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.TryCatch(System.Linq.Expressions.Expression, System.Linq.Expressions.CatchBlock[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.TryCatchFinally(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression, System.Linq.Expressions.CatchBlock[])</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.TryFault(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.TryFinally(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.TryGetActionType(System.Type[], System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.TryGetFuncType(System.Type[], System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.TypeAs(System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.TypeEqual(System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.TypeIs(System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.UnaryPlus(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.UnaryPlus(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Unbox(System.Linq.Expressions.Expression, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Variable(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.Variable(System.Type, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.Expression.CanReduce</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Kros.KORM.Query.Expressions.html">Kros.KORM.Query.Expressions</a></h6>
+  <h6><strong>Assembly</strong>: Kros.KORM.dll</h6>
+  <h5 id="Kros_KORM_Query_Expressions_SelectExpression_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class SelectExpression : QueryExpression</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression__ctor_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.#ctor*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression__ctor_Kros_KORM_Metadata_TableInfo_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.#ctor(Kros.KORM.Metadata.TableInfo)">SelectExpression(TableInfo)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Kros.KORM.Query.Expressions.SelectExpression.html">SelectExpression</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SelectExpression(TableInfo tableInfo)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Metadata.TableInfo.html">TableInfo</a></td>
+        <td><span class="parametername">tableInfo</span></td>
+        <td><p>The table info.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_SelectStatement" data-uid="Kros.KORM.Query.Expressions.SelectExpression.SelectStatement">SelectStatement</h4>
+  <div class="markdown level1 summary"><p>The select statement</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const string SelectStatement = &quot;SELECT&quot;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_ColumnsExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.ColumnsExpression*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_ColumnsExpression" data-uid="Kros.KORM.Query.Expressions.SelectExpression.ColumnsExpression">ColumnsExpression</h4>
+  <div class="markdown level1 summary"><p>Gets the columns expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ColumnsExpression ColumnsExpression { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.Expressions.ColumnsExpression.html">ColumnsExpression</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_GroupByExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.GroupByExpression*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_GroupByExpression" data-uid="Kros.KORM.Query.Expressions.SelectExpression.GroupByExpression">GroupByExpression</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the group by expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GroupByExpression GroupByExpression { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.Expressions.GroupByExpression.html">GroupByExpression</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_NodeType_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.NodeType*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_NodeType" data-uid="Kros.KORM.Query.Expressions.SelectExpression.NodeType">NodeType</h4>
+  <div class="markdown level1 summary"><p>Gets the node type of this <span class="xref">System.Linq.Expressions.Expression</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override sealed ExpressionType NodeType { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.ExpressionType</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Kros.KORM.Query.Expressions.QueryExpression.html#Kros_KORM_Query_Expressions_QueryExpression_NodeType">QueryExpression.NodeType</a></div>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_OrderByExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.OrderByExpression*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_OrderByExpression" data-uid="Kros.KORM.Query.Expressions.SelectExpression.OrderByExpression">OrderByExpression</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the order by expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public OrderByExpression OrderByExpression { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.Expressions.OrderByExpression.html">OrderByExpression</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_TableExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.TableExpression*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_TableExpression" data-uid="Kros.KORM.Query.Expressions.SelectExpression.TableExpression">TableExpression</h4>
+  <div class="markdown level1 summary"><p>Gets the table expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TableExpression TableExpression { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.Expressions.TableExpression.html">TableExpression</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_Type_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.Type*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_Type" data-uid="Kros.KORM.Query.Expressions.SelectExpression.Type">Type</h4>
+  <div class="markdown level1 summary"><p>Gets the static type of the expression that this <span class="xref">System.Linq.Expressions.Expression</span> represents.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Type Type { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Type</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Kros.KORM.Query.Expressions.QueryExpression.html#Kros_KORM_Query_Expressions_QueryExpression_Type">QueryExpression.Type</a></div>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_Value_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.Value*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_Value" data-uid="Kros.KORM.Query.Expressions.SelectExpression.Value">Value</h4>
+  <div class="markdown level1 summary"><p>Gets the value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object Value { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_WhereExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.WhereExpression*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_WhereExpression" data-uid="Kros.KORM.Query.Expressions.SelectExpression.WhereExpression">WhereExpression</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the where expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WhereExpression WhereExpression { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.Expressions.WhereExpression.html">WhereExpression</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_Accept_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.Accept*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_Accept_System_Linq_Expressions_ExpressionVisitor_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.Accept(System.Linq.Expressions.ExpressionVisitor)">Accept(ExpressionVisitor)</h4>
+  <div class="markdown level1 summary"><p>Dispatches to the specific visit method for this node type. For example, <span class="xref">System.Linq.Expressions.MethodCallExpression</span> calls the <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override Expression Accept(ExpressionVisitor visitor)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.ExpressionVisitor</span></td>
+        <td><span class="parametername">visitor</span></td>
+        <td><p>The visitor to visit this node with.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>The result of visiting this node.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Linq.Expressions.Expression.Accept(System.Linq.Expressions.ExpressionVisitor)</span></div>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_SetColumnsExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.SetColumnsExpression*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_SetColumnsExpression_Kros_KORM_Query_Expressions_ColumnsExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.SetColumnsExpression(Kros.KORM.Query.Expressions.ColumnsExpression)">SetColumnsExpression(ColumnsExpression)</h4>
+  <div class="markdown level1 summary"><p>Sets the columns expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetColumnsExpression(ColumnsExpression columnExpression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.Expressions.ColumnsExpression.html">ColumnsExpression</a></td>
+        <td><span class="parametername">columnExpression</span></td>
+        <td><p>The column expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>&apos;columnExpression&apos; can be applied only once.;columnsExpression</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_SetGroupByExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.SetGroupByExpression*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_SetGroupByExpression_Kros_KORM_Query_Expressions_GroupByExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.SetGroupByExpression(Kros.KORM.Query.Expressions.GroupByExpression)">SetGroupByExpression(GroupByExpression)</h4>
+  <div class="markdown level1 summary"><p>Sets the group by expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetGroupByExpression(GroupByExpression groupByExpression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.Expressions.GroupByExpression.html">GroupByExpression</a></td>
+        <td><span class="parametername">groupByExpression</span></td>
+        <td><p>The group by expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>&apos;groupByExpression&apos; can be applied only once.;groupByExpression</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_SetOrderByExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.SetOrderByExpression*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_SetOrderByExpression_Kros_KORM_Query_Expressions_OrderByExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.SetOrderByExpression(Kros.KORM.Query.Expressions.OrderByExpression)">SetOrderByExpression(OrderByExpression)</h4>
+  <div class="markdown level1 summary"><p>Sets the order by expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetOrderByExpression(OrderByExpression orderByExpression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.Expressions.OrderByExpression.html">OrderByExpression</a></td>
+        <td><span class="parametername">orderByExpression</span></td>
+        <td><p>The order by expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>&apos;orderByExpression&apos; can be applied only once.;orderByExpression</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_SetTableExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.SetTableExpression*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_SetTableExpression_Kros_KORM_Query_Expressions_TableExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.SetTableExpression(Kros.KORM.Query.Expressions.TableExpression)">SetTableExpression(TableExpression)</h4>
+  <div class="markdown level1 summary"><p>Sets the table expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetTableExpression(TableExpression tableExpression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.Expressions.TableExpression.html">TableExpression</a></td>
+        <td><span class="parametername">tableExpression</span></td>
+        <td><p>The table expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>&apos;tableExpression&apos; can be applied only once.;tableExpression</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_SetWhereExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.SetWhereExpression*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_SetWhereExpression_Kros_KORM_Query_Expressions_WhereExpression_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.SetWhereExpression(Kros.KORM.Query.Expressions.WhereExpression)">SetWhereExpression(WhereExpression)</h4>
+  <div class="markdown level1 summary"><p>Sets the where expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetWhereExpression(WhereExpression whereExpression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.Expressions.WhereExpression.html">WhereExpression</a></td>
+        <td><span class="parametername">whereExpression</span></td>
+        <td><p>The where expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>&apos;whereExpression&apos; can be applied only once.;whereExpression</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_Expressions_SelectExpression_VisitChildren_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.VisitChildren*"></a>
+  <h4 id="Kros_KORM_Query_Expressions_SelectExpression_VisitChildren_System_Linq_Expressions_ExpressionVisitor_" data-uid="Kros.KORM.Query.Expressions.SelectExpression.VisitChildren(System.Linq.Expressions.ExpressionVisitor)">VisitChildren(ExpressionVisitor)</h4>
+  <div class="markdown level1 summary"><p>Reduces the node and then calls the visitor delegate on the reduced expression. The method throws an exception if the node is not reducible.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override Expression VisitChildren(ExpressionVisitor visitor)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.ExpressionVisitor</span></td>
+        <td><span class="parametername">visitor</span></td>
+        <td><p>An instance of <span class="xref">System.Func&lt;T, TResult&gt;</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>The expression being visited, or an expression which should replace it in the tree.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Linq.Expressions.Expression.VisitChildren(System.Linq.Expressions.ExpressionVisitor)</span></div>
+  <h3 id="seealso">See Also</h3>
+  <div class="seealso">
+      <div><a class="xref" href="Kros.KORM.Query.Sql.ISqlExpressionVisitor.html">ISqlExpressionVisitor</a></div>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright © 1995 - 2018 KROS a.s.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
