@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Kros.KORM.MsAccess")]
-[assembly: AssemblyDescription("Kros Object Relation Mapper for MsAccess")]
+[assembly: AssemblyDescription("KORM.MsAccess is fast, easy to use, micro .NET ORM tool for MsAccess. (Kros Object Relation Mapper)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("KROS a.s.")]
 [assembly: AssemblyProduct("Kros.KORM.MsAccess")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.6.0.0")]
-[assembly: AssemblyFileVersion("1.6.0.0")]
+[assembly: AssemblyVersion("1.6.1.0")]
+[assembly: AssemblyFileVersion("1.6.1.0")]
