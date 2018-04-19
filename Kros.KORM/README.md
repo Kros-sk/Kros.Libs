@@ -9,7 +9,7 @@ Kros.KORM is simple, fast and easy to use micro-ORM framework for .NETStandard c
 * Saving changes to your data (Insert / Update / Delete)
 * Korm supports bulk operations for fast inserting and updating large amounts of data (BulkInsert, BulkDelete)
 
-## This topic contains the following sections:
+## This topic contains following sections:
 
 * [Kros.KORM.dll](#kroskormdll)
 * [Query](#query)
@@ -29,7 +29,42 @@ Kros.KORM is simple, fast and easy to use micro-ORM framework for .NETStandard c
 
 ### Kros.KORM.dll
 
+What should you do when you want to append Kros.KORM to your project?
+
+##### Package manager
+
+```
+Install-Package Kros.KORM
+Install-Package Kros.KORM.MsAccess
+```
+
+##### .NET CLI
+
+```
+dotnet add package Kros.KORM
+```
+
+After that you are ready to use benefits of Kros.KORM.
+
 ### Query
+
+You can use Kros.KORM for creating queries and their materialization. Kros.KORM helps you put together desired query, that can return instances of objects populated from database by using foreach or linq.
+ 
+##### Query for obtaining data
+
+```c#
+var people = database.Query<Person>()
+    .Select("p.Id", "FirstName", "LastName", "PostCode")
+    .From("Person JOIN Address ON (Person.AddressId = Address.Id)")
+    .Where("Age > @1", 18);
+
+foreach (var person in people)
+{
+    Console.WriteLine(person.FirstName);
+}
+```
+
+For more information take a look at definition of [IQuery](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM.Query.IQuery-1.html).
 
 ### Linq to KORM
 
