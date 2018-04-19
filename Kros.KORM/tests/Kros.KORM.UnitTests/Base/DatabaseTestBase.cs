@@ -22,7 +22,7 @@ namespace Kros.KORM.UnitTests.Base
 
         public DatabaseTestBase()
         {
-            BaseConnectionString = "Data Source=CENSQL\\SQL16ENT2;User ID=KrosPlus;Password=7040; Persist Security Info = 'TRUE'";
+            BaseConnectionString = "ConnectionString";
         }
 
         protected virtual IDatabase CreateDatabase(string initScript)
