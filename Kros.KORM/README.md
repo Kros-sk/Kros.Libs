@@ -5,7 +5,7 @@ Kros.KORM is simple, fast and easy to use micro-ORM framework for .NETStandard c
 ## Why to use Kros.KORM
 
 * You can easily create query builder for creating queries returning IEnumerable of your POCO objects
-* Linq
+* Linq support
 * Saving changes to your data (Insert / Update / Delete)
 * Korm supports bulk operations for fast inserting and updating large amounts of data (BulkInsert, BulkDelete)
 
@@ -68,7 +68,7 @@ For more information take a look at definition of [IQuery](https://kros-sk.githu
 
 ### Linq to KORM
 
-Kros.KORM allow you to use Linq for creating queries. Basic queries are translated to SQL language.
+Kros.KORM allows you to use Linq for creating queries. Basic queries are translated to SQL language.
 
 ##### Example
 
@@ -86,7 +86,9 @@ foreach (var person in people)
 ```
 
 ##### Supported Linq methods
+```c#
 Where, FirstOrDefault, Take, Sum, Max, Min, OrderBy, OrderByDescending, ThenBy, ThenByDescending, Count, Any.
+```
 
 Other methods, such as Select, GroupBy, Join are not supported at this moment because of their complexity.
 
@@ -150,7 +152,7 @@ public int Computed { get; set; }
 
 If you have different conventions for naming properties in POCO classes and fields in database, you can redefine behaviour of ModelMapper, which serves mapping POCO classes to database tables and vice versa.
 
-Redefine convention for mapping exmple
+Redefine convention for mapping example
 ```c#
 Database.DefaultModelMapper.MapColumnName = (colInfo, modelType) =>
 {
