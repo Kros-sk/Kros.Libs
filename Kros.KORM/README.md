@@ -108,7 +108,78 @@ Translation is provided by implementation of [ISqlExpressionVisitor](https://kro
 
 ### DataAnnotation attributes
 
+Properties (not readonly or writeonly properties) are implicitly mapped to database fields with same name. When you want to map property to database field with different name use AliasAttribute. The same works for mapping POCO classes with database tables.
+
+```c#
+Copy
+[Alias("Workers")]
+private class Staff
+{
+    [Alias("PK")]
+    public int Id { get; set; }
+
+    [Alias("Name")]
+    public string FirstName { get; set; }
+
+    [Alias("SecondName")]
+    public string LastName { get; set; }
+}
+
+private void StaffExample()
+{
+    using (var database = new Database(_connection))
+    {
+        _command.CommandText = "SELECT PK, Name, SecondName from Workers";
+
+        using (var reader = _command.ExecuteReader())
+        {
+            var staff = database.ModelBuilder.Materialize<Staff>(reader);
+        }
+    }
+}
+```
+
+When you need to have read-write properties independent of the database use NoMapAttribute.
+
+```c#
+[NoMap]
+public int Computed { get; set; }
+```
+
 ### Convention model mapper
+
+If you have different conventions for naming properties in POCO classes and fields in database, you can redefine behaviour of ModelMapper, which serves mapping POCO classes to database tables and vice versa.
+
+Redefine convention for mapping exmple
+```c#
+Database.DefaultModelMapper.MapColumnName = (colInfo, modelType) =>
+{
+    return string.Format("COL_{0}", colInfo.PropertyInfo.Name.ToUpper());
+};
+
+Database.DefaultModelMapper.MapTableName = (tInfo, type) =>
+{
+    return string.Format("TABLE_{0}", type.Name.ToUpper());
+};
+
+using (var database = new Database(_connection))
+{
+
+    _command.CommandText = "SELECT COL_ID, COL_FIRSTNAME from TABLE_WORKERS";
+
+    using (var reader = _command.ExecuteReader())
+    {
+        var people = database.ModelBuilder.Materialize<Person>(reader);
+
+        foreach (var person in people)
+        {
+            Console.WriteLine(person.FirstName);
+        }
+    }
+}
+```
+
+Alternatively you can write your own implementation of [IModelMapper](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM.Metadata.IModelMapper.html).
 
 ### Converters
 
