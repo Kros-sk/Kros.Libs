@@ -7,7 +7,29 @@ Library is:
 
 Library is compiled for __.NET Standard 2.0__. .NET Framework 4.6 is supported.
 
-## Arguments Check Functions
+## This topic contains following sections:
+
+__Kros.Utils__
+
+* [Arguments Check Functions](#arguments-check-functions)
+* [Standard Extensions](#standard-extensions)
+* [File/Folder Path Helpers](#filefolder-path-helpers)
+* [Database Schema](#database-schema)
+* [Bulk Operations - Bulk Insert and Bulk Update](#bulk-operations-bulk-insert-and-bulk-update)
+* [IdGenerator](#idgenerator)
+* [IDiContainer Interface Describing Dependency Injection Container](#idicontainer-interface-describing-dependency-injection-container)
+* [Caching](#caching)
+* [Unit Testing Helpers](#unit-testing-helpers)
+
+__Kros.Utils.MsAccess__
+
+* [General Utilities](#msaccess-general-utilities)
+* [Database Schema](#msaccess-database-schema)
+* [Bulk Operations - Bulk Insert and Bulk Update](#msaccess-bulk-operations-bulk-insert-and-bulk-update)
+* [Unit Testing Helpers](#msaccess-unit-testing-helpers)
+
+
+### Arguments Check Functions
 
 The [Check](https://kros-sk.github.io/Kros.Libs/api/Kros.Utils.Check.html "Check") class provides simple tools to check arguments of the functions. Standard usage:
 
@@ -50,13 +72,13 @@ public void MethodWithParameters(string arg1, int arg2)
 
 The [Check](https://kros-sk.github.io/Kros.Libs/api/Kros.Utils.Check.html "Check") offers string check, type check, value check (equal, smaller, larger, ...), check if the value is in the list, check GUID values.
 
-## Standard Extensions
+### Standard Extensions
 
 General extensions for:
 * Strings - [StringExtensions](https://kros-sk.github.io/Kros.Libs/api/Kros.Extensions.StringExtensions.html "String Extensions")
 * Dates - [DateTimeExtensions](https://kros-sk.github.io/Kros.Libs/api/Kros.Extensions.DateTimeExtensions.html "DateTime Extensions")
 
-## File/Folder Path Helpers
+### File/Folder Path Helpers
 
 The [PathHelper](https://kros-sk.github.io/Kros.Libs/api/Kros.IO.PathHelper.html "PathHelper") class provides functions to work with files/folder paths.
 * [PathHelper.BuildPath](https://kros-sk.github.io/Kros.Libs/api/Kros.IO.PathHelper.html#Kros_IO_PathHelper_BuildPath_ "PathHelper BuildPath") server to link multiple string into one path, as well as standard function [Path.Combine](https://msdn.microsoft.com/en-us/library/dd781134 "Path.Combine") but with some changed details.
@@ -70,7 +92,7 @@ The class is not static. If necessary, you can inherit it and modify its behavio
 
 The [PathFormatter](https://kros-sk.github.io/Kros.Libs/api/Kros.IO.PathFormatter.html "PathFormatter") class can also be used to create a list of paths with specified parameters. More information is provided in the documentation of each of its functions.
 
-## Database Scheme
+### Database Scheme
 
 It is simple to get a database schema. The database schema includes [TableSchema](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.Schema.TableSchema.html "TableSchema") tables, their [ColumnSchema](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.Schema.ColumnSchema.html "ColumnSchema") columns, [IndexSchema](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.Schema.IndexSchema.html "IndexSchema") indexes, and [ForeignKeySchema](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.Schema.ForeignKeySchema.html "ForeignKeySchema") foreign keys (foreign keys are only supported for SQL Server).
 
@@ -94,7 +116,7 @@ DatabaseSchema schema = cache.GetSchema(cn);
 schema = DatabaseSchemaCache.Default.GetSchema(cn);
 ```
 
-## Bulk Operations - Bulk Insert and Bulk Update
+### Bulk Operations - Bulk Insert and Bulk Update
 
 Inserting (`INSERT`) and updating (`UPDATE`) large amounts of data in a database are time-consuming. Therefore, support for rapid mass insertion, `Bulk Insert` and a fast bulk update, `Bulk Update`. The [IBulkInsert](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.BulkActions.IBulkInsert.html "IBulkInsert") and [IBulkUpdate](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.BulkActions.IBulkUpdate.html "IBulkUpdate") interfaces are used. They are implemented for SQL Server in the [SqlServerBulkInsert](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.BulkActions.SqlServer.SqlServerBulkInsert.html "SqlServerBulkInsert") and [SqlServerBulkUpdate](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.html "SqlServerBulkUpdate") classes. As a data source, it serves any [IDataReader](https://msdn.microsoft.com/en-us/library/sh674a6a "IDataReader") or [DataTable](https://msdn.microsoft.com/en-us/library/9186hy08 "DataTable") table.
 
@@ -144,7 +166,7 @@ public void UpdateManyItems()
 }
 ```
 
-## IdGenerator
+### IdGenerator
 
 Generating unique (incrementally) values in databases (most common Id) is not easy. In the namespace `Kros.Data` there is the [IIdGenerator](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.IIdGenerator.html "IIdGenerator") interface that describes exactly such a unique value generator. They are currently supported for `SqlServer` and `MsAccess`. We do not create their instances directly but through the [IIdGeneratorFactory](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.IIdGeneratorFactory.html "IIdGeneratorFactory") factory class. We can get a Factory with [GetFactory(DbConnection)](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.IdGeneratorFactories.html#Kros_Data_IdGeneratorFactories_GetFactory_System_Data_Common_DbConnection_ "GetFactory") in the [IdGeneratorFactories](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.IdGeneratorFactories.html "IdGeneratorFactories") class.
 
@@ -178,15 +200,15 @@ An `IdStore` table is required in the database. For `SQL Server`, the stored pro
 
 If your existing implementations do not suit you (for example, you have another id store table) you can create a custom implementation of the [IIdGenerator](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.IIdGenerator.html "IIdGenerator") and [IIdGeneratorFactory](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.IIdGeneratorFactory.html "IIdGeneratorFactory") interfaces that you register using the [Register method in the IdGeneratorFactories class](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.IdGeneratorFactories.html#Kros_Data_IdGeneratorFactories_Register__1_System_String_System_Func_System_Data_Common_DbConnection_Kros_Data_IIdGeneratorFactory__System_Func_System_String_Kros_Data_IIdGeneratorFactory__ "Register").
 
-## IDiContainer Interface Describing Dependency Injection Container
+### IDiContainer Interface Describing Dependency Injection Container
 
 The [IDiContainer](https://kros-sk.github.io/Kros.Libs/api/Kros.Utils.IDiContainer.html "IDiContainer") interface is not directly implemented in `Kros.Utils` because `Kros.Utils` does not have any external dependencies. However, the interface is implemented using the [Unity](https://www.nuget.org/packages/Unity/ "Unity") container in the `KrosUnityContainer` class in the `Kros.Utils.UnityContainer` library.
 
-## Caching
+### Caching
 
 The very simple [Cache<TKey, TValue>](https://kros-sk.github.io/Kros.Libs/api/Kros.Caching.Cache-2.html "Cache") is implemented. The class holds values to the specified keys. When the value is retrieved the returned value is already in the cache.
 
-## Unit Testing Helpers
+### Unit Testing Helpers
 
 Standard unit tests should be database-independent. But sometimes it is necessary to test the actual database because the test items are directly related to it. To test the actual database you can use the [SqlServerTestHelper](https://kros-sk.github.io/Kros.Libs/api/Kros.UnitTests.SqlServerTestHelper.html "SqlServerTestHelper") class. It creates a database for testing purposes on the server and runs tests over it. When tests are finished the database is deleted.
 
@@ -248,20 +270,20 @@ public class SomeDatabaseTests
 }
 ```
 
-# Kros.Utils.MsAccess
+## Kros.Utils.MsAccess
 
 __Kros.Utils.MsAccess__ is a general library of various utilities to simplify the work of a programmer with Microsoft Access databases.
 
 For some (especially database) stuff to work properly, the library needs to be initialized when the program starts by calling [LibraryInitializer.InitLibrary](https://kros-sk.github.io/Kros.Libs/api/Kros.Utils.MsAccess.LibraryInitializer.html#Kros_Utils_MsAccess_LibraryInitializer_InitLibrary "LibraryInitializer InitLibrary").
 
-## General Utilities
+### MsAccess General Utilities
 
 The [MsAccessDataHelper](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.MsAccess.MsAccessDataHelper.html "MsAccessDataHelper") class contains general utilities for working with the MS Access database connection.
 * Retrieve current MS Access provider: [MsAccessProvider](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.MsAccess.MsAccessDataHelper.html#Kros_Data_MsAccess_MsAccessDataHelper_MsAccessAceProvider "MsAccessProvider")
 * Determining whether the connection to the MS Access database is exclusive: [IsExclusiveMsAccessConnection](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.MsAccess.MsAccessDataHelper.html#Kros_Data_MsAccess_MsAccessDataHelper_IsExclusiveMsAccessConnection_System_Data_IDbConnection_ "IsExclusiveMsAccessConnection")
 * Determining whether the connection is a connection to the MS Access database: [IsMsAccessConnection](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.MsAccess.MsAccessDataHelper.html#Kros_Data_MsAccess_MsAccessDataHelper_IsMsAccessConnection_System_Data_IDbConnection_ "IsMsAccessConnection")
 
-## Database Schema
+### MsAccess Database Schema
 
 It is very easy to get a database schema. Since the acquisition of the schema is a time-consuming operation the loaded scheme is held in a cache and the next schema is retrieved. The database schema includes the [TableSchema](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.Schema.TableSchema.html "TableSchema") tables, their [ColumnSchema](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.Schema.ColumnSchema.html "ColumnSchema") columns and [IndexSchema](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.Schema.IndexSchema.html "IndexSchema") indexes.
 
@@ -271,7 +293,7 @@ OleDbConnection cn = new OleDbConnection("MS Access Connection String");
 DatabaseSchema schema = DatabaseSchemaLoader.Default.LoadSchema(cn);
 ```
 
-## Bulkd Operations - Bulk Insert and Bulk Update
+### MsAccess Bulk Operations - Bulk Insert and Bulk Update
 
 Inserting (`INSERT`) and updating (`UPDATE`) large amounts of data in a database are time-consuming. Therefore, support for rapid mass insertion, `Bulk Insert` and a fast bulk update, `Bulk Update`. The [IBulkInsert](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.BulkActions.IBulkInsert.html "IBulkInsert") and [IBulkUpdate](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.BulkActions.IBulkUpdate.html "IBulkUpdate") interfaces are used. They are implemented for SQL Server in the [MsAccessBulkInsert](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.BulkActions.MsAccess.MsAccessBulkInsert.html "MsAccessBulkInsert") and [MsAccessBulkUpdate](https://kros-sk.github.io/Kros.Libs/api/Kros.Data.BulkActions.MsAccess.MsAccessBulkUpdate.html "MsAccessBulkUpdate") classes. As a data source, it serves any [IDataReader](https://msdn.microsoft.com/en-us/library/sh674a6a "IDataReader") or [DataTable](https://msdn.microsoft.com/en-us/library/9186hy08 "DataTable") table.
 
@@ -298,7 +320,7 @@ public void InsertManyItems()
 }
 ```
 
-## Unit Testing Helpers
+### MsAccess Unit Testing Helpers
 
 Standard unit tests should be database-independent. But sometimes it is necessary to test the actual database because the test items are directly related to it. To test the actual database you can use the [MsAccessTestHelper](https://kros-sk.github.io/Kros.Libs/api/Kros.UnitTests.MsAccessTestHelper.html "MsAccessTestHelper") class. It creates a database for testing purposes on the server and runs tests over it. When tests are finished the database is deleted.
 
