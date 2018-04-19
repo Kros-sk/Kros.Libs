@@ -68,6 +68,44 @@ For more information take a look at definition of [IQuery](https://kros-sk.githu
 
 ### Linq to KORM
 
+Kros.KORM allow you to use Linq for creating queries. Basic queries are translated to SQL language.
+
+##### Example
+
+```c#
+var people = database.Query<Person>()
+    .From("Person JOIN Address ON (Person.AddressId = Address.Id)")
+    .Where(p => p.LastName.EndsWith("ová"))
+    .OrderByDescending(p => p.Id)
+    .Take(5);
+
+foreach (var person in people)
+{
+    Console.WriteLine(person.FirstName);
+}
+```
+
+##### Supported Linq methods
+Where, FirstOrDefault, Take, Sum, Max, Min, OrderBy, OrderByDescending, ThenBy, ThenByDescending, Count, Any.
+
+Other methods, such as Select, GroupBy, Join are not supported at this moment because of their complexity.
+
+You can use also some string functions in Linq queries:
+
+| String function | Example                                               | Translation to T-SQL                          |
+|-----------------|-------------------------------------------------------|-----------------------------------------------|
+| StartWith       | Where(p => p.FirstName.StartWith("Mi"))               | WHERE (FirstName LIKE @1 + '%')               |
+| EndWith         | Where(p => p.LastName.EndWith("ová"))                 | WHERE (LastName LIKE '%' + @1)                |
+| Contains        | Where(p => p.LastName.Contains("ia"))                 | WHERE (LastName LIKE '%' + @1 + '%')          |
+| IsNullOrEmpty   | Where(p => String.IsNullOrEmpty(p.LastName))          | WHERE (LastName IS NULL OR LastName = '')     |
+| ToUpper         | Where(p => p.LastName.ToUpper() == "Smith")           | WHERE (UPPER(LastName) = @1)                  |
+| ToLower         | Where(p => p.LastName.ToLower() == "Smith")           | WHERE (LOWER(LastName) = @1)                  |
+| Replace         | Where(p => p.FirstName.Replace("hn", "zo") == "Jozo") | WHERE (REPLACE(FirstName, @1, @2) = @3)       |
+| Substring       | Where(p => p.FirstName.Substring(1, 2) == "oh")       | WHERE (SUBSTRING(FirstName, @1 + 1, @2) = @3) |
+| Trim            | Where(p => p.FirstName.Trim() == "John")              | WHERE (RTRIM(LTRIM(FirstName)) = @1)          |
+
+Translation is provided by implementation of [ISqlExpressionVisitor](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM.Query.Sql.ISqlExpressionVisitor.html).
+
 ### DataAnnotation attributes
 
 ### Convention model mapper
