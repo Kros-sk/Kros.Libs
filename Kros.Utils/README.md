@@ -7,6 +7,14 @@ Library is:
 
 Library is compiled for __.NET Standard 2.0__. .NET Framework 4.6 is supported.
 
+## Download
+
+Kros.Libs is available from:
+* Nuget __Kros.Utils__ - https://www.nuget.org/packages/Kros.Utils/
+* Nuget __Kros.Utils.MsAccess__ - https://www.nuget.org/packages/Kros.Utils.MsAccess/
+* Nuget __Kros.KORM__ - https://www.nuget.org/packages/Kros.KORM/
+* Nuget __Kros.KORM.MsAccess__ - https://www.nuget.org/packages/Kros.KORM.MsAccess/
+
 ## This topic contains following sections:
 
 __Kros.Utils__
