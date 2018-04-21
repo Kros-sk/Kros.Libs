@@ -1,4 +1,5 @@
 # Kros.Utils
+[![Build status](https://ci.appveyor.com/api/projects/status/5ws8h5jp777wsalb/branch/master?svg=true)](https://ci.appveyor.com/project/Kros/kros-libs/branch/master)
 
 __Kros.Utils__ is universal library of various tools to simplify the work of the programmer.
 Library is:
