@@ -6,6 +6,6 @@ namespace Kros.Utils.UnitTests
     public class DatabaseTestBase
         : Kros.UnitTests.SqlServerDatabaseTestBase
     {
-        protected override string BaseConnectionString => @"ConnectionString";
+        protected override string BaseConnectionString => "Server=(local)\\SQL2016; UID=sa;PWD=Password12!; Persist Security Info = 'TRUE'";
     }
 }
