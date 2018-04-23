@@ -1,64 +1,68 @@
 ﻿namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Typ indexu tabuľky.
+    /// Table index type.
     /// </summary>
     public enum IndexType
     {
         /// <summary>
-        /// Obyčajný index.
+        /// General index.
         /// </summary>
         Index = 0,
 
         /// <summary>
-        /// Unikátny index.
+        /// Unique index.
         /// </summary>
         UniqueKey = 1,
 
         /// <summary>
-        /// Primárny kľúč tabuľky.
+        /// Primary key.
         /// </summary>
         PrimaryKey = 2
     }
 
     /// <summary>
-    /// Zoradenie indexového stĺpca.
+    /// Sort order of an index column.
     /// </summary>
     public enum SortOrder
     {
         /// <summary>
-        /// Vzostupne - od najmenšej hodnoty po najväčšiu.
+        /// Ascending order.
         /// </summary>
         Ascending = 0,
 
         /// <summary>
-        /// Zostupne - od najväčšej hodnoty po najmenšiu.
+        /// Descending order.
         /// </summary>
         Descending = 1
     }
 
     /// <summary>
-    /// Pravidlo cudzieho kľúča - ako sa zachovať k detským záznamom po zmenení/zmazaní hlavného nadradeného.
+    /// Foreign key rule. Defines what to do with child records when the value of parent record changes or is deleted.
     /// </summary>
     public enum ForeignKeyRule
     {
         /// <summary>
-        /// Žiadna akcia.
+        /// No action is taken. .
         /// </summary>
         NoAction = 0,
 
         /// <summary>
-        /// Zmena v hlavnej tabuľke sa propaguje do detských záznamov.
+        /// Corresponding rows are updated in the referencing table when that row is updated in the parent table.
         /// </summary>
         Cascade = 1,
 
         /// <summary>
-        /// Pri zmene hlavného záznamu sa cudzí kľúč v detských záznamoch nastaví na <c>NULL</c>.
+        /// All the values that make up the foreign key are set to NULL when the corresponding row in the parent table is updated.
+        /// For this constraint to execute, the foreign key columns must be nullable.
         /// </summary>
         SetNull = 2,
 
         /// <summary>
-        /// Pri zmene hlavného záznamu sa cudzí kľúč v detských záznamoch nastaví na predvolenú hodnotu stĺpca.
+        /// All the values that make up the foreign key are set to their default values when the corresponding row in the parent
+        /// table is updated. For this constraint to execute, all foreign key columns must have default definitions.
+        /// If a column is nullable, and there is no explicit default value set, NULL becomes the implicit default value
+        /// of the column.
         /// </summary>
         SetDefault = 3
     }

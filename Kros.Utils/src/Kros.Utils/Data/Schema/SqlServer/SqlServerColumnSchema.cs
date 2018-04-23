@@ -6,15 +6,14 @@ using System.Data.SqlClient;
 namespace Kros.Data.Schema.SqlServer
 {
     /// <summary>
-    /// Schéma stĺpca tabuľky pre SQL Server.
+    /// Table's column schema for Microsoft SQL Server.
     /// </summary>
     public class SqlServerColumnSchema
         : ColumnSchema
     {
-
         #region Fields
 
-        // Prevzaté z .NET z internej triedy System.Data.SqlClient.MetaType.
+        // Taken from .NET framework from internal class System.Data.SqlClient.MetaType.
         private static readonly Dictionary<SqlDbType, DbType> _dbTypeMapping = new Dictionary<SqlDbType, DbType>() {
             { SqlDbType.BigInt, DbType.Int64 },
             { SqlDbType.Binary, DbType.Binary },
@@ -51,58 +50,27 @@ namespace Kros.Data.Schema.SqlServer
 
         #endregion
 
-
         #region Constructors
 
-        /// <summary>
-        /// Vytvorí inštanciu schémy stĺpca s menom <paramref name="name"/>.
-        /// </summary>
-        /// <param name="name">Meno stĺpca.</param>
-        /// <exception cref="System.ArgumentNullException">Meno stĺpca <paramref name="name"/> má hodnotu <c>null</c>.</exception>
-        /// <exception cref="System.ArgumentException">Meno stĺpca <paramref name="name"/> nie je zadané: je prázdny reťazec,
-        /// alebo reťazec bielych znakov.</exception>
+        /// <inheritdoc/>
         public SqlServerColumnSchema(string name)
             : this(name, DefaultAllowNull, DefaultDefaultValue, DefaultSize)
         {
         }
 
-        /// <summary>
-        /// Vytvorí inštanciu schémy stĺpca s menom <paramref name="name"/> a s povolením <b>NULL</b> hodnôt podľa
-        /// <paramref name="allowNull"/>.
-        /// </summary>
-        /// <param name="name">Meno stĺpca.</param>
-        /// <param name="allowNull">Určuje, či stĺpec má povolenú <b>NULL</b> hodnotu.</param>
-        /// <exception cref="System.ArgumentNullException">Meno stĺpca <paramref name="name"/> má hodnotu <c>null</c>.</exception>
-        /// <exception cref="System.ArgumentException">Meno stĺpca <paramref name="name"/> nie je zadané: je prázdny reťazec,
-        /// alebo reťazec bielych znakov.</exception>
+        /// <inheritdoc/>
         public SqlServerColumnSchema(string name, bool allowNull)
             : this(name, allowNull, DefaultDefaultValue, DefaultSize)
         {
         }
 
-        /// <summary>
-        /// Vytvorí inštanciu schémy stĺpca s menom <paramref name="name"/> a ostatnými hodnotami.
-        /// </summary>
-        /// <param name="name">Meno stĺpca.</param>
-        /// <param name="allowNull">Určuje, či stĺpec má povolenú <b>NULL</b> hodnotu.</param>
-        /// <param name="defaultValue">Predvolená hodnota stĺpca.</param>
-        /// <exception cref="System.ArgumentNullException">Meno stĺpca <paramref name="name"/> má hodnotu <c>null</c>
-        /// alebo je to reťazec bielych znakov.</exception>
+        /// <inheritdoc/>
         public SqlServerColumnSchema(string name, bool allowNull, object defaultValue)
             : this(name, allowNull, defaultValue, DefaultSize)
         {
         }
 
-        /// <summary>
-        /// Vytvorí inštanciu schémy stĺpca s menom <paramref name="name"/> a ostatnými hodnotami.
-        /// </summary>
-        /// <param name="name">Meno stĺpca.</param>
-        /// <param name="allowNull">Určuje, či stĺpec má povolenú <b>NULL</b> hodnotu.</param>
-        /// <param name="defaultValue">Predvolená hodnota stĺpca.</param>
-        /// <param name="size">Maximálna dĺžka textových stĺpcov. Ak je neobmedzená, hodnota je <b>0</b>.</param>
-        /// <exception cref="System.ArgumentNullException">Meno stĺpca <paramref name="name"/> má hodnotu <c>null</c>.</exception>
-        /// <exception cref="System.ArgumentException">Meno stĺpca <paramref name="name"/> nie je zadané: je prázdny reťazec,
-        /// alebo reťazec bielych znakov.</exception>
+        /// <inheritdoc/>
         public SqlServerColumnSchema(string name, bool allowNull, object defaultValue, int size)
             : base(name, allowNull, defaultValue, size)
         {
@@ -110,11 +78,10 @@ namespace Kros.Data.Schema.SqlServer
 
         #endregion
 
-
         #region Common
 
         /// <summary>
-        /// Dátový typ stĺpca ako hodnota enumerátu <see cref="SqlDbType"/>.
+        /// Data type of the column.
         /// </summary>
         public SqlDbType SqlDbType { get; set; }
 
@@ -127,7 +94,8 @@ namespace Kros.Data.Schema.SqlServer
         }
 
         /// <inheritdoc/>
-        /// <exception cref="System.ArgumentException">Hodnota <paramref name="param"/> nie je typu <see cref="SqlParameter"/>.
+        /// <exception cref="System.ArgumentException">
+        /// Value of <paramref name="param"/> is not of type <see cref="SqlParameter"/>.
         /// </exception>
         public override void SetParameterDbType(IDataParameter param)
         {
@@ -144,6 +112,5 @@ namespace Kros.Data.Schema.SqlServer
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }

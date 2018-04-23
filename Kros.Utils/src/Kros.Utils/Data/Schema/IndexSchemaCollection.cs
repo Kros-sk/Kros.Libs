@@ -5,47 +5,43 @@ using System;
 namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Zoznam indexov tabuľky <see cref="TableSchema"/>.
+    /// List of indexes for table <see cref="TableSchema"/>.
     /// </summary>
-    /// <remarks>Indexom pridaným do zoznamu je automaticky nastavená tabuľka <see cref="IndexSchema.Table"/>.
-    /// Do zoznamu nie je možné pridať index, ktorý už patrí inej tabuľke. V takom prípade je vyvolaná výnimka
-    /// <see cref="InvalidOperationException"/>.</remarks>
+    /// <remarks>To the indexes added to this list is automatically set their <see cref="IndexSchema.Table"/>. Index can
+    /// belong only to one table.</remarks>
     public class IndexSchemaCollection
         : System.Collections.ObjectModel.KeyedCollection<string, IndexSchema>
     {
-
         #region Constructors
 
         /// <summary>
-        /// Vytvorí zoznam stĺpcov pre tabuľku <paramref name="table"/>.
+        /// Creates a new index list for <paramref name="table"/>.
         /// </summary>
-        /// <param name="table">Tabuľka.</param>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="table"/> je <c>null</c>.</exception>
+        /// <param name="table">Table to which index list belongs.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="table"/> is <see langword="null"/>.</exception>
         public IndexSchemaCollection(TableSchema table)
             : base(StringComparer.OrdinalIgnoreCase)
         {
-            Check.NotNull(table, nameof(table));
-            Table = table;
+            Table = Check.NotNull(table, nameof(table));
         }
 
         #endregion
 
-
         #region Common
 
         /// <summary>
-        /// Tabuľka, ktorej zoznam stĺpcov patrí.
+        /// The table to which belongs this <c>IndexSchemaCollection</c>.
         /// </summary>
         public TableSchema Table { get; }
 
         /// <summary>
-        /// Vytvorí a pridá do zoznamu novú schému indexu s menom <paramref name="indexName"/>.
+        /// Creates an instance of index with name <paramref name="indexName"/>. Created index is added to the list.
         /// </summary>
-        /// <param name="indexName">Meno indexu.</param>
-        /// <returns>Vytvorenú schému indexu.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="indexName"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Hodnota <paramref name="indexName"/> je prázdny reťazec, alebo reťazec bielych
-        /// znakov.</exception>
+        /// <param name="indexName">Name of the index.</param>
+        /// <returns>Created index schema.</returns>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="indexName"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="indexName"/> is empty string, or string containing only
+        /// whitespace characters.</exception>
         public IndexSchema Add(string indexName)
         {
             IndexSchema index = new IndexSchema(indexName);
@@ -54,15 +50,15 @@ namespace Kros.Data.Schema
         }
 
         /// <summary>
-        /// Vytvorí a pridá do zoznamu novú schému indexu s menom <paramref name="indexName"/>
-        /// a typom <paramref name="indexType"/>.
+        /// Creates an instance of index of type <paramref name="indexType"/>, with name <paramref name="indexName"/>.
+        /// Created index is added to the list.
         /// </summary>
-        /// <param name="indexName">Meno indexu.</param>
-        /// <param name="indexType">Typ indexu.</param>
-        /// <returns>Vytvorenú schému indexu.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="indexName"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Hodnota <paramref name="indexName"/> je prázdny reťazec, alebo reťazec bielych
-        /// znakov.</exception>
+        /// <param name="indexName">Name of the index.</param>
+        /// <param name="indexType">Type of the index.</param>
+        /// <returns>Created index schema.</returns>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="indexName"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="indexName"/> is empty string, or string containing only
+        /// whitespace characters.</exception>
         public IndexSchema Add(string indexName, IndexType indexType)
         {
             IndexSchema index = new IndexSchema(indexName, indexType);
@@ -71,16 +67,16 @@ namespace Kros.Data.Schema
         }
 
         /// <summary>
-        /// Vytvorí a pridá do zoznamu novú schému indexu s menom <paramref name="indexName"/>,
-        /// typom <paramref name="indexType"/> a príznakom <paramref name="clustered"/>.
+        /// Creates an instance of index of type <paramref name="indexType"/>, with name <paramref name="indexName"/> and
+        /// setting if the index is <paramref name="clustered"/>. Created index is added to the list.
         /// </summary>
-        /// <param name="indexName">Meno indexu.</param>
-        /// <param name="indexType">Typ indexu.</param>
-        /// <param name="clustered">Príznak, či index je <c>CLUSTERED</c>.</param>
-        /// <returns>Vytvorenú schému indexu.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="indexName"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Hodnota <paramref name="indexName"/> je prázdny reťazec, alebo reťazec bielych
-        /// znakov.</exception>
+        /// <param name="indexName">Name of the index.</param>
+        /// <param name="indexType">Type of the index.</param>
+        /// <param name="clustered">Specifies, if the index is <c>CLUSTERED</c>.</param>
+        /// <returns>Created index schema.</returns>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="indexName"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="indexName"/> is empty string, or string containing only
+        /// whitespace characters.</exception>
         public IndexSchema Add(string indexName, IndexType indexType, bool clustered)
         {
             IndexSchema index = new IndexSchema(indexName, indexType, clustered);
@@ -89,7 +85,6 @@ namespace Kros.Data.Schema
         }
 
         #endregion
-
 
         #region KeyedCollection
 
@@ -124,6 +119,5 @@ namespace Kros.Data.Schema
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }
