@@ -1,4 +1,5 @@
 ﻿using Kros.Data;
+using Kros.Data.BulkActions.MsAccess;
 using Kros.Data.MsAccess;
 using Kros.Data.Schema;
 using Kros.Data.Schema.MsAccess;
@@ -28,6 +29,7 @@ namespace Kros.Utils.MsAccess
             DatabaseSchemaLoader.Default.AddSchemaLoader(new MsAccessSchemaLoader());
             DatabaseSchemaCache.Default.AddSchemaLoader(new MsAccessSchemaLoader(), new MsAccessCacheKeyGenerator());
             MsAccessIdGeneratorFactory.Register();
+            MsAccessBulkInsertFactory.Register();
         }
     }
 }
