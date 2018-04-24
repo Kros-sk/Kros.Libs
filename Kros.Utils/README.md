@@ -8,6 +8,10 @@ Library is:
 
 Library is compiled for __.NET Standard 2.0__. .NET Framework 4.6 is supported.
 
+## Documentation
+
+For configuration, general information and examples [see the documentation](https://kros-sk.github.io/Kros.Libs/api/).
+
 ## Download
 
 Kros.Libs is available from:
