@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Kros.Utils.UnitTests.Data
 {
-    public partial class BulkInsertFactoriesShould
+    public class BulkActionFactoriesShould
     {
         [Fact]
         public void GetFactoryByConnection()
@@ -35,7 +35,7 @@ namespace Kros.Utils.UnitTests.Data
                 Action action = () => { var factory = BulkActionFactories.GetFactory(conn); };
 
                 action.ShouldThrow<InvalidOperationException>()
-                    .WithMessage("IBulkInsertFactory for connection type 'CustomConnection' is not registered.");
+                    .WithMessage($"{nameof(IBulkActionFactory)} for connection type 'CustomConnection' is not registered.");
             }
         }
 
@@ -45,7 +45,7 @@ namespace Kros.Utils.UnitTests.Data
             Action action = () => { var factory = BulkActionFactories.GetFactory("constring", "System.Data.CustomClient"); };
 
             action.ShouldThrow<InvalidOperationException>()
-                .WithMessage("IBulkInsertFactory for ADO client 'System.Data.CustomClient' is not registered.");
+                .WithMessage($"{nameof(IBulkActionFactory)} for ADO client 'System.Data.CustomClient' is not registered.");
         }
     }
 }
