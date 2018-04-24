@@ -29,7 +29,7 @@ namespace Kros.Utils.MsAccess
             DatabaseSchemaLoader.Default.AddSchemaLoader(new MsAccessSchemaLoader());
             DatabaseSchemaCache.Default.AddSchemaLoader(new MsAccessSchemaLoader(), new MsAccessCacheKeyGenerator());
             MsAccessIdGeneratorFactory.Register();
-            MsAccessBulkInsertFactory.Register();
+            MsAccessBulkActionFactory.Register();
         }
     }
 }

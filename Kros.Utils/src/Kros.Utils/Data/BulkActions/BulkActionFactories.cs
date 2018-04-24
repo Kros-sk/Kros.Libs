@@ -6,19 +6,19 @@ using System.Data.Common;
 namespace Kros.Data.BulkActions
 {
     /// <summary>
-    /// Representing set of registered <see cref="Kros.Data.BulkActions.IBulkInsertFactory"/>.
+    /// Representing set of registered <see cref="Kros.Data.BulkActions.IBulkActionFactory"/>.
     /// </summary>
-    public static class BulkInsertFactories
+    public static class BulkActionFactories
     {
 
-        private static Dictionary<string, Func<string, IBulkInsertFactory>> _factoryByAdoClientName =
-            new Dictionary<string, Func<string, IBulkInsertFactory>>(StringComparer.InvariantCultureIgnoreCase);
-        private static Dictionary<Type, Func<DbConnection, IBulkInsertFactory>> _factoryByConnection =
-            new Dictionary<Type, Func<DbConnection, IBulkInsertFactory>>();
+        private static Dictionary<string, Func<string, IBulkActionFactory>> _factoryByAdoClientName =
+            new Dictionary<string, Func<string, IBulkActionFactory>>(StringComparer.InvariantCultureIgnoreCase);
+        private static Dictionary<Type, Func<DbConnection, IBulkActionFactory>> _factoryByConnection =
+            new Dictionary<Type, Func<DbConnection, IBulkActionFactory>>();
 
-        static BulkInsertFactories()
+        static BulkActionFactories()
         {
-            SqlServer.SqlServerBulkInsertFactory.Register();
+            SqlServer.SqlServerBulkActionFactory.Register();
         }
 
         /// <summary>
@@ -29,8 +29,8 @@ namespace Kros.Data.BulkActions
         /// <param name="factoryByConnection">The factory by connection.</param>
         /// <param name="factoryByConnectionString">The factory by connection string.</param>
         public static void Register<TConnection>(string adoClientName,
-            Func<DbConnection, IBulkInsertFactory> factoryByConnection,
-            Func<string, IBulkInsertFactory> factoryByConnectionString)
+            Func<DbConnection, IBulkActionFactory> factoryByConnection,
+            Func<string, IBulkActionFactory> factoryByConnectionString)
             where TConnection : DbConnection
         {
             Check.NotNullOrWhiteSpace(adoClientName, nameof(adoClientName));
@@ -40,13 +40,13 @@ namespace Kros.Data.BulkActions
         }
 
         /// <summary>
-        /// Gets the <see cref="IBulkInsertFactory"/> with specific connection.
+        /// Gets the <see cref="IBulkActionFactory"/> with specific connection.
         /// </summary>
         /// <param name="connection">The connection.</param>
         /// <returns>
-        /// The <see cref="IBulkInsertFactory"/> instance.
+        /// The <see cref="IBulkActionFactory"/> instance.
         /// </returns>
-        public static IBulkInsertFactory GetFactory(DbConnection connection)
+        public static IBulkActionFactory GetFactory(DbConnection connection)
         {
             if (_factoryByConnection.TryGetValue(connection.GetType(), out var factory))
             {
@@ -55,12 +55,12 @@ namespace Kros.Data.BulkActions
             else
             {
                 throw new InvalidOperationException(
-                    $"{nameof(IBulkInsertFactory)} for connection type '{connection.GetType().Name}' is not registered.");
+                    $"{nameof(IBulkActionFactory)} for connection type '{connection.GetType().Name}' is not registered.");
             }
         }
 
         /// <summary>
-        /// Gets the <see cref="IBulkInsertFactory"/> with specific connection string.
+        /// Gets the <see cref="IBulkActionFactory"/> with specific connection string.
         /// </summary>
         /// <param name="connectionString">
         /// The connection string.
@@ -69,9 +69,9 @@ namespace Kros.Data.BulkActions
         /// Name of the ado client. (e.g. <see cref="System.Data.SqlClient.SqlConnection"/> it's: System.Data.SqlClient)
         /// </param>
         /// <returns>
-        /// The <see cref="IBulkInsertFactory"/> instance.
+        /// The <see cref="IBulkActionFactory"/> instance.
         /// </returns>
-        public static IBulkInsertFactory GetFactory(string connectionString, string adoClientName)
+        public static IBulkActionFactory GetFactory(string connectionString, string adoClientName)
         {
             if (_factoryByAdoClientName.TryGetValue(adoClientName, out var factory))
             {
@@ -80,7 +80,7 @@ namespace Kros.Data.BulkActions
             else
             {
                 throw new InvalidOperationException(
-                    $"{nameof(IBulkInsertFactory)} for ADO client '{adoClientName}' is not registered.");
+                    $"{nameof(IBulkActionFactory)} for ADO client '{adoClientName}' is not registered.");
             }
         }
     }

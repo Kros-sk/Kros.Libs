@@ -13,7 +13,7 @@ namespace Kros.Utils.UnitTests.Data
         {
             using (var conn = new SqlConnection())
             {
-                var factory = BulkInsertFactories.GetFactory(conn);
+                var factory = BulkActionFactories.GetFactory(conn);
 
                 factory.Should().NotBeNull();
             }
@@ -22,7 +22,7 @@ namespace Kros.Utils.UnitTests.Data
         [Fact]
         public void GetFactoryByAdoClientName()
         {
-            var factory = BulkInsertFactories.GetFactory("connectionstring", "System.Data.SqlClient");
+            var factory = BulkActionFactories.GetFactory("connectionstring", "System.Data.SqlClient");
 
             factory.Should().NotBeNull();
         }
@@ -32,7 +32,7 @@ namespace Kros.Utils.UnitTests.Data
         {
             using (var conn = new CustomConnection())
             {
-                Action action = () => { var factory = BulkInsertFactories.GetFactory(conn); };
+                Action action = () => { var factory = BulkActionFactories.GetFactory(conn); };
 
                 action.ShouldThrow<InvalidOperationException>()
                     .WithMessage("IBulkInsertFactory for connection type 'CustomConnection' is not registered.");
@@ -42,7 +42,7 @@ namespace Kros.Utils.UnitTests.Data
         [Fact]
         public void ThrowExceptionWhenAdoClientNameIsNotRegistered()
         {
-            Action action = () => { var factory = BulkInsertFactories.GetFactory("constring", "System.Data.CustomClient"); };
+            Action action = () => { var factory = BulkActionFactories.GetFactory("constring", "System.Data.CustomClient"); };
 
             action.ShouldThrow<InvalidOperationException>()
                 .WithMessage("IBulkInsertFactory for ADO client 'System.Data.CustomClient' is not registered.");
