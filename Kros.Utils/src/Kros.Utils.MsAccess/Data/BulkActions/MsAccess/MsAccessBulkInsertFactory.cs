@@ -32,11 +32,38 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         /// <summary>
-        /// Creates a new <see cref="T:Kros.Data.BulkActions.IBulkInsert" /> class.
+        /// Gets the bulk insert.
         /// </summary>
-        /// <returns>The Bulk Insert.</returns>
+        /// <returns>The bulk insert.</returns>
         public IBulkInsert GetBulkInsert() =>
             _connection != null ? new MsAccessBulkInsert(_connection) : new MsAccessBulkInsert(_connectionString);
+
+        /// <summary>
+        /// Gets the bulk insert.
+        /// </summary>
+        /// <param name="externalTransaction">The external transaction.</param>
+        /// <returns>The bulk insert.</returns>
+        public IBulkInsert GetBulkInsert(OleDbTransaction externalTransaction) =>
+            new MsAccessBulkInsert(_connection, externalTransaction);
+
+        /// <summary>
+        /// Gets the bulk insert.
+        /// </summary>
+        /// <param name="externalTransaction">The external transaction.</param>
+        /// <param name="csvFileCodePage">The CSV file code page.</param>
+        /// <returns>The bulk insert.</returns>
+        public IBulkInsert GetBulkInsert(OleDbTransaction externalTransaction, int csvFileCodePage) =>
+            new MsAccessBulkInsert(_connection, externalTransaction, csvFileCodePage);
+
+        /// <summary>
+        /// Gets the bulk insert.
+        /// </summary>
+        /// <param name="externalTransaction">The external transaction.</param>
+        /// <param name="csvFileCodePage">The CSV file code page.</param>
+        /// <param name="valueDelimiter">The value delimiter.</param>
+        /// <returns>The bulk insert.</returns>
+        public IBulkInsert GetBulkInsert(OleDbTransaction externalTransaction, int csvFileCodePage, char valueDelimiter) =>
+            new MsAccessBulkInsert(_connection, externalTransaction, csvFileCodePage, valueDelimiter);
 
         /// <summary>
         /// Registers factory methods for creation instances to <see cref="BulkInsertFactories"/>.

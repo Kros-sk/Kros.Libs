@@ -77,6 +77,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\BulkInsert\MsAccessBulkInsertFactoryShould.cs" />
     <Compile Include="Data\BulkInsert\MsAccessBulkInsertShould.cs" />
     <Compile Include="Data\BulkInsert\MsAccessBulkHelper.cs" />
     <Compile Include="Data\BulkInsert\MsAccessBulkUpdateShould.cs" />

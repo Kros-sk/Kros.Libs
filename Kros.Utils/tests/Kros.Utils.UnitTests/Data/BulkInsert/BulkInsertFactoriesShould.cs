@@ -1,21 +1,19 @@
 ﻿using FluentAssertions;
-using Kros.Data;
+using Kros.Data.BulkActions;
 using System;
-using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
 using Xunit;
 
 namespace Kros.Utils.UnitTests.Data
 {
-    public class IdGeneratorFactoriesShould
+    public partial class BulkInsertFactoriesShould
     {
         [Fact]
         public void GetFactoryByConnection()
         {
             using (var conn = new SqlConnection())
             {
-                var factory = IdGeneratorFactories.GetFactory(conn);
+                var factory = BulkInsertFactories.GetFactory(conn);
 
                 factory.Should().NotBeNull();
             }
@@ -24,30 +22,30 @@ namespace Kros.Utils.UnitTests.Data
         [Fact]
         public void GetFactoryByAdoClientName()
         {
-            var factory = IdGeneratorFactories.GetFactory("connectionstring", "System.Data.SqlClient");
+            var factory = BulkInsertFactories.GetFactory("connectionstring", "System.Data.SqlClient");
 
             factory.Should().NotBeNull();
         }
 
         [Fact]
-        public void ThrowExceptionWhenConnectionIsNotRegisterd()
+        public void ThrowExceptionWhenConnectionIsNotRegistered()
         {
             using (var conn = new CustomConnection())
             {
-                Action action = () => { var factory = IdGeneratorFactories.GetFactory(conn); };
+                Action action = () => { var factory = BulkInsertFactories.GetFactory(conn); };
 
                 action.ShouldThrow<InvalidOperationException>()
-                    .WithMessage("IIdGeneratorFactory for connection type 'CustomConnection' is not registered.");
+                    .WithMessage("IBulkInsertFactory for connection type 'CustomConnection' is not registered.");
             }
         }
 
         [Fact]
         public void ThrowExceptionWhenAdoClientNameIsNotRegistered()
         {
-            Action action = () => { var factory = IdGeneratorFactories.GetFactory("constring", "System.Data.CustomClient"); };
+            Action action = () => { var factory = BulkInsertFactories.GetFactory("constring", "System.Data.CustomClient"); };
 
             action.ShouldThrow<InvalidOperationException>()
-                .WithMessage("IIdGeneratorFactory for ADO client 'System.Data.CustomClient' is not registered.");
+                .WithMessage("IBulkInsertFactory for ADO client 'System.Data.CustomClient' is not registered.");
         }
     }
 }

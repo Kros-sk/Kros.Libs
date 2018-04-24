@@ -32,12 +32,38 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         /// <summary>
-        /// Creates a new <see cref="T:Kros.Data.BulkActions.IBulkInsert"/> class.
+        /// Gets the bulk insert.
         /// </summary>
-        /// <returns>The Bulk Insert.</returns>
+        /// <returns>The bulk insert.</returns>
         public IBulkInsert GetBulkInsert() =>
             _connection != null ? new SqlServerBulkInsert(_connection) : new SqlServerBulkInsert(_connectionString);
 
+        /// <summary>
+        /// Gets the bulk insert.
+        /// </summary>
+        /// <param name="externalTransaction">The external transaction.</param>
+        /// <returns>The bulk insert.</returns>
+        public IBulkInsert GetBulkInsert(SqlTransaction externalTransaction) =>
+            new SqlServerBulkInsert(_connection, externalTransaction);
+
+        /// <summary>
+        /// Gets the bulk insert.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <returns>The bulk insert.</returns>
+        public IBulkInsert GetBulkInsert(SqlBulkCopyOptions options) =>
+            _connection != null ?
+                new SqlServerBulkInsert(_connection, options) :
+                new SqlServerBulkInsert(_connectionString, options);
+
+        /// <summary>
+        /// Gets the bulk insert.
+        /// </summary>
+        /// <param name="externalTransaction">The external transaction.</param>
+        /// <param name="options">The options.</param>
+        /// <returns>The bulk insert.</returns>
+        public IBulkInsert GetBulkInsert(SqlTransaction externalTransaction, SqlBulkCopyOptions options) =>
+            new SqlServerBulkInsert(_connection, externalTransaction, options);
 
         /// <summary>
         /// Registers factory methods for creation instances to <see cref="BulkInsertFactories"/>.
