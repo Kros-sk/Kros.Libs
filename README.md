@@ -26,6 +26,10 @@ Kros.KORM library extension for MS Access support. Only applicable in the full .
 
 [Kros.KORM.MsAccess Readme](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.KORM/README.md "Kros.KORM.MsAccess")
 
+## Documentation
+
+For configuration, general information and examples [see the documentation](https://kros-sk.github.io/Kros.Libs/api/).
+
 ## Contributing Guide
 
 ### General rules
