@@ -55,7 +55,7 @@ namespace Kros.Data.BulkActions
             else
             {
                 throw new InvalidOperationException(
-                    $"IBulkInsertFactory for connection type '{connection.GetType().Name}' is not registered.");
+                    $"{nameof(IBulkInsertFactory)} for connection type '{connection.GetType().Name}' is not registered.");
             }
         }
 
@@ -80,7 +80,7 @@ namespace Kros.Data.BulkActions
             else
             {
                 throw new InvalidOperationException(
-                    $"IBulkInsertFactory for ADO client '{adoClientName}' is not registered.");
+                    $"{nameof(IBulkInsertFactory)} for ADO client '{adoClientName}' is not registered.");
             }
         }
     }
