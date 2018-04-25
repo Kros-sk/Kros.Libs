@@ -1,0 +1,774 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class BulkUpdateBase
+   | Kros.Libs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class BulkUpdateBase
+   | Kros.Libs ">
+    <meta name="generator" content="docfx 2.34.0.0">
+    
+    <link rel="shortcut icon" href="../../images/Kros.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../images/Kros.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items"></div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Kros.Data.BulkActions.BulkUpdateBase">
+  
+  
+  <h1 id="Kros_Data_BulkActions_BulkUpdateBase" data-uid="Kros.Data.BulkActions.BulkUpdateBase" class="text-break">Class BulkUpdateBase
+  </h1>
+  <div class="markdown level0 summary"><p>Spoločný predok pre bulk update.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">BulkUpdateBase</span></div>
+      <div class="level2"><a class="xref" href="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.html">SqlServerBulkUpdate</a></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Kros.Data.BulkActions.IBulkUpdate.html">IBulkUpdate</a></div>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Kros.Data.BulkActions.html">Kros.Data.BulkActions</a></h6>
+  <h6><strong>Assembly</strong>: Kros.Utils.dll</h6>
+  <h5 id="Kros_Data_BulkActions_BulkUpdateBase_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class BulkUpdateBase : IBulkUpdate, IDisposable</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase__connection" data-uid="Kros.Data.BulkActions.BulkUpdateBase._connection">_connection</h4>
+  <div class="markdown level1 summary"><p>Connection.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IDbConnection _connection</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IDbConnection</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase__disposeOfConnection" data-uid="Kros.Data.BulkActions.BulkUpdateBase._disposeOfConnection">_disposeOfConnection</h4>
+  <div class="markdown level1 summary"><p>Či je potrebné disposnúť connection.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool _disposeOfConnection</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_PrefixTempTable" data-uid="Kros.Data.BulkActions.BulkUpdateBase.PrefixTempTable">PrefixTempTable</h4>
+  <div class="markdown level1 summary"><p>Prefix pre tempovú tabuľku.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected const char PrefixTempTable = '#'</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Char</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_DestinationTableName_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.DestinationTableName*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_DestinationTableName" data-uid="Kros.Data.BulkActions.BulkUpdateBase.DestinationTableName">DestinationTableName</h4>
+  <div class="markdown level1 summary"><p>Meno cieľovej tabuľky v databáze.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string DestinationTableName { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_ExternalTransaction_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.ExternalTransaction*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_ExternalTransaction" data-uid="Kros.Data.BulkActions.BulkUpdateBase.ExternalTransaction">ExternalTransaction</h4>
+  <div class="markdown level1 summary"><p>Externá transakcia, v ktorej sa vykoná editácia dát.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IDbTransaction ExternalTransaction { get; protected set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IDbTransaction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_PrimaryKeyColumn_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.PrimaryKeyColumn*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_PrimaryKeyColumn" data-uid="Kros.Data.BulkActions.BulkUpdateBase.PrimaryKeyColumn">PrimaryKeyColumn</h4>
+  <div class="markdown level1 summary"><p>Primárny kľúč.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string PrimaryKeyColumn { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_TempTableAction_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.TempTableAction*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_TempTableAction" data-uid="Kros.Data.BulkActions.BulkUpdateBase.TempTableAction">TempTableAction</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Action&lt;IDbConnection, IDbTransaction, string&gt; TempTableAction { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.Data.IDbConnection</span>, <span class="xref">System.Data.IDbTransaction</span>, <span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_CreateBulkInsert_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.CreateBulkInsert*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_CreateBulkInsert" data-uid="Kros.Data.BulkActions.BulkUpdateBase.CreateBulkInsert">CreateBulkInsert()</h4>
+  <div class="markdown level1 summary"><p>Vytvorí bulk insert.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract IBulkInsert CreateBulkInsert()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.BulkActions.IBulkInsert.html">IBulkInsert</a></td>
+        <td><p>Bulk insert.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_CreateCommandForPrimaryKey_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.CreateCommandForPrimaryKey*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_CreateCommandForPrimaryKey" data-uid="Kros.Data.BulkActions.BulkUpdateBase.CreateCommandForPrimaryKey">CreateCommandForPrimaryKey()</h4>
+  <div class="markdown level1 summary"><p>Vráti command pre vytvorenie primárneho kľúča.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract IDbCommand CreateCommandForPrimaryKey()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IDbCommand</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_CreateTempTable_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.CreateTempTable*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_CreateTempTable_System_Data_IDataReader_System_String_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.CreateTempTable(System.Data.IDataReader,System.String)">CreateTempTable(IDataReader, String)</h4>
+  <div class="markdown level1 summary"><p>Vytvorí tempovú tabuľku podľa <code data-dev-comment-type="paramref" class="paramref">reader</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void CreateTempTable(IDataReader reader, string tempTableName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IDataReader</span></td>
+        <td><span class="parametername">reader</span></td>
+        <td><p>Reader pre sprístupnenie dát.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">tempTableName</span></td>
+        <td><p>Názov tempovej tabuľky.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_Dispose_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.Dispose*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_Dispose" data-uid="Kros.Data.BulkActions.BulkUpdateBase.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_Dispose_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.Dispose*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_Dispose_System_Boolean_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.Dispose(System.Boolean)">Dispose(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">disposing</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_DoneTempTable_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.DoneTempTable*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_DoneTempTable_System_String_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.DoneTempTable(System.String)">DoneTempTable(String)</h4>
+  <div class="markdown level1 summary"><p>Ukončí prácu s tempovou tabuľkou.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void DoneTempTable(string tempTableName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">tempTableName</span></td>
+        <td><p>Názov tempovej tabuľky.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_GetColumnNamesForTempTable_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.GetColumnNamesForTempTable*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_GetColumnNamesForTempTable_System_Data_IDataReader_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.GetColumnNamesForTempTable(System.Data.IDataReader)">GetColumnNamesForTempTable(IDataReader)</h4>
+  <div class="markdown level1 summary"><p>Zoznam stĺpcov tempovej tabuľky.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected string GetColumnNamesForTempTable(IDataReader reader)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IDataReader</span></td>
+        <td><span class="parametername">reader</span></td>
+        <td><p>Reader pre prístup k dátam.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_GetTempTableName_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.GetTempTableName*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_GetTempTableName" data-uid="Kros.Data.BulkActions.BulkUpdateBase.GetTempTableName">GetTempTableName()</h4>
+  <div class="markdown level1 summary"><p>Vráti názov tempovej tabuľky.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract string GetTempTableName()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_GetTempTableNameForBulkInsert_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.GetTempTableNameForBulkInsert*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_GetTempTableNameForBulkInsert_System_String_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.GetTempTableNameForBulkInsert(System.String)">GetTempTableNameForBulkInsert(String)</h4>
+  <div class="markdown level1 summary"><p>Vráti názov tempovej tabuľky pre bulk insert.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual string GetTempTableNameForBulkInsert(string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>Názov tempovej tabuľky.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_GetUpdateColumnNames_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.GetUpdateColumnNames*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_GetUpdateColumnNames_System_Data_IDataReader_System_String_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.GetUpdateColumnNames(System.Data.IDataReader,System.String)">GetUpdateColumnNames(IDataReader, String)</h4>
+  <div class="markdown level1 summary"><p>Zoznam stĺpcov tempovej tabuľky.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected string GetUpdateColumnNames(IDataReader reader, string tempTableName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IDataReader</span></td>
+        <td><span class="parametername">reader</span></td>
+        <td><p>Reader pre prístup k dátam.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">tempTableName</span></td>
+        <td><p>Názov tempovej tabuľky.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_InvokeAction_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.InvokeAction*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_InvokeAction_System_String_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.InvokeAction(System.String)">InvokeAction(String)</h4>
+  <div class="markdown level1 summary"><p>Zavolá akciu nad tempovou databázou.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void InvokeAction(string tempTableName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">tempTableName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_Update_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.Update*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_Update_Kros_Data_BulkActions_IBulkActionDataReader_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.Update(Kros.Data.BulkActions.IBulkActionDataReader)">Update(IBulkActionDataReader)</h4>
+  <div class="markdown level1 summary"><p>Zedituje všetky dáta zo zdroja <code data-dev-comment-type="paramref" class="paramref">reader</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Update(IBulkActionDataReader reader)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.BulkActions.IBulkActionDataReader.html">IBulkActionDataReader</a></td>
+        <td><span class="parametername">reader</span></td>
+        <td><p>Zdroj dát.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_Update_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.Update*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_Update_System_Data_DataTable_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.Update(System.Data.DataTable)">Update(DataTable)</h4>
+  <div class="markdown level1 summary"><p>Zedituje všetky riadky z tabuľky <code data-dev-comment-type="paramref" class="paramref">table</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Update(DataTable table)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.DataTable</span></td>
+        <td><span class="parametername">table</span></td>
+        <td><p>Zdrojové dáta.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_Update_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.Update*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_Update_System_Data_IDataReader_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.Update(System.Data.IDataReader)">Update(IDataReader)</h4>
+  <div class="markdown level1 summary"><p>Zedituje všetky dáta zo zdroja <code data-dev-comment-type="paramref" class="paramref">reader</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Update(IDataReader reader)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IDataReader</span></td>
+        <td><span class="parametername">reader</span></td>
+        <td><p>Zdroj dát.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_BulkActions_BulkUpdateBase_UpdateDestinationTable_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.UpdateDestinationTable*"></a>
+  <h4 id="Kros_Data_BulkActions_BulkUpdateBase_UpdateDestinationTable_System_Data_IDataReader_System_String_" data-uid="Kros.Data.BulkActions.BulkUpdateBase.UpdateDestinationTable(System.Data.IDataReader,System.String)">UpdateDestinationTable(IDataReader, String)</h4>
+  <div class="markdown level1 summary"><p>Vykoná update nad cieľovou tabuľkou.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract void UpdateDestinationTable(IDataReader reader, string tempTableName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IDataReader</span></td>
+        <td><span class="parametername">reader</span></td>
+        <td><p>Reader pre sprístupnenie dát.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">tempTableName</span></td>
+        <td><p>Názov tempovej tabuľky.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Kros.Data.BulkActions.IBulkUpdate.html">IBulkUpdate</a>
+  </div>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            KROS a.s.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

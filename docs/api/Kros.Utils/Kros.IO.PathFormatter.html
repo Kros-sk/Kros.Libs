@@ -1,0 +1,1055 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class PathFormatter
+   | Kros.Libs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class PathFormatter
+   | Kros.Libs ">
+    <meta name="generator" content="docfx 2.34.0.0">
+    
+    <link rel="shortcut icon" href="../../images/Kros.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../images/Kros.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items"></div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Kros.IO.PathFormatter">
+  
+  
+  <h1 id="Kros_IO_PathFormatter" data-uid="Kros.IO.PathFormatter" class="text-break">Class PathFormatter
+  </h1>
+  <div class="markdown level0 summary"><p>Trieda na formátovanie ciest k súborom. Stará sa o to, aby celková cesta nepresiahla maximálnu
+povolenú dĺžku a aj o to, aby bola vygenerovaná cesta k súboru, ktorý ešte neexistuje.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">PathFormatter</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Kros.IO.html">Kros.IO</a></h6>
+  <h6><strong>Assembly</strong>: Kros.Utils.dll</h6>
+  <h5 id="Kros_IO_PathFormatter_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class PathFormatter</code></pre>
+  </div>
+  <h5 id="Kros_IO_PathFormatter_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>
+Použitie triedy je vhodné napríklad pri exportoch, ak sa pri exporte generuje viacero súborov. Používateľ programu
+zadá len výstupný adresár a názvy súborov sa generujú na základe exportovaných dát. Trieda zabezpečí, aby vygenerované
+názvy boli platné, tzn. aby neobsahovali nepovolené znaky a aj aby náhodou nebola vygenerovaná príliš dlhá cesta
+k súboru. Zároveň kontroluje existenciu súboru. Ak už existuje spbor, ktorý vygenerovala, je k vygenerovanej ceste
+pridané číslo.
+</p>
+<p>K vytvoreným cestám je možné pridať ešte vlastný informačný reťazec.</p>
+<p>Pre jednoduché priame použitie je vytvorená statická inštancia
+<a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_Default">Default</a>.</p>
+</div>
+  <h3 id="properties">Properties
+  </h3>
+  <a id="Kros_IO_PathFormatter_CounterClosingString_" data-uid="Kros.IO.PathFormatter.CounterClosingString*"></a>
+  <h4 id="Kros_IO_PathFormatter_CounterClosingString" data-uid="Kros.IO.PathFormatter.CounterClosingString">CounterClosingString</h4>
+  <div class="markdown level1 summary"><p>Uzatvárací reťazec pre počítadlo, ktorý sa vloží do názvu súboru/zložky za toto počítadlo.
+Počítadlo je uzavreté medzi <a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_CounterOpeningString">CounterOpeningString</a> a <a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_CounterClosingString">CounterClosingString</a>.
+Štandardne je to pravá okrúhla zátvorka: <strong>)</strong>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string CounterClosingString { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_CounterClosingString_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Pri nastavení hodnoty sú v nej nahradené znaky, ktoré nie sú platné pre názov súboru/zložky
+(<a class="xref" href="Kros.IO.PathHelper.html#Kros_IO_PathHelper_ReplaceInvalidPathChars_System_String_">ReplaceInvalidPathChars(String)</a>).</p>
+</div>
+  <a id="Kros_IO_PathFormatter_CounterOpeningString_" data-uid="Kros.IO.PathFormatter.CounterOpeningString*"></a>
+  <h4 id="Kros_IO_PathFormatter_CounterOpeningString" data-uid="Kros.IO.PathFormatter.CounterOpeningString">CounterOpeningString</h4>
+  <div class="markdown level1 summary"><p>Otvárací reťazec pre počítadlo, ktorý sa vloží do názvu súboru/zložky pred toto počítadlo.
+Počítadlo je uzavreté medzi <a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_CounterOpeningString">CounterOpeningString</a> a <a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_CounterClosingString">CounterClosingString</a>.
+Štandardne je to ľavá okrúhla zátvorka: <strong>(</strong>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string CounterOpeningString { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_CounterOpeningString_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Pri nastavení hodnoty sú v nej nahradené znaky, ktoré nie sú platné pre názov súboru/zložky
+(<a class="xref" href="Kros.IO.PathHelper.html#Kros_IO_PathHelper_ReplaceInvalidPathChars_System_String_">ReplaceInvalidPathChars(String)</a>).</p>
+</div>
+  <a id="Kros_IO_PathFormatter_Default_" data-uid="Kros.IO.PathFormatter.Default*"></a>
+  <h4 id="Kros_IO_PathFormatter_Default" data-uid="Kros.IO.PathFormatter.Default">Default</h4>
+  <div class="markdown level1 summary"><p>Inštancia pre jednoduchšie priame použitie.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static PathFormatter Default { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.IO.PathFormatter.html">PathFormatter</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_IO_PathFormatter_InfoClosingString_" data-uid="Kros.IO.PathFormatter.InfoClosingString*"></a>
+  <h4 id="Kros_IO_PathFormatter_InfoClosingString" data-uid="Kros.IO.PathFormatter.InfoClosingString">InfoClosingString</h4>
+  <div class="markdown level1 summary"><p>Uzatvárací reťazec pre dodatočnú informáciu, ktorý sa vloží do názvu súboru/zložky za túto informáciu.
+Dodatočná informácia je uzavretá medzi <a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_InfoOpeningString">InfoOpeningString</a> a <a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_InfoClosingString">InfoClosingString</a>.
+Štandardne je to pravá okrúhla zátvorka: <strong>)</strong>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string InfoClosingString { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_InfoClosingString_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Pri nastavení hodnoty sú v nej nahradené znaky, ktoré nie sú platné pre názov súboru/zložky
+(<a class="xref" href="Kros.IO.PathHelper.html#Kros_IO_PathHelper_ReplaceInvalidPathChars_System_String_">ReplaceInvalidPathChars(String)</a>).</p>
+</div>
+  <a id="Kros_IO_PathFormatter_InfoOpeningString_" data-uid="Kros.IO.PathFormatter.InfoOpeningString*"></a>
+  <h4 id="Kros_IO_PathFormatter_InfoOpeningString" data-uid="Kros.IO.PathFormatter.InfoOpeningString">InfoOpeningString</h4>
+  <div class="markdown level1 summary"><p>Otvárací reťazec pre dodatočnú informáciu, ktorý sa vloží do názvu súboru/zložky pred túto informáciu.
+Dodatočná informácia je uzavretá medzi <a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_InfoOpeningString">InfoOpeningString</a> a <a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_InfoClosingString">InfoClosingString</a>.
+Štandardne je to ľavá okrúhla zátvorka: <strong>(</strong>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string InfoOpeningString { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_InfoOpeningString_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Pri nastavení hodnoty sú v nej nahradené znaky, ktoré nie sú platné pre názov súboru/zložky
+(<a class="xref" href="Kros.IO.PathHelper.html#Kros_IO_PathHelper_ReplaceInvalidPathChars_System_String_">ReplaceInvalidPathChars(String)</a>).</p>
+</div>
+  <a id="Kros_IO_PathFormatter_MaxPathLength_" data-uid="Kros.IO.PathFormatter.MaxPathLength*"></a>
+  <h4 id="Kros_IO_PathFormatter_MaxPathLength" data-uid="Kros.IO.PathFormatter.MaxPathLength">MaxPathLength</h4>
+  <div class="markdown level1 summary"><p>Maximálna dĺžka cesty. Je určená na interné použitie.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected int MaxPathLength { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Kros_IO_PathFormatter_FileExists_" data-uid="Kros.IO.PathFormatter.FileExists*"></a>
+  <h4 id="Kros_IO_PathFormatter_FileExists_System_String_" data-uid="Kros.IO.PathFormatter.FileExists(System.String)">FileExists(String)</h4>
+  <div class="markdown level1 summary"><p>Vráti, či existuje zadaný súbor. Metóda je určená na interné použitie.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool FileExists(string filePath)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">filePath</span></td>
+        <td><p>Cesta k súboru.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><span class="xref">true</span>, ak súbor existuje, <span class="xref">false</span> ak neexistuje.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_IO_PathFormatter_FolderExists_" data-uid="Kros.IO.PathFormatter.FolderExists*"></a>
+  <h4 id="Kros_IO_PathFormatter_FolderExists_System_String_" data-uid="Kros.IO.PathFormatter.FolderExists(System.String)">FolderExists(String)</h4>
+  <div class="markdown level1 summary"><p>Vráti, či existuje zadaná zložka. Metóda je určená na interné použitie.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool FolderExists(string folderPath)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">folderPath</span></td>
+        <td><p>Cesta k zložke.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><span class="xref">true</span>, ak zložka existuje, <span class="xref">false</span> ak neexistuje.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_IO_PathFormatter_FormatDateForPath_" data-uid="Kros.IO.PathFormatter.FormatDateForPath*"></a>
+  <h4 id="Kros_IO_PathFormatter_FormatDateForPath_System_DateTime_" data-uid="Kros.IO.PathFormatter.FormatDateForPath(System.DateTime)">FormatDateForPath(DateTime)</h4>
+  <div class="markdown level1 summary"><p>Naformátuje dátum do podoby, ako bude použitý v názve súboru/zložky.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual string FormatDateForPath(DateTime value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.DateTime</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>Formátovaný dátum.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_FormatDateForPath_System_DateTime__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Minimálna (<span class="xref">System.DateTime.MinValue</span>) a maximálna (<span class="xref">System.DateTime.MaxValue</span>) hodnota dátumu
+sa neformátuje a je vrátený prázdny reťazec.</p>
+</div>
+  <a id="Kros_IO_PathFormatter_FormatNewPath_" data-uid="Kros.IO.PathFormatter.FormatNewPath*"></a>
+  <h4 id="Kros_IO_PathFormatter_FormatNewPath_System_String_System_String_" data-uid="Kros.IO.PathFormatter.FormatNewPath(System.String,System.String)">FormatNewPath(String, String)</h4>
+  <div class="markdown level1 summary"><p>Spojí zadanú zložku <code data-dev-comment-type="paramref" class="paramref">folder</code> a názov súboru <code data-dev-comment-type="paramref" class="paramref">fileName</code>
+do cieľovej cesty. Vrátená je cesta k takému súboru, ktorý ešte na disku neexistuje.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string FormatNewPath(string folder, string fileName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">folder</span></td>
+        <td><p>Zložka.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fileName</span></td>
+        <td><p>Názov súboru.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_FormatNewPath_System_String_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>V prípade existencie súboru je k názvu pridané také číslo (<strong>(1)...</strong>),
+aby zadaný súbor neexistoval. Ak je výsledná cesta príliš dlhá, názov súboru je skrátený aby cesta bola platná.
+Skráti sa pôvodný názov súboru, v prípade, že bolo k názvu dodané číslo, toto je zachované.</p>
+</div>
+  <a id="Kros_IO_PathFormatter_FormatNewPath_" data-uid="Kros.IO.PathFormatter.FormatNewPath*"></a>
+  <h4 id="Kros_IO_PathFormatter_FormatNewPath_System_String_System_String_System_String_" data-uid="Kros.IO.PathFormatter.FormatNewPath(System.String,System.String,System.String)">FormatNewPath(String, String, String)</h4>
+  <div class="markdown level1 summary"><p>Spojí zadanú zložku <code data-dev-comment-type="paramref" class="paramref">folder</code> a názov súboru <code data-dev-comment-type="paramref" class="paramref">fileName</code> do cieľovej cesty,
+pričom k názvu súboru pridá zadanú informáciu <code data-dev-comment-type="paramref" class="paramref">info</code>. Vrátená je cesta k takému súboru,
+ktorý ešte na disku neexistuje.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string FormatNewPath(string folder, string fileName, string info)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">folder</span></td>
+        <td><p>Zložka.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fileName</span></td>
+        <td><p>Názov súboru.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">info</span></td>
+        <td><p>Informácia, ktorá je pridaná k názvu súboru.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_FormatNewPath_System_String_System_String_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Informácia <code data-dev-comment-type="paramref" class="paramref">info</code> je pridaná k názvu súboru do zátvoriek.
+Teda ak <code data-dev-comment-type="paramref" class="paramref">fileName</code> je <code>exported.xml</code> a <code data-dev-comment-type="paramref" class="paramref">info</code> je <code>Lorem Ipsum</code>,
+výsledný názov súboru bude <code>exported (Lorem Ipsum).xml</code>. V prípade existencie súboru je k názvu pridané
+také číslo (<strong>(1)...</strong>), aby zadaný súbor neexistoval. Ak je výsledná cesta príliš dlhá, názov súboru
+je skrátený tak, aby bola platná. Pričom je skrátený pôvodný názov súboru, teda dodatočná informácia
+<code data-dev-comment-type="paramref" class="paramref">info</code> a prípadné pridané číslo ostanú zachované.</p>
+</div>
+  <a id="Kros_IO_PathFormatter_FormatPath_" data-uid="Kros.IO.PathFormatter.FormatPath*"></a>
+  <h4 id="Kros_IO_PathFormatter_FormatPath_System_String_System_String_" data-uid="Kros.IO.PathFormatter.FormatPath(System.String,System.String)">FormatPath(String, String)</h4>
+  <div class="markdown level1 summary"><p>Spojí zadanú zložku <code data-dev-comment-type="paramref" class="paramref">folder</code> a názov súboru <code data-dev-comment-type="paramref" class="paramref">fileName</code> do cieľovej cesty.
+Nekontroluje, či taký súbor existuje.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string FormatPath(string folder, string fileName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">folder</span></td>
+        <td><p>Zložka.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fileName</span></td>
+        <td><p>Názov súboru.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_FormatPath_System_String_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Ak je výsledná cesta príliš dlhá, názov súboru je skrátený tak, aby bola platná.</p>
+</div>
+  <a id="Kros_IO_PathFormatter_FormatPath_" data-uid="Kros.IO.PathFormatter.FormatPath*"></a>
+  <h4 id="Kros_IO_PathFormatter_FormatPath_System_String_System_String_System_String_" data-uid="Kros.IO.PathFormatter.FormatPath(System.String,System.String,System.String)">FormatPath(String, String, String)</h4>
+  <div class="markdown level1 summary"><p>Spojí zadanú zložku <code data-dev-comment-type="paramref" class="paramref">folder</code> a názov súboru <code data-dev-comment-type="paramref" class="paramref">fileName</code> do cieľovej cesty,
+pričom k názvu súboru pridá zadanú informáciu <code data-dev-comment-type="paramref" class="paramref">info</code>. Nekontroluje, či taký súbor existuje.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string FormatPath(string folder, string fileName, string info)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">folder</span></td>
+        <td><p>Zložka.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fileName</span></td>
+        <td><p>Názov súboru.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">info</span></td>
+        <td><p>Informácia, ktorá je pridaná k názvu súboru.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_FormatPath_System_String_System_String_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Informácia <code data-dev-comment-type="paramref" class="paramref">info</code> je pridaná k názvu súboru do zátvoriek.
+Teda ak <code data-dev-comment-type="paramref" class="paramref">fileName</code> je <code>exported.xml</code> a <code data-dev-comment-type="paramref" class="paramref">info</code> je <code>Lorem Ipsum</code>,
+výsledný názov súboru bude <code>exported (Lorem Ipsum).xml</code>. Ak je výsledná cesta príliš dlhá, názov súboru
+je skrátený tak, aby bola platná. Pričom je skrátený pôvodný názov súboru, teda dodatočná informácia
+<code data-dev-comment-type="paramref" class="paramref">info</code> ostane zachovaná.</p>
+</div>
+  <a id="Kros_IO_PathFormatter_FormatPaths_" data-uid="Kros.IO.PathFormatter.FormatPaths*"></a>
+  <h4 id="Kros_IO_PathFormatter_FormatPaths__1_System_String_System_String_System_Collections_Generic_Dictionary___0_System_String__" data-uid="Kros.IO.PathFormatter.FormatPaths``1(System.String,System.String,System.Collections.Generic.Dictionary{``0,System.String})">FormatPaths&lt;TKey&gt;(String, String, Dictionary&lt;TKey, String&gt;)</h4>
+  <div class="markdown level1 summary"><p>Vráti zoznam ciest k súborom. Cesty sú vytvorené na základe zadanej zložky <code data-dev-comment-type="paramref" class="paramref">baseFolder</code>,
+základného mena súboru <code data-dev-comment-type="paramref" class="paramref">baseFileName</code> a informácií pre jednotlivé súbory
+<code data-dev-comment-type="paramref" class="paramref">fileInfos</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;TKey, string&gt; FormatPaths&lt;TKey&gt;(string baseFolder, string baseFileName, Dictionary&lt;TKey, string&gt; fileInfos)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">baseFolder</span></td>
+        <td><p>Základná zložka pre cesty k súborom.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">baseFileName</span></td>
+        <td><p>Základný názov súboru.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;TKey, <span class="xref">System.String</span>&gt;</td>
+        <td><span class="parametername">fileInfos</span></td>
+        <td><p>Informácie, podľa ktorých sa vytvárajú cesty jednotlivým výstupným súborom.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;TKey, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Slovník s rovnakými kľúčmi ako sú v <code data-dev-comment-type="paramref" class="paramref">fileInfos</code>, kde pre každý kľúč je vytvorená
+cesta k výstupnému súboru.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TKey</span></td>
+        <td><p>Typ kľúča vo vstupnom slovníku <code data-dev-comment-type="paramref" class="paramref">fileInfos</code>. Rovnaké kľúče sú
+vo vrátenom zozname ciest k súborom.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_FormatPaths__1_System_String_System_String_System_Collections_Generic_Dictionary___0_System_String___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Vo výstupnom slovníku je vytvorená cesta pre každú hodnodu z vstupného <code data-dev-comment-type="paramref" class="paramref">fileInfos</code>,
+pričom kľúče sú rovnaké.</p>
+<p>Zložka v ktorej budú súbory má základ <code data-dev-comment-type="paramref" class="paramref">baseFolder</code>.</p>
+<p>Názvy súborov sú vytvorené spôsobom ako to robí metóda <a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_FormatPath_System_String_System_String_">FormatPath(String, String)</a>
+s parametrom <code>info</code>, teda k základnému názvu <code data-dev-comment-type="paramref" class="paramref">baseFileName</code> je pridaná informácia
+zo zoznamu <code data-dev-comment-type="paramref" class="paramref">fileInfos</code>.</p>
+<p>Výsledná cesty sú skrátené tak, aby nepresiahli maximálnu dĺžky cesty pre súborový systém.
+Ak je nejaká cesta príliš dlhá, sú všetky skrátené rovnakým spôsobom tak, aby najdlahšia z nich bola platná.
+Skrátený je základný názov súboru o príslušný počet znakov. Preto v tomto prípade je skrátený aj názov
+podzložky aj základný názov pre súbory v nej. Dodatočné informácie pre jednotlivé súbory
+<code data-dev-comment-type="paramref" class="paramref">fileInfos</code> nie sú orezávané.</p>
+</div>
+  <h5 id="Kros_IO_PathFormatter_FormatPaths__1_System_String_System_String_System_Collections_Generic_Dictionary___0_System_String___examples">Examples</h5>
+  <p><p>Ak napríklad <code data-dev-comment-type="paramref" class="paramref">baseFolder</code> je <code>C:\lorem\ipsum</code>, <code data-dev-comment-type="paramref" class="paramref">baseFileName</code>
+je <code>filename.xml</code> a hodnoty v <code data-dev-comment-type="paramref" class="paramref">fileInfos</code> sú:</p>
+<table><thead><tr><th>kľúč</th><th>informácia k súboru</th></tr></thead><tbody><tr><td>1</td><td>some info 1</td></tr><tr><td>2</td><td>some info 2</td></tr><tr><td>3</td><td>some info 3</td></tr></tbody></table>
+<p>Výsledný zoznam vytvorených ciest bude:</p>
+<table><thead><tr><th>kľúč</th><th>cesta</th></tr></thead><tbody><tr><td>1</td><td>C:\lorem\ipsum\filename (some info 1).xml</td></tr><tr><td>2</td><td>C:\lorem\ipsum\filename (some info 2).xml</td></tr><tr><td>3</td><td>C:\lorem\ipsum\filename (some info 3).xml</td></tr></tbody></table></p>
+
+  <a id="Kros_IO_PathFormatter_FormatPathsInSubfolder_" data-uid="Kros.IO.PathFormatter.FormatPathsInSubfolder*"></a>
+  <h4 id="Kros_IO_PathFormatter_FormatPathsInSubfolder__1_System_String_System_String_System_Collections_Generic_Dictionary___0_System_String__" data-uid="Kros.IO.PathFormatter.FormatPathsInSubfolder``1(System.String,System.String,System.Collections.Generic.Dictionary{``0,System.String})">FormatPathsInSubfolder&lt;TKey&gt;(String, String, Dictionary&lt;TKey, String&gt;)</h4>
+  <div class="markdown level1 summary"><p>Vráti zoznam ciest k súborom. Cesty sú vytvorené na základe zadanej zložky <code data-dev-comment-type="paramref" class="paramref">baseFolder</code>,
+základného mena súboru <code data-dev-comment-type="paramref" class="paramref">baseFileName</code> a informácií pre jednotlivé súbory
+<code data-dev-comment-type="paramref" class="paramref">fileInfos</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;TKey, string&gt; FormatPathsInSubfolder&lt;TKey&gt;(string baseFolder, string baseFileName, Dictionary&lt;TKey, string&gt; fileInfos)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">baseFolder</span></td>
+        <td><p>Základná zložka pre cesty k súborom. K nej sa pridá pod zložka s rovnakým názovm,
+ako je základné meno súboru <code data-dev-comment-type="paramref" class="paramref">baseFileName</code>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">baseFileName</span></td>
+        <td><p>Základný názov súboru. Podľa neho sa vytvorí vo výslednej ceste podzložka
+a zároveň je to základ pre názvy výstupných súborov.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;TKey, <span class="xref">System.String</span>&gt;</td>
+        <td><span class="parametername">fileInfos</span></td>
+        <td><p>Informácie, podľa ktorých sa vytvárajú cesty jednotlivým výstupným súborom.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;TKey, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Slovník s rovnakými kľúčmi ako sú v <code data-dev-comment-type="paramref" class="paramref">fileInfos</code>, kde pre každý kľúč je vytvorená
+cesta k výstupnému súboru.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TKey</span></td>
+        <td><p>Typ kľúča vo vstupnom slovníku <code data-dev-comment-type="paramref" class="paramref">fileInfos</code>. Rovnaké kľúče sú
+vo vrátenom zozname ciest k súborom.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_FormatPathsInSubfolder__1_System_String_System_String_System_Collections_Generic_Dictionary___0_System_String___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Vo výstupnom slovníku je vytvorená cesta pre každú hodnodu z vstupného <code data-dev-comment-type="paramref" class="paramref">fileInfos</code>,
+pričom kľúče sú rovnaké.</p>
+<p>Zložka v ktorej budú súbory má základ <code data-dev-comment-type="paramref" class="paramref">baseFolder</code>, ku ktorému je pridaná podzložka
+vytvorená z názvu súboru <code data-dev-comment-type="paramref" class="paramref">baseFileName</code>. Vždy sa vytvorí taká cesta, ktorá ešte neexistuje
+na disku. Ak zadaná zložka už existuje, je k nej ešte pridané číslo (<strong>(1)</strong>...).</p>
+<p>Názvy súborov sú vytvorené spôsobom ako to robí metóda <a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_FormatPath_System_String_System_String_">FormatPath(String, String)</a>
+s parametrom <code>info</code>, teda k základnému názvu <code data-dev-comment-type="paramref" class="paramref">baseFileName</code> je pridaná informácia
+zo zoznamu <code data-dev-comment-type="paramref" class="paramref">fileInfos</code>.</p>
+<p>Výsledná cesty sú skrátené tak, aby nepresiahli maximálnu dĺžky cesty pre súborový systém.
+Ak je nejaká cesta príliš dlhá, sú všetky skrátené rovnakým spôsobom tak, aby najdlahšia z nich bola platná.
+Skrátený je základný názov súboru o príslušný počet znakov. Preto v tomto prípade je skrátený aj názov
+podzložky aj základný názov pre súbory v nej. Dodatočné informácie pre jednotlivé súbory
+<code data-dev-comment-type="paramref" class="paramref">fileInfos</code> nie sú orezávané.</p>
+</div>
+  <h5 id="Kros_IO_PathFormatter_FormatPathsInSubfolder__1_System_String_System_String_System_Collections_Generic_Dictionary___0_System_String___examples">Examples</h5>
+  <p><p>Ak napríklad <code data-dev-comment-type="paramref" class="paramref">baseFolder</code> je <code>C:\lorem\ipsum</code>, <code data-dev-comment-type="paramref" class="paramref">baseFileName</code>
+je <code>filename.xml</code> a hodnoty v <code data-dev-comment-type="paramref" class="paramref">fileInfos</code> sú:</p>
+<table><thead><tr><th>kľúč</th><th>informácia k súboru</th></tr></thead><tbody><tr><td>1</td><td>some info 1</td></tr><tr><td>2</td><td>some info 2</td></tr><tr><td>3</td><td>some info 3</td></tr></tbody></table>
+<p>Výsledný zoznam vytvorených ciest bude:</p>
+<table><thead><tr><th>kľúč</th><th>cesta</th></tr></thead><tbody><tr><td>1</td><td>C:\lorem\ipsum\filename\filename (some info 1).xml</td></tr><tr><td>2</td><td>C:\lorem\ipsum\filename\filename (some info 2).xml</td></tr><tr><td>3</td><td>C:\lorem\ipsum\filename\filename (some info 3).xml</td></tr></tbody></table></p>
+
+  <a id="Kros_IO_PathFormatter_FormatPathsInSubfolder_" data-uid="Kros.IO.PathFormatter.FormatPathsInSubfolder*"></a>
+  <h4 id="Kros_IO_PathFormatter_FormatPathsInSubfolder__1_System_String_System_String_System_String_System_Collections_Generic_Dictionary___0_System_String__" data-uid="Kros.IO.PathFormatter.FormatPathsInSubfolder``1(System.String,System.String,System.String,System.Collections.Generic.Dictionary{``0,System.String})">FormatPathsInSubfolder&lt;TKey&gt;(String, String, String, Dictionary&lt;TKey, String&gt;)</h4>
+  <div class="markdown level1 summary"><p>Vráti zoznam ciest k súborom. Cesty sú vytvorené na základe zadanej zložky <code data-dev-comment-type="paramref" class="paramref">baseFolder</code>,
+základného mena súboru <code data-dev-comment-type="paramref" class="paramref">baseFileName</code> a informácií pre jednotlivé súbory
+<code data-dev-comment-type="paramref" class="paramref">fileInfos</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;TKey, string&gt; FormatPathsInSubfolder&lt;TKey&gt;(string baseFolder, string baseFileName, string subfolderInfo, Dictionary&lt;TKey, string&gt; fileInfos)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">baseFolder</span></td>
+        <td><p>Základná zložka pre cesty k súborom. K nej sa pridá pod zložka s rovnakým názovm,
+ako je základné meno súboru <code data-dev-comment-type="paramref" class="paramref">baseFileName</code>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">baseFileName</span></td>
+        <td><p>Základný názov súboru. Podľa neho sa vytvorí vo výslednej ceste podzložka
+a zároveň je to základ pre názvy výstupných súborov.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">subfolderInfo</span></td>
+        <td><p>Informácia, pridaná k názvu podzložky,</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;TKey, <span class="xref">System.String</span>&gt;</td>
+        <td><span class="parametername">fileInfos</span></td>
+        <td><p>Informácie, podľa ktorých sa vytvárajú cesty jednotlivým výstupným súborom.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;TKey, <span class="xref">System.String</span>&gt;</td>
+        <td><p>Slovník s rovnakými kľúčmi ako sú v <code data-dev-comment-type="paramref" class="paramref">fileInfos</code>, kde pre každý kľúč je vytvorená
+cesta k výstupnému súboru.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TKey</span></td>
+        <td><p>Typ kľúča vo vstupnom slovníku <code data-dev-comment-type="paramref" class="paramref">fileInfos</code>. Rovnaké kľúče sú
+vo vrátenom zozname ciest k súborom.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_FormatPathsInSubfolder__1_System_String_System_String_System_String_System_Collections_Generic_Dictionary___0_System_String___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Vo výstupnom slovníku je vytvorená cesta pre každú hodnodu z vstupného <code data-dev-comment-type="paramref" class="paramref">fileInfos</code>,
+pričom kľúče sú rovnaké.</p>
+<p>Zložka v ktorej budú súbory má základ <code data-dev-comment-type="paramref" class="paramref">baseFolder</code>, ku ktorému je pridaná podzložka
+vytvorená z názvu súboru <code data-dev-comment-type="paramref" class="paramref">baseFileName</code> ku ktorému je pridaná informácia
+<code data-dev-comment-type="paramref" class="paramref">subfolderInfo</code>. Vždy sa vytvorí taká cesta, ktorá ešte neexistuje
+na disku. Ak zadaná zložka už existuje, je k nej ešte pridané číslo (<strong>(1)</strong>...).</p>
+<p>Názvy súborov sú vytvorené spôsobom ako to robí metóda <a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_FormatPath_System_String_System_String_">FormatPath(String, String)</a>
+s parametrom <code>info</code>, teda k základnému názvu <code data-dev-comment-type="paramref" class="paramref">baseFileName</code> je pridaná informácia
+zo zoznamu <code data-dev-comment-type="paramref" class="paramref">fileInfos</code>.</p>
+<p>Výsledná cesty sú skrátené tak, aby nepresiahli maximálnu dĺžky cesty pre súborový systém.
+Ak je nejaká cesta príliš dlhá, sú všetky skrátené rovnakým spôsobom tak, aby najdlahšia z nich bola platná.
+Skrátený je základný názov súboru o príslušný počet znakov. Preto v tomto prípade je skrátený aj názov
+podzložky aj základný názov pre súbory v nej. Dodatočné informácie pre zložku <code data-dev-comment-type="paramref" class="paramref">subfolderInfo</code>
+a pre jednotlivé súbory <code data-dev-comment-type="paramref" class="paramref">fileInfos</code> nie sú orezávané.</p>
+</div>
+  <h5 id="Kros_IO_PathFormatter_FormatPathsInSubfolder__1_System_String_System_String_System_String_System_Collections_Generic_Dictionary___0_System_String___examples">Examples</h5>
+  <p><p>Ak napríklad <code data-dev-comment-type="paramref" class="paramref">baseFolder</code> je <code>C:\lorem\ipsum</code>, <code data-dev-comment-type="paramref" class="paramref">baseFileName</code>
+je <code>filename.xml</code> a hodnoty v <code data-dev-comment-type="paramref" class="paramref">fileInfos</code> sú:</p>
+<table><thead><tr><th>kľúč</th><th>informácia k súboru</th></tr></thead><tbody><tr><td>1</td><td>some info 1</td></tr><tr><td>2</td><td>some info 2</td></tr><tr><td>3</td><td>some info 3</td></tr></tbody></table>
+<p>Výsledný zoznam vytvorených ciest bude:</p>
+<table><thead><tr><th>kľúč</th><th>cesta</th></tr></thead><tbody><tr><td>1</td><td>C:\lorem\ipsum\filename\filename (some info 1).xml</td></tr><tr><td>2</td><td>C:\lorem\ipsum\filename\filename (some info 2).xml</td></tr><tr><td>3</td><td>C:\lorem\ipsum\filename\filename (some info 3).xml</td></tr></tbody></table></p>
+
+  <a id="Kros_IO_PathFormatter_FormatSeasonForPath_" data-uid="Kros.IO.PathFormatter.FormatSeasonForPath*"></a>
+  <h4 id="Kros_IO_PathFormatter_FormatSeasonForPath_System_DateTime_System_DateTime_" data-uid="Kros.IO.PathFormatter.FormatSeasonForPath(System.DateTime,System.DateTime)">FormatSeasonForPath(DateTime, DateTime)</h4>
+  <div class="markdown level1 summary"><p>Naformátuje obdobie <code data-dev-comment-type="paramref" class="paramref">from</code> - <code data-dev-comment-type="paramref" class="paramref">to</code> do podoby, ako bude použité
+v názve súboru/zložky.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual string FormatSeasonForPath(DateTime from, DateTime to)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.DateTime</span></td>
+        <td><span class="parametername">from</span></td>
+        <td><p>Začiatok obdobia.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.DateTime</span></td>
+        <td><span class="parametername">to</span></td>
+        <td><p>Koniec obdobia.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_IO_PathFormatter_FormatSeasonForPath_System_DateTime_System_DateTime__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Ak hodnota niektorého parametra je minimálny alebo maximálny dátum, parameter sa nepoužije.
+Na samotné formátovanie dátumu sa použije metóda <a class="xref" href="Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_FormatDateForPath_System_DateTime_">FormatDateForPath(DateTime)</a>.</p>
+</div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            KROS a.s.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>
