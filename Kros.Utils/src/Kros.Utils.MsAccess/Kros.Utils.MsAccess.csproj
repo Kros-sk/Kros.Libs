@@ -51,6 +51,7 @@
     <Compile Include="Data\BulkActions\MsAccess\MsAccessBulkInsert.cs" />
     <Compile Include="Data\BulkActions\MsAccess\MsAccessBulkInsertColumn.cs" />
     <Compile Include="Data\BulkActions\MsAccess\MsAccessBulkInsertColumnCollection.cs" />
+    <Compile Include="Data\BulkActions\MsAccess\MsAccessBulkActionFactory.cs" />
     <Compile Include="Data\BulkActions\MsAccess\MsAccessBulkUpdate.cs" />
     <Compile Include="Data\Extensions.cs" />
     <Compile Include="Data\MsAccessDataHelper.cs" />
