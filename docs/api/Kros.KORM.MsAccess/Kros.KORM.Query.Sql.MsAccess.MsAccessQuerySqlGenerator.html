@@ -1,0 +1,610 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class MsAccessQuerySqlGenerator
+   | Kros.Libs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class MsAccessQuerySqlGenerator
+   | Kros.Libs ">
+    <meta name="generator" content="docfx 2.34.0.0">
+    
+    <link rel="shortcut icon" href="../../images/Kros.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../images/Kros.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items"></div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator">
+  
+  
+  <h1 id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator" class="text-break">Class MsAccessQuerySqlGenerator
+  </h1>
+  <div class="markdown level0 summary"><p>Generator sql query for MS Access.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">System.Linq.Expressions.ExpressionVisitor</span></div>
+    <div class="level2"><a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html">DefaultQuerySqlGenerator</a></div>
+    <div class="level3"><span class="xref">MsAccessQuerySqlGenerator</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.ISqlExpressionVisitor.html">ISqlExpressionVisitor</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_DatabaseMapper">DefaultQuerySqlGenerator.DatabaseMapper</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_GenerateSql_System_Linq_Expressions_Expression_">DefaultQuerySqlGenerator.GenerateSql(Expression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitSql_Kros_KORM_Query_Expressions_SqlExpression_">DefaultQuerySqlGenerator.VisitSql(SqlExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitSelect_Kros_KORM_Query_Expressions_SelectExpression_">DefaultQuerySqlGenerator.VisitSelect(SelectExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitColumns_Kros_KORM_Query_Expressions_ColumnsExpression_">DefaultQuerySqlGenerator.VisitColumns(ColumnsExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitTable_Kros_KORM_Query_Expressions_TableExpression_">DefaultQuerySqlGenerator.VisitTable(TableExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitWhere_Kros_KORM_Query_Expressions_WhereExpression_">DefaultQuerySqlGenerator.VisitWhere(WhereExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitGroupBy_Kros_KORM_Query_Expressions_GroupByExpression_">DefaultQuerySqlGenerator.VisitGroupBy(GroupByExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitOrderBy_Kros_KORM_Query_Expressions_OrderByExpression_">DefaultQuerySqlGenerator.VisitOrderBy(OrderByExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_SelectExpression">DefaultQuerySqlGenerator.SelectExpression</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_LinqStringBuilder">DefaultQuerySqlGenerator.LinqStringBuilder</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_LinqParameters">DefaultQuerySqlGenerator.LinqParameters</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_Visit_System_Linq_Expressions_Expression_">DefaultQuerySqlGenerator.Visit(Expression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitMethodCall_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.VisitMethodCall(MethodCallExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitVbOperatorsMethods_System_Linq_Expressions_MethodCallExpression_System_Linq_Expressions_ExpressionType_">DefaultQuerySqlGenerator.VisitVbOperatorsMethods(MethodCallExpression, ExpressionType)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitCompare_System_Linq_Expressions_MethodCallExpression_System_Linq_Expressions_ExpressionType_">DefaultQuerySqlGenerator.VisitCompare(MethodCallExpression, ExpressionType)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitLinqExpression_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.VisitLinqExpression(MethodCallExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitAny_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.VisitAny(MethodCallExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitTake_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.VisitTake(MethodCallExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitAggregate_System_Linq_Expressions_MethodCallExpression_System_String_">DefaultQuerySqlGenerator.VisitAggregate(MethodCallExpression, String)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitCount_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.VisitCount(MethodCallExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitWhere_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.VisitWhere(MethodCallExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitFirst_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.VisitFirst(MethodCallExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitUnary_System_Linq_Expressions_UnaryExpression_">DefaultQuerySqlGenerator.VisitUnary(UnaryExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitBinary_System_Linq_Expressions_BinaryExpression_">DefaultQuerySqlGenerator.VisitBinary(BinaryExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_GetOperator_System_Linq_Expressions_BinaryExpression_">DefaultQuerySqlGenerator.GetOperator(BinaryExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitConstant_System_Linq_Expressions_ConstantExpression_">DefaultQuerySqlGenerator.VisitConstant(ConstantExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitMember_System_Linq_Expressions_MemberExpression_">DefaultQuerySqlGenerator.VisitMember(MemberExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_VisitStringMethods_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.VisitStringMethods(MethodCallExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_BindReplace_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.BindReplace(MethodCallExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_BindIsNullOrEmpty_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.BindIsNullOrEmpty(MethodCallExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_BindContains_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.BindContains(MethodCallExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_BindEndWith_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.BindEndWith(MethodCallExpression)</a>
+    </div>
+    <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_BindStartWith_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.BindStartWith(MethodCallExpression)</a>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.Visit(System.Collections.ObjectModel.ReadOnlyCollection&lt;System.Linq.Expressions.Expression&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.Visit&lt;T&gt;(System.Collections.ObjectModel.ReadOnlyCollection&lt;T&gt;, System.Func&lt;T, T&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitAndConvert&lt;T&gt;(T, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitAndConvert&lt;T&gt;(System.Collections.ObjectModel.ReadOnlyCollection&lt;T&gt;, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitBlock(System.Linq.Expressions.BlockExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitConditional(System.Linq.Expressions.ConditionalExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitDebugInfo(System.Linq.Expressions.DebugInfoExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitDynamic(System.Linq.Expressions.DynamicExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitDefault(System.Linq.Expressions.DefaultExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitExtension(System.Linq.Expressions.Expression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitGoto(System.Linq.Expressions.GotoExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitInvocation(System.Linq.Expressions.InvocationExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitLabelTarget(System.Linq.Expressions.LabelTarget)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitLabel(System.Linq.Expressions.LabelExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitLambda&lt;T&gt;(System.Linq.Expressions.Expression&lt;T&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitLoop(System.Linq.Expressions.LoopExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitIndex(System.Linq.Expressions.IndexExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitNewArray(System.Linq.Expressions.NewArrayExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitNew(System.Linq.Expressions.NewExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitParameter(System.Linq.Expressions.ParameterExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitRuntimeVariables(System.Linq.Expressions.RuntimeVariablesExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitSwitchCase(System.Linq.Expressions.SwitchCase)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitSwitch(System.Linq.Expressions.SwitchExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitCatchBlock(System.Linq.Expressions.CatchBlock)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitTry(System.Linq.Expressions.TryExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitTypeBinary(System.Linq.Expressions.TypeBinaryExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitMemberInit(System.Linq.Expressions.MemberInitExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitListInit(System.Linq.Expressions.ListInitExpression)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitElementInit(System.Linq.Expressions.ElementInit)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitMemberBinding(System.Linq.Expressions.MemberBinding)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitMemberAssignment(System.Linq.Expressions.MemberAssignment)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitMemberMemberBinding(System.Linq.Expressions.MemberMemberBinding)</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.Expressions.ExpressionVisitor.VisitMemberListBinding(System.Linq.Expressions.MemberListBinding)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Kros.KORM.Query.Sql.MsAccess.html">Kros.KORM.Query.Sql.MsAccess</a></h6>
+  <h6><strong>Assembly</strong>: Kros.KORM.MsAccess.dll</h6>
+  <h5 id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MsAccessQuerySqlGenerator : DefaultQuerySqlGenerator, ISqlExpressionVisitor</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <a id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator__ctor_" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.#ctor*"></a>
+  <h4 id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator__ctor_Kros_KORM_Metadata_IDatabaseMapper_" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.#ctor(Kros.KORM.Metadata.IDatabaseMapper)">MsAccessQuerySqlGenerator(IDatabaseMapper)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.html">MsAccessQuerySqlGenerator</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MsAccessQuerySqlGenerator(IDatabaseMapper databaseMapper)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="../Kros.KORM/Kros.KORM.Metadata.IDatabaseMapper.html">IDatabaseMapper</a></td>
+        <td><span class="parametername">databaseMapper</span></td>
+        <td><p>Database mapper.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator_BindAnyCondition_" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.BindAnyCondition*"></a>
+  <h4 id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator_BindAnyCondition_System_String_" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.BindAnyCondition(System.String)">BindAnyCondition(String)</h4>
+  <div class="markdown level1 summary"><p>Adds any method to query.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override string BindAnyCondition(string existsCondition)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">existsCondition</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_BindAnyCondition_System_String_">DefaultQuerySqlGenerator.BindAnyCondition(String)</a></div>
+  <a id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator_BindSubstring_" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.BindSubstring*"></a>
+  <h4 id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator_BindSubstring_System_Linq_Expressions_MethodCallExpression_" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.BindSubstring(System.Linq.Expressions.MethodCallExpression)">BindSubstring(MethodCallExpression)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override Expression BindSubstring(MethodCallExpression expression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MethodCallExpression</span></td>
+        <td><span class="parametername">expression</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_BindSubstring_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.BindSubstring(MethodCallExpression)</a></div>
+  <a id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator_BindToLower_" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.BindToLower*"></a>
+  <h4 id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator_BindToLower_System_Linq_Expressions_MethodCallExpression_" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.BindToLower(System.Linq.Expressions.MethodCallExpression)">BindToLower(MethodCallExpression)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override Expression BindToLower(MethodCallExpression expression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MethodCallExpression</span></td>
+        <td><span class="parametername">expression</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_BindToLower_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.BindToLower(MethodCallExpression)</a></div>
+  <a id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator_BindToUpper_" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.BindToUpper*"></a>
+  <h4 id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator_BindToUpper_System_Linq_Expressions_MethodCallExpression_" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.BindToUpper(System.Linq.Expressions.MethodCallExpression)">BindToUpper(MethodCallExpression)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override Expression BindToUpper(MethodCallExpression expression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MethodCallExpression</span></td>
+        <td><span class="parametername">expression</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_BindToUpper_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.BindToUpper(MethodCallExpression)</a></div>
+  <a id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator_BindTrim_" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.BindTrim*"></a>
+  <h4 id="Kros_KORM_Query_Sql_MsAccess_MsAccessQuerySqlGenerator_BindTrim_System_Linq_Expressions_MethodCallExpression_" data-uid="Kros.KORM.Query.Sql.MsAccess.MsAccessQuerySqlGenerator.BindTrim(System.Linq.Expressions.MethodCallExpression)">BindTrim(MethodCallExpression)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override Expression BindTrim(MethodCallExpression expression)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MethodCallExpression</span></td>
+        <td><span class="parametername">expression</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html#Kros_KORM_Query_Sql_DefaultQuerySqlGenerator_BindTrim_System_Linq_Expressions_MethodCallExpression_">DefaultQuerySqlGenerator.BindTrim(MethodCallExpression)</a></div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.ISqlExpressionVisitor.html">ISqlExpressionVisitor</a>
+  </div>
+  <h3 id="seealso">See Also</h3>
+  <div class="seealso">
+      <div><a class="xref" href="../Kros.KORM/Kros.KORM.Query.Sql.DefaultQuerySqlGenerator.html">DefaultQuerySqlGenerator</a></div>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            KROS a.s.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

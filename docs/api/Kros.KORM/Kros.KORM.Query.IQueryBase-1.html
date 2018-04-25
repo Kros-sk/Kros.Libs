@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Interface IQueryBase&lt;T&gt;
+   | Kros.Libs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Interface IQueryBase&lt;T&gt;
+   | Kros.Libs ">
+    <meta name="generator" content="docfx 2.34.0.0">
+    
+    <link rel="shortcut icon" href="../../images/Kros.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../images/Kros.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items"></div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Kros.KORM.Query.IQueryBase`1">
+  
+  
+  <h1 id="Kros_KORM_Query_IQueryBase_1" data-uid="Kros.KORM.Query.IQueryBase`1" class="text-break">Interface IQueryBase&lt;T&gt;
+  </h1>
+  <div class="markdown level0 summary"><p>Interface, which describe class for executing query.
+<p>
+Instance which implement this interface can be used for creating and executing query for T model.
+</p></p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;.GetEnumerator()</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.IQueryable.Expression</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.IQueryable.ElementType</span>
+    </div>
+    <div>
+      <span class="xref">System.Linq.IQueryable.Provider</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Kros.KORM.Query.html">Kros.KORM.Query</a></h6>
+  <h6><strong>Assembly</strong>: Kros.KORM.dll</h6>
+  <h5 id="Kros_KORM_Query_IQueryBase_1_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface IQueryBase&lt;T&gt; : IOrderedQueryable&lt;T&gt;, IQueryable&lt;T&gt;, IEnumerable&lt;T&gt;, IOrderedQueryable, IQueryable, IEnumerable</code></pre>
+  </div>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>Type of model class.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Kros_KORM_Query_IQueryBase_1_AsDbSet_" data-uid="Kros.KORM.Query.IQueryBase`1.AsDbSet*"></a>
+  <h4 id="Kros_KORM_Query_IQueryBase_1_AsDbSet" data-uid="Kros.KORM.Query.IQueryBase`1.AsDbSet">AsDbSet()</h4>
+  <div class="markdown level1 summary"><p>Returns the collection of all entities that can be queried from the database.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IDbSet&lt;T&gt; AsDbSet()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.KORM.Query.IDbSet-1.html">IDbSet</a>&lt;T&gt;</td>
+        <td><p><a class="xref" href="Kros.KORM.Query.DbSet-1.html">DbSet&lt;T&gt;</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_KORM_Query_IQueryBase_1_ExecuteScalar_" data-uid="Kros.KORM.Query.IQueryBase`1.ExecuteScalar*"></a>
+  <h4 id="Kros_KORM_Query_IQueryBase_1_ExecuteScalar" data-uid="Kros.KORM.Query.IQueryBase`1.ExecuteScalar">ExecuteScalar()</h4>
+  <div class="markdown level1 summary"><p>Executes the query, and returns the first column of the first row in the result set returned by the query.
+Additional columns or rows are ignored.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">object ExecuteScalar()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><p>The first column of the first row in the result set, or <span class="xref">null</span> if the result set is empty.
+Returns a maximum of 2033 characters.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_KORM_Query_IQueryBase_1_ExecuteScalar_examples">Examples</h5>
+  <pre><code source="..\Examples\Kros.KORM.Examples\IQueryExample.cs" region="ExecuteScalar"></code></pre>
+
+  <a id="Kros_KORM_Query_IQueryBase_1_ExecuteScalar_" data-uid="Kros.KORM.Query.IQueryBase`1.ExecuteScalar*"></a>
+  <h4 id="Kros_KORM_Query_IQueryBase_1_ExecuteScalar__1" data-uid="Kros.KORM.Query.IQueryBase`1.ExecuteScalar``1">ExecuteScalar&lt;TRet&gt;()</h4>
+  <div class="markdown level1 summary"><p>Executes the query, and returns the first column of the first row in the result set returned by the query. Additional columns or rows are ignored.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">TRet? ExecuteScalar&lt;TRet&gt;()
+
+    where TRet : struct</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;TRet&gt;</td>
+        <td><p>The first column of the first row in the result set as nullable type of TRet. If the result set is empty, then HasValue is false.
+Returns a maximum of 2033 characters.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TRet</span></td>
+        <td><p>Return type.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_KORM_Query_IQueryBase_1_ExecuteScalar__1_examples">Examples</h5>
+  <pre><code source="..\Examples\Kros.KORM.Examples\IQueryExample.cs" region="ExecuteScalar"></code></pre>
+
+  <a id="Kros_KORM_Query_IQueryBase_1_ExecuteStringScalar_" data-uid="Kros.KORM.Query.IQueryBase`1.ExecuteStringScalar*"></a>
+  <h4 id="Kros_KORM_Query_IQueryBase_1_ExecuteStringScalar" data-uid="Kros.KORM.Query.IQueryBase`1.ExecuteStringScalar">ExecuteStringScalar()</h4>
+  <div class="markdown level1 summary"><p>Executes the query, and returns the first column of the first row in the result set returned by the query.
+Additional columns or rows are ignored.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">string ExecuteStringScalar()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>The first column of the first row in the result set as string, or <span class="xref">null</span> if the result set is empty.
+Returns a maximum of 2033 characters.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_KORM_Query_IQueryBase_1_ExecuteStringScalar_examples">Examples</h5>
+  <pre><code source="..\Examples\Kros.KORM.Examples\IQueryExample.cs" region="ExecuteScalar"></code></pre>
+
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            KROS a.s.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>
