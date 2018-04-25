@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class SqlServerBulkUpdate
    | Kros.Libs ">
-    <meta name="generator" content="docfx 2.34.0.0">
+    <meta name="generator" content="docfx 2.35.0.0">
     
     <link rel="shortcut icon" href="../../images/Kros.ico">
     <link rel="stylesheet" href="../../styles/docfx.vendor.css">
@@ -22,7 +22,7 @@
     <meta property="docfx:rel" content="../../">
     
   </head>
-  <body data-spy="scroll" data-target="#affix">
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
         
@@ -62,7 +62,9 @@
         
         <div id="search-results">
           <div class="search-list"></div>
-          <div class="sr-items"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
           <ul id="pagination"></ul>
         </div>
       </div>
@@ -272,7 +274,8 @@ Ak je na spojení spustená transakcia, musí byť zadaná v parametri <code dat
   </h3>
   <a id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_CreateBulkInsert_" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.CreateBulkInsert*"></a>
   <h4 id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_CreateBulkInsert" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.CreateBulkInsert">CreateBulkInsert()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Vytvorí bulk insert.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -289,7 +292,8 @@ Ak je na spojení spustená transakcia, musí byť zadaná v parametri <code dat
     <tbody>
       <tr>
         <td><a class="xref" href="Kros.Data.BulkActions.IBulkInsert.html">IBulkInsert</a></td>
-        <td></td>
+        <td><p>Bulk insert.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -297,7 +301,8 @@ Ak je na spojení spustená transakcia, musí byť zadaná v parametri <code dat
   <div><a class="xref" href="Kros.Data.BulkActions.BulkUpdateBase.html#Kros_Data_BulkActions_BulkUpdateBase_CreateBulkInsert">BulkUpdateBase.CreateBulkInsert()</a></div>
   <a id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_CreateCommandForPrimaryKey_" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.CreateCommandForPrimaryKey*"></a>
   <h4 id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_CreateCommandForPrimaryKey" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.CreateCommandForPrimaryKey">CreateCommandForPrimaryKey()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Vráti command pre vytvorenie primárneho kľúča.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -322,7 +327,8 @@ Ak je na spojení spustená transakcia, musí byť zadaná v parametri <code dat
   <div><a class="xref" href="Kros.Data.BulkActions.BulkUpdateBase.html#Kros_Data_BulkActions_BulkUpdateBase_CreateCommandForPrimaryKey">BulkUpdateBase.CreateCommandForPrimaryKey()</a></div>
   <a id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_CreateTempTable_" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.CreateTempTable*"></a>
   <h4 id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_CreateTempTable_System_Data_IDataReader_System_String_" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.CreateTempTable(System.Data.IDataReader,System.String)">CreateTempTable(IDataReader, String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Vytvorí tempovú tabuľku podľa <code data-dev-comment-type="paramref" class="paramref">reader</code>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -341,12 +347,14 @@ Ak je na spojení spustená transakcia, musí byť zadaná v parametri <code dat
       <tr>
         <td><span class="xref">System.Data.IDataReader</span></td>
         <td><span class="parametername">reader</span></td>
-        <td></td>
+        <td><p>Reader pre sprístupnenie dát.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">tempTableName</span></td>
-        <td></td>
+        <td><p>Názov tempovej tabuľky.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -354,7 +362,8 @@ Ak je na spojení spustená transakcia, musí byť zadaná v parametri <code dat
   <div><a class="xref" href="Kros.Data.BulkActions.BulkUpdateBase.html#Kros_Data_BulkActions_BulkUpdateBase_CreateTempTable_System_Data_IDataReader_System_String_">BulkUpdateBase.CreateTempTable(IDataReader, String)</a></div>
   <a id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_DoneTempTable_" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.DoneTempTable*"></a>
   <h4 id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_DoneTempTable_System_String_" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.DoneTempTable(System.String)">DoneTempTable(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Ukončí prácu s tempovou tabuľkou.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -373,7 +382,8 @@ Ak je na spojení spustená transakcia, musí byť zadaná v parametri <code dat
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">tempTableName</span></td>
-        <td></td>
+        <td><p>Názov tempovej tabuľky.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -381,7 +391,8 @@ Ak je na spojení spustená transakcia, musí byť zadaná v parametri <code dat
   <div><a class="xref" href="Kros.Data.BulkActions.BulkUpdateBase.html#Kros_Data_BulkActions_BulkUpdateBase_DoneTempTable_System_String_">BulkUpdateBase.DoneTempTable(String)</a></div>
   <a id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_GetTempTableName_" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.GetTempTableName*"></a>
   <h4 id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_GetTempTableName" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.GetTempTableName">GetTempTableName()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Vráti názov tempovej tabuľky.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -406,7 +417,8 @@ Ak je na spojení spustená transakcia, musí byť zadaná v parametri <code dat
   <div><a class="xref" href="Kros.Data.BulkActions.BulkUpdateBase.html#Kros_Data_BulkActions_BulkUpdateBase_GetTempTableName">BulkUpdateBase.GetTempTableName()</a></div>
   <a id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_InvokeAction_" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.InvokeAction*"></a>
   <h4 id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_InvokeAction_System_String_" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.InvokeAction(System.String)">InvokeAction(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Zavolá akciu nad tempovou databázou.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -433,7 +445,8 @@ Ak je na spojení spustená transakcia, musí byť zadaná v parametri <code dat
   <div><a class="xref" href="Kros.Data.BulkActions.BulkUpdateBase.html#Kros_Data_BulkActions_BulkUpdateBase_InvokeAction_System_String_">BulkUpdateBase.InvokeAction(String)</a></div>
   <a id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_UpdateDestinationTable_" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.UpdateDestinationTable*"></a>
   <h4 id="Kros_Data_BulkActions_SqlServer_SqlServerBulkUpdate_UpdateDestinationTable_System_Data_IDataReader_System_String_" data-uid="Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.UpdateDestinationTable(System.Data.IDataReader,System.String)">UpdateDestinationTable(IDataReader, String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Vykoná update nad cieľovou tabuľkou.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -452,12 +465,14 @@ Ak je na spojení spustená transakcia, musí byť zadaná v parametri <code dat
       <tr>
         <td><span class="xref">System.Data.IDataReader</span></td>
         <td><span class="parametername">reader</span></td>
-        <td></td>
+        <td><p>Reader pre sprístupnenie dát.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">tempTableName</span></td>
-        <td></td>
+        <td><p>Názov tempovej tabuľky.</p>
+</td>
       </tr>
     </tbody>
   </table>

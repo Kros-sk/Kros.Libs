@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Database
    | Kros.Libs ">
-    <meta name="generator" content="docfx 2.34.0.0">
+    <meta name="generator" content="docfx 2.35.0.0">
     
     <link rel="shortcut icon" href="../../images/Kros.ico">
     <link rel="stylesheet" href="../../styles/docfx.vendor.css">
@@ -22,7 +22,7 @@
     <meta property="docfx:rel" content="../../">
     
   </head>
-  <body data-spy="scroll" data-target="#affix">
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
         
@@ -62,7 +62,9 @@
         
         <div id="search-results">
           <div class="search-list"></div>
-          <div class="sr-items"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
           <ul id="pagination"></ul>
         </div>
       </div>
@@ -473,7 +475,8 @@ For executing query and materializing models see:
   </h3>
   <a id="Kros_KORM_Database_BeginTransaction_" data-uid="Kros.KORM.Database.BeginTransaction*"></a>
   <h4 id="Kros_KORM_Database_BeginTransaction" data-uid="Kros.KORM.Database.BeginTransaction">BeginTransaction()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Begins the transaction.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -490,13 +493,15 @@ For executing query and materializing models see:
     <tbody>
       <tr>
         <td><a class="xref" href="Kros.KORM.Data.ITransaction.html">ITransaction</a></td>
-        <td></td>
+        <td><p><a class="xref" href="Kros.KORM.Data.ITransaction.html">ITransaction</a> wrapping access to the underlying store&apos;s transaction object.</p>
+</td>
       </tr>
     </tbody>
   </table>
   <a id="Kros_KORM_Database_BeginTransaction_" data-uid="Kros.KORM.Database.BeginTransaction*"></a>
   <h4 id="Kros_KORM_Database_BeginTransaction_System_Data_IsolationLevel_" data-uid="Kros.KORM.Database.BeginTransaction(System.Data.IsolationLevel)">BeginTransaction(IsolationLevel)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Begins the transaction using the specified isolation level.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -515,7 +520,8 @@ For executing query and materializing models see:
       <tr>
         <td><span class="xref">System.Data.IsolationLevel</span></td>
         <td><span class="parametername">isolationLevel</span></td>
-        <td></td>
+        <td><p>The database isolation level with which the underlying store transaction will be created.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -530,7 +536,8 @@ For executing query and materializing models see:
     <tbody>
       <tr>
         <td><a class="xref" href="Kros.KORM.Data.ITransaction.html">ITransaction</a></td>
-        <td></td>
+        <td><p><a class="xref" href="Kros.KORM.Data.ITransaction.html">ITransaction</a> wrapping access to the underlying store&apos;s transaction object.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -831,7 +838,6 @@ Additional columns or rows are ignored.</p>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public TResult? ExecuteScalar&lt;TResult&gt;(string query)
-
     where TResult : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -893,7 +899,6 @@ Additional columns or rows are ignored.</p>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public TResult? ExecuteScalar&lt;TResult&gt;(string query, params object[] args)
-
     where TResult : struct</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
