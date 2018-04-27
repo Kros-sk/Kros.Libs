@@ -86,6 +86,7 @@
     <Compile Include="Data\MsAccessIdGeneratorShould.cs" />
     <Compile Include="Data\Schema\MsAccessSchemaLoaderShould.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="MsAccessTestHelperShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -125,6 +126,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\MsAccessBulkUpdate.accdb" />
     <EmbeddedResource Include="Resources\MsAccessBulkUpdate.mdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\MsAccessTestHelper.mdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
