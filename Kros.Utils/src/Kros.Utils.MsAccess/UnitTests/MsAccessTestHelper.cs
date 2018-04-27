@@ -193,7 +193,7 @@ namespace Kros.UnitTests
             _databasePath = GenerateDatabaseName();
             if (_sourceDatabaseStream == null)
             {
-                File.Copy(_sourceDatabaseStreamPath, _databasePath);
+                File.Copy(_sourceDatabaseStreamPath, _databasePath, true);
             }
             else
             {
