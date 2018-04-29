@@ -7,12 +7,12 @@ using System.Reflection;
 namespace Kros.Data.BulkActions
 {
     /// <summary>
-    /// Implementácia rozhrania <see cref="IBulkActionDataReader"/> nad ľubovoľným zoznamom objektov.
+    /// <see cref="IBulkActionDataReader"/> implementation for any list of objects.
     /// </summary>
-    /// <typeparam name="T">Typ dátového objektu.</typeparam>
+    /// <typeparam name="T">Object data type.</typeparam>
     /// <remarks>
-    /// Trieda implementuje rozhranie <see cref="IBulkActionDataReader"/> nad ľubovoľným zoznamom objektov,
-    /// aby bolo jednoduché takýto zoznam hromadne vložiť do databázy pomocou <c>BulkInsert</c>-u.
+    /// Class implements <see cref="IBulkActionDataReader"/> for any list of objects,
+    /// so this list can be easily bulk inserted into database via <c>BulkInsert</c>.
     /// </remarks>
     public class EnumerableDataReader<T> : IBulkActionDataReader
     {
@@ -27,19 +27,19 @@ namespace Kros.Data.BulkActions
         #region Constructors
 
         /// <summary>
-        /// Vytvorí inštanciu reader-a nad dátami <paramref name="data"/> so zoznamom sĺpcov <paramref name="columnNames"/>.
+        /// Creates instance of reader <paramref name="data"/> with list of columns <paramref name="columnNames"/>.
         /// </summary>
-        /// <param name="data">Dáta, nad ktorými je vytvorený reader.</param>
-        /// <param name="columnNames">Zoznam stĺpcov s ktorými reader pracuje. Pre všetky stĺpce v zozname musí
-        /// existovať property s rovnakým menom v objekte <c>T</c>.</param>
+        /// <param name="data">Data, reader will be opened over them.</param>
+        /// <param name="columnNames">List of columns with which reader works.
+        /// For every column must exists property with the same name in object <c>T</c>.</param>
         /// <exception cref="ArgumentNullException">
-        /// Hodnota <paramref name="data"/>, alebo <paramref name="columnNames"/> je <c>null</c>.
+        /// Value <paramref name="data"/>, or <paramref name="columnNames"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// Zoznam <paramref name="columnNames"/> je prázdny, tzn. neobsahuje ani jednu hodnotu.
+        /// List <paramref name="columnNames"/> is empty, i.e. does not contain any value.
         /// </exception>
         /// <exception cref="InvalidOperationException">
-        /// Trieda <c>T</c> nemá všetky vlastnosti určené zoznamom sĺpcov <paramref name="columnNames"/>.
+        /// Class <c>T</c> does not have all properties defined in <paramref name="columnNames"/>.
         /// </exception>
         public EnumerableDataReader(IEnumerable<T> data, IEnumerable<string> columnNames)
         {
@@ -58,36 +58,36 @@ namespace Kros.Data.BulkActions
         #region IBulkActionDataReader
 
         /// <summary>
-        /// Počet stĺpcov.
+        /// Columns count.
         /// </summary>
         public int FieldCount => _columnNames.Count;
 
         /// <summary>
-        /// Meno stĺpca na indexe <paramref name="i"/>.
+        /// Column name on index <paramref name="i"/>.
         /// </summary>
-        /// <param name="i">Index stĺpca.</param>
-        /// <returns>Reťazec.</returns>
+        /// <param name="i">Column index.</param>
+        /// <returns>Column name.</returns>
         public string GetName(int i) => _columnNames[i];
 
         /// <summary>
-        /// Index stĺpca určeného menom <paramref name="name"/>.
+        /// Index of column with <paramref name="name"/>.
         /// </summary>
-        /// <param name="name">Meno stĺpca.</param>
-        /// <returns>Číslo.</returns>
+        /// <param name="name">Column name.</param>
+        /// <returns>Index.</returns>
         public int GetOrdinal(string name) => _columnNames.IndexOf(_columnNames.First(column => column == name));
 
         /// <summary>
-        /// Vráti hodnotu stĺpca na indexe <paramref name="i"/>.
+        /// Returns value of column on index <paramref name="i"/>.
         /// </summary>
-        /// <param name="i">Index stĺpca.</param>
-        /// <returns>Hodnota stĺpca.</returns>
+        /// <param name="i">Column index.</param>
+        /// <returns>Column value.</returns>
         public object GetValue(int i) => _propertyCache[GetName(i)].GetValue(_dataEnumerator.Current, null);
 
         /// <summary>
-        /// Posunie sa na ďalšiu položku v zozname.
+        /// Moves to next record.
         /// </summary>
-        /// <returns>Vráti <see langword="true"/>, ak sa podarilo posunúť na ďalšiu položku, <see langword="false"/>,
-        /// ak už žiadna položka nie je.</returns>
+        /// <returns>Returns <see langword="true"/>, if move was successfull, <see langword="false"/>,
+        /// if there is nothing next.</returns>
         public bool Read() => _dataEnumerator.MoveNext();
 
         #endregion

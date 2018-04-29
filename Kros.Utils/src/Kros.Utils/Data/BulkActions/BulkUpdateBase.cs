@@ -5,7 +5,7 @@ using System.Text;
 namespace Kros.Data.BulkActions
 {
     /// <summary>
-    /// Spoločný predok pre bulk update.
+    /// Common base class for BulkUpdate.
     /// </summary>
     public abstract class BulkUpdateBase : IBulkUpdate
     {
@@ -13,7 +13,7 @@ namespace Kros.Data.BulkActions
         #region Constants
 
         /// <summary>
-        /// Prefix pre tempovú tabuľku.
+        /// Temporary table prefix.
         /// </summary>
         protected const char PrefixTempTable = '#';
 
@@ -28,7 +28,7 @@ namespace Kros.Data.BulkActions
         protected IDbConnection _connection;
 
         /// <summary>
-        /// Či je potrebné disposnúť connection.
+        /// If dispose of connection is necessary.
         /// </summary>
         protected bool _disposeOfConnection = false;
 
@@ -38,7 +38,7 @@ namespace Kros.Data.BulkActions
         #region Properties
 
         /// <summary>
-        /// Externá transakcia, v ktorej sa vykoná editácia dát.
+        /// External transaction in which is operation executed.
         /// </summary>
         public IDbTransaction ExternalTransaction { get; protected set; }
 
@@ -48,7 +48,7 @@ namespace Kros.Data.BulkActions
         #region IBulkUpdate Members
 
         /// <summary>
-        /// Meno cieľovej tabuľky v databáze.
+        /// Destination table name in database.
         /// </summary>
         public string DestinationTableName { get; set; }
 
@@ -56,14 +56,14 @@ namespace Kros.Data.BulkActions
         public Action<IDbConnection, IDbTransaction, string> TempTableAction { get; set; }
 
         /// <summary>
-        /// Primárny kľúč.
+        /// Primary key.
         /// </summary>
         public string PrimaryKeyColumn { get; set; }
 
         /// <summary>
-        /// Zedituje všetky dáta zo zdroja <paramref name="reader"/>.
+        /// Updates all data from source <paramref name="reader"/>.
         /// </summary>
-        /// <param name="reader">Zdroj dát.</param>
+        /// <param name="reader">Data source.</param>
         public void Update(IBulkActionDataReader reader)
         {
             using (var bulkUpdateReader = new BulkActionDataReader(reader))
@@ -73,9 +73,9 @@ namespace Kros.Data.BulkActions
         }
 
         /// <summary>
-        /// Zedituje všetky dáta zo zdroja <paramref name="reader"/>.
+        /// Updates all data from source <paramref name="reader"/>.
         /// </summary>
-        /// <param name="reader">Zdroj dát.</param>
+        /// <param name="reader">Data source.</param>
         public void Update(IDataReader reader)
         {
             var tempTableName = CreateTempTable(reader);
@@ -90,9 +90,9 @@ namespace Kros.Data.BulkActions
         }
 
         /// <summary>
-        /// Zedituje všetky riadky z tabuľky <paramref name="table"/>.
+        /// Updates all rows in table. <paramref name="table"/>.
         /// </summary>
-        /// <param name="table">Zdrojové dáta.</param>
+        /// <param name="table">Source data.</param>
         public void Update(DataTable table)
         {
             using (var reader = table.CreateDataReader())
@@ -107,51 +107,51 @@ namespace Kros.Data.BulkActions
         #region Protected Virtual Methods
 
         /// <summary>
-        /// Vytvorí bulk insert.
+        /// Creates BulkInsert.
         /// </summary>
         /// <returns>Bulk insert.</returns>
         protected abstract IBulkInsert CreateBulkInsert();
 
         /// <summary>
-        /// Zavolá akciu nad tempovou databázou.
+        /// Invokes action at temporary database.
         /// </summary>
-        /// <param name="tempTableName"></param>
+        /// <param name="tempTableName">Name of temporary table.</param>
         protected abstract void InvokeAction(string tempTableName);
 
         /// <summary>
-        /// Vráti názov tempovej tabuľky.
+        /// Returns name of temporary table.
         /// </summary>
         protected abstract string GetTempTableName();
 
         /// <summary>
-        /// Vytvorí tempovú tabuľku podľa <paramref name="reader"/>.
+        /// Creates temporary table by <paramref name="reader"/>.
         /// </summary>
-        /// <param name="reader">Reader pre sprístupnenie dát.</param>
-        /// <param name="tempTableName">Názov tempovej tabuľky.</param>
+        /// <param name="reader">Reader for accessing data.</param>
+        /// <param name="tempTableName">Name of temporary table.</param>
         protected abstract void CreateTempTable(IDataReader reader, string tempTableName);
 
         /// <summary>
-        /// Vráti názov tempovej tabuľky pre bulk insert.
+        /// Returns formatted name of temporary table for BulkInsert.
         /// </summary>
-        /// <param name="name">Názov tempovej tabuľky.</param>
+        /// <param name="name">Temporary table name.</param>
         protected virtual string GetTempTableNameForBulkInsert(string name) => $"[{name}]";
 
         /// <summary>
-        /// Vráti command pre vytvorenie primárneho kľúča.
+        /// Returns command for creating primary key.
         /// </summary>
         protected abstract IDbCommand CreateCommandForPrimaryKey();
 
         /// <summary>
-        /// Vykoná update nad cieľovou tabuľkou.
+        /// Executes update on destination table.
         /// </summary>
-        /// <param name="reader">Reader pre sprístupnenie dát.</param>
-        /// <param name="tempTableName">Názov tempovej tabuľky.</param>
+        /// <param name="reader">Reader for accesing data.</param>
+        /// <param name="tempTableName">Temporary table name.</param>
         protected abstract void UpdateDestinationTable(IDataReader reader, string tempTableName);
 
         /// <summary>
-        /// Ukončí prácu s tempovou tabuľkou.
+        /// Ends work with temporary table.
         /// </summary>
-        /// <param name="tempTableName">Názov tempovej tabuľky.</param>
+        /// <param name="tempTableName">Temporary table name.</param>
         protected virtual void DoneTempTable(string tempTableName) { }
 
         #endregion
@@ -169,8 +169,6 @@ namespace Kros.Data.BulkActions
             return tempTableName;
         }
 
-
-
         private void CreatePrimaryKey(string tempTableName)
         {
             using (var cmd = CreateCommandForPrimaryKey())
@@ -183,9 +181,9 @@ namespace Kros.Data.BulkActions
         }
 
         /// <summary>
-        /// Zoznam stĺpcov tempovej tabuľky.
+        /// List of temporary table columns.
         /// </summary>
-        /// <param name="reader">Reader pre prístup k dátam.</param>
+        /// <param name="reader">Reader for accesing data.</param>
         protected string GetColumnNamesForTempTable(IDataReader reader)
         {
             var ret = new StringBuilder();
@@ -210,10 +208,10 @@ namespace Kros.Data.BulkActions
         }
 
         /// <summary>
-        /// Zoznam stĺpcov tempovej tabuľky.
+        /// List of temporary table columns.
         /// </summary>
-        /// <param name="reader">Reader pre prístup k dátam.</param>
-        /// <param name="tempTableName">Názov tempovej tabuľky.</param>
+        /// <param name="reader">Reader for accesing data.</param>
+        /// <param name="tempTableName">Temporary table name.</param>
         /// <returns></returns>
         protected string GetUpdateColumnNames(IDataReader reader, string tempTableName)
         {

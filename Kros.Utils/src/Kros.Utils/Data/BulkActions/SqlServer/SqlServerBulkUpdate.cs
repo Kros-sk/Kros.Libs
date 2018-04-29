@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 namespace Kros.Data.BulkActions.SqlServer
 {
     /// <summary>
-    /// Trieda umožňujúca rýchlu hromadnú editáciu dát pre SQL Server.
+    /// Class with support for fast data update operations for SQL Server.
     /// </summary>
     /// <example>
     ///   <code source="..\Examples\Kros.Utils\BulkUpdateExamples.cs" title="Bulk update" region="BulkUpdate" lang="C#" />
@@ -17,24 +17,21 @@ namespace Kros.Data.BulkActions.SqlServer
         #region Constructors
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="SqlServerBulkUpdate"/> použitím spojenia na databázu
-        /// <paramref name="connection"/>.
+        /// Initialize new instance of <see cref="SqlServerBulkUpdate"/> with database connection <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu, kam sa vložia dáta. Spojenie musí byť otvorené.
-        /// Ak je na spojení spustená transakcia, mysí sa použiť konštruktor s externou transakciou a tá musí
-        /// byť zadaná.</param>
+        /// <param name="connection">Database connection where data will be updated, connection has to be opened.
+        /// If transaction is running on connection, contructor with defined external transaction has to be used.</param>
         public SqlServerBulkUpdate(SqlConnection connection)
             : this(connection, null)
         {
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="SqlServerBulkUpdate"/> použitím spojenia na databázu
-        /// <paramref name="connection"/> a externej transakcie <paramref name="externalTransaction"/>.
+        /// Initialize new instance of <see cref="SqlServerBulkUpdate"/> with database connection <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu, kam sa vložia dáta. Spojenie musí byť otvorené.
-        /// Ak je na spojení spustená transakcia, musí byť zadaná v parametri <paramref name="externalTransaction"/>.</param>
-        /// <param name="externalTransaction">Externá transakcia, v ktorej hromadné vloženie prebehne.</param>
+        /// <param name="connection">Database connection where data will be updated, connection has to be opened.
+        /// If transaction is running on connection, transaction has to be defined in <paramref name="externalTransaction"/>.</param>
+        /// <param name="externalTransaction">External transaction, in which is BulkUpdate executed.</param>
         public SqlServerBulkUpdate(SqlConnection connection, SqlTransaction externalTransaction)
         {
             _connection = Check.NotNull(connection, nameof(connection));
@@ -42,12 +39,11 @@ namespace Kros.Data.BulkActions.SqlServer
             ExternalTransaction = externalTransaction;
         }
 
-
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="SqlServerBulkUpdate"/> použitím spojenia na databázu
-        /// <paramref name="connectionString"/>.
+        /// Initialize new instance of <see cref="SqlServerBulkUpdate"/> with <paramref name="connectionString"/>.
         /// </summary>
-        /// <param name="connectionString">Spojenie na databázu, kam sa vložia dáta.</param>
+        /// <param name="connectionString">Connection string for database connection.</param>
+        /// <summary>
         public SqlServerBulkUpdate(string connectionString)
             : this(new SqlConnection(connectionString), null)
         {

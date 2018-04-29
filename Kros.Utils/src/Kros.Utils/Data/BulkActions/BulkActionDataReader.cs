@@ -6,8 +6,7 @@ using System.Collections;
 namespace Kros.Data.BulkActions
 {
     /// <summary>
-    /// Obálka, ktorá jednoduché rozhranie <see cref="IBulkActionDataReader"/>, zverejní ako komplikovanejší
-    /// <see cref="IDataReader"/>.
+    /// Wrapper, which extends simple <see cref="IBulkActionDataReader"/> to more complicated <see cref="IDataReader"/>.
     /// </summary>
     public class BulkActionDataReader : System.Data.Common.DbDataReader
     {
@@ -22,10 +21,10 @@ namespace Kros.Data.BulkActions
         #region Constructors
 
         /// <summary>
-        /// Vytvorí <see cref="IDataReader"/> nad zadaným reader-om <paramref name="reader"/>.
+        /// Creates <see cref="IDataReader"/> over defined <paramref name="reader"/>.
         /// </summary>
-        /// <param name="reader">Vstupný reader.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="reader"/> má hodnotu <c>null</c>.</exception>
+        /// <param name="reader">Input reader.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="reader"/> is <c>null</c>.</exception>
         public BulkActionDataReader(IBulkActionDataReader reader)
         {
             Check.NotNull(reader, nameof(reader));
@@ -38,50 +37,49 @@ namespace Kros.Data.BulkActions
         #region IDataReader
 
         /// <summary>
-        /// Počet stĺpcov v dátovom riadku.
+        /// Columns count in data row.
         /// </summary>
         public override int FieldCount => _reader.FieldCount;
 
         /// <summary>
-        /// Vráti názov stĺpca.
+        /// Returns column name.
         /// </summary>
-        /// <param name="i">Index hľadaného stĺpca.</param>
-        /// <returns>Meno stĺpca.</returns>
-        /// <exception cref="IndexOutOfRangeException">Zadaný index bol mimo rozsah stĺpcov 0 až <see cref="FieldCount"/>.
+        /// <param name="i">Index of column.</param>
+        /// <returns>Column name.</returns>
+        /// <exception cref="IndexOutOfRangeException">Defined index is not between 0 and <see cref="FieldCount"/>.
         /// </exception>
         public override string GetName(int i) => _reader.GetName(i);
 
         /// <summary>
-        /// Vráti index stĺpca s menom <paramref name="name"/>.
+        /// Returns column index by its name <paramref name="name"/>.
         /// </summary>
-        /// <param name="name">Meno hľadaného stĺpca.</param>
-        /// <returns>Index hľadaného stĺpca.</returns>
+        /// <param name="name">Name of column.</param>
+        /// <returns>Index of column.</returns>
         public override int GetOrdinal(string name) => _reader.GetOrdinal(name);
 
         /// <summary>
-        /// Vráti hodnotu zadaného stĺpca.
+        /// Returns value of column.
         /// </summary>
-        /// <param name="i">Index stĺpca, ktorého hodnota sa vracia.</param>
-        /// <returns>Objekt - hodnota daného stĺpca.</returns>
-        /// <exception cref="IndexOutOfRangeException">Zadaný index bol mimo rozsah stĺpcov 0 až <see cref="FieldCount"/>.
+        /// <param name="i">Column index.</param>
+        /// <returns>Object value of column.</returns>
+        /// <exception cref="IndexOutOfRangeException">Defined index is not between 0 and <see cref="FieldCount"/>.
         /// </exception>
         public override object GetValue(int i) => _reader.GetValue(i);
 
         /// <summary>
-        /// Posunie reader na ďalší záznam.
+        /// Moves reader to next record.
         /// </summary>
-        /// <returns><see langword="true"/>, ak existuje ďalší záznam a reader bol posunutý, <see langword="false"/> ak už ďalší záznam neexistuje.
+        /// <returns><see langword="true"/>, if next record exists, and reader is moved <see langword="false"/> if next record does not exist.
         /// </returns>
         public override bool Read() => _reader.Read();
 
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        // Close je implementované iba kvôli tomu, že trieda je zdedená z DbDataReader a to je kvôli tomu,
-        // že v .NET Core je chyba v implementácii SqlBulkCopy. Ak reader nededí z DbDataReader, tak v určitých prípadoch
-        // padne na NullReferenceException.
-        // Keď bude chyba v .NET Core opravená (https://github.com/dotnet/corefx/issues/24638), môže sa zrušť dedenie
-        // z DbDataReader, namiesto neho bude len implementovať IDataReader a metóda Close môže ostať neimplementovaná
-        // v regióne nižšie.
+        // Close is implemented just because this class inherits from DbDataReader and in .NET Core is bug
+        // in SqlBulkCopy implementation. If reader does not inherit from DbDataReader, it breaks on NullReferenceException
+        // in some cases.
+        // After solving this issue in .NET Core (https://github.com/dotnet/corefx/issues/24638), this inheritance can be removed.
+        // Then class will implement only IDataReader and Close method can stay here non-implemented.
         public override void Close() { }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 

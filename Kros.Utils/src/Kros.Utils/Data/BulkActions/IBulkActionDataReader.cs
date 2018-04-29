@@ -3,45 +3,45 @@
 namespace Kros.Data.BulkActions
 {
     /// <summary>
-    /// Rozhranie pre zdroj dát pre <see cref="IBulkInsert"/>.
+    /// Interface for data source used in <see cref="IBulkInsert"/>.
     /// </summary>
     public interface IBulkActionDataReader : IDisposable
     {
 
         /// <summary>
-        /// Počet stĺpcov v dátovom riadku.
+        /// Columns count in data row.
         /// </summary>
         int FieldCount { get; }
 
         /// <summary>
-        /// Vráti názov stĺpca.
+        /// Returns column name.
         /// </summary>
-        /// <param name="i">Index hľadaného stĺpca.</param>
-        /// <returns>Meno stĺpca.</returns>
+        /// <param name="i">Index of column.</param>
+        /// <returns>Column name.</returns>
         /// <exception cref="IndexOutOfRangeException">Zadaný index bol mimo rozsah stĺpcov 0 až <see cref="FieldCount"/>.
         /// </exception>
         string GetName(int i);
 
         /// <summary>
-        /// Vráti index stĺpca s menom <paramref name="name"/>.
+        /// Return index of column with name <paramref name="name"/>.
         /// </summary>
-        /// <param name="name">Meno hľadaného stĺpca.</param>
-        /// <returns>Index hľadaného stĺpca.</returns>
+        /// <param name="name">Column name.</param>
+        /// <returns>Index of column.</returns>
         int GetOrdinal(string name);
 
         /// <summary>
-        /// Vráti hodnotu zadaného stĺpca.
+        /// Returns value of column on index <paramref name="i"/>.
         /// </summary>
-        /// <param name="i">Index stĺpca, ktorého hodnota sa vracia.</param>
-        /// <returns>Objekt - hodnota daného stĺpca.</returns>
-        /// <exception cref="IndexOutOfRangeException">Zadaný index bol mimo rozsah stĺpcov 0 až <see cref="FieldCount"/>.
+        /// <param name="i">Column index.</param>
+        /// <returns>Object - value of column.</returns>
+        /// <exception cref="IndexOutOfRangeException">Defined index is not between 0 and <see cref="FieldCount"/>.
         /// </exception>
         object GetValue(int i);
 
         /// <summary>
-        /// Posunie reader na ďalší záznam.
+        /// Moves reader to next record.
         /// </summary>
-        /// <returns><see langword="true"/>, ak existuje ďalší záznam a reader bol posunutý, <see langword="false"/> ak už ďalší záznam neexistuje.
+        /// <returns><see langword="true"/>, if next record exists, and reader is moved <see langword="false"/> if next record does not exist.
         /// </returns>
         bool Read();
 
