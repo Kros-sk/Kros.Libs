@@ -43,7 +43,6 @@ namespace Kros.Data.BulkActions.SqlServer
         /// Initialize new instance of <see cref="SqlServerBulkUpdate"/> with <paramref name="connectionString"/>.
         /// </summary>
         /// <param name="connectionString">Connection string for database connection.</param>
-        /// <summary>
         public SqlServerBulkUpdate(string connectionString)
             : this(new SqlConnection(connectionString), null)
         {
