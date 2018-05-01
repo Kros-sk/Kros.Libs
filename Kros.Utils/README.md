@@ -28,7 +28,7 @@ __Kros.Utils__
 * [Standard Extensions](#standard-extensions)
 * [File/Folder Path Helpers](#filefolder-path-helpers)
 * [Database Schema](#database-schema)
-* [Bulk Operations - Bulk Insert and Bulk Update](#bulk-operations-bulk-insert-and-bulk-update)
+* [Bulk Operations - Bulk Insert and Bulk Update](#bulk-operations---bulk-insert-and-bulk-update)
 * [IdGenerator](#idgenerator)
 * [IDiContainer Interface Describing Dependency Injection Container](#idicontainer-interface-describing-dependency-injection-container)
 * [Caching](#caching)
@@ -38,7 +38,7 @@ __Kros.Utils.MsAccess__
 
 * [General Utilities](#msaccess-general-utilities)
 * [Database Schema](#msaccess-database-schema)
-* [Bulk Operations - Bulk Insert and Bulk Update](#msaccess-bulk-operations-bulk-insert-and-bulk-update)
+* [Bulk Operations - Bulk Insert and Bulk Update](#msaccess-bulk-operations---bulk-insert-and-bulk-update)
 * [Unit Testing Helpers](#msaccess-unit-testing-helpers)
 
 
