@@ -8,12 +8,11 @@ using System.Data.SqlClient;
 namespace Kros.Data.Schema.SqlServer
 {
     /// <summary>
-    /// Implementácia <see cref="IDatabaseSchemaLoader{T}"/>, ktorá načítava schému SQL Server databáz.
+    /// The implementation of <see cref="IDatabaseSchemaLoader{T}"/> for Microsoft SQL Server.
     /// </summary>
     public partial class SqlServerSchemaLoader
         : IDatabaseSchemaLoader<SqlConnection>
     {
-
         #region Helper mappings
 
         private static readonly Dictionary<SqlDbType, object> _defaultValueMapping = new Dictionary<SqlDbType, object>() {
@@ -52,23 +51,20 @@ namespace Kros.Data.Schema.SqlServer
 
         #endregion
 
-
         #region Events
 
         /// <summary>
-        /// Udalosť vyvolaná pri parsovaní predvolenej hodnoty stĺpca. V obsluhe je možné predvolenú hodnotu parsovať
-        /// vlastným spôsobom, ak interné parsovanie zlyhalo.
+        /// Event raised while parsing default value of a column. It is possible to use custom parsing logic in the event handler.
         /// </summary>
-        /// <remarks>V obsluhe udalosti je možné spraviť vlatné parsovanie predvolenej hodnoty stĺpca. Ak je v obsluhe
-        /// predvolená hodnota rozparsovaná, je potrebné ju nastaviť v argumente
-        /// <see cref="SqlServerParseDefaultValueEventArgs.DefaultValue"/> a zároveň je potrebné nastaviť
-        /// <see cref="SqlServerParseDefaultValueEventArgs.Handled"/> na <see langword="true"/>.</remarks>
+        /// <remarks>When custom logic for parsing column's default value is used, the parsed value is set in 
+        /// <see cref="SqlServerParseDefaultValueEventArgs.DefaultValue"/> property and
+        /// <see cref="SqlServerParseDefaultValueEventArgs.Handled"/> flag must be set to <see langword="true"/>.</remarks>
         public event EventHandler<SqlServerParseDefaultValueEventArgs> ParseDefaultValue;
 
         /// <summary>
-        /// Vyvolá udalosť <see cref="ParseDefaultValue"/> s argumentami <paramref name="e"/>.
+        /// Raises the <see cref="ParseDefaultValue"/> event with arguments <paramref name="e"/>.
         /// </summary>
-        /// <param name="e">Argumenty udalosti.</param>
+        /// <param name="e">Arguments for the event.</param>
         protected virtual void OnParseDefaultValue(SqlServerParseDefaultValueEventArgs e)
         {
             ParseDefaultValue?.Invoke(this, e);
@@ -76,82 +72,107 @@ namespace Kros.Data.Schema.SqlServer
 
         #endregion
 
-
         #region Schema loading
 
         /// <summary>
-        /// Kontroluje, či dokáže načítať schému zo spojenia <paramref name="connection"/>, tzn. či zadané spojenie je
-        /// spojenie na SQL Server databázu.
+        /// Checks if it is poosible to load database schema for <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns><see langword="true"/>, ak je možné načítať schému databázy, <see langword="false"/>, ak to možné nie je.</returns>
-        bool IDatabaseSchemaLoader.SupportsConnectionType(object connection)
-        {
-            return SupportsConnectionType(connection as SqlConnection);
-        }
-
-        /// <summary>
-        /// Načíta celú schému databázy určenej spojením <paramref name="connection"/>.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Vráti schému celej databázy.</returns>
-        /// <remarks>Štandardne sa na získanie schémy vytvorí nové spojenie na databázu podľa vstupného spojenia
-        /// <paramref name="connection"/>. Ak je však vstupné spojenie exkluzívne, použije sa priamo.</remarks>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException"><list type="bullet">
-        /// <item>Spojenie <paramref name="connection"/> nie je spojenie na SQL Server databázu.</item>
-        /// <item>Spojenie <paramref name="connection"/> nemá nastavené meno databázy (<b>Initial Catalog</b>).</item>
-        /// </list></exception>
-        DatabaseSchema IDatabaseSchemaLoader.LoadSchema(object connection)
-        {
-            CheckConnection(connection);
-            return LoadSchema(connection as SqlConnection);
-        }
-
-        /// <summary>
-        /// Načíta schému tabuľky <paramref name="tableName"/> z databázy <paramref name="connection"/>.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <param name="tableName">Meno tabuľky, ktorej schéma sa načíta.</param>
-        /// <returns>Vráti načítanú schému tabuľky, alebo hodnotu <c>null</c>, ak taká tabuľka neexistuje.</returns>
-        /// <remarks>Štandardne sa na získanie schémy vytvorí nové spojenie na databázu podľa vstupného spojenia
-        /// <paramref name="connection"/>. Ak je však vstupné spojenie exkluzívne, použije sa priamo.</remarks>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException"><list type="bullet">
-        /// <item>Spojenie <paramref name="connection"/> nie je spojenie na SQL Server databázu.</item>
-        /// <item>Spojenie <paramref name="connection"/> nemá nastavené meno databázy (<b>Initial Catalog</b>).</item>
-        /// <item>Názov tabuľky <paramref name="tableName"/> má hodnotu <c>null</c>, alebo je to prázdny reťazec,
-        /// alebo je zložený len z bielych znakov.</item>
-        /// </list></exception>
-        TableSchema IDatabaseSchemaLoader.LoadTableSchema(object connection, string tableName)
-        {
-            CheckConnection(connection);
-            return LoadTableSchema(connection as SqlConnection, tableName);
-        }
-
-        /// <summary>
-        /// Kontroluje, či dokáže načítať schému zo spojenia <paramref name="connection"/>, tzn. či zadané spojenie je
-        /// spojenie na SQL Server databázu.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns><see langword="true"/>, ak je možné načítať schému databázy, <see langword="false"/>, ak to možné nie je.</returns>
+        /// <param name="connection">Database connection.</param>
+        /// <returns><see langword="false"/> if value of <paramref name="connection"/> is <see langword="null"/>,
+        /// otherwise <see langword="true"/>.</returns>
         public bool SupportsConnectionType(SqlConnection connection)
         {
             return (connection != null);
         }
 
         /// <summary>
-        /// Načíta celú schému databázy určenej spojením <paramref name="connection"/>.
+        /// Checks if it is poosible to load database schema for <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Vráti schému celej databázy.</returns>
-        /// <remarks>Štandardne sa na získanie schémy vytvorí nové spojenie na databázu podľa vstupného spojenia
-        /// <paramref name="connection"/>. Ak je však vstupné spojenie exkluzívne, použije sa priamo.</remarks>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException"><list type="bullet">
-        /// <item>Spojenie <paramref name="connection"/> nie je spojenie na SQL Server databázu.</item>
-        /// <item>Spojenie <paramref name="connection"/> nemá nastavené meno databázy (<b>Initial Catalog</b>).</item>
-        /// </list></exception>
+        /// <param name="connection">Database connection.</param>
+        /// <returns><see langword="false"/> if value of <paramref name="connection"/> is not of <see cref="SqlConnection"/>
+        /// type or is <see langword="null"/>, otherwise <see langword="true"/>.</returns>
+        bool IDatabaseSchemaLoader.SupportsConnectionType(object connection)
+        {
+            return SupportsConnectionType(connection as SqlConnection);
+        }
+
+        /// <summary>
+        /// Loads database schema for <paramref name="connection"/>.
+        /// </summary>
+        /// <param name="connection">Database connection.</param>
+        /// <returns>Database schema.</returns>
+        /// <remarks>
+        /// Loading schema creates a new connection to database based on <paramref name="connection"/>. If loading with
+        /// new connection fails (for example input connection is exclusive), schema is loaded using input
+        /// <paramref name="connection"/> directly.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <item>Value of <paramref name="connection"/> is <see langword="null"/>.</item>
+        /// <item>Initial catalog if <paramref name="connection"/> is <see langword="null"/>.</item>
+        /// </list>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <list type="bullet">
+        /// <item><paramref name="connection"/> is not of <see cref="SqlConnection"/> type.</item>
+        /// <item>Initial catalog of <paramref name="connection"/> is an empty string, or string containing
+        /// whitespace characters only.</item>
+        /// </list>
+        /// </exception>
+        DatabaseSchema IDatabaseSchemaLoader.LoadSchema(object connection)
+        {
+            return LoadSchema(connection as SqlConnection);
+        }
+
+        /// <summary>
+        /// Loads table schema for table <paramref name="tableName"/> in database <paramref name="connection"/>.
+        /// </summary>
+        /// <param name="connection">Database connection.</param>
+        /// <param name="tableName">Table name.</param>
+        /// <returns>Table schema, or value <see langword="null"/> if specified table does not exist.</returns>
+        /// <remarks>
+        /// Loading schema creates a new connection to database based on <paramref name="connection"/>. If loading with
+        /// new connection fails (for example input connection is exclusive), schema is loaded using input
+        /// <paramref name="connection"/> directly.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <item>Value of <paramref name="connection"/> is <see langword="null"/>.</item>
+        /// <item>Initial catalog if <paramref name="connection"/> is <see langword="null"/>.</item>
+        /// <item>Value of <paramref name="tableName"/> is <see langword="null"/>.</item>
+        /// </list>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <list type="bullet">
+        /// <item><paramref name="connection"/> is not of <see cref="SqlConnection"/> type.</item>
+        /// <item>Initial catalog of <paramref name="connection"/> is an empty string, or string containing
+        /// whitespace characters only.</item>
+        /// <item>Value of <paramref name="tableName"/> is an empty string, or string containing
+        /// whitespace characters only.</item>
+        /// </list>
+        /// </exception>
+        TableSchema IDatabaseSchemaLoader.LoadTableSchema(object connection, string tableName)
+        {
+            return LoadTableSchema(connection as SqlConnection, tableName);
+        }
+
+        /// <summary>
+        /// Loads database schema for <paramref name="connection"/>.
+        /// </summary>
+        /// <param name="connection">Database connection.</param>
+        /// <returns>Database schema.</returns>
+        /// <remarks>
+        /// Loading schema creates a new connection to database based on <paramref name="connection"/>. If loading with
+        /// new connection fails (for example input connection is exclusive), schema is loaded using input
+        /// <paramref name="connection"/> directly.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <item>Value of <paramref name="connection"/> is <see langword="null"/>.</item>
+        /// <item>Initial catalog if <paramref name="connection"/> is <see langword="null"/>.</item>
+        /// </list>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Initial catalog of <paramref name="connection"/> is an empty string, or string containing
+        /// whitespace characters only.
+        /// </exception>
         public DatabaseSchema LoadSchema(SqlConnection connection)
         {
             CheckConnection(connection);
@@ -166,28 +187,38 @@ namespace Kros.Data.Schema.SqlServer
             }
             catch (Exception)
             {
-                // Pokus o načítanie pomocou pôvodného spojenia, ak by bol prístup k databáze len exkluzívny.
-                // Ideálne by bolo keby som vedel zistiť, či pripojeine na databázu exkluzívne, aby to nebolo
-                // potrebné riešiť try-catch blokom.
+                // Attempt to load schema using original connection in case it failed using new connection.
+                // It would be great if we new how to check if a connection to SQL Server database is exclusive,
+                // so we would not need to use try-catch block.
                 return LoadSchemaCore(connection);
             }
         }
 
         /// <summary>
-        /// Načíta schému tabuľky <paramref name="tableName"/> z databázy <paramref name="connection"/>.
+        /// Loads table schema for table <paramref name="tableName"/> in database <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <param name="tableName">Meno tabuľky, ktorej schéma sa načíta.</param>
-        /// <returns>Vráti načítanú schému tabuľky, alebo hodnotu <c>null</c>, ak taká tabuľka neexistuje.</returns>
-        /// <remarks>Štandardne sa na získanie schémy vytvorí nové spojenie na databázu podľa vstupného spojenia
-        /// <paramref name="connection"/>. Ak je však vstupné spojenie exkluzívne, použije sa priamo.</remarks>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException"><list type="bullet">
-        /// <item>Spojenie <paramref name="connection"/> nie je spojenie na SQL Server databázu.</item>
-        /// <item>Spojenie <paramref name="connection"/> nemá nastavené meno databázy (<b>Initial Catalog</b>).</item>
-        /// <item>Názov tabuľky <paramref name="tableName"/> má hodnotu <c>null</c>, alebo je to prázdny reťazec,
-        /// alebo je zložený len z bielych znakov.</item>
-        /// </list></exception>
+        /// <param name="connection">Database connection.</param>
+        /// <param name="tableName">Table name.</param>
+        /// <returns>Table schema, or value <see langword="null"/> if specified table does not exist.</returns>
+        /// <remarks>
+        /// Loading schema creates a new connection to database based on <paramref name="connection"/>. If loading with
+        /// new connection fails (for example input connection is exclusive), schema is loaded using input
+        /// <paramref name="connection"/> directly.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <item>Value of <paramref name="connection"/> is <see langword="null"/>.</item>
+        /// <item>Initial catalog if <paramref name="connection"/> is <see langword="null"/>.</item>
+        /// <item>Value of <paramref name="tableName"/> is <see langword="null"/>.</item>
+        /// </list>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <list type="bullet">
+        /// <item>Initial catalog of <paramref name="connection"/> is an empty string, or string containing
+        /// whitespace characters only.</item>
+        /// <item>Value of <paramref name="tableName"/> is an empty string, or string containing
+        /// whitespace characters only.</item>
+        /// </list>
+        /// </exception>
         public TableSchema LoadTableSchema(SqlConnection connection, string tableName)
         {
             CheckConnection(connection);
@@ -203,9 +234,9 @@ namespace Kros.Data.Schema.SqlServer
             }
             catch (Exception)
             {
-                // Pokus o načítanie pomocou pôvodného spojenia, ak by bol prístup k databáze len exkluzívny.
-                // Ideálne by bolo keby som vedel zistiť, či pripojeine na databázu exkluzívne, aby to nebolo
-                // potrebné riešiť try-catch blokom.
+                // Attempt to load schema using original connection in case it failed using new connection.
+                // It would be great if we new how to check if a connection to SQL Server database is exclusive,
+                // so we would not need to use try-catch block.
                 return LoadTableSchemaCore(connection, tableName);
             }
         }
@@ -223,7 +254,6 @@ namespace Kros.Data.Schema.SqlServer
         }
 
         #endregion
-
 
         #region Tables
 
@@ -343,16 +373,16 @@ namespace Kros.Data.Schema.SqlServer
         }
 
         /// <summary>
-        /// Upraví reťazec <paramref name="rawDefaultValueString"/> tak, aby z neho bolo možné získať predvolenú hodnotu stĺpca.
+        /// Adjusts the string <paramref name="rawDefaultValueString"/> so column's default value can be obtained from it.
         /// </summary>
-        /// <param name="rawDefaultValueString">Reťazec predvolenej hodnoty stĺpca tak, ako je uložený v databáze.</param>
-        /// <returns>Upravený reťazec.</returns>
+        /// <param name="rawDefaultValueString">Default value string as it is stored in database.</param>
+        /// <returns>Adjusted string - trimmed of unneeded characters.</returns>
         protected virtual string GetDefaultValueString(string rawDefaultValueString)
         {
-            // Predvolené hodnoty sú v schéme uložené tak zvláštne, že sú v obyčajných zátvorkách (v niektorých
-            // prípadoch dokonca zdvojených) a v prípade textu ešte v apostrofoch. Teda predvolená hodnota 0 pre
-            // číselný stĺpec je uložená ako "(0)" (prípadne "((0))"). Predvolená hodnota "hello" pre textový
-            // stĺpec je uložená ako "('hello')", resp. "(N'hello')".
+            // Default values are in the database schema stored in a way, that the value is in parenthesis (sometimes doubled).
+            // In the case of string columns, default value is also between apostrophes.
+            // So default value 0 for numeric column is stored as "(0)" (or sometimes "((0))").
+            // Default value "hello" for string column is stored as "('hello')" or "(N'hello')".
             rawDefaultValueString = rawDefaultValueString.Trim('(', ')');
             if (rawDefaultValueString.Length >= 2)
             {
@@ -432,7 +462,6 @@ namespace Kros.Data.Schema.SqlServer
         }
 
         #endregion
-
 
         #region Indexes
 
@@ -539,7 +568,6 @@ ORDER BY tables.name, indexes.name, index_columns.key_ordinal
         }
 
         #endregion
-
 
         #region Foreign keys
 
@@ -676,7 +704,6 @@ ORDER BY foreign_key_columns.constraint_object_id
 
         #endregion
 
-
         #region Helpers
 
         private void CheckConnection(object connection)
@@ -715,6 +742,5 @@ ORDER BY foreign_key_columns.constraint_object_id
         }
 
         #endregion
-
     }
 }

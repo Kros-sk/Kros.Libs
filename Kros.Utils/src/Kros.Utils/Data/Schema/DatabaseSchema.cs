@@ -3,37 +3,33 @@
 namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Schéma databázy.
+    /// Database schema.
     /// </summary>
     public class DatabaseSchema
     {
-
         #region Constructors
 
         /// <summary>
-        /// Vytvorí inštanciu schémy databázy s menom <paramref name="name"/>.
+        /// Creates an instance of database schema with specified <paramref name="name"/>.
         /// </summary>
-        /// <param name="name">Meno databázy.</param>
+        /// <param name="name">Name of the database.</param>
         public DatabaseSchema(string name)
         {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
-
-            Name = name;
+            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
             Tables = new TableSchemaCollection(this);
         }
 
         #endregion
 
-
         #region Common
 
         /// <summary>
-        /// Názov databázy.
+        /// Name of the database.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Schéma tabuliek databázy.
+        /// List of tables in database.
         /// </summary>
         public TableSchemaCollection Tables { get; }
 
@@ -45,6 +41,5 @@ namespace Kros.Data.Schema
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }

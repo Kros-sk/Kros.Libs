@@ -3,11 +3,10 @@
 namespace Kros.Data
 {
     /// <summary>
-    /// Interfejs popisujúci tiedu, ktorá generuje unikátne identifikátory pre záznamy v tabuľke.
+    /// Interface for generating IDs for records in database. In general, IDs are just sequential numbers.
     /// </summary>
-    /// <remarks>Jedna inštancia generuje vždy pre jednu tabuľku.</remarks>
-    /// <seealso cref="System.IDisposable" />
-    /// <seealso cref="Kros.Data.SqlServer.SqlServerIdGenerator"/>
+    /// <remarks>Usually one generator generates IDs for just one table.</remarks>
+    /// <seealso cref="SqlServer.SqlServerIdGenerator"/>
     /// <example>
     /// <code language="cs" source="..\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
     /// </example>
@@ -15,10 +14,10 @@ namespace Kros.Data
         : IDisposable
     {
         /// <summary>
-        /// Vráti identifikátor pre ďalší záznam.
+        /// Returns next ID.
         /// </summary>
         /// <returns>
-        /// Unikátny identifikátor pre záznam v tabuľke.
+        /// Unique ID for record in data table.
         /// </returns>
         int GetNext();
     }

@@ -5,20 +5,21 @@ using System.Data;
 namespace Kros.Data
 {
     /// <summary>
-    /// Pomocná trieda pre otváranie spojenia na databázu. Trieda pri použití spojenie otvorí, ak je to potrebné a zase
-    /// zatvorí, ak ho otvorila. V prípade, že spojenie už otvorené bolo, nerobí nič.
+    /// Helper class for opening database connection. It ensures opening and closing of the connection.
     /// </summary>
     public class ConnectionHelper
         : Suspender
     {
         /// <summary>
-        /// Otvorí spojenie na databázu <paramref name="connection"/>, ak nie je otvorené. Po uvoľnení vráteného objektu
-        /// je spojenie opäť uzatvorené v prípade, že bolo na začiatku otvorené. Ak spojenie už bolo otvorené, nerobí sa nič.
+        /// If database <paramref name="connection"/> is closed, it is opened immediately. After disposing of returned
+        /// object, the connection is closed, but only if it was opened. So when already opened connection is passed
+        /// in the parameter, nothing is done with it.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu, ktoré sa otvorí.</param>
+        /// <param name="connection">Database connection.</param>
         /// <returns>
-        /// Objekt, ktorého uvoľnením sa spojenie na databázu zatvorí v prípade, že bolo na začitku otvorené.
+        /// Helper object, which closes connection when it is disposed of.
         /// </returns>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="connection"/> is <see langword="null"/>.</exception>
         public static IDisposable OpenConnection(IDbConnection connection)
         {
             Check.NotNull(connection, nameof(connection));
@@ -29,21 +30,12 @@ namespace Kros.Data
         private readonly IDbConnection _connection;
         private bool _closeConnection = false;
 
-        /// <summary>
-        /// Vytvorí inštanciu so zadaným psojením na databázu <paramref name="connection"/>.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Parameter <paramref name="connection"/> má hodnotu <see langword="null"/>.
-        /// </exception>
         private ConnectionHelper(IDbConnection connection)
         {
             _connection = connection;
         }
 
-        /// <summary>
-        /// Otvorí spojenie na databázu, ak je zatvorené.
-        /// </summary>
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         protected override void SuspendCore()
         {
             base.SuspendCore();
@@ -54,9 +46,6 @@ namespace Kros.Data
             }
         }
 
-        /// <summary>
-        /// Zatvorí spojenie na databázu, ak bolo otvorené v <see cref="SuspendCore"/>.
-        /// </summary>
         protected override void ResumeCore()
         {
             base.ResumeCore();
@@ -66,5 +55,6 @@ namespace Kros.Data
                 _closeConnection = false;
             }
         }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

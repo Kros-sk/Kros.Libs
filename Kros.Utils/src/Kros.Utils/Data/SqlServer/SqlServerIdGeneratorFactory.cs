@@ -4,29 +4,23 @@ using System.Data.SqlClient;
 namespace Kros.Data.SqlServer
 {
     /// <summary>
-    /// Interface popisujúci factory triedu, ktorá vie vytvoriť inštanciu <see cref="SqlServerIdGenerator"/>.
+    /// Creates an instances of <see cref="SqlServerIdGenerator"/> for specified database.
     /// </summary>
     /// <seealso cref="SqlServerIdGenerator"/>
     /// <seealso cref="IdGeneratorFactories"/>
     /// <example>
     /// <code language="cs" source="..\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
     /// </example>
-    /// <remarks>Štandardne sa nevytvára priamo ale cez <see cref="IdGeneratorFactories"/>.</remarks>
     public class SqlServerIdGeneratorFactory
         : IIdGeneratorFactory
     {
-        /// <summary>
-        /// Defaultný názov tabuľky, kde si uchovávame identifikátory pre jednotlivé tabuľky.
-        /// </summary>
-        public const string DefaultIdStoreTableName = "IdStore";
-
         private readonly string _connectionString;
         private readonly SqlConnection _connection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlServerIdGeneratorFactory"/> class.
         /// </summary>
-        /// <param name="connection">Connection, ktorá sa použije pre získavanie unikátnych identifikátorov.</param>
+        /// <param name="connection">Database connection. ID generators create IDs for tables in this database.</param>
         public SqlServerIdGeneratorFactory(SqlConnection connection)
         {
             _connection = Check.NotNull(connection, nameof(connection));
@@ -35,7 +29,8 @@ namespace Kros.Data.SqlServer
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlServerIdGeneratorFactory"/> class.
         /// </summary>
-        /// <param name="connectionString">Connection string, ktorý sa použije na vytvorenie conenction pre získavanie unikátnych identifikátorov.</param>
+        /// <param name="connectionString">Database connection connection.
+        /// ID generators create IDs for tables in this database.</param>
         public SqlServerIdGeneratorFactory(string connectionString)
         {
             _connectionString = Check.NotNullOrWhiteSpace(connectionString, nameof(connectionString));
@@ -52,7 +47,7 @@ namespace Kros.Data.SqlServer
                 new SqlServerIdGenerator(_connectionString, tableName, batchSize);
 
         /// <summary>
-        /// Registrovanie factory metód na vytvorenie inštancie do <see cref="IdGeneratorFactories"/>.
+        /// Registers factory methods for creating an instance of factory into <see cref="IdGeneratorFactories"/>.
         /// </summary>
         public static void Register() =>
             IdGeneratorFactories.Register<SqlConnection>("System.Data.SqlClient",

@@ -6,53 +6,49 @@ using System.Collections.Generic;
 namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Zoznam cudzích kľúčov tabuľky <see cref="TableSchema"/>.
+    /// List of foreign keys for table <see cref="TableSchema"/>.
     /// </summary>
-    /// <remarks>Cudzím kľúčom pridaným do zoznamu je automaticky nastavená tabuľka <see cref="IndexSchema.Table"/>.
-    /// Do zoznamu nie je možné pridať cudzí kľúč, ktorý už patrí inej tabuľke. V takom prípade je vyvolaná výnimka
-    /// <see cref="InvalidOperationException"/>.</remarks>
+    /// <remarks>To the foreign keys added to this list is automatically set their <see cref="ForeignKeySchema.Table"/>.
+    /// Foreign ey can belong only to one table.</remarks>
     public class ForeignKeySchemaCollection
         : System.Collections.ObjectModel.KeyedCollection<string, ForeignKeySchema>
     {
-
         #region Constructors
 
         /// <summary>
-        /// Vytvorí zoznam cudzích kľúčov pre tabuľku <paramref name="table"/>.
+        /// Creates a new foreign key list for <paramref name="table"/>.
         /// </summary>
-        /// <param name="table">Tabuľka.</param>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="table"/> je <c>null</c>.</exception>
+        /// <param name="table">Table to which foreign key list belongs.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="table"/> is <see langword="null"/>.</exception>
         public ForeignKeySchemaCollection(TableSchema table)
             : base(StringComparer.OrdinalIgnoreCase)
         {
-            Check.NotNull(table, nameof(table));
-            Table = table;
+            Table = Check.NotNull(table, nameof(table));
         }
 
         #endregion
 
-
         #region Common
 
         /// <summary>
-        /// Tabuľka, ktorej zoznam cudzích kľúčov patrí.
+        /// The table to which belongs this <c>ForeignKeySchemaCollection</c>.
         /// </summary>
         TableSchema Table { get; }
 
         /// <summary>
-        /// Vytvorí a pridá do zoznamu novú definíciu cudzieho kľúča s menom <paramref name="name"/>. Cudzí kľúč je nad stĺpcom
-        /// <paramref name="foreignKeyTableColumn"/> tabuľky <paramref name="foreignKeyTableName"/> a odkazuje sa na
-        /// stĺpec <paramref name="primaryKeyTableColumn"/> tabuľky <paramref name="primaryKeyTableName"/>.
+        /// Creates a definition of foreign key with the <paramref name="name"/> and adds it to the list.
+        /// Column <paramref name="primaryKeyTableColumn"/> in parent table <paramref name="primaryKeyTableName"/> is
+        /// referenced in column <paramref name="foreignKeyTableColumn"/> of child table <paramref name="foreignKeyTableName"/>.
         /// </summary>
-        /// <param name="name">Meno cudzieho kľúča.</param>
-        /// <param name="primaryKeyTableName">Meno tabuľky s primárnym kľúčom.</param>
-        /// <param name="primaryKeyTableColumn">Meno odkazovaného stĺpca v tabuľke s primárnym kľúčom.</param>
-        /// <param name="foreignKeyTableName">Meno tabuľky s cudzím kľúčom.</param>
-        /// <param name="foreignKeyTableColumn">Meno stĺpca v tabuľke cudzieho kľúča.</param>
-        /// <returns>Vytvorený cudzí kľúč.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota ľubovoľného parametra je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Hodnota ľubovoľného parametra je prázdny reťazec, alebo reťazec bielych znakov.
-        /// </exception>
+        /// <param name="name">Name of the foreign key.</param>
+        /// <param name="primaryKeyTableName"><inheritdoc cref="ForeignKeySchema.PrimaryKeyTableName" select="summary"/>.</param>
+        /// <param name="primaryKeyTableColumn">Column name in primary key table.</param>
+        /// <param name="foreignKeyTableName"><inheritdoc cref="ForeignKeySchema.ForeignKeyTableName" select="summary"/>.</param>
+        /// <param name="foreignKeyTableColumn">Column name in foreign key table.</param>
+        /// <returns>Created foreign key.</returns>
+        /// <exception cref="ArgumentNullException">Value of any parameter is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Value of any parameter is empty string, or string containing only
+        /// whitespace characters.</exception>
         public ForeignKeySchema Add(
             string name,
             string primaryKeyTableName,
@@ -69,22 +65,21 @@ namespace Kros.Data.Schema
         }
 
         /// <summary>
-        /// Vytvorí a pridá do zoznamu novú definíciu cudzieho kľúča s menom <paramref name="name"/>. Cudzí kľúč je nad stĺpcami
-        /// <paramref name="foreignKeyTableColumns"/> tabuľky <paramref name="foreignKeyTableName"/> a odkazuje sa na
-        /// stĺpce <paramref name="primaryKeyTableColumns"/> tabuľky <paramref name="primaryKeyTableName"/>.
+        /// Creates a definition of foreign key with the <paramref name="name"/> and adds it to the list.
+        /// Columns <paramref name="primaryKeyTableColumns"/> in parent table <paramref name="primaryKeyTableName"/> are
+        /// referenced in columns <paramref name="foreignKeyTableColumns"/> of child table <paramref name="foreignKeyTableName"/>.
         /// </summary>
-        /// <param name="name">Meno cudzieho kľúča.</param>
-        /// <param name="primaryKeyTableName">Meno tabuľky s primárnym kľúčom.</param>
-        /// <param name="primaryKeyTableColumns">Zoznam odkazovaných stĺpcov v tabuľke s primárnym kľúčom.</param>
-        /// <param name="foreignKeyTableName">Meno tabuľky s cudzím kľúčom.</param>
-        /// <param name="foreignKeyTableColumns">Zoznam stĺpcov v tabuľke cudzieho kľúča.</param>
-        /// <returns>Vytvorený cudzí kľúč.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota ľubovoľného parametra je <c>null</c>.</exception>
+        /// <param name="name">Name of the foreign key.</param>
+        /// <param name="primaryKeyTableName"><inheritdoc cref="ForeignKeySchema.PrimaryKeyTableName" select="summary"/>.</param>
+        /// <param name="primaryKeyTableColumns">List of columns in parent table.</param>
+        /// <param name="foreignKeyTableName"><inheritdoc cref="ForeignKeySchema.ForeignKeyTableName" select="summary"/>.</param>
+        /// <param name="foreignKeyTableColumns">List of columns in child table.</param>
+        /// <exception cref="ArgumentNullException">Value of any argument is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException"><list type="bullet">
-        /// <item>Hodnota parametrov <paramref name="name"/>, <paramref name="primaryKeyTableName"/> alebo
-        /// <paramref name="foreignKeyTableName"/> je prázdny reťazec, alebo reťazec bielych znakov.</item>
-        /// <item>Zoznam stĺpcov <paramref name="primaryKeyTableColumns"/> alebo <paramref name="foreignKeyTableColumns"/>
-        /// je prázdny.</item>
+        /// <item>Value of <paramref name="name"/>, <paramref name="primaryKeyTableName"/> or
+        /// <paramref name="foreignKeyTableName"/> is empty string, or string containing only whitespace characters.</item>
+        /// <item><paramref name="primaryKeyTableColumns"/> or <paramref name="foreignKeyTableColumns"/> is empty
+        /// (contains no items).</item>
         /// </list></exception>
         public ForeignKeySchema Add(
             string name,
@@ -102,7 +97,6 @@ namespace Kros.Data.Schema
         }
 
         #endregion
-
 
         #region KeyedCollection
 
@@ -137,6 +131,5 @@ namespace Kros.Data.Schema
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }
