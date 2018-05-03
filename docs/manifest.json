@@ -1485,7 +1485,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Kros.Utils/Kros.Data.BulkActions.BulkUpdateBase.html",
-          "hash": "15zPrITdTNpMUwOn3eSbPQ=="
+          "hash": "i7U3U5UcHTZNT+XpirYW2w=="
         }
       },
       "is_incremental": false,
@@ -1557,7 +1557,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Kros.Utils/Kros.Data.BulkActions.SqlServer.SqlServerBulkUpdate.html",
-          "hash": "AVI8tRlX4/4uZ8Dcnuzv8A=="
+          "hash": "p6tz96eTLWdfUItez8olFQ=="
         }
       },
       "is_incremental": false,
@@ -1641,7 +1641,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Kros.Utils/Kros.Data.IdGeneratorBase.html",
-          "hash": "OVlCiPAgMA3D9quXHTQB1w=="
+          "hash": "grAR6KH9cZYQC5drIna1XQ=="
         }
       },
       "is_incremental": false,
@@ -1653,7 +1653,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Kros.Utils/Kros.Data.IdGeneratorFactories.html",
-          "hash": "TvjzTWPaa3w0uCPAR4s7Nw=="
+          "hash": "M22LUCXf3ZV94YIlbPofvA=="
         }
       },
       "is_incremental": false,
@@ -1941,7 +1941,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Kros.Utils/Kros.Data.Schema.SqlServer.SqlServerColumnSchema.html",
-          "hash": "2VVpdjzXneBVodD7WIEVWg=="
+          "hash": "lOrVH+yagyCrZi3eP9Db7g=="
         }
       },
       "is_incremental": false,
@@ -2205,7 +2205,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Kros.Utils/Kros.Data.SqlServer.SqlServerIdGenerator.html",
-          "hash": "AXxVSg+3jrXK5vbnjB5xPg=="
+          "hash": "pBa52K0TohINKNtQpocwaA=="
         }
       },
       "is_incremental": false,
@@ -2217,7 +2217,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Kros.Utils/Kros.Data.SqlServer.SqlServerIdGeneratorFactory.html",
-          "hash": "innzNoZ7YeNLNHSGPpcIFw=="
+          "hash": "QgFtU4pPZ2pZ5oD4YY+GCg=="
         }
       },
       "is_incremental": false,
@@ -2380,6 +2380,9 @@
       "version": ""
     },
     {
+      "log_codes": [
+        "DuplicateUids"
+      ],
       "type": "ManagedReference",
       "source_relative_path": "api/Kros.Utils/Kros.UnitTests.yml",
       "output": {
@@ -2397,7 +2400,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Kros.Utils/Kros.Utils.Check.html",
-          "hash": "pjh5R27+pS6kEIPTJRvZgA=="
+          "hash": "c5twBIi+8K9JQ9TrYMVXnQ=="
         }
       },
       "is_incremental": false,
@@ -2421,7 +2424,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Kros.Utils/Kros.Utils.IDiContainer.html",
-          "hash": "3AT51GACfZWvMyG+1FRxZQ=="
+          "hash": "N/+G9PHIvwfAolwWjSjufQ=="
         }
       },
       "is_incremental": false,
@@ -2538,7 +2541,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "BUsZu80Wf1WF3k8ksCEctQ=="
+          "hash": "do7rNXO0iprS0ahwsS9cLg=="
         }
       },
       "is_incremental": false,
@@ -2564,9 +2567,9 @@
         "incrementalPhase": "build"
       },
       "processors": {
-        "TocDocumentProcessor": {
+        "ResourceDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
         "ManagedReferenceDocumentProcessor": {
@@ -2577,9 +2580,9 @@
           "can_incremental": true,
           "incrementalPhase": "build"
         },
-        "ResourceDocumentProcessor": {
+        "TocDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         }
       }
