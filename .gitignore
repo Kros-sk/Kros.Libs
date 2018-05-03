@@ -4,6 +4,10 @@
 # CodeRush
 .cr
 
+# XML documentation files
+Kros.Utils.xml
+Kros.KORM.xml
+
 # User-specific files
 *.suo
 *.user
