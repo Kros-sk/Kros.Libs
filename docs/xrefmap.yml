@@ -8776,25 +8776,6 @@ references:
   fullName.vb: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerable(Of T).GetEnumerator
   nameWithType: ModelBuilder.ModelBuilderEnumerable<T>.GetEnumerator
   nameWithType.vb: ModelBuilder.ModelBuilderEnumerable(Of T).GetEnumerator
-- uid: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerable`1.System#Collections#IEnumerable#GetEnumerator
-  name: IEnumerable.GetEnumerator()
-  href: api/Kros.KORM/Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerable-1.html#Kros_KORM_Materializer_ModelBuilder_ModelBuilderEnumerable_1_System_Collections_IEnumerable_GetEnumerator
-  commentId: M:Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerable`1.System#Collections#IEnumerable#GetEnumerator
-  name.vb: System.Collections.IEnumerable.GetEnumerator()
-  fullName: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerable<T>.System.Collections.IEnumerable.GetEnumerator()
-  fullName.vb: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerable(Of T).System.Collections.IEnumerable.GetEnumerator()
-  nameWithType: ModelBuilder.ModelBuilderEnumerable<T>.IEnumerable.GetEnumerator()
-  nameWithType.vb: ModelBuilder.ModelBuilderEnumerable(Of T).System.Collections.IEnumerable.GetEnumerator()
-- uid: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerable`1.System#Collections#IEnumerable#GetEnumerator*
-  name: IEnumerable.GetEnumerator
-  href: api/Kros.KORM/Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerable-1.html#Kros_KORM_Materializer_ModelBuilder_ModelBuilderEnumerable_1_System_Collections_IEnumerable_GetEnumerator_
-  commentId: Overload:Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerable`1.System#Collections#IEnumerable#GetEnumerator
-  isSpec: "True"
-  name.vb: System.Collections.IEnumerable.GetEnumerator
-  fullName: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerable<T>.System.Collections.IEnumerable.GetEnumerator
-  fullName.vb: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerable(Of T).System.Collections.IEnumerable.GetEnumerator
-  nameWithType: ModelBuilder.ModelBuilderEnumerable<T>.IEnumerable.GetEnumerator
-  nameWithType.vb: ModelBuilder.ModelBuilderEnumerable(Of T).System.Collections.IEnumerable.GetEnumerator
 - uid: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator`1
   name: ModelBuilder.ModelBuilderEnumerator<T>
   href: api/Kros.KORM/Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator-1.html
@@ -8872,25 +8853,6 @@ references:
   fullName.vb: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator(Of T).Reset
   nameWithType: ModelBuilder.ModelBuilderEnumerator<T>.Reset
   nameWithType.vb: ModelBuilder.ModelBuilderEnumerator(Of T).Reset
-- uid: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator`1.System#Collections#IEnumerator#Current
-  name: IEnumerator.Current
-  href: api/Kros.KORM/Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator-1.html#Kros_KORM_Materializer_ModelBuilder_ModelBuilderEnumerator_1_System_Collections_IEnumerator_Current
-  commentId: P:Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator`1.System#Collections#IEnumerator#Current
-  name.vb: System.Collections.IEnumerator.Current
-  fullName: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator<T>.System.Collections.IEnumerator.Current
-  fullName.vb: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator(Of T).System.Collections.IEnumerator.Current
-  nameWithType: ModelBuilder.ModelBuilderEnumerator<T>.IEnumerator.Current
-  nameWithType.vb: ModelBuilder.ModelBuilderEnumerator(Of T).System.Collections.IEnumerator.Current
-- uid: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator`1.System#Collections#IEnumerator#Current*
-  name: IEnumerator.Current
-  href: api/Kros.KORM/Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator-1.html#Kros_KORM_Materializer_ModelBuilder_ModelBuilderEnumerator_1_System_Collections_IEnumerator_Current_
-  commentId: Overload:Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator`1.System#Collections#IEnumerator#Current
-  isSpec: "True"
-  name.vb: System.Collections.IEnumerator.Current
-  fullName: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator<T>.System.Collections.IEnumerator.Current
-  fullName.vb: Kros.KORM.Materializer.ModelBuilder.ModelBuilderEnumerator(Of T).System.Collections.IEnumerator.Current
-  nameWithType: ModelBuilder.ModelBuilderEnumerator<T>.IEnumerator.Current
-  nameWithType.vb: ModelBuilder.ModelBuilderEnumerator(Of T).System.Collections.IEnumerator.Current
 - uid: Kros.KORM.Metadata
   name: Kros.KORM.Metadata
   href: api/Kros.KORM/Kros.KORM.Metadata.html
@@ -10074,25 +10036,6 @@ references:
   fullName.vb: Kros.KORM.Query.DbSet(Of T).GetEnumerator
   nameWithType: DbSet<T>.GetEnumerator
   nameWithType.vb: DbSet(Of T).GetEnumerator
-- uid: Kros.KORM.Query.DbSet`1.System#Collections#IEnumerable#GetEnumerator
-  name: IEnumerable.GetEnumerator()
-  href: api/Kros.KORM/Kros.KORM.Query.DbSet-1.html#Kros_KORM_Query_DbSet_1_System_Collections_IEnumerable_GetEnumerator
-  commentId: M:Kros.KORM.Query.DbSet`1.System#Collections#IEnumerable#GetEnumerator
-  name.vb: System.Collections.IEnumerable.GetEnumerator()
-  fullName: Kros.KORM.Query.DbSet<T>.System.Collections.IEnumerable.GetEnumerator()
-  fullName.vb: Kros.KORM.Query.DbSet(Of T).System.Collections.IEnumerable.GetEnumerator()
-  nameWithType: DbSet<T>.IEnumerable.GetEnumerator()
-  nameWithType.vb: DbSet(Of T).System.Collections.IEnumerable.GetEnumerator()
-- uid: Kros.KORM.Query.DbSet`1.System#Collections#IEnumerable#GetEnumerator*
-  name: IEnumerable.GetEnumerator
-  href: api/Kros.KORM/Kros.KORM.Query.DbSet-1.html#Kros_KORM_Query_DbSet_1_System_Collections_IEnumerable_GetEnumerator_
-  commentId: Overload:Kros.KORM.Query.DbSet`1.System#Collections#IEnumerable#GetEnumerator
-  isSpec: "True"
-  name.vb: System.Collections.IEnumerable.GetEnumerator
-  fullName: Kros.KORM.Query.DbSet<T>.System.Collections.IEnumerable.GetEnumerator
-  fullName.vb: Kros.KORM.Query.DbSet(Of T).System.Collections.IEnumerable.GetEnumerator
-  nameWithType: DbSet<T>.IEnumerable.GetEnumerator
-  nameWithType.vb: DbSet(Of T).System.Collections.IEnumerable.GetEnumerator
 - uid: Kros.KORM.Query.Expressions
   name: Kros.KORM.Query.Expressions
   href: api/Kros.KORM/Kros.KORM.Query.Expressions.html
