@@ -1,5 +1,4 @@
-﻿using Kros.Properties;
-using Kros.Utils;
+﻿using Kros.Utils;
 using System;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -7,11 +6,11 @@ using System.Data.SqlClient;
 namespace Kros.Data.SqlServer
 {
     /// <summary>
-    /// Generátor unikátnych identifikátorov pre sql server.
+    /// The unique ID generator for Microsoft SQL Server.
     /// </summary>
     /// <seealso cref="IdGeneratorFactories" />
     /// <seealso cref="SqlServerIdGeneratorFactory" />
-    /// <remarks>Štandardne sa nevytvára priamo ale cez <see cref="SqlServerIdGeneratorFactory"/>.</remarks>
+    /// <remarks>In general, the generator should be created using <see cref="SqlServerIdGeneratorFactory"/>.</remarks>
     /// <example>
     /// <code language="cs" source="..\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
     /// </example>
@@ -22,28 +21,39 @@ namespace Kros.Data.SqlServer
         private const string GetNewIdSpName = "spGetNewId";
 
         /// <summary>
-        /// Konštruktor.
+        /// Creates a generator for table <paramref name="tableName"/> in database <paramref name="connectionString"/>
+        /// with batch size <paramref name="batchSize"/>.
         /// </summary>
-        /// <param name="connectionString">
-        /// Connection string, ktorý sa použije na vytvorenie conenction pre získavanie unikátnych identifikátorov.
-        /// </param>
-        /// <param name="tableName">Názov tabuľky, pre ktorú generujem identifikátory.</param>
-        /// <param name="batchSize">Veľkosť dávky, ktorú si zarezervuje dopredu.</param>
+        /// <param name="connectionString">Connection string to the database.</param>
+        /// <param name="tableName">Table name, for which IDs are generated.</param>
+        /// <param name="batchSize">IDs batch size. Saves round trips to database for IDs.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Value of <paramref name="connectionString"/> or <paramref name="tableName"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException"><list type="bullet">
+        /// <item>Value of <paramref name="connectionString"/> is empty string, or string containing only
+        /// whitespace characters.</item>
+        /// <item>Value of <paramref name="batchSize"/> is less or equal than 0.</item>
+        /// </list></exception>
         public SqlServerIdGenerator(string connectionString, string tableName, int batchSize)
             : base(connectionString, tableName, batchSize)
         {
         }
 
         /// <summary>
-        /// Konštruktor.
+        /// Creates a generator for table <paramref name="tableName"/> in database <paramref name="connection"/>
+        /// with batch size <paramref name="batchSize"/>.
         /// </summary>
-        /// <param name="connection">Connection, ktorá sa použije pre získavanie unikátnych identifikátorov.</param>
-        /// <param name="tableName">Názov tabuľky, pre ktorú generujem identifikátory.</param>
-        /// <param name="batchSize">Veľkosť dávky, ktorú si zarezervuje dopredu.</param>
+        /// <param name="connection">Database connection.</param>
+        /// <param name="tableName">Table name, for which IDs are generated.</param>
+        /// <param name="batchSize">IDs batch size. Saves round trips to database for IDs.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Value of <paramref name="connection"/> or <paramref name="tableName"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="batchSize"/> is less or equal than 0.</exception>
         public SqlServerIdGenerator(SqlConnection connection, string tableName, int batchSize)
             : base(connection, tableName, batchSize)
         {
-
         }
 
         /// <inheritdoc/>
@@ -65,13 +75,13 @@ namespace Kros.Data.SqlServer
             new SqlConnection(connectionString);
 
         /// <summary>
-        /// Získanie scriptu na vytvorenie store procedure.
+        /// Returns SQL script for creating stored procedure, which generates IDs.
         /// </summary>
         public static string GetStoredProcedureCreationScript() =>
             ResourceHelper.GetResourceContent("Kros.Resources.SqlIdGeneratorStoredProcedureScript.sql");
 
         /// <summary>
-        /// Získanie scriptu na vytvorenie IdStore tabuľky.
+        /// Returns SQL script for creating table in databas to for storing IDs.
         /// </summary>
         public static string GetIdStoreTableCreationScript() =>
             ResourceHelper.GetResourceContent("Kros.Resources.SqlIdGeneratorTableScript.sql");

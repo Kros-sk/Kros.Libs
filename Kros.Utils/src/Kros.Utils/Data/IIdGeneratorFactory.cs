@@ -1,9 +1,9 @@
 ﻿namespace Kros.Data
 {
     /// <summary>
-    /// Interface popisujúci factory triedu, ktorá vie vytvoriť inštanciu <see cref="IIdGenerator"/>.
+    /// Interface for factory classes, which create instances of <see cref="IIdGenerator"/>.
     /// </summary>
-    /// <seealso cref="Kros.Data.SqlServer.SqlServerIdGeneratorFactory"/>
+    /// <seealso cref="SqlServer.SqlServerIdGeneratorFactory"/>
     /// <seealso cref="IdGeneratorFactories"/>
     /// <example>
     /// <code language="cs" source="..\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
@@ -11,25 +11,19 @@
     public interface IIdGeneratorFactory
     {
         /// <summary>
-        /// Vytvorí inštanciu <see cref="IIdGenerator"/> pre generovanie unikátnych identifikátorov pre tabuľku
-        /// <paramref name="tableName"/>.
+        /// Creates an instance of <see cref="IIdGenerator"/> for table <paramref name="tableName"/>.
         /// </summary>
-        /// <param name="tableName">Názov tabuľky pre ktorú sa budú generovať identifikátory.</param>
-        /// <returns>
-        /// Inštancia <see cref="IIdGenerator"/>.
-        /// </returns>
+        /// <param name="tableName">Table for which IDs will be generated.</param>
+        /// <returns>The instance of <see cref="IIdGenerator"/>.</returns>
         IIdGenerator GetGenerator(string tableName);
 
         /// <summary>
-        /// Vytvorí inštanciu <see cref="IIdGenerator"/> pre generovanie unikátnych identifikátorov pre tabuľku
-        /// <paramref name="tableName"/>.
-        /// Nastaví mu aj dávku, ktorú ma rezervovať. (aby v prípade väčšieho počtu nemusel ísť zakaždým do databázy)
+        /// Creates an instance of <see cref="IIdGenerator"/> for table <paramref name="tableName"/>
+        /// with specified <paramref name="batchSize"/>.
         /// </summary>
-        /// <param name="tableName">Názov tabuľky pre ktorú sa budú generovať identifikátory.</param>
-        /// <param name="batchSize">Veľkosť dávky, ktorú si zarezervuje dopredu.</param>
-        /// <returns>
-        /// Inštancia <see cref="IIdGenerator"/>.
-        /// </returns>
+        /// <param name="tableName">Table for which IDs will be generated.</param>
+        /// <param name="batchSize">IDs batch size. This number of IDs will be reserved for later use.</param>
+        /// <returns>The instance of <see cref="IIdGenerator"/>.</returns>
         IIdGenerator GetGenerator(string tableName, int batchSize);
     }
 }

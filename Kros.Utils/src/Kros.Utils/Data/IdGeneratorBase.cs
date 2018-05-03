@@ -1,13 +1,13 @@
 ﻿using Kros.Utils;
+using System;
 using System.Data.Common;
 
 namespace Kros.Data
 {
     /// <summary>
-    /// Základná trieda, ktorú stači zdediť aby sme mohli jednoduchšie vytvárať implementácie <see cref="IIdGenerator"/>.
-    /// Stará sa o dispose connection.
+    /// Base class for simple creation of implementations of <see cref="IIdGenerator"/>.
     /// </summary>
-    /// <seealso cref="Kros.Data.IIdGenerator" />
+    /// <seealso cref="IIdGenerator" />
     public abstract class IdGeneratorBase
         : IIdGenerator
     {
@@ -15,28 +15,41 @@ namespace Kros.Data
         private bool _disposeOfConnection = false;
 
         /// <summary>
-        /// Konštruktor.
+        /// Creates an instance of ID generator for table <paramref name="tableName"/> in database <paramref name="connection"/>
+        /// and with specified <paramref name="batchSize"/>.
         /// </summary>
-        /// <param name="connection">Connection, ktorá sa použije pre získavanie unikátnych identifikátorov.</param>
-        /// <param name="tableName">Názov tabuľky, pre ktorú generujem identifikátory.</param>
-        /// <param name="bathSize">Veľkosť dávky, ktorú si zarezervuje dopredu.</param>
-        public IdGeneratorBase(DbConnection connection, string tableName, int bathSize)
-            : this(tableName, bathSize)
+        /// <param name="connection">Database connection.</param>
+        /// <param name="tableName">Table name, for which IDs are generated.</param>
+        /// <param name="batchSize">IDs batch size. Saves round trips to database for IDs.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Value of <paramref name="connection"/> or <paramref name="tableName"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="batchSize"/> is less or equal than 0.</exception>
+        public IdGeneratorBase(DbConnection connection, string tableName, int batchSize)
+            : this(tableName, batchSize)
         {
             Connection = Check.NotNull(connection, nameof(connection));
         }
 
         /// <summary>
-        /// Konštruktor.
+        /// Creates an instance of ID generator for table <paramref name="tableName"/> in database
+        /// <paramref name="connectionString"/> and with specified <paramref name="batchSize"/>.
         /// </summary>
-        /// <param name="connectionString">
-        /// Connection string, ktorý sa použije na vytvorenie conenction pre získavanie unikátnych identifikátorov.
-        /// </param>
-        /// <param name="tableName">Názov tabuľky, pre ktorú generujem identifikátory.</param>
-        /// <param name="batchSize">Veľkosť dávky, ktorú si zarezervuje dopredu.</param>
+        /// <param name="connectionString">Database connection string.</param>
+        /// <param name="tableName">Table name, for which IDs are generated.</param>
+        /// <param name="batchSize">IDs batch size. Saves round trips to database for IDs.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Value of <paramref name="connectionString"/> or <paramref name="tableName"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException"><list type="bullet">
+        /// <item>Value of <paramref name="connectionString"/> is empty string, or string containing only
+        /// whitespace characters.</item>
+        /// <item>Value of <paramref name="batchSize"/> is less or equal than 0.</item>
+        /// </list></exception>
         public IdGeneratorBase(string connectionString, string tableName, int batchSize)
             : this(tableName, batchSize)
         {
+            Check.NotNullOrWhiteSpace(connectionString, nameof(connectionString));
             Connection = CreateConnection(connectionString);
             _disposeOfConnection = true;
         }
@@ -44,35 +57,35 @@ namespace Kros.Data
         private IdGeneratorBase(string tableName, int batchSize)
         {
             TableName = Check.NotNull(tableName, nameof(tableName));
-            BatchSize = Check.GreaterOrEqualThan(batchSize, 0, nameof(tableName));
+            BatchSize = Check.GreaterThan(batchSize, 0, nameof(batchSize));
         }
 
         /// <summary>
-        /// Vytvorenie connection.
+        /// Creates a database connection instance.
         /// </summary>
         /// <param name="connectionString">Connection string.</param>
-        /// <returns>Špecifická inštancia <see cref="DbConnection"/>.</returns>
+        /// <returns>specific instance of <see cref="DbConnection"/>.</returns>
         protected abstract DbConnection CreateConnection(string connectionString);
 
         /// <summary>
-        /// Názov tabuľky, pre ktorú generujem identifikátory.
+        /// Table name for which IDs are generated.
         /// </summary>
         public string TableName { get; }
 
         /// <summary>
-        /// Veľkosť dávky, ktorú si zarezevuje dopredu.
+        /// Batch size - saves roundtrips into database.
         /// </summary>
         public int BatchSize { get; }
 
         /// <summary>
-        /// Connection, ktorá sa použije pre získavanie unikátnych identifikátorov.
+        /// Database connection.
         /// </summary>
         protected DbConnection Connection { get; }
 
         private int _nextId = 0;
         private int _nextAccessToDb = -1;
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IIdGenerator.GetNext"/>
         public virtual int GetNext()
         {
             if (_nextAccessToDb <= _nextId)
@@ -93,15 +106,13 @@ namespace Kros.Data
         }
 
         /// <summary>
-        /// Získa nový identifikátor z databázy. V tejto metóde je zabezpečné, že spojenie na databázu <see cref="Connection"/>
-        /// je otvorené.
+        /// Returns new ID from database. In this method is ensured, that the <see cref="Connection"/> is opened.
         /// </summary>
-        /// <returns>Ďalší identifikátor, ktorý sa môže použiť.</returns>
+        /// <returns>Next ID.</returns>
         protected abstract int GetNewIdFromDbCore();
 
         /// <summary>
-        /// Inicializuje databázu tak, aby sa dal v nej používať generátor ID. Znamená to napríklad vytvorenie príslušnej
-        /// tabuľky a stored procedúry.
+        /// Inits database for using ID generator. Initialization can mean creating necessary table and stored procedure.
         /// </summary>
         public abstract void InitDatabaseForIdGenerator();
 
@@ -122,11 +133,9 @@ namespace Kros.Data
                         Connection.Dispose();
                     }
                 }
-
                 _disposedValue = true;
             }
         }
-
 
         public void Dispose() => Dispose(true);
 
