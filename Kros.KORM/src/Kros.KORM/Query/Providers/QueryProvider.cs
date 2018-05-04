@@ -170,7 +170,6 @@ namespace Kros.KORM.Query
                     tableName, columnName));
             }
             table.Columns[columnName].SetParameterDbType(parameter);
-            parameter.Size = table.Columns[columnName].Size;
         }
 
         private TableSchema LoadTableSchema(string tableName)
