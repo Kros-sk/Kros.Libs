@@ -29,6 +29,11 @@ namespace Kros.KORM.UnitTests.Integration
 ) ON[PRIMARY];
 ";
 
+        private static string InsertDataScript =
+            $@"INSERT INTO {Table_TestTable} VALUES (1, 18, 'John', 'Smith', 'London');
+INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
+";
+
         #endregion
 
         [Fact]
@@ -48,6 +53,43 @@ namespace Kros.KORM.UnitTests.Integration
                 });
 
                 dbSet.Add(new Person()
+                {
+                    Id = 2,
+                    FirstName = "Peter",
+                    LastName = "Juráček",
+                    Age = 14,
+                    Address = new List<string>() { "Novozámocká" }
+                });
+
+                dbSet.CommitChanges();
+
+                var person = korm.Query<Person>().FirstOrDefault(p => p.Id == 1);
+
+                person.Id.Should().Be(1);
+                person.Age.Should().Be(32);
+                person.FirstName.Should().Be("Milan");
+                person.LastName.Should().Be("Martiniak");
+                person.Address.ShouldBeEquivalentTo(new List<string>() { "Petzvalova", "Pekna", "Zelena" });
+            }
+        }
+
+        [Fact]
+        public void UpdateData()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
+            {
+                var dbSet = korm.Query<Person>().AsDbSet();
+
+                dbSet.Edit(new Person()
+                {
+                    Id = 1,
+                    FirstName = "Milan",
+                    LastName = "Martiniak",
+                    Age = 32,
+                    Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" }
+                });
+
+                dbSet.Edit(new Person()
                 {
                     Id = 2,
                     FirstName = "Peter",

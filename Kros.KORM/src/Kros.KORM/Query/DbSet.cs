@@ -278,6 +278,8 @@ namespace Kros.KORM.Query
             GeneratePrimaryKeys(items);
             using (DbCommand command = _commandGenerator.GetInsertCommand())
             {
+                command.Prepare();
+
                 foreach (T item in items)
                 {
                     _commandGenerator.FillCommand(command, item);
@@ -312,6 +314,8 @@ namespace Kros.KORM.Query
         {
             using (DbCommand command = _commandGenerator.GetUpdateCommand())
             {
+                command.Prepare();
+
                 foreach (T item in items)
                 {
                     _commandGenerator.FillCommand(command, item);

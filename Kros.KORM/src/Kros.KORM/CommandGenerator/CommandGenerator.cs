@@ -203,7 +203,6 @@ namespace Kros.KORM.CommandGenerator
                     DbParameter parameter = command.Parameters[paramName];
                     var val = GetColumnValue(colInfo, item);
                     parameter.Value = val ?? System.DBNull.Value;
-                    _provider.SetParameterDbType(parameter, _tableInfo.Name, colInfo.Name);
                 }
             }
         }
@@ -267,6 +266,7 @@ namespace Kros.KORM.CommandGenerator
             {
                 var par = cmd.CreateParameter();
                 par.ParameterName = $"@{colInfo.Name}";
+                _provider.SetParameterDbType(par, _tableInfo.Name, colInfo.Name);
                 cmd.Parameters.Add(par);
             }
         }
