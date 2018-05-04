@@ -81,7 +81,7 @@ namespace Kros.Data.SqlServer
             ResourceHelper.GetResourceContent("Kros.Resources.SqlIdGeneratorStoredProcedureScript.sql");
 
         /// <summary>
-        /// Returns SQL script for creating table in databas to for storing IDs.
+        /// Returns SQL script for creating table in database for storing IDs.
         /// </summary>
         public static string GetIdStoreTableCreationScript() =>
             ResourceHelper.GetResourceContent("Kros.Resources.SqlIdGeneratorTableScript.sql");

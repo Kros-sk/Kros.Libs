@@ -86,7 +86,7 @@ namespace Kros.Data
         /// type <paramref name="adoClientName"/>.
         /// </summary>
         /// <param name="connectionString">Connection string for database.</param>
-        /// <param name="adoClientName">Name, which specifies database type..</param>
+        /// <param name="adoClientName">Name, which specifies database type.</param>
         /// <returns>Instance of <see cref="IIdGeneratorFactory"/>.</returns>
         /// <exception cref="InvalidOperationException">
         /// Factory for database type specified by <paramref name="adoClientName"/> is not registered.

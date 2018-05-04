@@ -25,7 +25,7 @@ namespace Kros.Data
         /// Returns error code for Microsoft SQL Server.
         /// </summary>
         /// <param name="ex">Exception of which error code is tested.</param>
-        /// <returns>error code as a value of enumeration <see cref="SqlServerErrorCode" />. If error code is not defined in
+        /// <returns>Error code as a value of enumeration <see cref="SqlServerErrorCode"/>. If error code is not defined in
         /// the enum, value <see cref="SqlServerErrorCode.Unknown">SqlServerErrorCode.Unknown</see> is returned.</returns>
         /// <remarks>
         /// Method checks value of <see cref="SqlError.Number">Number</see> property of the first error in the

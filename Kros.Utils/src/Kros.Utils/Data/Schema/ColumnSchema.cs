@@ -32,7 +32,7 @@ namespace Kros.Data.Schema
         /// <item><c>Boolean</c>'s default value is <see langword="false"/>.</item>
         /// <item>Default value for all numeric types is <c>0</c>.</item>
         /// <item>Default value for date and time is <c>1.1.1900 0:00:00</c></item>
-        /// <item>String's default value si empty string.</item>
+        /// <item>String's default value is empty string.</item>
         /// <item>GUID's default value is empty GUID (<see cref="Guid.Empty"/>).</item>
         /// </list>
         /// </summary>

@@ -29,7 +29,7 @@ namespace Kros.Data.SqlServer
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlServerIdGeneratorFactory"/> class.
         /// </summary>
-        /// <param name="connectionString">Database connection connection.
+        /// <param name="connectionString">Database connection string.
         /// ID generators create IDs for tables in this database.</param>
         public SqlServerIdGeneratorFactory(string connectionString)
         {

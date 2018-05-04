@@ -9,7 +9,7 @@ namespace Kros.Data.Schema
     /// List of foreign keys for table <see cref="TableSchema"/>.
     /// </summary>
     /// <remarks>To the foreign keys added to this list is automatically set their <see cref="ForeignKeySchema.Table"/>.
-    /// Foreign ey can belong only to one table.</remarks>
+    /// Foreign key can belong only to one table.</remarks>
     public class ForeignKeySchemaCollection
         : System.Collections.ObjectModel.KeyedCollection<string, ForeignKeySchema>
     {

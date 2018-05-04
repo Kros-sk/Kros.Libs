@@ -64,7 +64,7 @@ namespace Kros.Data
         /// Creates a database connection instance.
         /// </summary>
         /// <param name="connectionString">Connection string.</param>
-        /// <returns>specific instance of <see cref="DbConnection"/>.</returns>
+        /// <returns>Specific instance of <see cref="DbConnection"/>.</returns>
         protected abstract DbConnection CreateConnection(string connectionString);
 
         /// <summary>
