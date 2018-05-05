@@ -6,7 +6,7 @@ using System.Collections;
 namespace Kros.Data.BulkActions
 {
     /// <summary>
-    /// Wrapper, which extends simple <see cref="IBulkActionDataReader"/> to more complicated <see cref="IDataReader"/>.
+    /// Wrapper, which extends simple <see cref="IBulkActionDataReader"/> to more complex <see cref="IDataReader"/>.
     /// </summary>
     public class BulkActionDataReader : System.Data.Common.DbDataReader
     {
