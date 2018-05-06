@@ -9,7 +9,7 @@ namespace Kros.Data.BulkActions
     {
 
         /// <summary>
-        /// Columns count in data row.
+        /// Columns count of the data row.
         /// </summary>
         int FieldCount { get; }
 

@@ -28,7 +28,7 @@ namespace Kros.Data.BulkActions
         protected IDbConnection _connection;
 
         /// <summary>
-        /// If dispose of connection is necessary.
+        /// True if dispose of the connection is necessary, otherwise False.
         /// </summary>
         protected bool _disposeOfConnection = false;
 

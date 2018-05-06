@@ -37,7 +37,7 @@ namespace Kros.Data.BulkActions
         #region IDataReader
 
         /// <summary>
-        /// Columns count in data row.
+        /// Columns count of the data row.
         /// </summary>
         public override int FieldCount => _reader.FieldCount;
 

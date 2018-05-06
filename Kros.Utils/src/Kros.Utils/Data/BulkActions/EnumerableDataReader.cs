@@ -29,7 +29,7 @@ namespace Kros.Data.BulkActions
         /// <summary>
         /// Creates instance of reader <paramref name="data"/> with list of columns <paramref name="columnNames"/>.
         /// </summary>
-        /// <param name="data">Data, reader will be opened over them.</param>
+        /// <param name="data">Data which reader operates with.</param>
         /// <param name="columnNames">List of columns with which reader works.
         /// For every column must exists property with the same name in object <c>T</c>.</param>
         /// <exception cref="ArgumentNullException">
