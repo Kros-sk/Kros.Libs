@@ -5,42 +5,36 @@ using System;
 namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Zoznam stĺpcov tabuľky <see cref="TableSchema"/>.
+    /// List of columns for table <see cref="TableSchema"/>.
     /// </summary>
-    /// <remarks>Stĺpcom pridaným do zoznamu je automaticky nastavená tabuľka <see cref="ColumnSchema.Table"/>.
-    /// Do zoznamu nie je možné pridať stĺpec, ktorý už patrí inej tabuľke. V takom prípade je vyvolaná výnimka
-    /// <see cref="InvalidOperationException"/>.</remarks>
+    /// <remarks>To the columns added to this list is automatically set their <see cref="ColumnSchema.Table"/>. The column
+    /// can belong only to one table.</remarks>
     public class ColumnSchemaCollection
         : System.Collections.ObjectModel.KeyedCollection<string, ColumnSchema>
     {
-
         #region Constructors
 
         /// <summary>
-        /// Vytvorí zoznam stĺpcov pre tabuľku <paramref name="table"/>.
+        /// Creates a new column list for <paramref name="table"/>.
         /// </summary>
-        /// <param name="table">Tabuľka.</param>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="table"/> je <c>null</c>.</exception>
+        /// <param name="table">Table to which column list belongs.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="table"/> is <see langword="null"/>.</exception>
         public ColumnSchemaCollection(TableSchema table)
             : base(StringComparer.OrdinalIgnoreCase)
         {
-            Check.NotNull(table, nameof(table));
-
-            Table = table;
+            Table = Check.NotNull(table, nameof(table));
         }
 
         #endregion
 
-
         #region Common
 
         /// <summary>
-        /// Tabuľka, ktorej zoznam stĺpcov patrí.
+        /// The table to which belongs this <c>ColumnSchemaCollection</c>.
         /// </summary>
         public TableSchema Table { get; }
 
         #endregion
-
 
         #region KeyedCollection
 
@@ -75,6 +69,5 @@ namespace Kros.Data.Schema
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }

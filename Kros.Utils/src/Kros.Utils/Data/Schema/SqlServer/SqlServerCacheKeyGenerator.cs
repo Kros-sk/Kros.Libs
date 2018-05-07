@@ -5,17 +5,18 @@ using System.Data.SqlClient;
 namespace Kros.Data.Schema.SqlServer
 {
     /// <summary>
-    /// Generátor kľúča pre SQL Server databázu.
+    /// Cache key generator for Microsoft SQL Server used by <see cref="DatabaseSchemaCache"/>.
     /// </summary>
     public class SqlServerCacheKeyGenerator
         : ISchemaCacheKeyGenerator<SqlConnection>
     {
         /// <summary>
-        /// Vygeneruje kľúč pre spojenie <paramref name="connection"/>. Kľúč je vygenerovaný v tvare <b>SERVER\databáza</b>.
+        /// Generates a cache key for <paramref name="connection"/>.
+        /// The generated key is a string "<c>SqlServer: SERVER\database</c>".
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Reťazec.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
+        /// <param name="connection">Database connection.</param>
+        /// <returns>String.</returns>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="connection"/> is <see langword="null"/>.</exception>
         public string GenerateKey(SqlConnection connection)
         {
             Check.NotNull(connection, nameof(connection));
@@ -23,12 +24,7 @@ namespace Kros.Data.Schema.SqlServer
             return "SqlServer:" + builder.DataSource.ToUpper() + @"\" + builder.InitialCatalog.ToLower();
         }
 
-        /// <summary>
-        /// Vygeneruje kľúč pre spojenie <paramref name="connection"/>. Kľúč je vygenerovaný v tvare <b>SERVER\databáza</b>.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Reťazec.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
+        /// <inheritdoc cref="GenerateKey(SqlConnection)"/>
         string ISchemaCacheKeyGenerator.GenerateKey(object connection)
         {
             return GenerateKey(connection as SqlConnection);

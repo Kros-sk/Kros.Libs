@@ -1,16 +1,16 @@
 ﻿namespace Kros.Data.SqlServer
 {
     /// <summary>
-    /// Chybové kódy Microsoft Sql Server-a.
+    /// Some of the error codes for Microsoft SQL Server.
     /// </summary>
-    /// <remarks>Chybový kód je vo výnimke <see cref="System.Data.SqlClient.SqlException">SqlException</see>
-    /// vo vlastnosti <see cref="System.Data.SqlClient.SqlException.Number">Number</see>. Zoznam chybových kódov
-    /// je na adrese <see href="https://msdn.microsoft.com/en-us/library/cc645603.aspx"/>.</remarks>
+    /// <remarks>Error code is in exception <see cref="System.Data.SqlClient.SqlException"/>,
+    /// in the <see cref="System.Data.SqlClient.SqlException.Number"/> property. List of all error codes is at
+    /// <see href="https://msdn.microsoft.com/en-us/library/cc645603.aspx"/>.</remarks>
     public enum SqlServerErrorCode
     {
 
         /// <summary>
-        /// Neznámy typ chyby.
+        /// Unknown error code.
         /// </summary>
         Unknown = 0,
 

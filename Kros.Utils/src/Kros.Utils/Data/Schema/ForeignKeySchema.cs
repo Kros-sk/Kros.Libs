@@ -8,11 +8,10 @@ using System.Text;
 namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Schéma cudzieho kľúča tabuľky.
+    /// The schema of the foreign key of the database table.
     /// </summary>
     public class ForeignKeySchema
     {
-
         #region Fields
 
         private readonly List<string> _primaryKeyTableColumns = new List<string>();
@@ -20,22 +19,21 @@ namespace Kros.Data.Schema
 
         #endregion
 
-
         #region Constructors
 
         /// <summary>
-        /// Vytvorí novú definíciu cudzieho kľúča s menom <paramref name="name"/>. Cudzí kľúč je nad stĺpcom
-        /// <paramref name="foreignKeyTableColumn"/> tabuľky <paramref name="foreignKeyTableName"/> a odkazuje sa na
-        /// stĺpec <paramref name="primaryKeyTableColumn"/> tabuľky <paramref name="primaryKeyTableName"/>.
+        /// Creates a definition of foreign key with the <paramref name="name"/>.
+        /// Column <paramref name="primaryKeyTableColumn"/> in parent table <paramref name="primaryKeyTableName"/> is
+        /// referenced in column <paramref name="foreignKeyTableColumn"/> of child table <paramref name="foreignKeyTableName"/>.
         /// </summary>
-        /// <param name="name">Meno cudzieho kľúča.</param>
-        /// <param name="primaryKeyTableName">Meno tabuľky s primárnym kľúčom.</param>
-        /// <param name="primaryKeyTableColumn">Meno odkazovaného stĺpca v tabuľke s primárnym kľúčom.</param>
-        /// <param name="foreignKeyTableName">Meno tabuľky s cudzím kľúčom.</param>
-        /// <param name="foreignKeyTableColumn">Meno stĺpca v tabuľke cudzieho kľúča.</param>
-        /// <exception cref="ArgumentNullException">Hodnota ľubovoľného parametra je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Hodnota ľubovoľného parametra je prázdny reťazec, alebo reťazec bielych znakov.
-        /// </exception>
+        /// <param name="name">Name of the foreign key.</param>
+        /// <param name="primaryKeyTableName"><inheritdoc cref="PrimaryKeyTableName" select="summary"/>.</param>
+        /// <param name="primaryKeyTableColumn">Column name in primary key table.</param>
+        /// <param name="foreignKeyTableName"><inheritdoc cref="ForeignKeyTableName" select="summary"/>.</param>
+        /// <param name="foreignKeyTableColumn">Column name in foreign key table.</param>
+        /// <exception cref="ArgumentNullException">Value of any parameter is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Value of any parameter is empty string, or string containing only
+        /// whitespace characters.</exception>
         public ForeignKeySchema(
             string name,
             string primaryKeyTableName,
@@ -43,15 +41,12 @@ namespace Kros.Data.Schema
             string foreignKeyTableName,
             string foreignKeyTableColumn)
         {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
-            Check.NotNullOrWhiteSpace(primaryKeyTableName, nameof(primaryKeyTableName));
+            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
+            PrimaryKeyTableName = Check.NotNullOrWhiteSpace(primaryKeyTableName, nameof(primaryKeyTableName));
             Check.NotNullOrWhiteSpace(primaryKeyTableColumn, nameof(primaryKeyTableColumn));
-            Check.NotNullOrWhiteSpace(foreignKeyTableName, nameof(foreignKeyTableName));
+            ForeignKeyTableName = Check.NotNullOrWhiteSpace(foreignKeyTableName, nameof(foreignKeyTableName));
             Check.NotNullOrWhiteSpace(foreignKeyTableColumn, nameof(foreignKeyTableColumn));
 
-            Name = name;
-            PrimaryKeyTableName = primaryKeyTableName;
-            ForeignKeyTableName = foreignKeyTableName;
             PrimaryKeyTableColumns = new ReadOnlyCollection<string>(_primaryKeyTableColumns);
             ForeignKeyTableColumns = new ReadOnlyCollection<string>(_foreignKeyTableColumns);
             _primaryKeyTableColumns.Add(primaryKeyTableColumn);
@@ -59,21 +54,21 @@ namespace Kros.Data.Schema
         }
 
         /// <summary>
-        /// Vytvorí novú definíciu cudzieho kľúča s menom <paramref name="name"/>. Cudzí kľúč je nad stĺpcami
-        /// <paramref name="foreignKeyTableColumns"/> tabuľky <paramref name="foreignKeyTableName"/> a odkazuje sa na
-        /// stĺpce <paramref name="primaryKeyTableColumns"/> tabuľky <paramref name="primaryKeyTableName"/>.
+        /// Creates a definition of foreign key with the <paramref name="name"/>.
+        /// Columns <paramref name="primaryKeyTableColumns"/> in parent table <paramref name="primaryKeyTableName"/> are
+        /// referenced in columns <paramref name="foreignKeyTableColumns"/> of child table <paramref name="foreignKeyTableName"/>.
         /// </summary>
-        /// <param name="name">Meno cudzieho kľúča.</param>
-        /// <param name="primaryKeyTableName">Meno tabuľky s primárnym kľúčom.</param>
-        /// <param name="primaryKeyTableColumns">Zoznam odkazovaných stĺpcov v tabuľke s primárnym kľúčom.</param>
-        /// <param name="foreignKeyTableName">Meno tabuľky s cudzím kľúčom.</param>
-        /// <param name="foreignKeyTableColumns">Zoznam stĺpcov v tabuľke cudzieho kľúča.</param>
-        /// <exception cref="ArgumentNullException">Hodnota ľubovoľného parametra je <c>null</c>.</exception>
+        /// <param name="name">Name of the foreign key.</param>
+        /// <param name="primaryKeyTableName"><inheritdoc cref="PrimaryKeyTableName" select="summary"/>.</param>
+        /// <param name="primaryKeyTableColumns">List of columns in parent table.</param>
+        /// <param name="foreignKeyTableName"><inheritdoc cref="ForeignKeyTableName" select="summary"/>.</param>
+        /// <param name="foreignKeyTableColumns">List of columns in child table.</param>
+        /// <exception cref="ArgumentNullException">Value of any argument is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException"><list type="bullet">
-        /// <item>Hodnota parametrov <paramref name="name"/>, <paramref name="primaryKeyTableName"/> alebo
-        /// <paramref name="foreignKeyTableName"/> je prázdny reťazec, alebo reťazec bielych znakov.</item>
-        /// <item>Zoznam stĺpcov <paramref name="primaryKeyTableColumns"/> alebo <paramref name="foreignKeyTableColumns"/>
-        /// je prázdny.</item>
+        /// <item>Value of <paramref name="name"/>, <paramref name="primaryKeyTableName"/> or
+        /// <paramref name="foreignKeyTableName"/> is empty string, or string containing only whitespace characters.</item>
+        /// <item><paramref name="primaryKeyTableColumns"/> or <paramref name="foreignKeyTableColumns"/> is empty
+        /// (contains no items).</item>
         /// </list></exception>
         public ForeignKeySchema(
             string name,
@@ -82,17 +77,14 @@ namespace Kros.Data.Schema
             string foreignKeyTableName,
             IEnumerable<string> foreignKeyTableColumns)
         {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
-            Check.NotNullOrWhiteSpace(primaryKeyTableName, nameof(primaryKeyTableName));
+            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
+            PrimaryKeyTableName = Check.NotNullOrWhiteSpace(primaryKeyTableName, nameof(primaryKeyTableName));
             Check.NotNull(primaryKeyTableColumns, nameof(primaryKeyTableColumns));
-            Check.NotNullOrWhiteSpace(foreignKeyTableName, nameof(foreignKeyTableName));
+            ForeignKeyTableName = Check.NotNullOrWhiteSpace(foreignKeyTableName, nameof(foreignKeyTableName));
             Check.NotNull(foreignKeyTableColumns, nameof(foreignKeyTableColumns));
             Check.GreaterThan(primaryKeyTableColumns.Count(), 0, nameof(primaryKeyTableColumns));
             Check.GreaterThan(foreignKeyTableColumns.Count(), 0, nameof(foreignKeyTableColumns));
 
-            Name = name;
-            PrimaryKeyTableName = primaryKeyTableName;
-            ForeignKeyTableName = foreignKeyTableName;
             PrimaryKeyTableColumns = new ReadOnlyCollection<string>(_primaryKeyTableColumns);
             ForeignKeyTableColumns = new ReadOnlyCollection<string>(_foreignKeyTableColumns);
             _primaryKeyTableColumns.AddRange(primaryKeyTableColumns);
@@ -101,46 +93,45 @@ namespace Kros.Data.Schema
 
         #endregion
 
-
         #region Common
 
         /// <summary>
-        /// Meno cudzieho kľúča.
+        /// Name of the foreign key.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Meno tabuľky z ktorej je primárny kľúč.
+        /// Name of the table, where the primary key is.
         /// </summary>
         public string PrimaryKeyTableName { get; }
 
         /// <summary>
-        /// Zoznam stĺpcov tabuľky z ktorej je primárny kľúč.
+        /// List of columns in primary key table.
         /// </summary>
         public ReadOnlyCollection<string> PrimaryKeyTableColumns { get; }
 
         /// <summary>
-        /// Meno tabuľky, v ktorej je definovaný cudzí kľúč.
+        /// Name of the child table.
         /// </summary>
         public string ForeignKeyTableName { get; }
 
         /// <summary>
-        /// Zoznam stĺpcov cudzieho kľúča v tabuľke, kde je definovaný.
+        /// List of columns in child table.
         /// </summary>
         public ReadOnlyCollection<string> ForeignKeyTableColumns { get; }
 
         /// <summary>
-        /// Pravidlo ako sa správať, ak je v hlavnej tabuľke vymazaný príslušný záznam.
+        /// The rule, what to do when record in parent table is deleted.
         /// </summary>
         public ForeignKeyRule DeleteRule { get; set; } = ForeignKeyRule.NoAction;
 
         /// <summary>
-        /// Pravidlo ako sa správať, ak je v hlavnej tabuľke aktualizovaný príslušný záznam.
+        /// The rule, what to do when record in parent table is updated.
         /// </summary>
         public ForeignKeyRule UpdateRule { get; set; } = ForeignKeyRule.NoAction;
 
         /// <summary>
-        /// Tabuľka, ktorej cudzí kľúč patrí.
+        /// Table to which this foreign key belongs.
         /// </summary>
         public TableSchema Table { get; internal set; }
 
@@ -180,6 +171,5 @@ namespace Kros.Data.Schema
         }
 
         #endregion
-
     }
 }

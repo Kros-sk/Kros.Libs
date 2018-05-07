@@ -8,17 +8,17 @@ using System.Linq;
 namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Implementácia <see cref="IDatabaseSchemaCache"/>. Po pridaní loader-ov umožňuje načítavať schému databázy.
-    /// Načítanie schémy je pomalá záležitosť a preto sa načítaná schéma kešuje. Pri ďalšej požiadavke na rovnakú schému
-    /// sa už nenačíta z databázy, ale je vrátená z keše.
+    /// Implementation of <see cref="IDatabaseSchemaCache"/>. It allows to load database schemas after adding appropriate
+    /// loaders (<see cref="AddSchemaLoader(IDatabaseSchemaLoader, ISchemaCacheKeyGenerator)"/>). Loading of a database
+    /// schema is quite slow, that's why loaded schemas are cached. On next request for the same schema, it is not
+    /// loaded from database, but returned from cache.
     /// </summary>
     /// <remarks>
-    /// <para><c>DatabaseSchemaCache</c> je potrebné inicializovať potrebným loaderom <see cref="IDatabaseSchemaLoader"/>,
-    /// ktorý načíta schému. Zároveň každý loader musí mať špecifikovaný generátor kľúča <see cref="ISchemaCacheKeyGenerator"/>.
-    /// Generátory kľúča pre rôzne typy databáz musia vytvárať navzájom rôzne kľúče, aby sa nestalo, že dva rôzne generátory
-    /// vygenerujú rovnaký kľúč.</para>
-    /// <para>Pre jednoduché použitie je implementovaná vlastnosť <see cref="Default">DatabaseSchemaCache.Default</see>
-    /// a nie je tak nutné si vytvárať vlastnú inštanciu keše.</para>
+    /// <para>It is necessary to initialize <c>DatabaseSchemaCache</c> with loaders (<see cref="IDatabaseSchemaLoader"/>)
+    /// and every loader must have its cache key generator (<see cref="ISchemaCacheKeyGenerator"/>). Different cache key
+    /// generators should generate different keys.</para>
+    /// <para>There is a property <see cref="Default">DatabaseSchemaCache.Default</see> intended for simple static use,
+    /// so it is not necessary to create own instance.</para>
     /// </remarks>
     public class DatabaseSchemaCache
         : IDatabaseSchemaCache
@@ -41,8 +41,8 @@ namespace Kros.Data.Schema
         #region Static
 
         /// <summary>
-        /// Inštancia <c>DatabaseSchemaCache</c> určená na bežné použitie. Štandardne obsahuje loader pre SQL Server
-        /// (<see cref="SqlServer.SqlServerSchemaLoader">SqlServerSchemaLoader</see>).
+        /// Instance of <c>DatabaseSchemaCache</c> intended for simple static use. By default, it contains a loader
+        /// for Microsoft SQL Server (<see cref="SqlServer.SqlServerSchemaLoader"/>).
         /// </summary>
         public static DatabaseSchemaCache Default { get; } = InitDefault();
 
@@ -66,47 +66,33 @@ namespace Kros.Data.Schema
 
         #region IDatabaseSchemaCache
 
-        /// <summary>
-        /// Vráti schému databázy pre spojenie <paramref name="connection"/>.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Schéma danej databázy.</returns>
-        /// <exception cref="InvalidOperationException">Keš neobsahuje loader pre spojenie na databázu
-        /// <paramref name="connection"/>.</exception>
+        /// <inheritdoc cref="IDatabaseSchemaCache.GetSchema(object)"/>
+        /// <exception cref="InvalidOperationException">The cache does not contain a loader for database type
+        /// specified by <paramref name="connection"/>.</exception>
         public DatabaseSchema GetSchema(object connection)
         {
             LoaderInfo linfo = GetLoaderInfo(connection);
             return _cache.GetOrAdd(linfo.KeyGenerator.GenerateKey(connection), (k) => linfo.Loader.LoadSchema(connection));
         }
 
-        /// <summary>
-        /// Zruší z keše schému databázy načítanú pre spojenie <paramref name="connection"/>.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <exception cref="InvalidOperationException">Keš neobsahuje loader pre spojenie na databázu
-        /// <paramref name="connection"/>.</exception>
+        /// <inheritdoc cref="IDatabaseSchemaCache.ClearSchema(object)"/>
+        /// <exception cref="InvalidOperationException">The cache does not contain a loader for database type
+        /// specified by <paramref name="connection"/>.</exception>
         public void ClearSchema(object connection)
         {
             LoaderInfo linfo = GetLoaderInfo(connection);
             _cache.TryRemove(linfo.KeyGenerator.GenerateKey(connection), out DatabaseSchema schema);
         }
 
-        /// <summary>
-        /// Vyčistí celú keš - vymaže všetky načítané schémy.
-        /// </summary>
+        /// <inheritdoc cref="IDatabaseSchemaCache.ClearAllSchemas"/>
         public void ClearAllSchemas()
         {
             _cache.Clear();
         }
 
-        /// <summary>
-        /// Načíta schému databázy pre spojenie <paramref name="connection"/>. Schéma je načítaná priamo z databázy aj v prípade,
-        /// že už je uložená v keši.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Schéma danej databázy.</returns>
-        /// <exception cref="InvalidOperationException">Keš neobsahuje loader pre spojenie na databázu
-        /// <paramref name="connection"/>.</exception>
+        /// <inheritdoc cref="IDatabaseSchemaCache.RefreshSchema(object)"/>
+        /// <exception cref="InvalidOperationException">The cache does not contain a loader for database type
+        /// specified by <paramref name="connection"/>.</exception>
         public DatabaseSchema RefreshSchema(object connection)
         {
             LoaderInfo linfo = GetLoaderInfo(connection);
@@ -120,14 +106,13 @@ namespace Kros.Data.Schema
         #region Loaders
 
         /// <summary>
-        /// Pridá do keše <paramref name="loader"/> na načítavanie schémy databázy, spolu s generátorom kľúčov pre načítanú
-        /// shému <paramref name="keyGenerator"/>.
+        /// Adds <paramref name="loader"/> together with its cache key generator <paramref name="keyGenerator"/> to the
+        /// inner loaders list.
         /// </summary>
-        /// <param name="loader">Loader pre načítavanie schémy databázy.</param>
-        /// <param name="keyGenerator">Generátor kľúča pre schému databázy. Databáza sa interne drží v keši pod vygenerovaným
-        /// kľúčom.</param>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="loader"/> alebo <paramref name="keyGenerator"/>
-        /// je <c>null</c>.</exception>
+        /// <param name="loader">Database schema loader.</param>
+        /// <param name="keyGenerator">Schema cache key generator for <paramref name="loader"/>.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="loader"/> or <paramref name="keyGenerator"/>
+        /// is <see langword="null"/>.</exception>
         public void AddSchemaLoader(IDatabaseSchemaLoader loader, ISchemaCacheKeyGenerator keyGenerator)
         {
             Check.NotNull(loader, nameof(loader));
@@ -136,16 +121,16 @@ namespace Kros.Data.Schema
         }
 
         /// <summary>
-        /// Vymaže zadaný <paramref name="loader"/> databázovej schémy.
+        /// Removes specified <paramref name="loader"/> from inner loaders list.
         /// </summary>
-        /// <param name="loader">Loader databázovej schémy, ktorý sa má vymazať.</param>
+        /// <param name="loader">Database schema loader to be removed.</param>
         public void RemoveSchemaLoader(IDatabaseSchemaLoader loader)
         {
             _loaders.Remove(_loaders.FirstOrDefault((linfo) => linfo.Loader == loader));
         }
 
         /// <summary>
-        /// Vymaže všetky loader-y schém.
+        /// Removes all database schema loaders.
         /// </summary>
         public void ClearSchemaLoaders()
         {

@@ -7,16 +7,19 @@ using System.Linq;
 namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Pomocná trieda na jednoduché načítavanie schémy databáz. Obsahuje zoznam loader-ov pre konkrétne databázy a tak
-    /// je možné použiť ju transparentne pre ľubovoľný typ databázy. Pri požiadavke je vždy načítaná aktuálna schéma,
-    /// tzn. schémy sa nekešujú.
+    /// Helper class for simple loading of database schemas. It contains inner list of different loaders, so it can be used
+    /// for loading database schema for different databases. Fresh database schema is loaded for every request,
+    /// it means, loaded schemas are not cached.
     /// </summary>
     /// <remarks>
-    /// <para>Trieda obaľuje zoznam loader-ov rôznych typov databáz a umožňuje tak jednoduché načítanie schémy ľubovoľného
-    /// známeho typu. Loadery je možné pridávať metódou <see cref="DatabaseSchemaLoader.AddSchemaLoader">AddSchemaLoader</see>.
+    /// <para>
+    /// Class is a wrapper for loaders for different databases and so it allows loading of database schema for any known
+    /// database type. More loaders can be added by <see cref="DatabaseSchemaLoader.AddSchemaLoader(IDatabaseSchemaLoader)"/>
     /// </para>
-    /// <para>Trieda je určená na statické použitie pomocou vlatnosti <see cref="DatabaseSchemaLoader.Default"/>.
-    /// Štandardne dokáže načítať schémy SQL Server-a a MS Access.</para>
+    /// <para>
+    /// The class is intended for static use, using property <see cref="DatabaseSchemaLoader.Default"/>.
+    /// By default, it contains loader for Microsoft SQL Server (<see cref="SqlServer.SqlServerSchemaLoader"/>.
+    /// </para>
     /// </remarks>
     /// <example>
     /// <code language="cs" source="..\Examples\Kros.Utils\SchemaExamples.cs" region="SchemaLoader"/>
@@ -24,12 +27,11 @@ namespace Kros.Data.Schema
     public class DatabaseSchemaLoader
         : IDatabaseSchemaLoader
     {
-
         #region Static
 
         /// <summary>
-        /// Inštancia <c>DatabaseSchemaLoader</c> určená na bežné použitie. Štandardne obsahuje loader pre SQL Server
-        /// (<see cref="SqlServer.SqlServerSchemaLoader">SqlServerSchemaLoader</see>).
+        /// Instance of <c>DatabaseSchemaLoader</c> intended for general use. It contains loader for Microsoft SQL Server
+        /// by default (<see cref="SqlServer.SqlServerSchemaLoader">SqlServerSchemaLoader</see>).
         /// </summary>
         public static DatabaseSchemaLoader Default { get; } = InitDefault();
 
@@ -43,20 +45,19 @@ namespace Kros.Data.Schema
 
         #endregion
 
-
-        #region Private fields
+        #region Fields
 
         private readonly List<IDatabaseSchemaLoader> _loaders = new List<IDatabaseSchemaLoader>();
 
         #endregion
 
-
         #region Loaders
 
         /// <summary>
-        /// Pridá <paramref name="loader"/> do zoznamu loader-ov.
+        /// Adds <paramref name="loader"/> to the list of loaders.
         /// </summary>
-        /// <param name="loader">Trieda na načítanie schémy konkrétneho typu databázy.</param>
+        /// <param name="loader">Specific database schema loader.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="loader"/> is <see langword="null"/>.</exception>
         public void AddSchemaLoader(IDatabaseSchemaLoader loader)
         {
             Check.NotNull(loader, nameof(loader));
@@ -64,24 +65,21 @@ namespace Kros.Data.Schema
         }
 
         /// <summary>
-        /// Odstráni zo zoznamu loader-ov zadaný <paramref name="loader"/>.
+        /// Removes <paramref name="loader"/> from the list of loaders.
         /// </summary>
-        /// <param name="loader">Trieda na načítanie schémy databázy, ktorá sa z interného zoznamu odstráni.</param>
+        /// <param name="loader">Specific database schema loader to be removed from the list.</param>
         public void RemoveSchemaLoader(IDatabaseSchemaLoader loader)
         {
             _loaders.Remove(loader);
         }
 
-        /// <summary>
-        /// Vymaže všetky loader-y v zozname.
-        /// </summary>
+        /// <summary>Removes all loaders in the list.</summary>
         public void ClearSchemaLoaders()
         {
             _loaders.Clear();
         }
 
         #endregion
-
 
         #region IDatabaseSchemaLoader
 
@@ -104,41 +102,39 @@ namespace Kros.Data.Schema
         }
 
         /// <summary>
-        /// Kontroluje, či trieda dokáže načítať schému zo zadaného spojenia <paramref name="connection"/>.
+        /// Checks, if database schema from <paramref name="connection"/> can be loaded.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns><see langword="true"/>, ak je možné načítať schému databázy, <see langword="false"/>, ak to možné nie je. Kontroluje sa zoznam
-        /// loader-ov a <see langword="true"/> sa vráti, ak ľubovoľný z nich vie načítať schému so zadaného spojenia.</returns>
+        /// <param name="connection">Database connection.</param>
+        /// <returns>
+        /// <see langword="true"/> if loading schema for <paramref name="connection"/> is supported, <see langword="false"/>
+        /// otherwise. Internal list of loader is checked and method returns <see langword="true"/> if any of the loaders
+        /// can load schema from <paramref name="connection"/>.
+        /// </returns>
         public bool SupportsConnectionType(object connection)
         {
             Check.NotNull(connection, nameof(connection));
-
             return GetLoader(connection) != null;
         }
 
-        /// <summary>
-        /// Načíta celú schému databázy určenej spojením <paramref name="connection"/>.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Vráti schému celej databázy.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Nie je možné načítať schému databázy, pretože pre spojenie
-        /// <paramref name="connection"/> neexistuje loader.</exception>
+        /// <inheritdoc cref="IDatabaseSchemaLoader{T}.LoadSchema(T)"/>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="connection"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">
+        /// Loader for connection type specified by <paramref name="connection"/> does not exist.
+        /// </exception>
         public DatabaseSchema LoadSchema(object connection)
         {
             IDatabaseSchemaLoader loader = CheckConnectionAndGetLoader(connection);
             return loader.LoadSchema(connection);
         }
 
-        /// <summary>
-        /// Načíta schému tabuľky <paramref name="tableName"/> z databázy <paramref name="connection"/>.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <param name="tableName">Meno tabuľky, ktorej schéma sa načíta.</param>
-        /// <returns>Vráti načítanú schému tabuľky, alebo hodnotu <c>null</c>, ak taká tabuľka neexistuje.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Nie je možné načítať schému databázy, pretože pre spojenie
-        /// <paramref name="connection"/> neexistuje loader.</exception>
+        /// <inheritdoc cref="IDatabaseSchemaLoader{T}.LoadTableSchema(T, string)"/>
+        /// <exception cref="ArgumentNullException">Value of any parameter is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">
+        /// <list type="bullet">
+        /// <item>Loader for connection type specified by <paramref name="connection"/> does not exist.</item>
+        /// <item>Value of <paramref name="tableName"/> is empty string, or string containing only whitespace characters.</item>
+        /// </list>
+        /// </exception>
         public TableSchema LoadTableSchema(object connection, string tableName)
         {
             Check.NotNullOrWhiteSpace(tableName, nameof(tableName));
@@ -148,6 +144,5 @@ namespace Kros.Data.Schema
         }
 
         #endregion
-
     }
 }

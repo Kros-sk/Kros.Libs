@@ -5,49 +5,43 @@ using System;
 namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Zoznam stĺpcov indexu tabuľky.
+    /// List of index columns.
     /// </summary>
-    /// <remarks>Stĺpcom pridaným do zoznamu je automaticky nastavený index <see cref="IndexColumnSchema.Index"/>.
-    /// Do zoznamu nie je možné pridať stĺpec, ktorý už patrí inému indexu. V takom prípade je vyvolaná výnimka
-    /// <see cref="InvalidOperationException"/>.</remarks>
+    /// <remarks>To the columns added to this list is automatically set their <see cref="IndexColumnSchema.Index"/>.
+    /// The column can belong only to one index.</remarks>
     public class IndexColumnSchemaCollection
         : System.Collections.ObjectModel.KeyedCollection<string, IndexColumnSchema>
     {
-
         #region Constructors
 
         /// <summary>
-        /// Vytvorí zoznam stĺpcov pre index <paramref name="index"/>.
+        /// Creates a new list of columns for index <paramref name="index"/>.
         /// </summary>
-        /// <param name="index">Index.</param>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="index"/> je <c>null</c>.</exception>
+        /// <param name="index">The index to which column list belongs.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="index"/> is <see langword="null"/>.</exception>
         public IndexColumnSchemaCollection(IndexSchema index)
             : base(StringComparer.OrdinalIgnoreCase)
         {
-            Check.NotNull(index, nameof(index));
-
-            Index = index;
+            Index = Check.NotNull(index, nameof(index));
         }
 
         #endregion
 
-
         #region Common
 
         /// <summary>
-        /// Index, ktorému zoznam patrí.
+        /// The index to which column list belongs.
         /// </summary>
         public IndexSchema Index { get; }
 
         /// <summary>
-        /// Vytvorí nový stĺpec v zozname s menom <paramref name="columnName"/> a zoradením
-        /// <see cref="SortOrder.Ascending">SortOrder.Ascending</see>.
+        /// Creates the new index column with name <paramref name="columnName"/> and adds it to the list.
         /// </summary>
-        /// <param name="columnName">Meno stĺpca.</param>
-        /// <returns>Vytvorený stĺpec.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="columnName"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Hodnota <paramref name="columnName"/> je prázdny reťazec, alebo reťazec bielych
-        /// znakov.</exception>
+        /// <param name="columnName">Column name.</param>
+        /// <returns>Created column.</returns>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="columnName"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="columnName"/> is empty string, or string containing only
+        /// whitespace characters.</exception>
         public IndexColumnSchema Add(string columnName)
         {
             IndexColumnSchema indexColumn = new IndexColumnSchema(columnName);
@@ -56,14 +50,15 @@ namespace Kros.Data.Schema
         }
 
         /// <summary>
-        /// Vytvorí nový stĺpec v zozname s menom <paramref name="columnName"/> a zoradením <paramref name="order"/>.
+        /// Creates the new index column with name <paramref name="columnName"/> and sort order <paramref name="order"/>
+        /// and adds it to the list.
         /// </summary>
-        /// <param name="columnName">Meno stĺpca.</param>
-        /// <param name="order">Zoradenie stĺpca.</param>
-        /// <returns>Vytvorený stĺpec.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="columnName"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Hodnota <paramref name="columnName"/> je prázdny reťazec, alebo reťazec bielych
-        /// znakov.</exception>
+        /// <param name="columnName">Column name.</param>
+        /// <param name="order">Column sort order.</param>
+        /// <returns>Created column.</returns>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="columnName"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="columnName"/> is empty string, or string containing only
+        /// whitespace characters.</exception>
         public IndexColumnSchema Add(string columnName, SortOrder order)
         {
             IndexColumnSchema indexColumn = new IndexColumnSchema(columnName, order);
@@ -72,7 +67,6 @@ namespace Kros.Data.Schema
         }
 
         #endregion
-
 
         #region KeyedCollection
 
@@ -107,6 +101,5 @@ namespace Kros.Data.Schema
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }
