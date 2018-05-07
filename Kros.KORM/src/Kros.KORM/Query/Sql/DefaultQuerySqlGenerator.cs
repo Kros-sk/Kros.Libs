@@ -13,7 +13,7 @@ namespace Kros.KORM.Query.Sql
     /// Default sql query visitor for generating SELECT command.
     /// </summary>
     /// <seealso cref="Kros.KORM.Query.Sql.ISqlExpressionVisitor" />
-    public abstract class DefaultQuerySqlGenerator : ExpressionVisitor, ISqlExpressionVisitor
+    public class DefaultQuerySqlGenerator : ExpressionVisitor, ISqlExpressionVisitor
     {
         private const string VbOperatorsClassName = "Microsoft.VisualBasic.CompilerServices.Operators";
         private const string VbEmbeddedOperatorsClassName = "Microsoft.VisualBasic.CompilerServices.EmbeddedOperators";
