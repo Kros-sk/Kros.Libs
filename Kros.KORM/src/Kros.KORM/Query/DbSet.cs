@@ -275,15 +275,18 @@ namespace Kros.KORM.Query
 
         private void CommitChangesAddedItems(HashSet<T> items)
         {
-            GeneratePrimaryKeys(items);
-            using (DbCommand command = _commandGenerator.GetInsertCommand())
+            if (items?.Count > 0)
             {
-                command.Prepare();
-
-                foreach (T item in items)
+                GeneratePrimaryKeys(items);
+                using (DbCommand command = _commandGenerator.GetInsertCommand())
                 {
-                    _commandGenerator.FillCommand(command, item);
-                    _provider.ExecuteNonQueryCommand(command);
+                    command.Prepare();
+
+                    foreach (T item in items)
+                    {
+                        _commandGenerator.FillCommand(command, item);
+                        _provider.ExecuteNonQueryCommand(command);
+                    }
                 }
             }
         }
@@ -312,14 +315,17 @@ namespace Kros.KORM.Query
 
         private void CommitChangesEditedItems(HashSet<T> items)
         {
-            using (DbCommand command = _commandGenerator.GetUpdateCommand())
+            if (items?.Count > 0)
             {
-                command.Prepare();
-
-                foreach (T item in items)
+                using (DbCommand command = _commandGenerator.GetUpdateCommand())
                 {
-                    _commandGenerator.FillCommand(command, item);
-                    _provider.ExecuteNonQueryCommand(command);
+                    command.Prepare();
+
+                    foreach (T item in items)
+                    {
+                        _commandGenerator.FillCommand(command, item);
+                        _provider.ExecuteNonQueryCommand(command);
+                    }
                 }
             }
         }
@@ -327,12 +333,15 @@ namespace Kros.KORM.Query
 
         private void CommitChangesDeletedItems(HashSet<T> items)
         {
-            using (DbCommand command = _commandGenerator.GetDeleteCommand())
+            if (items?.Count > 0)
             {
-                foreach (T item in items)
+                using (DbCommand command = _commandGenerator.GetDeleteCommand())
                 {
-                    _commandGenerator.FillCommand(command, item);
-                    _provider.ExecuteNonQueryCommand(command);
+                    foreach (T item in items)
+                    {
+                        _commandGenerator.FillCommand(command, item);
+                        _provider.ExecuteNonQueryCommand(command);
+                    }
                 }
             }
         }
