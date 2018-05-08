@@ -232,11 +232,12 @@ namespace Kros.Data.MsAccess
         }
 
         /// <summary>
-        /// Vráti, či zadané spojenie na databázu je exkluzívne.
+        /// Returns <see langword="true"/> if <paramref name="connection"/> is exclusive; otherwise <see langword="false"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Pre MS Access je spojenie na databázu exkluzívne, ak v connection string-u obsahuje aj
-        /// <b>Share Deny Read</b> aj <b>Share Deny Write</b>.
+        /// <param name="connection">The database connection.</param>
+        /// <returns>
+        /// <see langword="true"/> if connection string contains settings
+        /// (<b>Share Deny Read</b> and <b>Share Deny Write</b>) or <b>Share Exclusive</b>.
         /// </returns>
         public static bool IsExclusiveMsAccessConnection(IDbConnection connection)
         {
@@ -248,17 +249,20 @@ namespace Kros.Data.MsAccess
         }
 
         /// <summary>
-        /// Vráti, či zadaný <paramref name="connectionString" /> určuje exkluzívne spojenie na MS Access databázu.
+        /// Returns <see langword="true"/> if <paramref name="connectionString"/> has exclusive connection to MS Access database;
+        /// otherwise <see langword="false"/>.
         /// </summary>
-        /// <param name="connectionString">Spojenie na databázu.</param>
-        /// <returns>Spojenie na databázu je exkluzívne, ak v connection string-u obsahuje nastavenia
-        /// <b>Share Deny Read</b> aj <b>Share Deny Write</b>.
+        /// <param name="connectionString">The connection string.</param>
+        /// <returns>
+        /// <see langword="true"/> if connection string contains settings
+        /// (<b>Share Deny Read</b> and <b>Share Deny Write</b>) or <b>Share Exclusive</b>.
         /// </returns>
         public static bool IsExclusiveMsAccessConnection(string connectionString)
         {
             return
-                (connectionString.IndexOf("Share Deny Read", StringComparison.OrdinalIgnoreCase) >= 0) &&
-                (connectionString.IndexOf("Share Deny Write", StringComparison.OrdinalIgnoreCase) >= 0);
+                ((connectionString.IndexOf("Share Deny Read", StringComparison.OrdinalIgnoreCase) >= 0) &&
+                 (connectionString.IndexOf("Share Deny Write", StringComparison.OrdinalIgnoreCase) >= 0)) ||
+                (connectionString.IndexOf("Share Exclusive", StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
         /// <summary>
