@@ -224,7 +224,7 @@ namespace Kros.KORM.UnitTests.Query
             var mapper = new DatabaseMapper(new ConventionModelMapper());
             Query<Person> query = new Query<Person>(mapper,
                 new SqlServerQueryProvider(new SqlConnection(),
-                    new SqlServerQuerySqlGenerator(mapper),
+                    new DefaultQuerySqlGenerator(mapper),
                     Substitute.For<IModelBuilder>(),
                     new Logger()));
 

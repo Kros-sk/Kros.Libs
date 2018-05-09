@@ -110,7 +110,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         }
 
         private static DefaultQuerySqlGenerator CreateQuerySqlGenerator() =>
-           new SqlServerQuerySqlGenerator(new DatabaseMapper(new ConventionModelMapper()));
+           new DefaultQuerySqlGenerator(new DatabaseMapper(new ConventionModelMapper()));
 
         private TableInfo GetTableInfo()
         {
