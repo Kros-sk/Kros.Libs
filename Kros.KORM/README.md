@@ -1,4 +1,4 @@
-# Kros.KORM
+Kros.KORM
 
 Kros.KORM is simple, fast and easy to use micro-ORM framework for .NETStandard created by Kros a.s. from Slovakia.
 
@@ -21,7 +21,6 @@ Kros.KORM is simple, fast and easy to use micro-ORM framework for .NETStandard c
 * [Property injection](#property-injection)
 * [Model builder](#model-builder)
 * [Changes committing](#changes-committing)
-* [Bulk operations](#bulk-operations)
 * [SQL commands executing](#sql-commands-executing)
 * [Logging](#logging)
 * [Supported database types](#supported-database-types)
@@ -289,11 +288,9 @@ public void OnAfterMaterialize(IDataRecord source)
 
 ### Property injection
 
-Pri určitých scenároch nastane situácia, že budete potrebovať do modelu injectovať nejakú službu. Napríklad výpočtovu, logovaciu, ...
+Sometimes you might need to inject some service to your model, for example calculator or logger. For these purposes KORM offers IInjectionConfigurator, that can help you with injection configuration.
 
-Pre tieto situácie v KORMe existuje IInjectionConfigurator. Pomocou ktorého vieme takéto injektovanie konfigurovať.
-
-Majme nasledovné property v modely, ktoré chceme naplniť.
+Let's have properties in model
 
 ```c#
 [NoMap]
@@ -303,7 +300,7 @@ public ICalculationService CalculationService { get; set; }
 public ILogger Logger { get; set; }
 ```
 
-Následne ich správne nakonfigurujeme.
+And that is how you can configure them.
 
 ```c#
 Database.DefaultModelMapper
@@ -314,11 +311,11 @@ Database.DefaultModelMapper
 
 ### Model builder
 
-KORM využíva pre materializáciu IModelFactory, ktorý vytvára factory pre vytvárananie a napĺňanie vašich POCO objektov.
+For materialisation KORM uses IModelFactory, that creates factory for creating and filling your POCO objects.
 
-Štandardne sa využíva DynamicMethodModelFactory, ktorý používa dynamické metódy na vytváranie delegátov.
+By default DynamicMethodModelFactory is implemented, which uses dynamic method for creating delegates.
 
-Pokiaľ chete požívať inú vlastnú implementáciu (napríklad, ktorá využíva refleksiu) tak môžete predefinovať vlastnosť Database.DefaultModelFactory.
+If you want to try some other implementation (for example based on reflexion) you can redefine property Database.DefaultModelFactory.
 
 ```c#
 Database.DefaultModelFactory = new ReflectionModelfactory();
@@ -326,9 +323,212 @@ Database.DefaultModelFactory = new ReflectionModelfactory();
 
 ### Changes committing
 
-### Bulk operations
+You can use KORM also for editing, adding or deleting records from database. [IdDbSet](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.IDbSet-1.html) is designed for that.
+
+Records to edit or delete are identified by the primary key. You can set primary key to your POCO class by using ```Key``` attribute.
+
+```c#
+[Key()]
+public int Id { get; set; }
+
+public string FirstName { get; set; }
+
+public string LastName { get; set; }
+```
+
+##### Inserting records to database
+
+```c#
+public void Insert()
+{
+    using (var database = new Database(_connection))
+    {
+        var people = database.Query<Person>().AsDbSet();
+
+        people.Add(new Person() { Id = 1, FirstName = "Jean Claude", LastName = "Van Damme" });
+        people.Add(new Person() { Id = 2, FirstName = "Sylvester", LastName = "Stallone" });
+
+        people.CommitChanges();
+    }
+}
+```
+
+KORM supports bulk inserting, which is one of its best features. You add records to DbSet standardly by method ```Add```, but for committing to database use method ```BulkInsert``` instead of ```CommitChanges```.
+
+```c#
+var people = database.Query<Person>().AsDbSet();
+
+foreach (var person in dataForImport)
+{
+    people.Add(person);
+}
+
+people.BulkInsert();
+```
+
+KORM supports also bulk update of records, you can use ```BulkUpdate``` method.
+
+```c#
+var people = database.Query<Person>().AsDbSet();
+
+foreach (var person in dataForUpdate)
+{
+    people.Edit(person);
+}
+
+people.BulkUpdate();
+```
+
+This bulk way of inserting or updating data is several times faster than standard inserts or updates.
+
+For both of bulk operations you can provide data as an argument of method. The advantage is that if we have a specific enumerator, we do not need to spill data into memory.
+
+##### Primary key generating.
+
+KORM supports generating of primary keys for inserted records. Primary key must be simple Int32 column. Primary key property in POCO class must be decorated by ```Key``` attribute and its property ```AutoIncrementMethodType``` must be set to ```Custom```.
+
+```c#
+[Key(autoIncrementMethodType: AutoIncrementMethodType.Custom)]
+public int Id { get; set; }
+```
+
+KORM generates primary key for every inserted record, that does not have value for primary key property. For generating primary keys implementations of [IIdGenerator](https://kros-sk.github.io/Kros.Libs/api/Kros.Utils/Kros.Data.IIdGenerator.html) are used.
+
+##### Editing records in database
+
+```c#
+public void Edit()
+{
+    using (var database = new Database(_connection))
+    {
+        var people = database.Query<Person>().AsDbSet();
+
+        foreach (var person in people)
+        {
+            person.LastName += "ová";
+            people.Edit(person);
+        }
+
+        people.CommitChanges();
+    }
+}
+```
+
+### Deleting records from database
+
+```c#
+public void Delete()
+{
+    using (var database = new Database(_connection))
+    {
+        var people = database.Query<Person>().AsDbSet();
+
+        people.Delete(people.FirstOrDefault(x => x.Id == 1));
+        people.Delete(people.FirstOrDefault(x => x.Id == 2));
+
+        people.CommitChanges();
+    }
+}
+```
+
+##### Explicit transactions
+
+By default, changes of a DbSet are committed to database in a transaction. If committing of one record fails, rollback of transaction is executed.
+
+Sometimes you might come to situation, when such implicit transaction would not meet your requirements. For example you need to commit changes to two tables as an atomic operation. When saving changes to first of tables is not successful, you want to discard changes to the other table. Solution of that task is easy with explicit transactions supported by KORM. See the documentation of [BeginTransaction](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.IDatabase.html#Kros_KORM_IDatabase_BeginTransaction).
+
+```c#
+using (var transaction = database.BeginTransaction())
+{
+    var invoicesDbSet = database.Query<Invoice>().AsDbSet();
+    var itemsDbSet = database.Query<Item>().AsDbSet();
+
+    try
+    {
+        invoicesDbSet.Add(invoices);
+        invoicesDbSet.CommitChanges();
+
+        itemsDbSet.Add(items);
+        itemsDbSet.CommitChanges();
+
+        transaction.Commit();
+    }
+    catch
+    {
+        transaction.Rollback();
+    }
+}
+```
 
 ### SQL commands executing
+
+KORM supports SQL commands execution. There are three types of commands:
+
+* ```ExecuteNonQuery``` for commands that do not return value (DELETE, UPDATE, ...)
+* ```ExecuteScalar``` for commands that return only one value (SELECT)
+* ```ExecuteStoredProcedure``` for executing of stored procedures. Stored procedure may return scalar value or list of values or 
+it can return data in output parameters.
+
+##### Execution of stored procedure example
+
+```c#
+public class Person
+{
+    public int Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public DateTime BDay { get; set; }
+}
+
+private Database _database = new Database(new SqlConnection("connection string"));
+
+// Stored procedure returns a scalar value.
+int intResult = _database.ExecuteStoredProcedure<int>("ProcedureName");
+DateTime dateResult = _database.ExecuteStoredProcedure<DateTime>("ProcedureName");
+
+// Stored procedure sets the value of output parameter.
+var parameters = new CommandParameterCollection();
+parameters.Add("@param1", 10);
+parameters.Add("@param2", DateTime.Now);
+parameters.Add("@outputParam", null, DbType.String, ParameterDirection.Output);
+
+_database.ExecuteStoredProcedure<string>("ProcedureName", parameters);
+
+Console.WriteLine(parameters["@outputParam"].Value);
+
+
+// Stored procedure returns complex object.
+Person person = _database.ExecuteStoredProcedure<Person>("ProcedureName");
+
+
+// Stored procedure returns list of complex objects.
+IEnumerable<Person> persons = _database.ExecuteStoredProcedure<IEnumerable<Person>>("ProcedureName");
+```
+
+##### CommandTimeout support.
+
+If you want to execute time-consuming command, you will definitely appreciate CommandTimeout property of transaction. See the documentation of [BeginTransaction](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.IDatabase.html#Kros_KORM_IDatabase_BeginTransaction).
+
+Warning: You can set CommandTimeout only for main transaction, not for nested transactions. In that case CommandTimout of main transaction will be used.
+
+```c#
+IEnumerable<Person> persons = null;
+
+using (var transaction = database.BeginTransaction(IsolationLevel.Chaos))
+{
+    transaction.CommandTimeout = 150;
+
+    try
+    {
+        persons = database.ExecuteStoredProcedure<IEnumerable<Person>>("LongRunningProcedure_GetPersons");
+        transaction.Commit();
+    }
+    catch
+    {
+        transaction.Rollback();
+    }
+}
+```
 
 ### Logging
 
