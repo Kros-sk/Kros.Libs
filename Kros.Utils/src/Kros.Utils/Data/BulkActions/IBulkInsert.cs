@@ -4,41 +4,41 @@ using System.Data;
 namespace Kros.Data.BulkActions
 {
     /// <summary>
-    /// Rozhranie pre rýchle hromadné vkladanie dát do databázy.
+    /// Interface for fast data inserting into database.
     /// </summary>
     public interface IBulkInsert : IDisposable
     {
         /// <summary>
-        /// Počet riadkov v dávke, ktorá sa posiela do databázy. Ak je hodnota 0, veľkosť dávky nie je obmedzená.
+        /// Row count for batch sent to database. If 0, batch size is not limited.
         /// </summary>
         int BatchSize { get; set; }
 
         /// <summary>
-        /// Počet sekúnd na dokončenie operácie. ak je hodnota 0, trvanie operácie nie je obmedzené.
+        /// Timeout for operation in seconds. If 0, duration of operation is not limited.
         /// </summary>
         int BulkInsertTimeout { get; set; }
 
         /// <summary>
-        /// Meno cieľovej tabuľky v databáze.
+        /// Destination table name in database.
         /// </summary>
         string DestinationTableName { get; set; }
 
         /// <summary>
-        /// Vloží všetky dáta zo zdroja <paramref name="reader"/>.
+        /// Inserts all data from <paramref name="reader"/>.
         /// </summary>
-        /// <param name="reader">Zdroj dát.</param>
+        /// <param name="reader">Data source.</param>
         void Insert(IBulkActionDataReader reader);
 
         /// <summary>
-        /// Vloží všetky dáta zo zdroja <paramref name="reader"/>.
+        /// Inserts all data from <paramref name="reader"/>.
         /// </summary>
-        /// <param name="reader">Zdroj dát.</param>
+        /// <param name="reader">Data source.</param>
         void Insert(IDataReader reader);
 
         /// <summary>
-        /// Vloží všetky riadky z tabuľky <paramref name="table"/>.
+        /// Inserts all rows from table <paramref name="table"/>.
         /// </summary>
-        /// <param name="table">Zdrojové dáta.</param>
+        /// <param name="table">Source table.</param>
         void Insert(DataTable table);
     }
 }
