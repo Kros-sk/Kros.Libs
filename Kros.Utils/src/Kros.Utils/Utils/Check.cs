@@ -8,15 +8,15 @@ using System.Text;
 namespace Kros.Utils
 {
     /// <summary>
-    /// Pomocná trieda na kontrolu argumentov metód. Každá kontrola, ak zlyhá, vyvolá nejaký druh výnimky
-    /// <c>ArgumentException</c> (<see cref="ArgumentException"/>, <see cref="ArgumentNullException"/>,
+    /// Helper class for validating method parameters. Every validation throws some kind of <see cref="ArgumentException"/>
+    /// if it fails (<see cref="ArgumentException"/>, <see cref="ArgumentNullException"/>,
     /// <see cref="ArgumentOutOfRangeException"/>).
     /// </summary>
     /// <remarks>
-    /// Štandardný spôsob kontroly argumentov je:
+    /// Default way of validating method parameters is:
     /// <code language="cs" source="..\Examples\Kros.Utils\CheckExamples.cs" region="CheckArgumentsOld"/>
-    /// S triedou <c>Check</c> je to jednoduché. Ak je to možné, jednotlivé kontroly vracajú vstupnú hodnotu,
-    /// takže je možné na jednom riadku argument skontrolovať, aj priradiť:
+    /// With the help of <c>Check</c> class, this is very easy. If it is possible, the validation methods return input value,
+    /// so the parameter's value can be validated and assigned on one line:
     /// <code language = "cs" source="..\Examples\Kros.Utils\CheckExamples.cs" region="CheckArgumentsNew"/>
     /// </remarks>
     public static class Check
@@ -24,14 +24,14 @@ namespace Kros.Utils
         #region Object
 
         /// <summary>
-        /// Parameter <paramref name="param"/> nesmie byť <c>null</c>. Vyvolaná výnimka má nastavené meno
-        /// parametra.
+        /// The value of <paramref name="param"/> can not be <see langword="null"/>.
         /// </summary>
-        /// <typeparam name="T">Typ vstupného parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota parametra <paramref name="param"/> je <c>null</c>.
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// The value of <paramref name="param"/> is <see langword="null"/>.
         /// </exception>
         [DebuggerStepThrough]
         public static T NotNull<T>(T param, string paramName)
@@ -44,15 +44,16 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Parameter <paramref name="param"/> nesmie byť <c>null</c>. Vyvolaná výnimka má nastavený text
-        /// a meno parametra.
+        /// The value of <paramref name="param"/> can not be <see langword="null"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <typeparam name="T">Typ vstupného parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota parametra <paramref name="param"/> je <c>null</c>.
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// The value of <paramref name="param"/> is <see langword="null"/>.
         /// </exception>
         [DebuggerStepThrough]
         public static T NotNull<T>(T param, string paramName, string message)
@@ -69,13 +70,12 @@ namespace Kros.Utils
         #region Type
 
         /// <summary>
-        /// Parameter <paramref name="param"/> musí byť zadaného typu <typeparamref name="T"/>. Vyvolaná výnimka má nastavené
-        /// meno parametra.
+        /// The value of <paramref name="param"/> must be of given type <typeparamref name="T"/>.
         /// </summary>
-        /// <typeparam name="T">Typ, ktorého musí parameter byť.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <exception cref="ArgumentException">Parameter nie je požadovaného typu.</exception>
+        /// <typeparam name="T">Expected type of <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is not of required type.</exception>
         [DebuggerStepThrough]
         public static void IsOfType<T>(object param, string paramName)
         {
@@ -83,14 +83,14 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Parameter <paramref name="param"/> musí byť zadaného typu <typeparamref name="T"/>. Vyvolaná výnimka má nastavený text
-        /// a meno parametra.
+        /// The value of <paramref name="param"/> must be of given type <typeparamref name="T"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <typeparam name="T">Typ, ktorého musí parameter byť.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <exception cref="ArgumentException">Parameter nie je požadovaného typu.</exception>
+        /// <typeparam name="T">Expected type of <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is not of required type.</exception>
         [DebuggerStepThrough]
         public static void IsOfType<T>(object param, string paramName, string message)
         {
@@ -98,13 +98,12 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Parameter <paramref name="param"/> musí byť zadaného typu <paramref name="expectedType"/>. Vyvolaná výnimka má
-        /// nastavené meno parametra.
+        /// The value of <paramref name="param"/> must be of given type <paramref name="expectedType"/>.
         /// </summary>
-        /// <param name="param">Parameter.</param>
-        /// <param name="expectedType">Typ, ktorého musí parameter byť.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <exception cref="ArgumentException">Parameter nie je požadovaného typu.</exception>
+        /// <param name="param">Validated value.</param>
+        /// <param name="expectedType">Required type of <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is not of required type.</exception>
         [DebuggerStepThrough]
         public static void IsOfType(object param, Type expectedType, string paramName)
         {
@@ -116,14 +115,14 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Parameter <paramref name="param"/> musí byť zadaného typu <paramref name="expectedType"/>. Vyvolaná výnimka má
-        /// nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> must be of given type <paramref name="expectedType"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <param name="param">Parameter.</param>
-        /// <param name="expectedType">Typ, ktorého musí parameter byť.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <exception cref="ArgumentException">Parameter nie je požadovaného typu.</exception>
+        /// <param name="param">Validated value.</param>
+        /// <param name="expectedType">Required type of <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is not of required type.</exception>
         [DebuggerStepThrough]
         public static void IsOfType(object param, Type expectedType, string paramName, string message)
         {
@@ -134,13 +133,12 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Parameter <paramref name="param"/> nesmie byť zadaného typu <typeparamref name="T"/>. Vyvolaná výnimka má
-        /// nastavené meno parametra.
+        /// The value of <paramref name="param"/> must not be of given type <typeparamref name="T"/>.
         /// </summary>
-        /// <typeparam name="T">Parameter nesmie byť tohto typu.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <exception cref="ArgumentException">Parameter je zadaného typu.</exception>
+        /// <typeparam name="T">The value of <paramref name="param"/> must not be of this type.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is of forbidden type.</exception>
         [DebuggerStepThrough]
         public static void IsNotOfType<T>(object param, string paramName)
         {
@@ -148,14 +146,14 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Parameter <paramref name="param"/> nesmie byť zadaného typu <typeparamref name="T"/>. Vyvolaná výnimka má
-        /// nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> must not be of given type <typeparamref name="T"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <typeparam name="T">Parameter nesmie byť tohto typu.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <exception cref="ArgumentException">Parameter je zadaného typu.</exception>
+        /// <typeparam name="T">The value of <paramref name="param"/> must not be of this type.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is of forbidden type.</exception>
         [DebuggerStepThrough]
         public static void IsNotOfType<T>(object param, string paramName, string message)
         {
@@ -163,13 +161,12 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Parameter <paramref name="param"/> nesmie byť zadaného typu <paramref name="notExpectedType"/>. Vyvolaná výnimka má
-        /// nastavené meno parametra.
+        /// The value of <paramref name="param"/> must not be of type <paramref name="notExpectedType"/>.
         /// </summary>
-        /// <param name="param">Parameter.</param>
-        /// <param name="notExpectedType">Parameter nesmie byť tohto typu.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <exception cref="ArgumentException">Parameter je zadaného typu.</exception>
+        /// <param name="param">Validated value.</param>
+        /// <param name="notExpectedType">The value of <paramref name="param"/> must not be of this type.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is of forbidden type.</exception>
         [DebuggerStepThrough]
         public static void IsNotOfType(object param, Type notExpectedType, string paramName)
         {
@@ -181,14 +178,14 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Parameter <paramref name="param"/> nesmie byť zadaného typu <paramref name="notExpectedType"/>. Vyvolaná výnimka má
-        /// nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> must not be of type <paramref name="notExpectedType"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <param name="param">Parameter.</param>
-        /// <param name="notExpectedType">Parameter nesmie byť tohto typu.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <exception cref="ArgumentException">Parameter je zadaného typu.</exception>
+        /// <param name="param">Validated value.</param>
+        /// <param name="notExpectedType">The value of <paramref name="param"/> must not be of this type.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is of forbidden type.</exception>
         [DebuggerStepThrough]
         public static void IsNotOfType(object param, Type notExpectedType, string paramName, string message)
         {
@@ -203,14 +200,13 @@ namespace Kros.Utils
         #region String
 
         /// <summary>
-        /// Parameter <paramref name="param"/> nesmie byť <c>null</c>, ani prázdny reťazec.
-        /// Vyvolaná výnimka má nastavené meno parametra.
+        /// The value of <paramref name="param"/> can not be <see langword="null"/>, nor empty string.
         /// </summary>
-        /// <param name="param">Parameter.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentNullException">Parameter má hodnotu <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Parameter je prázdny reťazec.</exception>
+        /// <param name="param">Validated value.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentNullException">The value of <paramref name="param"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is empty string.</exception>
         [DebuggerStepThrough]
         public static string NotNullOrEmpty(string param, string paramName)
         {
@@ -223,15 +219,15 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Parameter <paramref name="param"/> nesmie byť <c>null</c>, ani prázdny reťazec.
-        /// Vyvolaná výnimka má nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> can not be <see langword="null"/>, nor empty string.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <param name="param">Parameter.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentNullException">Parameter má hodnotu <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Parameter je prázdny reťazec.</exception>
+        /// <param name="param">Validated value.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentNullException">The value of <paramref name="param"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is empty string.</exception>
         [DebuggerStepThrough]
         public static string NotNullOrEmpty(string param, string paramName, string message)
         {
@@ -244,15 +240,15 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Parameter <paramref name="param"/> nesmie byť <c>null</c>, ani prázdny reťazec, ani reťazec
-        /// zložený iba z bielych znakov. Vyvolaná výnimka má nastavené meno parametra.
+        /// The value of <paramref name="param"/> can not be <see langword="null"/>, empty string, nor string containing
+        /// only whitespace characters.
         /// </summary>
-        /// <param name="param">Parameter.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentNullException">Parameter má hodnotu <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Parameter je prázdny reťazec, alebo reťazec zložený iba z bielych znakov.
-        /// </exception>
+        /// <param name="param">Validated value.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentNullException">The value of <paramref name="param"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is empty string or string containing
+        /// only whitespace characters.</exception>
         [DebuggerStepThrough]
         public static string NotNullOrWhiteSpace(string param, string paramName)
         {
@@ -265,16 +261,17 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Parameter <paramref name="param"/> nesmie byť <c>null</c>, ani prázdny reťazec, ani reťazec
-        /// zložený iba z bielych znakov. Vyvolaná výnimka má nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> can not be <see langword="null"/>, empty string, nor string containing
+        /// only whitespace characters.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <param name="param">Parameter.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentNullException">Parameter má hodnotu <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Parameter je prázdny reťazec, alebo reťazec zložený iba z bielych znakov.
-        /// </exception>
+        /// <param name="param">Validated value.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentNullException">The value of <paramref name="param"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is empty string or string containing
+        /// only whitespace characters.</exception>
         [DebuggerStepThrough]
         public static string NotNullOrWhiteSpace(string param, string paramName, string message)
         {
@@ -291,15 +288,14 @@ namespace Kros.Utils
         #region Values
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> musí byť <paramref name="value"/>.
-        /// Vyvolaná výnimka má nastavené meno parametra.
+        /// The value of <paramref name="param"/> must be <paramref name="value"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="value">Požadovaná hodnota parametera.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Parameter nemá požadovanú hodnotu.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="value">Required value of the <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is not <paramref name="value"/>.</exception>
         [DebuggerStepThrough]
         public static T Equal<T>(T param, T value, string paramName)
         {
@@ -311,16 +307,16 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> musí byť <paramref name="value"/>.
-        /// Vyvolaná výnimka má nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> must be <paramref name="value"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="value">Požadovaná hodnota parametera.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Parameter nemá požadovanú hodnotu.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="value">Required value of the <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is not <paramref name="value"/>.</exception>
         [DebuggerStepThrough]
         public static T Equal<T>(T param, T value, string paramName, string message)
         {
@@ -332,15 +328,14 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> nesmie byť <paramref name="value"/>.
-        /// Vyvolaná výnimka má nastavené meno parametra.
+        /// The value of <paramref name="param"/> must not be <paramref name="value"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="value">Rozdielna hodnota parametera.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Parameter má rovnakú hodnotu.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="value">Checked value of <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is <paramref name="value"/>.</exception>
         [DebuggerStepThrough]
         public static T NotEqual<T>(T param, T value, string paramName)
         {
@@ -352,16 +347,16 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> nesmie byť <paramref name="value"/>.
-        /// Vyvolaná výnimka má nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> must not be <paramref name="value"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="value">Rozdielna hodnota parametera.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Parameter má rovnakú hodnotu.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="value">Checked value of <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is <paramref name="value"/>.</exception>
         [DebuggerStepThrough]
         public static T NotEqual<T>(T param, T value, string paramName, string message)
         {
@@ -373,15 +368,15 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> musí byť menšia ako <paramref name="value"/>.
-        /// Vyvolaná výnimka má nastavené meno parametra.
+        /// The value of <paramref name="param"/> must be less than <paramref name="value"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="value">Hodnota, s ktorou sa parameter porovnáva.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Hodnota parametra je väčšia, alebo rovná zadanej hodnote.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="value">Checked value of <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is greater or equal than
+        /// <paramref name="value"/>.</exception>
         [DebuggerStepThrough]
         public static T LessThan<T>(T param, T value, string paramName) where T : IComparable<T>
         {
@@ -393,16 +388,17 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> musí byť menšia ako <paramref name="value"/>.
-        /// Vyvolaná výnimka má nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> must be less than <paramref name="value"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="value">Hodnota, s ktorou sa parameter porovnáva.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Hodnota parametra je väčšia, alebo rovná zadanej hodnote.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="value">Checked value of <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is greater or equal than
+        /// <paramref name="value"/>.</exception>
         [DebuggerStepThrough]
         public static T LessThan<T>(T param, T value, string paramName, string message) where T : IComparable<T>
         {
@@ -414,15 +410,15 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> musí byť menšia, alebo rovná <paramref name="value"/>.
-        /// Vyvolaná výnimka má nastavené meno parametra.
+        /// The value of <paramref name="param"/> must be less or equal than <paramref name="value"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="value">Hodnota, s ktorou sa parameter porovnáva.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Hodnota parametra je väčšia zadanej hodnote.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="value">Checked value of <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is greater than
+        /// <paramref name="value"/>.</exception>
         [DebuggerStepThrough]
         public static T LessOrEqualThan<T>(T param, T value, string paramName) where T : IComparable<T>
         {
@@ -434,16 +430,17 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> musí byť menšia, alebo rovná <paramref name="value"/>.
-        /// Vyvolaná výnimka má nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> must be less or equal than <paramref name="value"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="value">Hodnota, s ktorou sa parameter porovnáva.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Hodnota parametra je väčšia zadanej hodnote.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="value">Checked value of <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is greater than
+        /// <paramref name="value"/>.</exception>
         [DebuggerStepThrough]
         public static T LessOrEqualThan<T>(T param, T value, string paramName, string message) where T : IComparable<T>
         {
@@ -455,15 +452,15 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> musí byť väčšia ako <paramref name="value"/>.
-        /// Vyvolaná výnimka má nastavené meno parametra.
+        /// The value of <paramref name="param"/> must be greater than <paramref name="value"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="value">Hodnota, s ktorou sa parameter porovnáva.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Hodnota parametra je menšia, alebo rovná zadanej hodnote.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="value">Checked value of <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is less or equal than
+        /// <paramref name="value"/>.</exception>
         [DebuggerStepThrough]
         public static T GreaterThan<T>(T param, T value, string paramName) where T : IComparable<T>
         {
@@ -475,16 +472,17 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> musí byť väčšia ako <paramref name="value"/>.
-        /// Vyvolaná výnimka má nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> must be greater than <paramref name="value"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="value">Hodnota, s ktorou sa parameter porovnáva.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Hodnota parametra je menšia, alebo rovná zadanej hodnote.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="value">Checked value of <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is less or equal than
+        /// <paramref name="value"/>.</exception>
         [DebuggerStepThrough]
         public static T GreaterThan<T>(T param, T value, string paramName, string message) where T : IComparable<T>
         {
@@ -496,15 +494,15 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> musí byť väčšia, alebo rovná <paramref name="value"/>.
-        /// Vyvolaná výnimka má nastavené meno parametra.
+        /// The value of <paramref name="param"/> must be greater or equal than <paramref name="value"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="value">Hodnota, s ktorou sa parameter porovnáva.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Hodnota parametra je menšia zadanej hodnote.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="value">Checked value of <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is less than
+        /// <paramref name="value"/>.</exception>
         [DebuggerStepThrough]
         public static T GreaterOrEqualThan<T>(T param, T value, string paramName) where T : IComparable<T>
         {
@@ -516,16 +514,17 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> musí byť väčšia, alebo rovná <paramref name="value"/>.
-        /// Vyvolaná výnimka má nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> must be greater or equal than <paramref name="value"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Parameter.</param>
-        /// <param name="value">Hodnota, s ktorou sa parameter porovnáva.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Hodnota parametra je menšia zadanej hodnote.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">Validated value.</param>
+        /// <param name="value">Checked value of <paramref name="param"/>.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">The value of <paramref name="param"/> is less than
+        /// <paramref name="value"/>.</exception>
         [DebuggerStepThrough]
         public static T GreaterOrEqualThan<T>(T param, T value, string paramName, string message)
             where T : IComparable<T>
@@ -538,15 +537,16 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> musí byť v zozname <paramref name="list"/>.
-        /// Vyvolaná výnimka má nastavené meno parametra.
+        /// The value of <paramref name="param"/> must be in list <paramref name="list"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Hodnota, ktorá musí byť v zozname <paramref name="list"/>.</param>
-        /// <param name="list">Zoznam hodnôt, medzi ktorými sa musí nachádzať hodnota <paramref name="param"/>.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Hodnota parametra nie je v zadanom zozname.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">The value, which must be in the list <paramref name="list"/>.</param>
+        /// <param name="list">List of checked values.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">
+        /// The value of <paramref name="param"/> is not in the list <paramref name="list"/>.
+        /// </exception>
         [DebuggerStepThrough]
         public static T IsInList<T>(T param, IEnumerable<T> list, string paramName)
         {
@@ -558,16 +558,18 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> musí byť v zozname <paramref name="list"/>.
-        /// Vyvolaná výnimka má nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> must be in list <paramref name="list"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Hodnota, ktorá musí byť v zozname <paramref name="list"/>.</param>
-        /// <param name="list">Zoznam hodnôt, medzi ktorými sa musí nachádzať hodnota <paramref name="param"/>.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Hodnota parametra nie je v zadanom zozname.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">The value, which must be in the list <paramref name="list"/>.</param>
+        /// <param name="list">List of checked values.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">
+        /// The value of <paramref name="param"/> is not in the list <paramref name="list"/>.
+        /// </exception>
         [DebuggerStepThrough]
         public static T IsInList<T>(T param, IEnumerable<T> list, string paramName, string message)
         {
@@ -579,15 +581,16 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> nesmie byť v zozname <paramref name="list"/>.
-        /// Vyvolaná výnimka má nastavené meno parametra.
+        /// The value of <paramref name="param"/> must not be in list <paramref name="list"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Hodnota, ktorá nesmie byť v zozname <paramref name="list"/>.</param>
-        /// <param name="list">Zoznam hodnôt, medzi ktorými sa hodnota <paramref name="param"/> nesmie nachádzať.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Hodnota parametra je v zadanom zozname.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">The value, which must not be in the list <paramref name="list"/>.</param>
+        /// <param name="list">List of checked values.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">
+        /// The value of <paramref name="param"/> is in the list <paramref name="list"/>.
+        /// </exception>
         [DebuggerStepThrough]
         public static T IsNotInList<T>(T param, IEnumerable<T> list, string paramName)
         {
@@ -599,16 +602,18 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Hodnota parametra <paramref name="param"/> nesmie byť v zozname <paramref name="list"/>.
-        /// Vyvolaná výnimka má nastavený text a meno parametra.
+        /// The value of <paramref name="param"/> must not be in list <paramref name="list"/>.
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <typeparam name="T">Typ parametra.</typeparam>
-        /// <param name="param">Hodnota, ktorá nesmie byť v zozname <paramref name="list"/>.</param>
-        /// <param name="list">Zoznam hodnôt, medzi ktorými sa hodnota <paramref name="param"/> nesmie nachádzať.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Hodnota parametra je v zadanom zozname.</exception>
+        /// <typeparam name="T">Type of the <paramref name="param"/>.</typeparam>
+        /// <param name="param">The value, which must not be in the list <paramref name="list"/>.</param>
+        /// <param name="list">List of checked values.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">
+        /// The value of <paramref name="param"/> is in the list <paramref name="list"/>.
+        /// </exception>
         [DebuggerStepThrough]
         public static T IsNotInList<T>(T param, IEnumerable<T> list, string paramName, string message)
         {
@@ -666,12 +671,11 @@ namespace Kros.Utils
         #region Guid
 
         /// <summary>
-        /// Parameter <paramref name="param"/> nesmie byť prázdny GUID (<see cref="Guid.Empty"/>). Vyvolaná výnimka má nastavené
-        /// meno parametra.
+        /// The value of <paramref name="param"/> can not be empty GUID (<see cref="Guid.Empty"/>).
         /// </summary>
-        /// <param name="param">Parameter.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
+        /// <param name="param">Validated value.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
         /// <exception cref="ArgumentException">Paramere je prázdny GUID (<see cref="Guid.Empty"/>).</exception>
         [DebuggerStepThrough]
         public static Guid NotEmptyGuid(Guid param, string paramName)
@@ -684,14 +688,16 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Parameter <paramref name="param"/> nesmie byť prázdny GUID (<see cref="Guid.Empty"/>). Vyvolaná výnimka má nastavený
-        /// text a meno parametra.
+        /// The value of <paramref name="param"/> can not be empty GUID (<see cref="Guid.Empty"/>).
+        /// Thrown exception has custom message <paramref name="message"/>.
         /// </summary>
-        /// <param name="param">Parameter.</param>
-        /// <param name="paramName">Meno parametra.</param>
-        /// <param name="message">Text výnimky.</param>
-        /// <returns>Vstupný parameter <paramref name="param"/>.</returns>
-        /// <exception cref="ArgumentException">Paramere je prázdny GUID (<see cref="Guid.Empty"/>).</exception>
+        /// <param name="param">Validated value.</param>
+        /// <param name="paramName">Name of the method parameter.</param>
+        /// <param name="message">Custom exception message.</param>
+        /// <returns>Input value of <paramref name="param"/>.</returns>
+        /// <exception cref="ArgumentException">
+        /// Value of <paramref name="param"/> is empty GUID (<see cref="Guid.Empty"/>).
+        /// </exception>
         [DebuggerStepThrough]
         public static Guid NotEmptyGuid(Guid param, string paramName, string message)
         {
