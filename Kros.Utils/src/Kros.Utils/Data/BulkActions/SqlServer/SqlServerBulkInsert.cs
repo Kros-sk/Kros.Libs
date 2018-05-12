@@ -7,13 +7,13 @@ using System.Data.SqlClient;
 namespace Kros.Data.BulkActions.SqlServer
 {
     /// <summary>
-    /// Class with support for fast data inserting into SQL Server.
+    /// Class for fast data inserting into SQL Server.
     /// </summary>
     public class SqlServerBulkInsert : IBulkInsert
     {
 
         /// <summary>
-        /// Default value <see cref="SqlBulkCopyOptions"/> for internal instance of <see cref="SqlBulkCopy"/>,
+        /// Default <see cref="SqlBulkCopyOptions"/> for internal instance of <see cref="SqlBulkCopy"/>,
         /// if external transaction is not used.
         /// Value is <c>SqlBulkCopyOptions.TableLock | SqlBulkCopyOptions.UseInternalTransaction</c>.
         /// </summary>
@@ -21,7 +21,7 @@ namespace Kros.Data.BulkActions.SqlServer
             SqlBulkCopyOptions.TableLock | SqlBulkCopyOptions.UseInternalTransaction;
 
         /// <summary>
-        /// Default value <see cref="SqlBulkCopyOptions"/> for internal instance of <see cref="SqlBulkCopy"/>,
+        /// Default <see cref="SqlBulkCopyOptions"/> for internal instance of <see cref="SqlBulkCopy"/>,
         /// if external transaction is used.
         /// Value is <c>SqlBulkCopyOptions.TableLock</c>.
         /// </summary>
@@ -48,11 +48,13 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         /// <summary>
-        /// Initialize new instance of <see cref="SqlServerBulkInsert"/> with database connection <paramref name="connection"/>.
+        /// Initialize new instance of <see cref="SqlServerBulkInsert"/> with database connection <paramref name="connection"/>
+        /// and external transaction <paramref name="externalTransaction"/>.
         /// </summary>
         /// <param name="connection">Database connection where data will be inserted, connection has to be opened.
-        /// If transaction is running on connection, transaction has to be defined in <paramref name="externalTransaction"/>.</param>
-        /// <param name="externalTransaction">External transaction, in which is BulkInsert executed.</param>
+        /// If transaction is running on connection, transaction has to be defined in <paramref name="externalTransaction"/>.
+        /// </param>
+        /// <param name="externalTransaction">External transaction, in which bulk insert is executed.</param>
         public SqlServerBulkInsert(SqlConnection connection, SqlTransaction externalTransaction)
             : this(connection, externalTransaction,
                   externalTransaction == null ? DefaultBulkCopyOptions : DefaultBulkCopyOptionsExternalTransaction)
@@ -72,11 +74,12 @@ namespace Kros.Data.BulkActions.SqlServer
 
         /// <summary>
         /// Initialize new instance of <see cref="SqlServerBulkInsert"/> with database connection <paramref name="connection"/>,
-        /// External transaction <paramref name="externalTransaction"/> and defined options <paramref name="options"/>.
+        /// external transaction <paramref name="externalTransaction"/> and defined options <paramref name="options"/>.
         /// </summary>
         /// <param name="connection">Database connection where data will be inserted, connection has to be opened.
-        /// If transaction is running on connection, transaction has to be defined in <paramref name="externalTransaction"/>.</param>
-        /// <param name="externalTransaction">External transaction, in which is BulkInsert executed.</param>
+        /// If transaction is running on connection, transaction has to be defined in <paramref name="externalTransaction"/>.
+        /// </param>
+        /// <param name="externalTransaction">External transaction, in which bulk insert is executed.</param>
         /// <param name="options">Options <see cref="SqlBulkCopyOptions"/>.</param>
         public SqlServerBulkInsert(SqlConnection connection, SqlTransaction externalTransaction, SqlBulkCopyOptions options)
         {
@@ -113,7 +116,7 @@ namespace Kros.Data.BulkActions.SqlServer
         #region Common
 
         /// <summary>
-        /// External transaction, in which is BulkInsert executed.
+        /// External transaction, in which bulk insert is executed.
         /// </summary>
         public SqlTransaction ExternalTransaction { get; }
 

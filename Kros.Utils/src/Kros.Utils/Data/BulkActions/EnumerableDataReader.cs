@@ -12,7 +12,7 @@ namespace Kros.Data.BulkActions
     /// <typeparam name="T">Object data type.</typeparam>
     /// <remarks>
     /// Class implements <see cref="IBulkActionDataReader"/> for any list of objects,
-    /// so this list can be easily bulk inserted into database via <c>BulkInsert</c>.
+    /// so this list can be easily used in bulk actions (<see cref="IBulkInsert"/>, <see cref="IBulkUpdate"/>).
     /// </remarks>
     public class EnumerableDataReader<T> : IBulkActionDataReader
     {
@@ -27,13 +27,13 @@ namespace Kros.Data.BulkActions
         #region Constructors
 
         /// <summary>
-        /// Creates instance of reader <paramref name="data"/> with list of columns <paramref name="columnNames"/>.
+        /// Creates instance of reader over <paramref name="data"/> with list of columns <paramref name="columnNames"/>.
         /// </summary>
         /// <param name="data">Data which reader operates with.</param>
         /// <param name="columnNames">List of columns with which reader works.
         /// For every column must exists property with the same name in object <c>T</c>.</param>
         /// <exception cref="ArgumentNullException">
-        /// Value <paramref name="data"/>, or <paramref name="columnNames"/> is <c>null</c>.
+        /// Value of <paramref name="data"/>, or <paramref name="columnNames"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// List <paramref name="columnNames"/> is empty, i.e. does not contain any value.
@@ -63,7 +63,7 @@ namespace Kros.Data.BulkActions
         public int FieldCount => _columnNames.Count;
 
         /// <summary>
-        /// Column name on index <paramref name="i"/>.
+        /// Column name at index <paramref name="i"/>.
         /// </summary>
         /// <param name="i">Column index.</param>
         /// <returns>Column name.</returns>
@@ -77,7 +77,7 @@ namespace Kros.Data.BulkActions
         public int GetOrdinal(string name) => _columnNames.IndexOf(_columnNames.First(column => column == name));
 
         /// <summary>
-        /// Returns value of column on index <paramref name="i"/>.
+        /// Returns value of column at index <paramref name="i"/>.
         /// </summary>
         /// <param name="i">Column index.</param>
         /// <returns>Column value.</returns>
@@ -86,8 +86,10 @@ namespace Kros.Data.BulkActions
         /// <summary>
         /// Moves to next record.
         /// </summary>
-        /// <returns>Returns <see langword="true"/>, if move was successfull, <see langword="false"/>,
-        /// if there is nothing next.</returns>
+        /// <returns>
+        /// <see langword="true"/> if move was successfull,
+        /// <see langword="false"/> if there is no next record.
+        /// </returns>
         public bool Read() => _dataEnumerator.MoveNext();
 
         #endregion

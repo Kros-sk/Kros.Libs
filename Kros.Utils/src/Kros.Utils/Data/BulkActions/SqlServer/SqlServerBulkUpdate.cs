@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 namespace Kros.Data.BulkActions.SqlServer
 {
     /// <summary>
-    /// Class with support for fast data update operations for SQL Server.
+    /// Class for fast data update for SQL Server.
     /// </summary>
     /// <example>
     ///   <code source="..\Examples\Kros.Utils\BulkUpdateExamples.cs" title="Bulk update" region="BulkUpdate" lang="C#" />
@@ -27,11 +27,13 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         /// <summary>
-        /// Initialize new instance of <see cref="SqlServerBulkUpdate"/> with database connection <paramref name="connection"/>.
+        /// Initialize new instance of <see cref="SqlServerBulkUpdate"/> with database connection <paramref name="connection"/>,
+        /// and external transaction <paramref name="externalTransaction"/>.
         /// </summary>
         /// <param name="connection">Database connection where data will be updated, connection has to be opened.
-        /// If transaction is running on connection, transaction has to be defined in <paramref name="externalTransaction"/>.</param>
-        /// <param name="externalTransaction">External transaction, in which is BulkUpdate executed.</param>
+        /// If transaction is running on connection, transaction has to be defined in <paramref name="externalTransaction"/>.
+        /// </param>
+        /// <param name="externalTransaction">External transaction, in which bulk update is executed.</param>
         public SqlServerBulkUpdate(SqlConnection connection, SqlTransaction externalTransaction)
         {
             _connection = Check.NotNull(connection, nameof(connection));

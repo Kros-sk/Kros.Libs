@@ -28,7 +28,7 @@ namespace Kros.Data.BulkActions
         protected IDbConnection _connection;
 
         /// <summary>
-        /// True if dispose of the connection is necessary, otherwise False.
+        /// <see langword="true"/> if dispose of the connection is necessary, otherwise <see langword="false"/>.
         /// </summary>
         protected bool _disposeOfConnection = false;
 
@@ -38,7 +38,7 @@ namespace Kros.Data.BulkActions
         #region Properties
 
         /// <summary>
-        /// External transaction in which is operation executed.
+        /// External transaction in which the operation is executed.
         /// </summary>
         public IDbTransaction ExternalTransaction { get; protected set; }
 
@@ -90,7 +90,7 @@ namespace Kros.Data.BulkActions
         }
 
         /// <summary>
-        /// Updates all rows in table. <paramref name="table"/>.
+        /// Updates all rows in table <paramref name="table"/>.
         /// </summary>
         /// <param name="table">Source data.</param>
         public void Update(DataTable table)
@@ -113,7 +113,7 @@ namespace Kros.Data.BulkActions
         protected abstract IBulkInsert CreateBulkInsert();
 
         /// <summary>
-        /// Invokes action at temporary database.
+        /// Invokes action in temporary database.
         /// </summary>
         /// <param name="tempTableName">Name of temporary table.</param>
         protected abstract void InvokeAction(string tempTableName);

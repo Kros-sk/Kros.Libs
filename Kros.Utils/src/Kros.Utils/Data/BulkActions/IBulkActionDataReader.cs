@@ -3,7 +3,7 @@
 namespace Kros.Data.BulkActions
 {
     /// <summary>
-    /// Interface for data source used in <see cref="IBulkInsert"/>.
+    /// Interface for data source used in bulk actions (<see cref="IBulkInsert"/>, <see cref="IBulkUpdate"/>).
     /// </summary>
     public interface IBulkActionDataReader : IDisposable
     {
@@ -14,7 +14,7 @@ namespace Kros.Data.BulkActions
         int FieldCount { get; }
 
         /// <summary>
-        /// Returns column name.
+        /// Returns column name at position <paramref name="i"/>.
         /// </summary>
         /// <param name="i">Index of column.</param>
         /// <returns>Column name.</returns>
@@ -30,7 +30,7 @@ namespace Kros.Data.BulkActions
         int GetOrdinal(string name);
 
         /// <summary>
-        /// Returns value of column on index <paramref name="i"/>.
+        /// Returns value of column at index <paramref name="i"/>.
         /// </summary>
         /// <param name="i">Column index.</param>
         /// <returns>Object - value of column.</returns>
@@ -41,7 +41,9 @@ namespace Kros.Data.BulkActions
         /// <summary>
         /// Moves reader to next record.
         /// </summary>
-        /// <returns><see langword="true"/>, if next record exists, and reader is moved <see langword="false"/> if next record does not exist.
+        /// <returns>
+        /// <see langword="true"/> if next record exists and reader is moved,
+        /// <see langword="false"/> if next record does not exist.
         /// </returns>
         bool Read();
 
