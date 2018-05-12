@@ -1,18 +1,18 @@
 ﻿using Kros.Utils;
 using System;
 using System.Net;
+using System.Net.NetworkInformation;
 
 namespace Kros.Net
 {
     /// <summary>
-    /// Trieda určená na testovanie dostupnosti internetového spojenia.
+    /// Class dedicated for simple testing of internet connectivity.
     /// </summary>
     /// <remarks>
-    /// Nestačí testovať pomocou <see cref="System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable()"/>,
-    /// pretože táto metóda zistí či je počítač v sieti. Nezistí či je reálne dostupný internet.
-    /// Taktiež netestujeme pomocou pingovania, pretože niektorí správcovia zakazujú ping.
-    ///
-    /// Takže testujeme pomocou dotazu na konkrétnu službu.
+    /// It is not sufficient to test connectivity using <see cref="NetworkInterface.GetIsNetworkAvailable()"/>, because that
+    /// method just checks, if the computer is in some network. It does not check if internet is really available.
+    /// Internet availability is not checked using ping (<see cref="Ping"/>), because this method is often blocked.
+    /// The availability is tested using a request to specific service.
     /// </remarks>
     public class NetworkChecker
     {
@@ -49,35 +49,30 @@ namespace Kros.Net
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NetworkChecker"/> class.
+        /// Initializes a new instance of the <see cref="NetworkChecker"/> with address <paramref name="serviceAddress"/>
+        /// for requests.
         /// </summary>
-        /// <param name="testingAddress">Webová adresa služby, ktorú testujeme.</param>
-        public NetworkChecker(string testingAddress)
-            : this(testingAddress, DefaultRequestTimeout, DefaultResponseCacheExpiration)
+        /// <param name="serviceAddress">Wen address for requests checking internet availability.</param>
+        public NetworkChecker(string serviceAddress)
+            : this(serviceAddress, DefaultRequestTimeout, DefaultResponseCacheExpiration)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NetworkChecker"/> class.
+        /// Initializes a new instance of the <see cref="NetworkChecker"/> with address <paramref name="serviceAddress"/>
+        /// and aditional parameters.
         /// </summary>
-        /// <param name="serviceAddress">Webová adresa služby, ktorú testujeme.</param>
-        /// <param name="requestTimeout">
-        /// Maximálna doba čakania na odpoveď zo server. Keď uplynie a odpoveď sme nedostali, tak považujeme,
-        /// že internet/služba nie je dostupný.
-        /// V milisekundách.
-        /// </param>
-        /// <param name="responseCacheExpiration">
-        /// čas v milisekundách, ktorý udáva ako dlho sa bude používať zapamätaná informácia o tom, že ide internet.
+        /// <param name="serviceAddress">Wen address for requests checking internet availability.</param>
+        /// <param name="requestTimeout">Maximum time for waiting for the response from server. If the response will not
+        /// came in this time, we consider that the internet is not available. Value is in milliseconds.</param>
+        /// <param name="responseCacheExpiration">Time in milliseconds during which the last response will be remembered
+        /// and so no requests to <paramref name="serviceAddress"/> will be performed.
         /// </param>
         public NetworkChecker(string serviceAddress, int requestTimeout, int responseCacheExpiration)
         {
-            Check.NotNullOrWhiteSpace(serviceAddress, nameof(serviceAddress));
-            Check.GreaterOrEqualThan(requestTimeout, 0, nameof(requestTimeout));
-            Check.GreaterOrEqualThan(responseCacheExpiration, 0, nameof(responseCacheExpiration));
-
-            ServiceAddress = serviceAddress;
-            RequestTimeout = requestTimeout;
-            ResponseCacheExpiration = responseCacheExpiration;
+            ServiceAddress = Check.NotNullOrWhiteSpace(serviceAddress, nameof(serviceAddress));
+            RequestTimeout = Check.GreaterOrEqualThan(requestTimeout, 0, nameof(requestTimeout));
+            ResponseCacheExpiration = Check.GreaterOrEqualThan(responseCacheExpiration, 0, nameof(responseCacheExpiration));
         }
 
         #endregion
@@ -85,34 +80,33 @@ namespace Kros.Net
         #region NetworkChecker
 
         /// <summary>
-        /// Webová adresa služby, ktorú testujeme.
+        /// Web address to which requests are made to check internet availability.
         /// </summary>
         public string ServiceAddress { get; }
 
         /// <summary>
-        /// Maximálna doba čakania na odpoveď zo server. Keď uplynie a odpoveď sme nedostali, tak považujeme,
-        /// že internet/služba nie je dostupný. Hodnota je v milisekundách.</summary>
+        /// Maximum time for waiting for the response from server. If the response will not
+        /// came in this time, we consider that the internet is not available. Value is in milliseconds.
+        /// </summary>
         public int RequestTimeout { get; }
 
         /// <summary>
-        /// Hodnota, ktorá udáva ako dlho sa bude používať zapamätaná informácia o tom, že internet je dostupný. V milisekundách.
+        /// Time in milliseconds during which the last response will be remembered
+        /// and so no other requests to <see cref="ServiceAddress"/> will be performed.
         /// </summary>
         public int ResponseCacheExpiration { get; }
 
         /// <summary>
-        /// Skontroluje či je internet (konkrétna služba <see cref="ServiceAddress"/>) k dispozícií.
-        /// Kladnú odpoveď kešuje a reálny test prevedie len pokiaľ uplynul čas platnosti keše
-        /// <see cref="ResponseCacheExpiration"/>.
+        /// Checks if the internet (specifically the service at the address <see cref="ServiceAddress"/>) is available.
+        /// Positive response is cached for the time specified in <see cref="ResponseCacheExpiration"/>,
+        /// so another request to the service is made after this time.
         /// </summary>
         /// <returns>
-        /// <see langword="true"/>, ak je (respektíve v danom časovom intervale bol dostupný internet).
-        /// <see langword="false"/> ak internet nie je dostupný.
+        /// <see langword="true"/> if internet (service) is available <see langword="false"/> otherwise.
         /// </returns>
-        public bool IsNetworkAvailable() =>
-            CheckNetwork() && (HasCachedResponse() || CheckService());
+        public bool IsNetworkAvailable() => CheckNetwork() && (HasCachedResponse() || CheckService());
 
-        internal virtual bool CheckNetwork() =>
-            System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
+        internal virtual bool CheckNetwork() => NetworkInterface.GetIsNetworkAvailable();
 
         private bool HasCachedResponse() =>
             _lastSuccessResponseTime.AddMilliseconds(ResponseCacheExpiration) >= DateTimeProvider.Now;
@@ -134,10 +128,8 @@ namespace Kros.Net
             }
         }
 
-        internal virtual IWebClient CreateWebClient() =>
-            new KrosWebClient(RequestTimeout);
+        internal virtual IWebClient CreateWebClient() => new KrosWebClient(RequestTimeout);
 
         #endregion
-
     }
 }
