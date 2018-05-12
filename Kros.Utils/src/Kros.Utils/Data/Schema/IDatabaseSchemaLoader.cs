@@ -1,60 +1,45 @@
 ﻿namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Rozhranie pre triedy, načítavajúce schému databázy.
+    /// Interface for loading database schema.
     /// </summary>
     public interface IDatabaseSchemaLoader
     {
         /// <summary>
-        /// Kontroluje, či trieda dokáže načítať schému zo zadaného spojenia <paramref name="connection"/>.
+        /// Checks, if specific loader can load schema from <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns><see langword="true"/>, ak je možné načítať schému databázy, <see langword="false"/>, ak to možné nie je.</returns>
+        /// <param name="connection">Database connection.</param>
+        /// <returns><see langword="true"/> if loader can load schema, <see langword="false"/> otherwise.</returns>
         bool SupportsConnectionType(object connection);
 
         /// <summary>
-        /// Načíta celú schému databázy určenej spojením <paramref name="connection"/>.
+        /// Loads whole database schema in <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Vráti schému celej databázy.</returns>
+        /// <param name="connection">Database connection.</param>
+        /// <returns>Schema of whole database.</returns>
         DatabaseSchema LoadSchema(object connection);
 
         /// <summary>
-        /// Načíta schému tabuľky <paramref name="tableName"/> z databázy <paramref name="connection"/>.
+        /// Loads schema of table <paramref name="tableName"/> from database <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <param name="tableName">Meno tabuľky, ktorej schéma sa načíta.</param>
-        /// <returns>Vráti načítanú schému tabuľky, alebo hodnotu <c>null</c>, ak taká tabuľka neexistuje.</returns>
+        /// <param name="connection">Database connection.</param>
+        /// <param name="tableName">Name of the table to load schema.</param>
+        /// <returns>Table schema or <see langword="null"/>, if specified table does not exist.</returns>
         TableSchema LoadTableSchema(object connection, string tableName);
     }
 
-    /// <summary>
-    /// Rozhranie pre triedy, načítavajúce schému databázy.
-    /// </summary>
-    /// <typeparam name="T">Typ spojenia na databázu, s ktorým pracuje daná trieda.</typeparam>
+    /// <inheritdoc cref="IDatabaseSchemaLoader"/>
+    /// <typeparam name="T">Database connection type which loader works with.</typeparam>
     public interface IDatabaseSchemaLoader<T>
         : IDatabaseSchemaLoader
     {
-        /// <summary>
-        /// Kontroluje, či trieda dokáže načítať schému zo zadaného spojenia <paramref name="connection"/>.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns><see langword="true"/>, ak je možné načítať schému databázy, <see langword="false"/>, ak to možné nie je.</returns>
+        /// <inheritdoc cref="IDatabaseSchemaLoader.SupportsConnectionType(object)"/>
         bool SupportsConnectionType(T connection);
 
-        /// <summary>
-        /// Načíta celú schému databázy určenej spojením <paramref name="connection"/>.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Vráti schému celej databázy.</returns>
+        /// <inheritdoc cref="IDatabaseSchemaLoader.LoadSchema(object)"/>
         DatabaseSchema LoadSchema(T connection);
 
-        /// <summary>
-        /// Načíta schému tabuľky <paramref name="tableName"/> z databázy <paramref name="connection"/>.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <param name="tableName">Meno tabuľky, ktorej schéma sa načíta.</param>
-        /// <returns>Vráti načítanú schému tabuľky, alebo hodnotu <c>null</c>, ak taká tabuľka neexistuje.</returns>
+        /// <inheritdoc cref="IDatabaseSchemaLoader.LoadTableSchema(object, string)"/>
         TableSchema LoadTableSchema(T connection, string tableName);
     }
 }

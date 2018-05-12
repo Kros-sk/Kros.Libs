@@ -1,0 +1,440 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class DatabaseSchemaCache
+   | Kros.Libs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class DatabaseSchemaCache
+   | Kros.Libs ">
+    <meta name="generator" content="docfx 2.35.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../images/Kros.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Kros.Data.Schema.DatabaseSchemaCache">
+  
+  
+  <h1 id="Kros_Data_Schema_DatabaseSchemaCache" data-uid="Kros.Data.Schema.DatabaseSchemaCache" class="text-break">Class DatabaseSchemaCache
+  </h1>
+  <div class="markdown level0 summary"><p>Implementácia <a class="xref" href="Kros.Data.Schema.IDatabaseSchemaCache.html">IDatabaseSchemaCache</a>. Po pridaní loader-ov umožňuje načítavať schému databázy.
+Načítanie schémy je pomalá záležitosť a preto sa načítaná schéma kešuje. Pri ďalšej požiadavke na rovnakú schému
+sa už nenačíta z databázy, ale je vrátená z keše.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">DatabaseSchemaCache</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Kros.Data.Schema.IDatabaseSchemaCache.html">IDatabaseSchemaCache</a></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Kros.Data.Schema.html">Kros.Data.Schema</a></h6>
+  <h6><strong>Assembly</strong>: Kros.Utils.dll</h6>
+  <h5 id="Kros_Data_Schema_DatabaseSchemaCache_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class DatabaseSchemaCache : IDatabaseSchemaCache</code></pre>
+  </div>
+  <h5 id="Kros_Data_Schema_DatabaseSchemaCache_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p><code>DatabaseSchemaCache</code> je potrebné inicializovať potrebným loaderom <a class="xref" href="Kros.Data.Schema.IDatabaseSchemaLoader.html">IDatabaseSchemaLoader</a>,
+ktorý načíta schému. Zároveň každý loader musí mať špecifikovaný generátor kľúča <a class="xref" href="Kros.Data.Schema.ISchemaCacheKeyGenerator.html">ISchemaCacheKeyGenerator</a>.
+Generátory kľúča pre rôzne typy databáz musia vytvárať navzájom rôzne kľúče, aby sa nestalo, že dva rôzne generátory
+vygenerujú rovnaký kľúč.</p>
+<p>Pre jednoduché použitie je implementovaná vlastnosť <a class="xref" href="Kros.Data.Schema.DatabaseSchemaCache.html#Kros_Data_Schema_DatabaseSchemaCache_Default">Default</a>
+a nie je tak nutné si vytvárať vlastnú inštanciu keše.</p>
+</div>
+  <h3 id="properties">Properties
+  </h3>
+  <a id="Kros_Data_Schema_DatabaseSchemaCache_Default_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.Default*"></a>
+  <h4 id="Kros_Data_Schema_DatabaseSchemaCache_Default" data-uid="Kros.Data.Schema.DatabaseSchemaCache.Default">Default</h4>
+  <div class="markdown level1 summary"><p>Inštancia <code>DatabaseSchemaCache</code> určená na bežné použitie. Štandardne obsahuje loader pre SQL Server
+(<a class="xref" href="Kros.Data.Schema.SqlServer.SqlServerSchemaLoader.html">SqlServerSchemaLoader</a>).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DatabaseSchemaCache Default { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.Schema.DatabaseSchemaCache.html">DatabaseSchemaCache</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Kros_Data_Schema_DatabaseSchemaCache_AddSchemaLoader_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.AddSchemaLoader*"></a>
+  <h4 id="Kros_Data_Schema_DatabaseSchemaCache_AddSchemaLoader_Kros_Data_Schema_IDatabaseSchemaLoader_Kros_Data_Schema_ISchemaCacheKeyGenerator_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.AddSchemaLoader(Kros.Data.Schema.IDatabaseSchemaLoader,Kros.Data.Schema.ISchemaCacheKeyGenerator)">AddSchemaLoader(IDatabaseSchemaLoader, ISchemaCacheKeyGenerator)</h4>
+  <div class="markdown level1 summary"><p>Pridá do keše <code data-dev-comment-type="paramref" class="paramref">loader</code> na načítavanie schémy databázy, spolu s generátorom kľúčov pre načítanú
+shému <code data-dev-comment-type="paramref" class="paramref">keyGenerator</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddSchemaLoader(IDatabaseSchemaLoader loader, ISchemaCacheKeyGenerator keyGenerator)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.Schema.IDatabaseSchemaLoader.html">IDatabaseSchemaLoader</a></td>
+        <td><span class="parametername">loader</span></td>
+        <td><p>Loader pre načítavanie schémy databázy.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Kros.Data.Schema.ISchemaCacheKeyGenerator.html">ISchemaCacheKeyGenerator</a></td>
+        <td><span class="parametername">keyGenerator</span></td>
+        <td><p>Generátor kľúča pre schému databázy. Databáza sa interne drží v keši pod vygenerovaným
+kľúčom.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p>Hodnota <code data-dev-comment-type="paramref" class="paramref">loader</code> alebo <code data-dev-comment-type="paramref" class="paramref">keyGenerator</code>
+je <code>null</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_Schema_DatabaseSchemaCache_ClearAllSchemas_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.ClearAllSchemas*"></a>
+  <h4 id="Kros_Data_Schema_DatabaseSchemaCache_ClearAllSchemas" data-uid="Kros.Data.Schema.DatabaseSchemaCache.ClearAllSchemas">ClearAllSchemas()</h4>
+  <div class="markdown level1 summary"><p>Vyčistí celú keš - vymaže všetky načítané schémy.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClearAllSchemas()</code></pre>
+  </div>
+  <a id="Kros_Data_Schema_DatabaseSchemaCache_ClearSchema_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.ClearSchema*"></a>
+  <h4 id="Kros_Data_Schema_DatabaseSchemaCache_ClearSchema_System_Object_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.ClearSchema(System.Object)">ClearSchema(Object)</h4>
+  <div class="markdown level1 summary"><p>Zruší z keše schému databázy načítanú pre spojenie <code data-dev-comment-type="paramref" class="paramref">connection</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClearSchema(object connection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">connection</span></td>
+        <td><p>Spojenie na databázu.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>Keš neobsahuje loader pre spojenie na databázu
+<code data-dev-comment-type="paramref" class="paramref">connection</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_Schema_DatabaseSchemaCache_ClearSchemaLoaders_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.ClearSchemaLoaders*"></a>
+  <h4 id="Kros_Data_Schema_DatabaseSchemaCache_ClearSchemaLoaders" data-uid="Kros.Data.Schema.DatabaseSchemaCache.ClearSchemaLoaders">ClearSchemaLoaders()</h4>
+  <div class="markdown level1 summary"><p>Vymaže všetky loader-y schém.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClearSchemaLoaders()</code></pre>
+  </div>
+  <a id="Kros_Data_Schema_DatabaseSchemaCache_GetSchema_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.GetSchema*"></a>
+  <h4 id="Kros_Data_Schema_DatabaseSchemaCache_GetSchema_System_Object_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.GetSchema(System.Object)">GetSchema(Object)</h4>
+  <div class="markdown level1 summary"><p>Vráti schému databázy pre spojenie <code data-dev-comment-type="paramref" class="paramref">connection</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DatabaseSchema GetSchema(object connection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">connection</span></td>
+        <td><p>Spojenie na databázu.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.Schema.DatabaseSchema.html">DatabaseSchema</a></td>
+        <td><p>Schéma danej databázy.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>Keš neobsahuje loader pre spojenie na databázu
+<code data-dev-comment-type="paramref" class="paramref">connection</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_Schema_DatabaseSchemaCache_RefreshSchema_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.RefreshSchema*"></a>
+  <h4 id="Kros_Data_Schema_DatabaseSchemaCache_RefreshSchema_System_Object_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.RefreshSchema(System.Object)">RefreshSchema(Object)</h4>
+  <div class="markdown level1 summary"><p>Načíta schému databázy pre spojenie <code data-dev-comment-type="paramref" class="paramref">connection</code>. Schéma je načítaná priamo z databázy aj v prípade,
+že už je uložená v keši.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DatabaseSchema RefreshSchema(object connection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">connection</span></td>
+        <td><p>Spojenie na databázu.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.Schema.DatabaseSchema.html">DatabaseSchema</a></td>
+        <td><p>Schéma danej databázy.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>Keš neobsahuje loader pre spojenie na databázu
+<code data-dev-comment-type="paramref" class="paramref">connection</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_Schema_DatabaseSchemaCache_RemoveSchemaLoader_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.RemoveSchemaLoader*"></a>
+  <h4 id="Kros_Data_Schema_DatabaseSchemaCache_RemoveSchemaLoader_Kros_Data_Schema_IDatabaseSchemaLoader_" data-uid="Kros.Data.Schema.DatabaseSchemaCache.RemoveSchemaLoader(Kros.Data.Schema.IDatabaseSchemaLoader)">RemoveSchemaLoader(IDatabaseSchemaLoader)</h4>
+  <div class="markdown level1 summary"><p>Vymaže zadaný <code data-dev-comment-type="paramref" class="paramref">loader</code> databázovej schémy.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveSchemaLoader(IDatabaseSchemaLoader loader)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.Schema.IDatabaseSchemaLoader.html">IDatabaseSchemaLoader</a></td>
+        <td><span class="parametername">loader</span></td>
+        <td><p>Loader databázovej schémy, ktorý sa má vymazať.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Kros.Data.Schema.IDatabaseSchemaCache.html">IDatabaseSchemaCache</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            KROS a.s.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

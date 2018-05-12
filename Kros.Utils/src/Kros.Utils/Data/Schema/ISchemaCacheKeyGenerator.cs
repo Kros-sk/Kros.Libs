@@ -1,30 +1,24 @@
 ﻿namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Generátor kľúča pre spojenie na databázu. Používa ho <see cref="DatabaseSchemaCache"/>.
+    /// Cache key generator for <see cref="DatabaseSchemaCache"/>.
     /// </summary>
     public interface ISchemaCacheKeyGenerator
     {
         /// <summary>
-        /// Vygeneruje kľúč pre spojenie <paramref name="connection"/>.
+        /// Generates a cache key for <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Reťazec.</returns>
+        /// <param name="connection">Database connection.</param>
+        /// <returns>String, which identifies <paramref name="connection"/>.</returns>
         string GenerateKey(object connection);
     }
 
-    /// <summary>
-    /// Generátor kľúča pre spojenie na databázu. Používa ho <see cref="DatabaseSchemaCache"/>.
-    /// </summary>
-    /// <typeparam name="T">Typ spojenia na databázu.</typeparam>
+    /// <inheritdoc cref="ISchemaCacheKeyGenerator"/>.
+    /// <typeparam name="T">Database connection type.</typeparam>
     public interface ISchemaCacheKeyGenerator<T>
         : ISchemaCacheKeyGenerator
     {
-        /// <summary>
-        /// Vygeneruje kľúč pre spojenie <paramref name="connection"/>.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Reťazec.</returns>
+        /// <inheritdoc cref="ISchemaCacheKeyGenerator.GenerateKey(object)"/>
         string GenerateKey(T connection);
     }
 }

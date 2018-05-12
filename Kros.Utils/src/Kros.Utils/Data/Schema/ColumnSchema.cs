@@ -5,36 +5,35 @@ using System.Data;
 namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Schéma stĺpca databázovej tabuľky.
+    /// Schema of a database table column.
     /// </summary>
     public abstract class ColumnSchema
     {
-
         #region Constants
 
         /// <summary>
-        /// Predvolená hodnota stĺpca, ktorá sa použije, ak nie je žiadna definovaná. Hodnota je <see cref="DBNull"/>.
+        /// Value for the column's <see cref="DefaultValue"/>, if none is defined. The value is <see cref="DBNull"/>.
         /// </summary>
         public static readonly object DefaultDefaultValue = DBNull.Value;
 
         /// <summary>
-        /// Predvolené nastavenie pre <see cref="ColumnSchema.AllowNull"/>. Hodnota je <see langword="false"/>.
+        /// Default value for column's <see cref="AllowNull"/>. The value is <see langword="false"/>.
         /// </summary>
         public const bool DefaultAllowNull = true;
 
         /// <summary>
-        /// Predvolená hodnota pre <see cref="ColumnSchema.Size"/>. Hodnota je <c>0</c>.
+        /// Default value for column's <see cref="Size"/>. The value is <c>0</c>.
         /// </summary>
         public const int DefaultSize = 0;
 
         /// <summary>
-        /// Predvolené hodnoty stĺpcov pre jednotlivé dátové typy:
+        /// Columns' default values for individual data types.
         /// <list type="bullet">
-        /// <item>Boolean typ má predvolenú hodnotu <see langword="false"/>.</item>
-        /// <item>Všetky číselné typy majú hodnotu <c>0</c>.</item>
-        /// <item>Dátumové a časové typy sú nastavené na <c>1.1.1900 0:00:00</c></item>
-        /// <item>Textové dátové typy sú nastavené na prázdny reťazec.</item>
-        /// <item>GUID typ je nastavený na prázdny GUID (<see cref="Guid.Empty"/>)</item>
+        /// <item><c>Boolean</c>'s default value is <see langword="false"/>.</item>
+        /// <item>Default value for all numeric types is <c>0</c>.</item>
+        /// <item>Default value for date and time is <c>1.1.1900 0:00:00</c></item>
+        /// <item>String's default value is empty string.</item>
+        /// <item>GUID's default value is empty GUID (<see cref="Guid.Empty"/>).</item>
         /// </list>
         /// </summary>
         public static class DefaultValues
@@ -63,24 +62,22 @@ namespace Kros.Data.Schema
 
         #endregion
 
-
         #region Constructors
 
         /// <summary>
-        /// Vytvorí inštanciu schémy stĺpca s menom <paramref name="name"/> a ostatnými hodnotami.
+        /// Creates an instance of column schema with <paramref name="name"/> and specified parameters.
         /// </summary>
-        /// <param name="name">Meno stĺpca.</param>
-        /// <param name="allowNull">Určuje, či stĺpec má povolenú <b>NULL</b> hodnotu.</param>
-        /// <param name="defaultValue">Predvolená hodnota stĺpca.</param>
-        /// <param name="size">Maximálna dĺžka textových stĺpcov. Ak je neobmedzená, hodnota je <b>0</b>.</param>
-        /// <exception cref="ArgumentNullException">Meno stĺpca <paramref name="name"/> má hodnotu <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Meno stĺpca <paramref name="name"/> nie je zadané: je prázdny reťazec,
-        /// alebo reťazec bielych znakov.</exception>
+        /// <param name="name">Column's name</param>
+        /// <param name="allowNull">Specifies if column accepts <b>NULL</b> value.</param>
+        /// <param name="defaultValue">Column's default value.</param>
+        /// <param name="size">Maximum length of text columns. If value is <b>0</b>, maximum length is unlimited.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="name"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="name"/> is empty string, or string containing only
+        /// whitespace characters.</exception>
         public ColumnSchema(string name, bool allowNull, object defaultValue, int size)
         {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
+            Name = Check.NotNullOrWhiteSpace(name, nameof(name));
 
-            Name = name;
             AllowNull = allowNull;
             DefaultValue = defaultValue;
             Size = size;
@@ -88,49 +85,48 @@ namespace Kros.Data.Schema
 
         #endregion
 
-
         #region Common
 
         /// <summary>
-        /// Tabuľka, ktorej stĺpec patrí. Tabuľka je nastavená automaticky pri pridaní stĺpca do zoznamu
-        /// <see cref="ColumnSchemaCollection"/>.
+        /// The table to which the column belongs. The table is set automatically when the column is added to table's
+        /// <see cref="TableSchema.Columns"/> collection.
         /// </summary>
         public TableSchema Table { get; internal set; }
 
         /// <summary>
-        /// Meno stĺpca.
+        /// Column name.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Plné meno stĺpca aj s názvom tabuľky, ak stĺpec nejakej tabuľke patrí.
+        /// Full name of the column, together with the table name (if column belongs to table).
         /// </summary>
         public string FullName { get { return (Table == null) ? Name : $"{Table.Name}.{Name}"; } }
 
         /// <summary>
-        /// Určuje, či stĺpec má povolenú <b>NULL</b> hodnotu.
+        /// Specifies if <b>NULL</b> value is allowed.
         /// </summary>
         public bool AllowNull { get; set; } = DefaultAllowNull;
 
         /// <summary>
-        /// Predvolená hodnota stĺpca.
+        /// Column's default value.
         /// </summary>
         public object DefaultValue { get; set; } = DefaultDefaultValue;
 
         /// <summary>
-        /// Maximálna dĺžka textových stĺpcov. Ak je neobmedzená, hodnota je <b>0</b>.
+        /// Maximum length of text columns. If value is <b>0</b>, maximum length is unlimited.
         /// </summary>
         public int Size { get; set; } = DefaultSize;
 
         /// <summary>
-        /// Dátový typ stĺpca ako hodnota enumerátu <see cref="DbType"/>.
+        /// Column's data type.
         /// </summary>
         public abstract DbType DbType { get; }
 
         /// <summary>
-        /// Parametru <paramref name="param"/> nastaví dátový typ.
+        /// Sets data type to command parameter <paramref name="param"/>.
         /// </summary>
-        /// <param name="param">Parameter pre databázové príkazy <see cref="IDbCommand"/>.</param>
+        /// <param name="param">Parameter for <see cref="IDbCommand"/> commands.</param>
         public abstract void SetParameterDbType(IDataParameter param);
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -142,16 +138,15 @@ namespace Kros.Data.Schema
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
-        /// Vráti predvolenú hodnotu stĺpca. Tá sapoužije v metóde <see cref="ToString"/>.
+        /// Returns value for <see cref="DefaultValue"/> for use in <see cref="ToString"/>.
         /// </summary>
-        /// <returns>Ak predvolená hodnota je <see cref="DBNull"/>, je vrátený reťazec <c>NULL</c>. Inak je vrátená
-        /// samotná predvolená hodnota <see cref="DefaultValue"/>.</returns>
-        protected virtual object ToStringDefaultValue()
+        /// <returns>String "<c>NULL</c>" if value of <see cref="DefaultValue"/> is <see cref="DBNull"/> or
+        /// <see langword="null"/>. Otherwise returns <see cref="DefaultValue"/>.</returns>
+        protected object ToStringDefaultValue()
         {
-            return (DefaultValue == DBNull.Value) ? "NULL" : DefaultValue;
+            return (DefaultValue == DBNull.Value) || (DefaultValue == null) ? "NULL" : DefaultValue;
         }
 
         #endregion
-
     }
 }

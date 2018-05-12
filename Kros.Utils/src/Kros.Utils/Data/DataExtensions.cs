@@ -7,29 +7,29 @@ using System.Linq;
 namespace Kros.Data
 {
     /// <summary>
-    /// Rozne rozšírenia dátových tried.
+    /// Extensions for various data classes.
     /// </summary>
     public static class DataExtensions
     {
         /// <summary>
-        /// Vráti, či je spojenie na databázu otvorené.
+        /// Checks if database connection is opened.
         /// </summary>
-        /// <param name="cn">Spojenie na databázu, ktoré sa testuje.</param>
-        /// <returns><see langword="true"/>, ak spojenie na databázu je otvorené, <see langword="false"/> ak nie je.</returns>
+        /// <param name="cn">Database connection.</param>
+        /// <returns><see langword="true"/>, if database connection is opened, <see langword="false"/> otherwise.</returns>
         public static bool IsOpened(this IDbConnection cn)
         {
             return cn.State.HasFlag(ConnectionState.Open);
         }
 
         /// <summary>
-        /// Vráti chybový kód výnimky pre SQL Server.
+        /// Returns error code for Microsoft SQL Server.
         /// </summary>
-        /// <param name="ex">Výnimka, ktorej chybový kód sa kontroluje.</param>
-        /// <returns>Vráti chybový kód ako hodnotu enumerátu <see cref="SqlServerErrorCode" />. Ak chybový kód
-        /// je neznámy, alebo nie je definovaný, je vrátená hodnota <see cref="SqlServerErrorCode.Unknown" />.</returns>
+        /// <param name="ex">Exception of which error code is tested.</param>
+        /// <returns>Error code as a value of enumeration <see cref="SqlServerErrorCode"/>. If error code is not defined in
+        /// the enum, value <see cref="SqlServerErrorCode.Unknown">SqlServerErrorCode.Unknown</see> is returned.</returns>
         /// <remarks>
-        /// Metóda pozerá hodnotu <see cref="SqlError.Number">Number</see> prvej chyby v zozname
-        /// <see cref="SqlException.Errors">SqlException.Errors</see>.
+        /// Method checks value of <see cref="SqlError.Number">Number</see> property of the first error in the
+        /// <see cref="SqlException.Errors">SqlException.Errors</see> list.
         /// </remarks>
         public static SqlServerErrorCode SqlServerErrorCode(this SqlException ex)
         {

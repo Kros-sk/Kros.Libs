@@ -1,0 +1,633 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class MsAccessSchemaLoader
+   | Kros.Libs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class MsAccessSchemaLoader
+   | Kros.Libs ">
+    <meta name="generator" content="docfx 2.35.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../images/Kros.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader">
+  
+  
+  <h1 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader" class="text-break">Class MsAccessSchemaLoader
+  </h1>
+  <div class="markdown level0 summary"><p>Implementácia <a class="xref" href="../Kros.Utils/Kros.Data.Schema.IDatabaseSchemaLoader-1.html">IDatabaseSchemaLoader&lt;T&gt;</a>, ktorá načítava schému MS Access databáz.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">MsAccessSchemaLoader</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="../Kros.Utils/Kros.Data.Schema.IDatabaseSchemaLoader-1.html">IDatabaseSchemaLoader</a>&lt;<span class="xref">System.Data.OleDb.OleDbConnection</span>&gt;</div>
+    <div><a class="xref" href="../Kros.Utils/Kros.Data.Schema.IDatabaseSchemaLoader.html">IDatabaseSchemaLoader</a></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Kros.Data.Schema.MsAccess.html">Kros.Data.Schema.MsAccess</a></h6>
+  <h6><strong>Assembly</strong>: Kros.Utils.MsAccess.dll</h6>
+  <h5 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MsAccessSchemaLoader : IDatabaseSchemaLoader&lt;OleDbConnection&gt;, IDatabaseSchemaLoader</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_GetDefaultValueString_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.GetDefaultValueString*"></a>
+  <h4 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_GetDefaultValueString_System_String_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.GetDefaultValueString(System.String)">GetDefaultValueString(String)</h4>
+  <div class="markdown level1 summary"><p>Upraví reťazec predvolenej hodnoty, ktorý je uložený priamo v databáze, aby bol vhodný na parsovanie.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual string GetDefaultValueString(string rawDefaultValueString)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">rawDefaultValueString</span></td>
+        <td><p>Reťazec predvolenej hodnoty stĺpca uložený priamo v databáze.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>Upravený reťazec. Z oboch koncov vstupného reťazca odstráni apostrofy a úvodzovky.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_LoadSchema_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.LoadSchema*"></a>
+  <h4 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_LoadSchema_System_Data_OleDb_OleDbConnection_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.LoadSchema(System.Data.OleDb.OleDbConnection)">LoadSchema(OleDbConnection)</h4>
+  <div class="markdown level1 summary"><p>Načíta celú schému databázy určenej spojením <code data-dev-comment-type="paramref" class="paramref">connection</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DatabaseSchema LoadSchema(OleDbConnection connection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.OleDb.OleDbConnection</span></td>
+        <td><span class="parametername">connection</span></td>
+        <td><p>Spojenie na databázu.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="../Kros.Utils/Kros.Data.Schema.DatabaseSchema.html">DatabaseSchema</a></td>
+        <td><p>Vráti schému celej databázy.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_LoadSchema_System_Data_OleDb_OleDbConnection__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Štandardne sa na získanie schémy vytvorí nové spojenie na databázu podľa vstupného spojenia
+<code data-dev-comment-type="paramref" class="paramref">connection</code>. Ak je však vstupné spojenie exkluzívne, použije sa priamo.</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p>Hodnota <code data-dev-comment-type="paramref" class="paramref">connection</code> je <code>null</code>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>Spojenie <code data-dev-comment-type="paramref" class="paramref">connection</code> nie je spojenie na MS Access databázu.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_LoadTableSchema_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.LoadTableSchema*"></a>
+  <h4 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_LoadTableSchema_System_Data_OleDb_OleDbConnection_System_String_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.LoadTableSchema(System.Data.OleDb.OleDbConnection,System.String)">LoadTableSchema(OleDbConnection, String)</h4>
+  <div class="markdown level1 summary"><p>Načíta schému tabuľky <code data-dev-comment-type="paramref" class="paramref">tableName</code> z databázy <code data-dev-comment-type="paramref" class="paramref">connection</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TableSchema LoadTableSchema(OleDbConnection connection, string tableName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.OleDb.OleDbConnection</span></td>
+        <td><span class="parametername">connection</span></td>
+        <td><p>Spojenie na databázu.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">tableName</span></td>
+        <td><p>Meno tabuľky, ktorej schéma sa načíta.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="../Kros.Utils/Kros.Data.Schema.TableSchema.html">TableSchema</a></td>
+        <td><p>Vráti načítanú schému tabuľky, alebo hodnotu <code>null</code>, ak taká tabuľka neexistuje.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_LoadTableSchema_System_Data_OleDb_OleDbConnection_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Štandardne sa na získanie schémy vytvorí nové spojenie na databázu podľa vstupného spojenia
+<code data-dev-comment-type="paramref" class="paramref">connection</code>. Ak je však vstupné spojenie exkluzívne, použije sa priamo.</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p>Hodnota <code data-dev-comment-type="paramref" class="paramref">connection</code> je <code>null</code>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>Spojenie <code data-dev-comment-type="paramref" class="paramref">connection</code> nie je spojenie na MS Access databázu.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>Názov tabuľky <code data-dev-comment-type="paramref" class="paramref">tableName</code> má hodnotu <code>null</code>,
+alebo je to prázdny reťazec, alebo je zložený len z bielych znakov.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_OnParseDefaultValue_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.OnParseDefaultValue*"></a>
+  <h4 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_OnParseDefaultValue_Kros_Data_Schema_MsAccess_MsAccessParseDefaultValueEventArgs_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.OnParseDefaultValue(Kros.Data.Schema.MsAccess.MsAccessParseDefaultValueEventArgs)">OnParseDefaultValue(MsAccessParseDefaultValueEventArgs)</h4>
+  <div class="markdown level1 summary"><p>Vyvolá udalosť <a class="xref" href="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.html#Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_ParseDefaultValue">ParseDefaultValue</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void OnParseDefaultValue(MsAccessParseDefaultValueEventArgs e)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.Schema.MsAccess.MsAccessParseDefaultValueEventArgs.html">MsAccessParseDefaultValueEventArgs</a></td>
+        <td><span class="parametername">e</span></td>
+        <td><p>Argumenty udalosti.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_SupportsConnectionType_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.SupportsConnectionType*"></a>
+  <h4 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_SupportsConnectionType_System_Data_OleDb_OleDbConnection_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.SupportsConnectionType(System.Data.OleDb.OleDbConnection)">SupportsConnectionType(OleDbConnection)</h4>
+  <div class="markdown level1 summary"><p>Kontroluje, či dokáže načítať schému zo spojenia <code data-dev-comment-type="paramref" class="paramref">connection</code>, tzn. či zadané spojenie je
+spojenie na MS Access databázu.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool SupportsConnectionType(OleDbConnection connection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.OleDb.OleDbConnection</span></td>
+        <td><span class="parametername">connection</span></td>
+        <td><p>Spojenie na databázu.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><span class="xref">true</span>, ak je možné načítať schému databázy, <span class="xref">false</span>, ak to možné nie je.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="events">Events
+  </h3>
+  <h4 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_ParseDefaultValue" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.ParseDefaultValue">ParseDefaultValue</h4>
+  <div class="markdown level1 summary"><p>Udalosť vyvolaná pri parsovaní predvolenej hodnoty stĺpca. V obsluhe je možné predvolenú hodnotu parsovať
+vlastným spôsobom, ak interné parsovanie zlyhalo.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;MsAccessParseDefaultValueEventArgs&gt; ParseDefaultValue</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="Kros.Data.Schema.MsAccess.MsAccessParseDefaultValueEventArgs.html">MsAccessParseDefaultValueEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_ParseDefaultValue_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>V obsluhe udalosti je možné spraviť vlatné parsovanie predvolenej hodnoty stĺpca. Ak je v obsluhe
+predvolená hodnota rozparsovaná, je potrebné ju nastaviť v argumente
+<a class="xref" href="Kros.Data.Schema.MsAccess.MsAccessParseDefaultValueEventArgs.html#Kros_Data_Schema_MsAccess_MsAccessParseDefaultValueEventArgs_DefaultValue">DefaultValue</a> a zároveň je potrebné nastaviť
+<a class="xref" href="Kros.Data.Schema.MsAccess.MsAccessParseDefaultValueEventArgs.html#Kros_Data_Schema_MsAccess_MsAccessParseDefaultValueEventArgs_Handled">Handled</a> na <span class="xref">true</span>.</p>
+</div>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <a id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_Kros_Data_Schema_IDatabaseSchemaLoader_LoadSchema_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.Kros#Data#Schema#IDatabaseSchemaLoader#LoadSchema*"></a>
+  <h4 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_Kros_Data_Schema_IDatabaseSchemaLoader_LoadSchema_System_Object_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.Kros#Data#Schema#IDatabaseSchemaLoader#LoadSchema(System.Object)">IDatabaseSchemaLoader.LoadSchema(Object)</h4>
+  <div class="markdown level1 summary"><p>Načíta celú schému databázy určenej spojením <code data-dev-comment-type="paramref" class="paramref">connection</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">DatabaseSchema IDatabaseSchemaLoader.LoadSchema(object connection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">connection</span></td>
+        <td><p>Spojenie na databázu.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="../Kros.Utils/Kros.Data.Schema.DatabaseSchema.html">DatabaseSchema</a></td>
+        <td><p>Vráti schému celej databázy.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_Kros_Data_Schema_IDatabaseSchemaLoader_LoadSchema_System_Object__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Štandardne sa na získanie schémy vytvorí nové spojenie na databázu podľa vstupného spojenia
+<code data-dev-comment-type="paramref" class="paramref">connection</code>. Ak je však vstupné spojenie exkluzívne, použije sa priamo.</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p>Hodnota <code data-dev-comment-type="paramref" class="paramref">connection</code> je <code>null</code>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>Spojenie <code data-dev-comment-type="paramref" class="paramref">connection</code> nie je spojenie na MS Access databázu.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_Kros_Data_Schema_IDatabaseSchemaLoader_LoadTableSchema_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.Kros#Data#Schema#IDatabaseSchemaLoader#LoadTableSchema*"></a>
+  <h4 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_Kros_Data_Schema_IDatabaseSchemaLoader_LoadTableSchema_System_Object_System_String_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.Kros#Data#Schema#IDatabaseSchemaLoader#LoadTableSchema(System.Object,System.String)">IDatabaseSchemaLoader.LoadTableSchema(Object, String)</h4>
+  <div class="markdown level1 summary"><p>Načíta schému tabuľky <code data-dev-comment-type="paramref" class="paramref">tableName</code> z databázy <code data-dev-comment-type="paramref" class="paramref">connection</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">TableSchema IDatabaseSchemaLoader.LoadTableSchema(object connection, string tableName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">connection</span></td>
+        <td><p>Spojenie na databázu.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">tableName</span></td>
+        <td><p>Meno tabuľky, ktorej schéma sa načíta.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="../Kros.Utils/Kros.Data.Schema.TableSchema.html">TableSchema</a></td>
+        <td><p>Vráti načítanú schému tabuľky, alebo hodnotu <code>null</code>, ak taká tabuľka neexistuje.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_Kros_Data_Schema_IDatabaseSchemaLoader_LoadTableSchema_System_Object_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Štandardne sa na získanie schémy vytvorí nové spojenie na databázu podľa vstupného spojenia
+<code data-dev-comment-type="paramref" class="paramref">connection</code>. Ak je však vstupné spojenie exkluzívne, použije sa priamo.</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p>Hodnota <code data-dev-comment-type="paramref" class="paramref">connection</code> je <code>null</code>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>Spojenie <code data-dev-comment-type="paramref" class="paramref">connection</code> nie je spojenie na MS Access databázu.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>Názov tabuľky <code data-dev-comment-type="paramref" class="paramref">tableName</code> má hodnotu <code>null</code>,
+alebo je to prázdny reťazec, alebo je zložený len z bielych znakov.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_Kros_Data_Schema_IDatabaseSchemaLoader_SupportsConnectionType_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.Kros#Data#Schema#IDatabaseSchemaLoader#SupportsConnectionType*"></a>
+  <h4 id="Kros_Data_Schema_MsAccess_MsAccessSchemaLoader_Kros_Data_Schema_IDatabaseSchemaLoader_SupportsConnectionType_System_Object_" data-uid="Kros.Data.Schema.MsAccess.MsAccessSchemaLoader.Kros#Data#Schema#IDatabaseSchemaLoader#SupportsConnectionType(System.Object)">IDatabaseSchemaLoader.SupportsConnectionType(Object)</h4>
+  <div class="markdown level1 summary"><p>Kontroluje, či dokáže načítať schému zo spojenia <code data-dev-comment-type="paramref" class="paramref">connection</code>, tzn. či zadané spojenie je
+spojenie na MS Access databázu.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">bool IDatabaseSchemaLoader.SupportsConnectionType(object connection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">connection</span></td>
+        <td><p>Spojenie na databázu.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><span class="xref">true</span>, ak je možné načítať schému databázy, <span class="xref">false</span>, ak to možné nie je.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="../Kros.Utils/Kros.Data.Schema.IDatabaseSchemaLoader-1.html">IDatabaseSchemaLoader&lt;T&gt;</a>
+  </div>
+  <div>
+      <a class="xref" href="../Kros.Utils/Kros.Data.Schema.IDatabaseSchemaLoader.html">IDatabaseSchemaLoader</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            KROS a.s.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

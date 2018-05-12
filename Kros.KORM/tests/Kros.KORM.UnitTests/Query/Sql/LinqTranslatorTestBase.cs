@@ -36,7 +36,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         /// Create visitor for translate query to SQL.
         /// </summary>
         protected virtual ISqlExpressionVisitor CreateVisitor() =>
-           new SqlServerQuerySqlGenerator(Database.DatabaseMapper);
+           new DefaultQuerySqlGenerator(Database.DatabaseMapper);
 
         /// <summary>
         /// Query should be equel to <paramref name="expectedSql"/>.

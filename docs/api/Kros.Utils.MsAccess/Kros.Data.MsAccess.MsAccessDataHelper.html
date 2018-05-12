@@ -1,0 +1,789 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class MsAccessDataHelper
+   | Kros.Libs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class MsAccessDataHelper
+   | Kros.Libs ">
+    <meta name="generator" content="docfx 2.35.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../images/Kros.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Kros.Data.MsAccess.MsAccessDataHelper">
+  
+  
+  <h1 id="Kros_Data_MsAccess_MsAccessDataHelper" data-uid="Kros.Data.MsAccess.MsAccessDataHelper" class="text-break">Class MsAccessDataHelper
+  </h1>
+  <div class="markdown level0 summary"><p>Všeobecné pomocné metódy pre praácu s MS Access.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">MsAccessDataHelper</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Kros.Data.MsAccess.html">Kros.Data.MsAccess</a></h6>
+  <h6><strong>Assembly</strong>: Kros.Utils.MsAccess.dll</h6>
+  <h5 id="Kros_Data_MsAccess_MsAccessDataHelper_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class MsAccessDataHelper</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_AceProviderBase" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.AceProviderBase">AceProviderBase</h4>
+  <div class="markdown level1 summary"><p>Identifikácia MS Access ACE providera: <code>Microsoft.ACE.OLEDB</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const string AceProviderBase = &quot;Microsoft.ACE.OLEDB&quot;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_JetProviderBase" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.JetProviderBase">JetProviderBase</h4>
+  <div class="markdown level1 summary"><p>Identifikácia MS Access JET providera: <code>Microsoft.Jet.OLEDB</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const string JetProviderBase = &quot;Microsoft.Jet.OLEDB&quot;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_MsAccessAceProvider_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.MsAccessAceProvider*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_MsAccessAceProvider" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.MsAccessAceProvider">MsAccessAceProvider</h4>
+  <div class="markdown level1 summary"><p>Vráti nainštalovaný ACE provider pre Microsoft Access (napríklad <strong>Microsoft.ACE.OLEDB.12.0</strong>).
+Ak ACE provider nie je nainštalovaný, vráti prázdny reťazec.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string MsAccessAceProvider { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_MsAccessJetProvider_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.MsAccessJetProvider*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_MsAccessJetProvider" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.MsAccessJetProvider">MsAccessJetProvider</h4>
+  <div class="markdown level1 summary"><p>Vráti nainštalovaný JET provider pre Microsoft Access (napríklad <strong>Microsoft.Jet.OLEDB.4.0</strong>).
+Ak JET provider nie je nainštalovaný, vráti prázdny reťazec.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string MsAccessJetProvider { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_MsAccessProvider_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.MsAccessProvider*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_MsAccessProvider" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.MsAccessProvider">MsAccessProvider</h4>
+  <div class="markdown level1 summary"><p>Vráti nainštalovaný provider pre Microsoft Access. Preferovaný je ACE provider pred JET providerom.
+Ak nie je nainštalovaný žiadny ACE, alebo JET provider, je vrátený prázdny reťazec.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string MsAccessProvider { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_CreateConnectionString_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.CreateConnectionString*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_CreateConnectionString_System_String_Kros_Data_MsAccess_ProviderType_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.CreateConnectionString(System.String,Kros.Data.MsAccess.ProviderType)">CreateConnectionString(String, ProviderType)</h4>
+  <div class="markdown level1 summary"><p>Vytvorí connection string k databáze <code data-dev-comment-type="paramref" class="paramref">databasePath</code> s aktuálnym providerom
+typu <code data-dev-comment-type="paramref" class="paramref">provider</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string CreateConnectionString(string databasePath, ProviderType provider)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">databasePath</span></td>
+        <td><p>Cesta k databáze.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Kros.Data.MsAccess.ProviderType.html">ProviderType</a></td>
+        <td><span class="parametername">provider</span></td>
+        <td><p>Typ providera, ktorý sa má použiť. Konkrétny reťazec providera sa použije aktuálny,
+ktorý je v systéme, takže nie je potrebné starať sa o jeho verziu.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>Vráti connection string k zadanej databáze, napríklad
+<code>Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\data\database.accdb;</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_CreateEmptyDatabase_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.CreateEmptyDatabase*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_CreateEmptyDatabase_System_String_Kros_Data_MsAccess_ProviderType_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.CreateEmptyDatabase(System.String,Kros.Data.MsAccess.ProviderType)">CreateEmptyDatabase(String, ProviderType)</h4>
+  <div class="markdown level1 summary"><p>Vytvorí prázdnu MS Access databázu na umiestnení <code data-dev-comment-type="paramref" class="paramref">path</code>. Typ databázy (<code>.accdb</code>, <code>.mdb</code>)
+je určený parametrom <code data-dev-comment-type="paramref" class="paramref">provider</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void CreateEmptyDatabase(string path, ProviderType provider)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">path</span></td>
+        <td><p>Cesta, kde sa databáza vytvorí. Cesta je úplná, aj s názvom vytváraného súboru.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Kros.Data.MsAccess.ProviderType.html">ProviderType</a></td>
+        <td><span class="parametername">provider</span></td>
+        <td><p>Typ databázy, ktorá sa vytovrí.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Kros_Data_MsAccess_MsAccessDataHelper_CreateEmptyDatabase_System_String_Kros_Data_MsAccess_ProviderType__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p><alert class="warning">
+<p>Ak súbor <code data-dev-comment-type="paramref" class="paramref">path</code> už existuje, bude prepísaný.</p>
+</alert>
+<p>
+Na základe hodnoty <code data-dev-comment-type="paramref" class="paramref">provider</code> sa len vytvorí daný typ databázy, buď databáza typu <code>.accdb</code>,
+alebo staršieho typu <code>.mdb</code>. S príponou súboru sa však nič nerobí, tzn. databázový súbor sa bude volať tak,
+ako je zadané v <code data-dev-comment-type="paramref" class="paramref">path</code>. Je tak možné vytvoriť databázový súbor s príponou <code>.mdb</code>, ktorý
+ale v skutočnosti bude databáza <code>.accdb</code>. Správna prípona je tak plne v kompetencii toho, kto metódu volá.
+</p></p>
+</div>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_GetProviderString_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.GetProviderString*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_GetProviderString_Kros_Data_MsAccess_ProviderType_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.GetProviderString(Kros.Data.MsAccess.ProviderType)">GetProviderString(ProviderType)</h4>
+  <div class="markdown level1 summary"><p>Pre zadaný typ MS Access providera <code data-dev-comment-type="paramref" class="paramref">provider</code> vráti konkrétny reťazec predstavujúci
+tento provider pre použitie v connection string-u. Ak nie je dostupný žiadny provider, je vrátený prázdny reťazec.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string GetProviderString(ProviderType provider)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.MsAccess.ProviderType.html">ProviderType</a></td>
+        <td><span class="parametername">provider</span></td>
+        <td><p>Typ MS Access pridera.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>Vráti hodnoty vlastností:
+<table><tbody><tr><td><a class="xref" href="Kros.Data.MsAccess.ProviderType.html#Kros_Data_MsAccess_ProviderType_Ace">Ace</a></td><td><a class="xref" href="Kros.Data.MsAccess.MsAccessDataHelper.html#Kros_Data_MsAccess_MsAccessDataHelper_MsAccessAceProvider">MsAccessAceProvider</a></td></tr><tr><td><a class="xref" href="Kros.Data.MsAccess.ProviderType.html#Kros_Data_MsAccess_ProviderType_Jet">Jet</a></td><td><a class="xref" href="Kros.Data.MsAccess.MsAccessDataHelper.html#Kros_Data_MsAccess_MsAccessDataHelper_MsAccessJetProvider">MsAccessJetProvider</a></td></tr></tbody></table></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_GetProviderType_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.GetProviderType*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_GetProviderType_System_Data_IDbConnection_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.GetProviderType(System.Data.IDbConnection)">GetProviderType(IDbConnection)</h4>
+  <div class="markdown level1 summary"><p>Vráti typ providera z <code data-dev-comment-type="paramref" class="paramref">connection</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ProviderType GetProviderType(IDbConnection connection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IDbConnection</span></td>
+        <td><span class="parametername">connection</span></td>
+        <td><p>Testované spojenie.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.MsAccess.ProviderType.html">ProviderType</a></td>
+        <td><p>Typ providera.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_GetProviderType_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.GetProviderType*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_GetProviderType_System_String_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.GetProviderType(System.String)">GetProviderType(String)</h4>
+  <div class="markdown level1 summary"><p>Vráti typ providera z <code data-dev-comment-type="paramref" class="paramref">connectionString</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ProviderType GetProviderType(string connectionString)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">connectionString</span></td>
+        <td><p>Testované spojenie.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.MsAccess.ProviderType.html">ProviderType</a></td>
+        <td><p>Typ providera.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_HasProvider_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.HasProvider*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_HasProvider_Kros_Data_MsAccess_ProviderType_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.HasProvider(Kros.Data.MsAccess.ProviderType)">HasProvider(ProviderType)</h4>
+  <div class="markdown level1 summary"><p>Vráti, či je dostupný zadaný MS Access provider.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool HasProvider(ProviderType provider)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Kros.Data.MsAccess.ProviderType.html">ProviderType</a></td>
+        <td><span class="parametername">provider</span></td>
+        <td><p>Typ providera, ktorý sa kontroluje.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><span class="xref">true</span> ak zadaný provider je dostupný, <span class="xref">false</span> ak nie je.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_IsExclusiveMsAccessConnection_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.IsExclusiveMsAccessConnection*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_IsExclusiveMsAccessConnection_System_Data_IDbConnection_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.IsExclusiveMsAccessConnection(System.Data.IDbConnection)">IsExclusiveMsAccessConnection(IDbConnection)</h4>
+  <div class="markdown level1 summary"><p>Vráti, či zadané spojenie na databázu je exkluzívne.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool IsExclusiveMsAccessConnection(IDbConnection connection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IDbConnection</span></td>
+        <td><span class="parametername">connection</span></td>
+        <td><p>Spojenie na databázu.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>Pre MS Access je spojenie na databázu exkluzívne, ak v connection string-u obsahuje aj
+<strong>Share Deny Read</strong> aj <strong>Share Deny Write</strong>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_IsExclusiveMsAccessConnection_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.IsExclusiveMsAccessConnection*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_IsExclusiveMsAccessConnection_System_String_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.IsExclusiveMsAccessConnection(System.String)">IsExclusiveMsAccessConnection(String)</h4>
+  <div class="markdown level1 summary"><p>Vráti, či zadaný <code data-dev-comment-type="paramref" class="paramref">connectionString</code> určuje exkluzívne spojenie na MS Access databázu.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool IsExclusiveMsAccessConnection(string connectionString)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">connectionString</span></td>
+        <td><p>Spojenie na databázu.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>Spojenie na databázu je exkluzívne, ak v connection string-u obsahuje nastavenia
+<strong>Share Deny Read</strong> aj <strong>Share Deny Write</strong>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_IsMsAccessAceProvider_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.IsMsAccessAceProvider*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_IsMsAccessAceProvider_System_String_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.IsMsAccessAceProvider(System.String)">IsMsAccessAceProvider(String)</h4>
+  <div class="markdown level1 summary"><p>Vráti, či v zadanom <code data-dev-comment-type="paramref" class="paramref">connectionString</code> je použitý Ace provider.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool IsMsAccessAceProvider(string connectionString)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">connectionString</span></td>
+        <td><p>Connection string.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><span class="xref">true</span>, ak provider je Ace provider, <span class="xref">false</span> ak nie je.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_IsMsAccessConnection_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.IsMsAccessConnection*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_IsMsAccessConnection_System_Data_IDbConnection_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.IsMsAccessConnection(System.Data.IDbConnection)">IsMsAccessConnection(IDbConnection)</h4>
+  <div class="markdown level1 summary"><p>Určuje, či zadané spojenie je spojenie na <strong>Microsoft Access</strong>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool IsMsAccessConnection(IDbConnection connection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Data.IDbConnection</span></td>
+        <td><span class="parametername">connection</span></td>
+        <td><p>Testované spojenie.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><span class="xref">true</span>, ak spojenie je na Microsoft Access, <span class="xref">false</span> ak nie je.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_IsMsAccessConnection_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.IsMsAccessConnection*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_IsMsAccessConnection_System_String_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.IsMsAccessConnection(System.String)">IsMsAccessConnection(String)</h4>
+  <div class="markdown level1 summary"><p>Určuje, či zadané spojenie je spojenie na <strong>Microsoft Access</strong>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool IsMsAccessConnection(string connectionString)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">connectionString</span></td>
+        <td><p>Testované spojenie.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><span class="xref">true</span>, ak spojenie je na Microsoft Access, <span class="xref">false</span> ak nie je.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="Kros_Data_MsAccess_MsAccessDataHelper_IsMsAccessJetProvider_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.IsMsAccessJetProvider*"></a>
+  <h4 id="Kros_Data_MsAccess_MsAccessDataHelper_IsMsAccessJetProvider_System_String_" data-uid="Kros.Data.MsAccess.MsAccessDataHelper.IsMsAccessJetProvider(System.String)">IsMsAccessJetProvider(String)</h4>
+  <div class="markdown level1 summary"><p>Vráti, či v zadanom <code data-dev-comment-type="paramref" class="paramref">connectionString</code> je použitý Jet provider.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool IsMsAccessJetProvider(string connectionString)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">connectionString</span></td>
+        <td><p>Connection string.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><span class="xref">true</span>, ak provider je Jet provider, <span class="xref">false</span> ak nie je.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            KROS a.s.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

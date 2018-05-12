@@ -6,11 +6,17 @@ using System.Data.Common;
 namespace Kros.Data
 {
     /// <summary>
-    /// Reprezentuje množinu registrovaných <see cref="IIdGeneratorFactory"/>. Umožňuje ich registráciu a získavanie.
+    /// Helper class for ID generator factories (<see cref="IIdGeneratorFactory"/>) for different databases.
+    /// Factories are registered in the class using
+    /// <see cref="IdGeneratorFactories.Register{TConnection}(string, Func{DbConnection, IIdGeneratorFactory}, Func{string, IIdGeneratorFactory})"/>
+    /// method. Two factory methods are registered for every connection (database) type. One for creating generator
+    /// with connection instance and one with connection string.
     /// </summary>
+    /// <remarks>
+    /// <see cref="SqlServer.SqlServerIdGeneratorFactory"/> is automatically registered.
+    /// </remarks>
     /// <seealso cref="IIdGeneratorFactory"/>
     /// <seealso cref="IIdGenerator"/>
-    /// <seealso cref="IdGeneratorFactories"/>
     public static class IdGeneratorFactories
     {
         private static Dictionary<string, Func<string, IIdGeneratorFactory>> _factoryByAdoClientName =
@@ -24,19 +30,26 @@ namespace Kros.Data
         }
 
         /// <summary>
-        /// Registruje factory metódu pre vytvorenie <see cref="IIdGeneratorFactory"/> na základe connection a connection stringu.
+        /// Registers ID generator factory methods <paramref name="factoryByConnection"/> and
+        /// <paramref name="factoryByConnectionString"/> for database specified by connection type
+        /// <typeparamref name="TConnection"/> and client name <paramref name="adoClientName"/>.
         /// </summary>
-        /// <typeparam name="TConnection">Typ connection.</typeparam>
+        /// <typeparam name="TConnection">Database connection type.</typeparam>
         /// <param name="adoClientName">
-        /// Názov ado clienta. (napr. pre <see cref="System.Data.SqlClient.SqlConnection"/> to je: System.Data.SqlClient)
+        /// Name of the database client. It identifies specific database. For example client name for
+        /// <see cref="SqlServer.SqlServerIdGeneratorFactory"/> is "System.Data.SqlClient".
         /// </param>
         /// <param name="factoryByConnection">
-        /// Factory metóda na vytvorenie <see cref="IIdGeneratorFactory"/> so špecifickým connection stringom.
+        /// Factory method for creating <see cref="IIdGeneratorFactory"/> with connection instance.
         /// </param>
         /// <param name="factoryByConnectionString">
-        /// Factory metóda na vytvorenie <see cref="IIdGeneratorFactory"/> so špecifickým connection stringom.
+        /// Factory method for creating <see cref="IIdGeneratorFactory"/> with connection string.
         /// </param>
-        public static void Register<TConnection>(string adoClientName,
+        /// <exception cref="ArgumentNullException">Value of any argument is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="adoClientName"/> is empty string, or string
+        /// containing only whitespace characters.</exception>
+        public static void Register<TConnection>(
+            string adoClientName,
             Func<DbConnection, IIdGeneratorFactory> factoryByConnection,
             Func<string, IIdGeneratorFactory> factoryByConnectionString)
             where TConnection : DbConnection
@@ -48,12 +61,13 @@ namespace Kros.Data
         }
 
         /// <summary>
-        /// Získanie <see cref="IIdGeneratorFactory"/> so špecifickou connection.
+        /// Returns <see cref="IIdGeneratorFactory"/> for specified <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Connection, ktorá sa použije pre vykonanie dotazu na získanie identifikátorov.</param>
-        /// <returns>
-        /// Inštancia <see cref="IIdGeneratorFactory"/>.
-        /// </returns>
+        /// <param name="connection">Database connection.</param>
+        /// <returns>Instance of <see cref="IIdGeneratorFactory"/>.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Factory for type of <paramref name="connection"/> is not registered.
+        /// </exception>
         public static IIdGeneratorFactory GetFactory(DbConnection connection)
         {
             if (_factoryByConnection.TryGetValue(connection.GetType(), out var factory))
@@ -68,17 +82,15 @@ namespace Kros.Data
         }
 
         /// <summary>
-        /// Získanie <see cref="IIdGeneratorFactory"/> so špecifickým connection stringom.
+        /// Returns <see cref="IIdGeneratorFactory"/> for specified <paramref name="connectionString"/> and database
+        /// type <paramref name="adoClientName"/>.
         /// </summary>
-        /// <param name="connectionString">
-        /// Connection string, na základe ktorého sa vytvorí connection pre vykonanie dotazu na získanie identifikátorov.
-        /// </param>
-        /// <param name="adoClientName">
-        /// Názov ado clienta. (napr. pre <see cref="System.Data.SqlClient.SqlConnection"/> to je: System.Data.SqlClient)
-        /// </param>
-        /// <returns>
-        /// Inštancia <see cref="IIdGeneratorFactory"/>.
-        /// </returns>
+        /// <param name="connectionString">Connection string for database.</param>
+        /// <param name="adoClientName">Name, which specifies database type.</param>
+        /// <returns>Instance of <see cref="IIdGeneratorFactory"/>.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Factory for database type specified by <paramref name="adoClientName"/> is not registered.
+        /// </exception>
         public static IIdGeneratorFactory GetFactory(string connectionString, string adoClientName)
         {
             if (_factoryByAdoClientName.TryGetValue(adoClientName, out var factory))
