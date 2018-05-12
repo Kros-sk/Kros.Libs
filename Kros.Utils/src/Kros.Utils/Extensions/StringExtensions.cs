@@ -6,35 +6,36 @@ using System.Text.RegularExpressions;
 namespace Kros.Extensions
 {
     /// <summary>
-    /// Všeobecné rozšírenia pre reťazec (<see cref="System.String">String</see>).
+    /// General extension methods for strings (<see cref="System.String"/>).
     /// </summary>
     public static class StringExtensions
     {
 
         /// <summary>
-        /// Vráti, či zadaný reťazec <paramref name="value"/> je <c>null</c>, alebo prázdny reťazec <c>string.Empty</c>.
+        /// Checks, if string <paramref name="value"/> is <see langword="null"/>, or empty string (<c>string.Empty</c>).
         /// </summary>
-        /// <param name="value">Testovaný reťazec.</param>
-        /// <returns><see langword="true"/>, ak testovaný reťazec je <c>null</c>, alebo <c>string.Empty</c>.</returns>
+        /// <param name="value">Checked stirng.</param>
+        /// <returns><see langword="true"/>, if <paramref name="value"/> is <see langword="null"/> or <c>string.Empty</c>,
+        /// <see langword="false"/> otherwise.</returns>
         public static bool IsNullOrEmpty(this string value)
         {
             return string.IsNullOrEmpty(value);
         }
 
         /// <summary>
-        /// Vráti, či zadaný reťazec <paramref name="value"/> je <c>null</c>, alebo prázdny reťazec <c>string.Empty</c>,
-        /// alebo pozostáva iba z bielych znakov.
+        /// Checks, if string <paramref name="value"/> is <see langword="null"/>, empty string (<c>string.Empty</c>),
+        /// or string containig only whitespace characters.
         /// </summary>
-        /// <param name="value">Testovaný reťazec.</param>
-        /// <returns><see langword="true"/>, ak testovaný reťazec je <c>null</c>, alebo <c>string.Empty</c>, alebo pozostáva
-        /// iba z bielych znakov.</returns>
+        /// <param name="value">Checked string.</param>
+        /// <returns><see langword="true"/>, if <paramref name="value"/> is <see langword="null"/>, empty string, or string
+        /// containing only white characters, <see langword="false"/> otherwise.</returns>
         public static bool IsNullOrWhiteSpace(this string value)
         {
             return string.IsNullOrWhiteSpace(value);
         }
 
         /// <summary>
-        /// Odstráni diakritiku z reťazca.
+        /// Returns the same string without diacritic marks (for example <c>čšá</c> becomes <c>csa</c>).
         /// </summary>
         public static string RemoveDiacritics(this string value)
         {
@@ -56,22 +57,26 @@ namespace Kros.Extensions
         private static readonly Regex _reRemoveNewLines = new Regex(@"[\n\r]");
 
         /// <summary>
-        /// Removes new lines from string. Removed are <c>line feed</c> (<c>\n</c>) and <c>carriage return</c> (<c>\r</c>)
-        /// characters.
+        /// Removes new line characters from string. Removed characters are <c>line feed</c> (<c>\n</c>) and
+        /// <c>carriage return</c> (<c>\r</c>).
         /// </summary>
-        /// <param name="value">Value.</param>
-        /// <returns>String without new lines.</returns>
+        /// <param name="value">Input string.</param>
+        /// <returns>String without new line characters, or <see langword="null"/> if <paramref name="value"/>
+        /// is <see langword="null"/>.</returns>
         public static string RemoveNewLines(this string value)
         {
             return value == null ? null : _reRemoveNewLines.Replace(value, string.Empty);
         }
 
         /// <summary>
-        /// Vráti prvých <paramref name="length"/> znakov zo vstupného reťazca <paramref name="value"/>.
+        /// Returns first <paramref name="length"/> of characters form input string <paramref name="value"/>.
         /// </summary>
-        /// <param name="value">Vstupný reťazec.</param>
-        /// <param name="length">Dĺžka reťazca.</param>
-        /// <returns>Reťazec.</returns>
+        /// <param name="value">Input string.</param>
+        /// <param name="length">Number of characters at the begining of <paramref name="value"/> which are returned.</param>
+        /// <returns>Begining of the input string <paramref name="value"/> of length <paramref name="length"/>.
+        /// If <paramref name="value"/> is <see langword="null"/>, empty string is returned. If value of <paramref name="length"/>
+        /// is greater than length of <paramref name="value"/>, the <paramref name="value"/> itself is returned.</returns>
+        /// <exception cref="System.ArgumentException">Value of <paramref name="length"/> is less than 0.</exception>
         public static string Left(this string value, int length)
         {
             Check.GreaterOrEqualThan(length, 0, nameof(length));
@@ -88,11 +93,14 @@ namespace Kros.Extensions
         }
 
         /// <summary>
-        /// Vráti posledných <paramref name="length"/> znakov zo vstupného reťazca <paramref name="value"/>.
+        /// Returns last <paramref name="length"/> of characters form input string <paramref name="value"/>.
         /// </summary>
-        /// <param name="value">Vstupný reťazec.</param>
-        /// <param name="length">Dĺžka reťazca.</param>
-        /// <returns>Reťazec.</returns>
+        /// <param name="value">Input string.</param>
+        /// <param name="length">Number of characters at the end of <paramref name="value"/> which are returned.</param>
+        /// <returns>end of the input string <paramref name="value"/> of length <paramref name="length"/>.
+        /// If <paramref name="value"/> is <see langword="null"/>, empty string is returned. If value of <paramref name="length"/>
+        /// is greater than length of <paramref name="value"/>, the <paramref name="value"/> itself is returned.</returns>
+        /// <exception cref="System.ArgumentException">Value of <paramref name="length"/> is less than 0.</exception>
         public static string Right(this string value, int length)
         {
             Check.GreaterOrEqualThan(length, 0, nameof(length));

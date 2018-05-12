@@ -3,50 +3,46 @@
 namespace Kros.Extensions
 {
     /// <summary>
-    /// Rozšírenia pre dátum a čas <see cref="System.DateTime"/>.
+    /// Extension methods for date and time <see cref="DateTime"/>.
     /// </summary>
     public static class DateTimeExtensions
     {
-
         /// <summary>
-        /// Vráti dátum, ktorý predstavuje prvý deň v mesiaci a roku vstupného dátumu <paramref name="value" />.
-        /// Časová zložka je vynulovaná.
+        /// Returns date, which is the first day in month and year in input <paramref name="value"/>. Time component is nulled.
         /// </summary>
-        /// <param name="value">Dátum, ku ktorému je vrátený prvý deň v mesiaci.</param>
-        /// <returns>Dátum.</returns>
+        /// <param name="value">Date, to which the first day of month is returned.</param>
+        /// <returns>Date.</returns>
         public static DateTime FirstDayOfMonth(this DateTime value)
         {
             return new DateTime(value.Year, value.Month, 1);
         }
 
         /// <summary>
-        /// Vráti dátum, ktorý predstavuje prvý deň v aktuálnom mesiaci.
+        /// Returns first day of current month.
         /// </summary>
-        /// <returns>Dátum.</returns>
+        /// <returns>Date.</returns>
         public static DateTime FirstDayOfCurrentMonth()
         {
             return DateTime.Now.FirstDayOfMonth();
         }
 
         /// <summary>
-        /// Vráti dátum, ktorý predstavuje posledný deň v mesiaci a roku vstupného dátumu <paramref name="value" />.
-        /// Časová zložka je vynulovaná.
+        /// Returns date, which is the last day in month and year in input <paramref name="value"/>. Time component is nulled.
         /// </summary>
-        /// <param name="value">Dátum, ku ktorému je vrátený posledný deň v mesiaci.</param>
-        /// <returns>Dátum.</returns>
+        /// <param name="value">Date, to which the last day of month is returned.</param>
+        /// <returns>Date.</returns>
         public static DateTime LastDayOfMonth(this DateTime value)
         {
             return new DateTime(value.Year, value.Month, DateTime.DaysInMonth(value.Year, value.Month));
         }
 
         /// <summary>
-        /// Vráti dátum, ktorý predstavuje posledný deň v aktuálnom mesiaci.
+        /// Returns last day of current month.
         /// </summary>
-        /// <returns>Dátum.</returns>
+        /// <returns>Date.</returns>
         public static DateTime LastDayOfCurrentMonth()
         {
             return DateTime.Now.LastDayOfMonth();
         }
-
     }
 }
