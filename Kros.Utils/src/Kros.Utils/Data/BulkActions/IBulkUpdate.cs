@@ -4,55 +4,55 @@ using System.Data;
 namespace Kros.Data.BulkActions
 {
     /// <summary>
-    /// Rozhranie pre rýchlu hromadnú editáciu dát v databáze.
+    /// Interface for fast data updating in database.
     /// </summary>
     public interface IBulkUpdate : IDisposable
     {
         /// <summary>
-        /// Meno cieľovej tabuľky v databáze.
+        /// Destination table name in database.
         /// </summary>
         string DestinationTableName { get; set; }
 
         /// <summary>
-        /// Akcia, ktorá sa má vykonať nad tempovou tabuľkou.
+        /// Action, executed on temporary table.
         /// </summary>
         /// <remarks>
-        /// Akcia, ktorá sa zavolá nad tempovou tabuľkou (chcem ešte dodatočne upraviť dáta).
+        /// Action, which will be executed on temp table (additional modification of data).
         /// <list type="bullet">
         /// <item>
-        /// <c>IDbConnection</c> - connection nad tempovou tabuľkou
+        /// <c>IDbConnection</c> - connection on temporary table,
         /// </item>
         /// <item>
-        /// <c>IDbTransaction</c> - transakcia nad tempovou tabuľkou,
+        /// <c>IDbTransaction</c> - transaction on temporary table,
         /// </item>
         /// <item>
-        /// <c>string</c> - názov tempovej tabuľky.
+        /// <c>string</c> - temporary table name.
         /// </item>
         /// </list>
         /// </remarks>
         Action<IDbConnection, IDbTransaction, string> TempTableAction { get; set; }
 
         /// <summary>
-        /// Primárny kľúč.
+        /// Primary key.
         /// </summary>
         string PrimaryKeyColumn { get; set; }
 
         /// <summary>
-        /// Zedituje všetky dáta zo zdroja <paramref name="reader"/>.
+        /// Updates all data from source <paramref name="reader"/>.
         /// </summary>
-        /// <param name="reader">Zdroj dát.</param>
+        /// <param name="reader">Data source.</param>
         void Update(IBulkActionDataReader reader);
 
         /// <summary>
-        /// Zedituje všetky dáta zo zdroja <paramref name="reader"/>.
+        /// Updates all data from source <paramref name="reader"/>.
         /// </summary>
-        /// <param name="reader">Zdroj dát.</param>
+        /// <param name="reader">Data source.</param>
         void Update(IDataReader reader);
 
         /// <summary>
-        /// Zedituje všetky riadky z tabuľky <paramref name="table"/>.
+        /// Updates all data from table <paramref name="table"/>.
         /// </summary>
-        /// <param name="table">Zdrojové dáta.</param>
+        /// <param name="table">Data source.</param>
         void Update(DataTable table);
     }
 }
