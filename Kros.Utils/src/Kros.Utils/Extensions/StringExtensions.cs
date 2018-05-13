@@ -97,7 +97,7 @@ namespace Kros.Extensions
         /// </summary>
         /// <param name="value">Input string.</param>
         /// <param name="length">Number of characters at the end of <paramref name="value"/> which are returned.</param>
-        /// <returns>end of the input string <paramref name="value"/> of length <paramref name="length"/>.
+        /// <returns>End of the input string <paramref name="value"/> of length <paramref name="length"/>.
         /// If <paramref name="value"/> is <see langword="null"/>, empty string is returned. If value of <paramref name="length"/>
         /// is greater than length of <paramref name="value"/>, the <paramref name="value"/> itself is returned.</returns>
         /// <exception cref="System.ArgumentException">Value of <paramref name="length"/> is less than 0.</exception>
