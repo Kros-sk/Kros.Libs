@@ -17,6 +17,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Kros.KORM.Query
 {
@@ -230,18 +231,17 @@ namespace Kros.KORM.Query
             }
         }
 
-        /// <summary>
-        /// Executes action in transaction.
-        /// </summary>
-        /// <param name="action">Action which will be executed.</param>
-        public void ExecuteInTransaction(Action action)
+        #region ExecuteInTransaction
+
+        /// <inheritdoc/>
+        public async Task ExecuteInTransactionAsync(Func<Task> action)
         {
             using (OpenConnection())
             using (var transaction = _transactionHelper.Value.BeginTransaction())
             {
                 try
                 {
-                    action();
+                    await action();
                     transaction.Commit();
                 }
                 catch
@@ -251,6 +251,7 @@ namespace Kros.KORM.Query
                 }
             }
         }
+        #endregion
 
         /// <summary>
         /// Executes the command.
@@ -263,6 +264,15 @@ namespace Kros.KORM.Query
             _logger.LogCommand(command);
 
             return command.ExecuteNonQuery();
+        }
+
+        /// <inheritdoc/>
+        public async Task<int> ExecuteNonQueryCommandAsync(DbCommand command)
+        {
+            Check.NotNull(command, nameof(command));
+            _logger.LogCommand(command);
+
+            return await command.ExecuteNonQueryAsync();
         }
 
         /// <summary>

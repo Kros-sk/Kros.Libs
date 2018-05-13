@@ -5,9 +5,11 @@ using Kros.KORM.Metadata;
 using Kros.KORM.Metadata.Attribute;
 using Kros.KORM.Query;
 using Kros.KORM.UnitTests.Base;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Kros.KORM.UnitTests.Integration
@@ -36,78 +38,203 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
 
         #endregion
 
+        #region Insert Data
+
         [Fact]
         public void InsertData()
         {
+            InsertDataCore();
+        }
+
+        [Fact]
+        public void InsertDataSynchronouslyWithoutDeadLoack()
+        {
+            AsyncContext.Run(() =>
+            {
+                InsertDataCore();
+            });
+        }
+
+        [Fact]
+        public async Task InsertDataAsync()
+        {
             using (var korm = CreateDatabase(CreateTable_TestTable))
             {
-                var dbSet = korm.Query<Person>().AsDbSet();
+                IDbSet<Person> dbSet = GetDbSetForCommitInsert(korm);
 
-                dbSet.Add(new Person()
-                {
-                    Id = 1,
-                    FirstName = "Milan",
-                    LastName = "Martiniak",
-                    Age = 32,
-                    Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" }
-                });
+                await dbSet.CommitChangesAsync();
 
-                dbSet.Add(new Person()
-                {
-                    Id = 2,
-                    FirstName = "Peter",
-                    LastName = "Juráček",
-                    Age = 14,
-                    Address = new List<string>() { "Novozámocká" }
-                });
+                AssertData(korm);
+            }
+        }
+
+        private void InsertDataCore()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable))
+            {
+                IDbSet<Person> dbSet = GetDbSetForCommitInsert(korm);
 
                 dbSet.CommitChanges();
 
-                var person = korm.Query<Person>().FirstOrDefault(p => p.Id == 1);
-
-                person.Id.Should().Be(1);
-                person.Age.Should().Be(32);
-                person.FirstName.Should().Be("Milan");
-                person.LastName.Should().Be("Martiniak");
-                person.Address.ShouldBeEquivalentTo(new List<string>() { "Petzvalova", "Pekna", "Zelena" });
+                AssertData(korm);
             }
         }
+
+        private static IDbSet<Person> GetDbSetForCommitInsert(IDatabase korm)
+        {
+            var dbSet = korm.Query<Person>().AsDbSet();
+
+            dbSet.Add(new Person()
+            {
+                Id = 1,
+                FirstName = "Milan",
+                LastName = "Martiniak",
+                Age = 32,
+                Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" }
+            });
+
+            dbSet.Add(new Person()
+            {
+                Id = 2,
+                FirstName = "Peter",
+                LastName = "Juráček",
+                Age = 14,
+                Address = new List<string>() { "Novozámocká" }
+            });
+            return dbSet;
+        }
+
+        #endregion
+
+
+        #region Update data
 
         [Fact]
         public void UpdateData()
         {
+            UpdateDataCore();
+        }
+
+        [Fact]
+        public void UpdateDataSynchronouslyWithoutDeadLoack()
+        {
+            AsyncContext.Run(() =>
+            {
+                UpdateDataCore();
+            });
+        }
+
+        [Fact]
+        public async Task UpdateDataAsync()
+        {
             using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
             {
-                var dbSet = korm.Query<Person>().AsDbSet();
+                var dbSet = GetDbSetForUpdate(korm);
 
-                dbSet.Edit(new Person()
-                {
-                    Id = 1,
-                    FirstName = "Milan",
-                    LastName = "Martiniak",
-                    Age = 32,
-                    Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" }
-                });
+                await dbSet.CommitChangesAsync();
 
-                dbSet.Edit(new Person()
-                {
-                    Id = 2,
-                    FirstName = "Peter",
-                    LastName = "Juráček",
-                    Age = 14,
-                    Address = new List<string>() { "Novozámocká" }
-                });
+                AssertData(korm);
+            }
+        }
+
+        private void UpdateDataCore()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
+            {
+                var dbSet = GetDbSetForUpdate(korm);
 
                 dbSet.CommitChanges();
 
-                var person = korm.Query<Person>().FirstOrDefault(p => p.Id == 1);
-
-                person.Id.Should().Be(1);
-                person.Age.Should().Be(32);
-                person.FirstName.Should().Be("Milan");
-                person.LastName.Should().Be("Martiniak");
-                person.Address.ShouldBeEquivalentTo(new List<string>() { "Petzvalova", "Pekna", "Zelena" });
+                AssertData(korm);
             }
+        }
+
+        #endregion
+
+
+        #region Delete Data
+
+        [Fact]
+        public void DeleteData()
+        {
+            DeleteDataCore();
+        }
+
+        [Fact]
+        public void DeleteDataSynchronouslyWithoutDeadLoack()
+        {
+            AsyncContext.Run(() =>
+            {
+                DeleteDataCore();
+            });
+        }
+
+        [Fact]
+        public async Task DeleteDataAsync()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
+            {
+                var dbSet = korm.Query<Person>().AsDbSet();
+                dbSet.Delete(new List<Person>() {
+                    new Person() { Id = 1 },
+                    new Person() { Id = 2 } });
+
+                await dbSet.CommitChangesAsync();
+
+                korm.Query<Person>().Count().Should().Be(0);
+            }
+        }
+
+        private void DeleteDataCore()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
+            {
+                var dbSet = korm.Query<Person>().AsDbSet();
+                dbSet.Delete(new List<Person>() {
+                    new Person() { Id = 1 },
+                    new Person() { Id = 2 } });
+
+                dbSet.CommitChanges();
+
+                korm.Query<Person>().Count().Should().Be(0);
+            }
+        }
+
+        #endregion
+
+        private static void AssertData(IDatabase korm)
+        {
+            var person = korm.Query<Person>().FirstOrDefault(p => p.Id == 1);
+
+            person.Id.Should().Be(1);
+            person.Age.Should().Be(32);
+            person.FirstName.Should().Be("Milan");
+            person.LastName.Should().Be("Martiniak");
+            person.Address.ShouldBeEquivalentTo(new List<string>() { "Petzvalova", "Pekna", "Zelena" });
+        }
+
+        private static IDbSet<Person> GetDbSetForUpdate(IDatabase korm)
+        {
+            var dbSet = korm.Query<Person>().AsDbSet();
+
+            dbSet.Edit(new Person()
+            {
+                Id = 1,
+                FirstName = "Milan",
+                LastName = "Martiniak",
+                Age = 32,
+                Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" }
+            });
+
+            dbSet.Edit(new Person()
+            {
+                Id = 2,
+                FirstName = "Peter",
+                LastName = "Juráček",
+                Age = 14,
+                Address = new List<string>() { "Novozámocká" }
+            });
+            return dbSet;
         }
 
         [Fact]
