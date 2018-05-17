@@ -239,19 +239,18 @@ namespace Kros.KORM.Query
         /// <summary>
         /// Commits all pending changes to the database.
         /// </summary>
-        public void CommitChanges() =>
-            CommitChangesCoreAsync(false).GetAwaiter().GetResult();
+        public void CommitChanges() => CommitChangesCoreAsync(false).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public Task CommitChangesAsync() =>  CommitChangesCoreAsync(true);
+        public Task CommitChangesAsync() => CommitChangesCoreAsync(true);
 
-        private async Task CommitChangesCoreAsync(bool sync)
+        private async Task CommitChangesCoreAsync(bool useAsync)
         {
             await _provider.ExecuteInTransactionAsync(async () =>
             {
-                await CommitChangesAddedItemsAsync(_addedItems, sync);
-                await CommitChangesEditedItemsAsync(_editedItems, sync);
-                await CommitChangesDeletedItemsAsync(_deletedItems, sync);
+                await CommitChangesAddedItemsAsync(_addedItems, useAsync);
+                await CommitChangesEditedItemsAsync(_editedItems, useAsync);
+                await CommitChangesDeletedItemsAsync(_deletedItems, useAsync);
 
                 Clear();
             });
@@ -280,7 +279,7 @@ namespace Kros.KORM.Query
 
         #region Private Helpers
 
-        private async Task CommitChangesAddedItemsAsync(HashSet<T> items, bool async)
+        private async Task CommitChangesAddedItemsAsync(HashSet<T> items, bool useAsync)
         {
             if (items?.Count > 0)
             {
@@ -292,15 +291,15 @@ namespace Kros.KORM.Query
                     foreach (T item in items)
                     {
                         _commandGenerator.FillCommand(command, item);
-                        await ExecuteNonQueryAsync(command, async);
+                        await ExecuteNonQueryAsync(command, useAsync);
                     }
                 }
             }
         }
 
-        private async Task ExecuteNonQueryAsync(DbCommand command, bool async)
+        private async Task ExecuteNonQueryAsync(DbCommand command, bool useAsync)
         {
-            if (async)
+            if (useAsync)
             {
                 await _provider.ExecuteNonQueryCommandAsync(command);
             }
@@ -332,7 +331,7 @@ namespace Kros.KORM.Query
         private bool CanGeneratePrimaryKeys() =>
             _tableInfo.PrimaryKey.Count(p => p.AutoIncrementMethodType == AutoIncrementMethodType.Custom) == 1;
 
-        private async Task CommitChangesEditedItemsAsync(HashSet<T> items, bool async)
+        private async Task CommitChangesEditedItemsAsync(HashSet<T> items, bool useAsync)
         {
             if (items?.Count > 0)
             {
@@ -343,13 +342,13 @@ namespace Kros.KORM.Query
                     foreach (T item in items)
                     {
                         _commandGenerator.FillCommand(command, item);
-                        await ExecuteNonQueryAsync(command, async);
+                        await ExecuteNonQueryAsync(command, useAsync);
                     }
                 }
             }
         }
 
-        private async Task CommitChangesDeletedItemsAsync(HashSet<T> items, bool async)
+        private async Task CommitChangesDeletedItemsAsync(HashSet<T> items, bool useAsync)
         {
             if (items?.Count > 0)
             {
@@ -358,7 +357,7 @@ namespace Kros.KORM.Query
                     foreach (T item in items)
                     {
                         _commandGenerator.FillCommand(command, item);
-                        await ExecuteNonQueryAsync(command, async);
+                        await ExecuteNonQueryAsync(command, useAsync);
                     }
                 }
             }

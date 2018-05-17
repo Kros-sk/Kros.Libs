@@ -60,8 +60,8 @@ namespace Kros.KORM.Query
         /// </summary>
         /// <param name="command">The command.</param>
         /// <returns>
-        ///     A task that represents the asynchronous save operation. The task result contains the
-        ///     numbers of affected rows.
+        /// A task that represents the asynchronous save operation. The task result contains the
+        /// numbers of affected rows.
         /// </returns>
         Task<int> ExecuteNonQueryCommandAsync(DbCommand command);
 

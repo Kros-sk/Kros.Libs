@@ -231,8 +231,6 @@ namespace Kros.KORM.Query
             }
         }
 
-        #region ExecuteInTransaction
-
         /// <inheritdoc/>
         public async Task ExecuteInTransactionAsync(Func<Task> action)
         {
@@ -251,7 +249,6 @@ namespace Kros.KORM.Query
                 }
             }
         }
-        #endregion
 
         /// <summary>
         /// Executes the command.
