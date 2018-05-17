@@ -4,7 +4,7 @@ using System.IO;
 namespace Kros.Net
 {
     /// <summary>
-    /// Interface popisujúci WebClient-a. Aby sme v testoch mohli podvrhovať vlastné implementácie.
+    /// Simple interface describing a web client for using in tests.
     /// </summary>
     public interface IWebClient : IDisposable
     {
@@ -12,7 +12,7 @@ namespace Kros.Net
         /// Opens a readable stream for the data downloaded from a resource with the URI.
         /// </summary>
         /// <param name="address">The URI from which to download data.</param>
-        /// <returns>A System.IO.Stream used to read data from a resource.</returns>
+        /// <returns>A <see cref="Stream"/> used to read data from a resource.</returns>
         Stream OpenRead(string address);
     }
 }

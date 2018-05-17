@@ -4,21 +4,26 @@ using System.Reflection;
 namespace Kros.Utils
 {
     /// <summary>
-    /// Helper, ktorý slúži na získanie obsahu súborových resourcov.
+    /// Helper for getting content of file resources.
     /// </summary>
     internal static class ResourceHelper
     {
         /// <summary>
-        /// Gets the resource by name.
+        /// Gets the resource content of the resource with name <paramref name="resourceName"/>.
         /// </summary>
         /// <param name="resourceName">Name of the resource.</param>
         /// <returns>
         /// Resource content if resource exist; otherwise <see langword="null"/>.
         /// </returns>
         /// <remarks>
-        /// Používa sa to ako work around,
-        /// pretože v súčasnosti má dotnet core CLI problém získať obsah resourcu štandardným spôsobom.
+        /// .NET Core CLI currently does not know to return content of file resources using standard way (direct access to
+        /// <c>Resources</c> class).
         /// </remarks>
+        /// <exception cref="System.ArgumentNullException">
+        /// Value of <paramref name="resourceName"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="System.ArgumentException">Value of <paramref name="resourceName"/> is empty string,
+        /// or string containing whitespace characters only.</exception>
         public static string GetResourceContent(string resourceName)
         {
             Check.NotNullOrWhiteSpace(resourceName, nameof(resourceName));
