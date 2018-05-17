@@ -6,13 +6,13 @@ using System.Data.SqlClient;
 namespace Kros.UnitTests
 {
     /// <summary>
-    /// Pomocná trieda na testovanie databázových vecí v reálnej SQL Server databáze.
+    /// Helper class for unit testing using real SQL Server database.
     /// </summary>
     /// <remarks>
-    /// Štandardne sú testy robené tak, aby nebežali nad reálnou databázou, ale iba nad nejakým rozhraním, ktoré sa ako
-    /// databáza tvári. Pre niektoré testy je však potrebné reálne otestovať funkčnosť voči skutočnej databáze.
-    /// Trieda sa stará o to, že vytvorí novú databázu s náhodným menom a vráti spojenie na ňu, ktoré je možné používať
-    /// (<see cref="Connection"/>).
+    /// In general, the unit tests should not require real database. But in some cases, this is necessary. This class
+    /// manages creation of <i>temporary</i> database, which the tests will use. Database name is generated to be unique
+    /// and after finishing (<see cref="Dispose()"/>), the database is deleted. Connection to created database is
+    /// available in <see cref="Connection"/> property.
     /// </remarks>
     /// <example>
     /// <code language = "cs" source="..\Examples\Kros.Utils\SqlServerTestHelperExamples.cs" region="SqlServerTestHelper" />
@@ -20,13 +20,11 @@ namespace Kros.UnitTests
     public class SqlServerTestHelper
         : IDisposable
     {
-
         #region Constants
 
         private const string MasterDatabaseName = "master";
 
         #endregion
-
 
         #region Fields
 
@@ -35,27 +33,28 @@ namespace Kros.UnitTests
 
         #endregion
 
-
         #region Constructors
 
         /// <summary>
-        /// Vytvorí inštanciu so zadanými parametrami. Vytvorená databáza bude prázdna.
+        /// Creates an instance of helper with connection <paramref name="baseConnectionString"/> and base database name
+        /// <paramref name="baseDatabaseName"/>.
         /// </summary>
-        /// <param name="baseConnectionString">Základný connection string na SQL Server, kde sa vytvorí databáza.</param>
-        /// <param name="baseDatabaseName">Základné meno databázy, ku ktorému sa pridá náhodný GUID. Nemusí byť zadané.</param>
+        /// <param name="baseConnectionString">Base connection string to SQL Server, where database will be created.</param>
+        /// <param name="baseDatabaseName">Base database name. GUID will be appended to it. The value is not required.</param>
         public SqlServerTestHelper(string baseConnectionString, string baseDatabaseName)
             : this(baseConnectionString, baseDatabaseName, null as IEnumerable<string>)
         {
         }
 
         /// <summary>
-        /// Vytvorí inštanciu so zadanými parametrami a vytvorenú databázu inicializuje skriptom
+        /// Creates an instance of helper with connection <paramref name="baseConnectionString"/> and base database name
+        /// <paramref name="baseDatabaseName"/>. Created database will be initialized with script
         /// <paramref name="initDatabaseScript"/>.
         /// </summary>
-        /// <param name="baseConnectionString">Základný connection string na SQL Server, kde sa vytvorí databáza.</param>
-        /// <param name="baseDatabaseName">Základné meno databázy, ku ktorému sa pridá náhodný GUID. Nemusí byť zadané.</param>
-        /// <param name="initDatabaseScript">Skript, ktorý sa spustí a inicializuje tak novovytvorenú databázu.
-        /// Môže to byť napríklad skript na vytvorenie a naplnenie potrebných tabuliek.</param>
+        /// <param name="baseConnectionString">Base connection string to SQL Server, where database will be created.</param>
+        /// <param name="baseDatabaseName">Base database name. GUID will be appended to it. The value is not required.</param>
+        /// <param name="initDatabaseScript">The script, which is executed when database is created. For example,
+        /// it can be script to create some table.</param>
         public SqlServerTestHelper(string baseConnectionString, string baseDatabaseName, string initDatabaseScript)
             : this(baseConnectionString, baseDatabaseName,
                   string.IsNullOrWhiteSpace(initDatabaseScript) ? null : new string[] { initDatabaseScript })
@@ -63,41 +62,40 @@ namespace Kros.UnitTests
         }
 
         /// <summary>
-        /// Vytvorí inštanciu so zadanými parametrami a vytvorenú databázu inicializuje skriptami
+        /// Creates an instance of helper with connection <paramref name="baseConnectionString"/> and base database name
+        /// <paramref name="baseDatabaseName"/>. Created database will be initialized with scripts from
         /// <paramref name="initDatabaseScripts"/>.
         /// </summary>
-        /// <param name="baseConnectionString">Základný connection string na SQL Server, kde sa vytvorí databáza.</param>
-        /// <param name="baseDatabaseName">Základné meno databázy, ku ktorému sa pridá náhodný GUID. Nemusí byť zadané.</param>
-        /// <param name="initDatabaseScripts">Zoznam skriptov, ktoré sa spustia a inicializujú tak novovytvorenú databázu.
-        /// Môžu to byť napríklad skripty na vytvorenie a naplnenie potrebných tabuliek.</param>
+        /// <param name="baseConnectionString">Base connection string to SQL Server, where database will be created.</param>
+        /// <param name="baseDatabaseName">Base database name. GUID will be appended to it. The value is not required.</param>
+        /// <param name="initDatabaseScripts">List of scripts, which are executed when database is created. For example,
+        /// they can be scripts to create necessary tables and data.</param>
         public SqlServerTestHelper(string baseConnectionString, string baseDatabaseName, IEnumerable<string> initDatabaseScripts)
         {
-            Check.NotNullOrWhiteSpace(baseConnectionString, nameof(baseConnectionString));
+            BaseConnectionString = Check.NotNullOrWhiteSpace(baseConnectionString, nameof(baseConnectionString));
 
-            BaseConnectionString = baseConnectionString;
             BaseDatabaseName = baseDatabaseName?.Trim();
             _initDatabaseScripts = initDatabaseScripts;
         }
 
         #endregion
 
-
         #region Test helpers
 
         /// <summary>
-        /// Základný connection string na SQL Server, kde bude vytvorená dočasná databáza. Connection string nemusí mať zdané
-        /// meno databázy, pretože to bude aj tak vygenerované vlastné.
+        /// Base connection string to SQL Server, where temporary database will be created. Database name does not need
+        /// to be set in connection stirng, because it will be generated.
         /// </summary>
         public string BaseConnectionString { get; }
 
         /// <summary>
-        /// Základný názov databázy. K tomuto názvu sa pridá náhdoný GUID, aby bola databáza jednoznačná.
-        /// Ak tento názov nebol zadaný, meno databázy bude iba náhodný GUID.
+        /// Base database name. GUID is appended to this name, to make database name unique. If <c>BaseDatabaseName</c>
+        /// is empty, the database name will be just that GUID.
         /// </summary>
         public string BaseDatabaseName { get; }
 
         /// <summary>
-        /// Spojenie na vytvorenú databázu.
+        /// Connection to created database.
         /// </summary>
         public SqlConnection Connection
         {
@@ -112,14 +110,13 @@ namespace Kros.UnitTests
 
         #endregion
 
-
         #region Helpers
 
         /// <summary>
-        /// Vygeneruje názov databázy, ktorá sa na serveri vytvorí. Názov je zložený z <see cref="BaseDatabaseName"/>
-        /// a pridaný je k nemu GUID.
+        /// Generates a name for database, which is created on SQL Server. Returned name is composed from
+        /// <see cref="BaseDatabaseName"/> (if specified) and generated GUID, to make it unique.
         /// </summary>
-        /// <returns>Názov databázy.</returns>
+        /// <returns>Database name.</returns>
         protected virtual string GenerateDatabaseName()
         {
             string unique = Guid.NewGuid().ToString();
@@ -127,8 +124,8 @@ namespace Kros.UnitTests
         }
 
         /// <summary>
-        /// Inicializuje databázu. Metóda je volaná po vytvorení databázy a štandardne spustí skript(y), ktoré
-        /// boli zadané v konštruktore. Metóda sa volá iba raz, po vytvorení databázy.
+        /// Initializes a database. Method is executed once after creating the database and it executes scripts
+        /// which were specified in constructor.
         /// </summary>
         protected virtual void InitDatabase()
         {
@@ -202,7 +199,6 @@ namespace Kros.UnitTests
 
         #endregion
 
-
         #region IDisposable Support
 
         private bool disposedValue = false;
@@ -227,6 +223,5 @@ namespace Kros.UnitTests
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }

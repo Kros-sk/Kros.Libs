@@ -299,7 +299,7 @@ namespace Kros.KORM.Query
             CheckCommandParameters(parameters);
 
             using (OpenConnection())
-            using (DbCommand command = CreateCommand(Connection, query, parameters))
+            using (DbCommand command = CreateCommand(query, parameters))
             {
                 return command.ExecuteNonQuery();
             }
@@ -325,7 +325,7 @@ namespace Kros.KORM.Query
             try
             {
                 cnHelper = OpenConnection();
-                command = CreateCommand(Connection, storedProcedureName, parameters);
+                command = CreateCommand(storedProcedureName, parameters);
                 command.CommandType = CommandType.StoredProcedure;
                 _logger.LogCommand(command);
 
@@ -571,12 +571,9 @@ namespace Kros.KORM.Query
             return command;
         }
 
-        private DbCommand CreateCommand(
-            DbConnection connection,
-            string commandText,
-            CommandParameterCollection parameters)
+        private DbCommand CreateCommand(string commandText, CommandParameterCollection parameters)
         {
-            DbCommand command = connection.CreateCommand();
+            DbCommand command = _transactionHelper.Value.CreateCommand();
             command.CommandText = commandText;
 
             if (parameters?.Count > 0)

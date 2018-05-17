@@ -8,11 +8,10 @@ using System.Text.RegularExpressions;
 namespace Kros.IO
 {
     /// <summary>
-    /// Pomocná trieda na prácu s cestami k súborom/zložkám.
+    /// Helpers for working with file/folder paths.
     /// </summary>
     public static class PathHelper
     {
-
         #region Helpers
 
         private static readonly Regex _reReplacePathChars = new Regex(CreatePathReplacePattern(), RegexOptions.Compiled);
@@ -36,36 +35,36 @@ namespace Kros.IO
         #endregion
 
         /// <summary>
-        /// Spojí zadané časti <paramref name="parts" /> do reťazca predstavujúceho cestu k súboru/zložke.
+        /// Joins parts <paramref name="parts"/> to one string, representing path to a file/folder.
         /// </summary>
-        /// <param name="parts">Časti cesty.</param>
-        /// <returns>Vytvorená cesta.</returns>
+        /// <param name="parts">Path parts.</param>
+        /// <returns>Created path.</returns>
         /// <exception cref="ArgumentNullException">
-        /// Vstupný parameter <paramref name="parts" /> má hodnotu <see langword="null"/>,
-        /// alebo niektorá z jeho častí je <see langword="null"/>.
+        /// The value of <paramref name="parts"/> or any of its item is <see langword="null"/>.
         /// </exception>
-        /// <exception cref="ArgumentException">Niektorý z reťazcov v zozname <paramref name="parts" />
-        /// obsahuje nepovolené znaky, definované v <see cref="Path.GetInvalidPathChars">Path.GetInvalidPathChars</see>.
+        /// <exception cref="ArgumentException">
+        /// Any of the item in <paramref name="parts"/> contains invalid characters
+        /// defined in <see cref="Path.GetInvalidPathChars"/>.
         /// </exception>
         /// <remarks>
         /// <para>
-        /// Metóda pracuje podobne ako štandardná .NET metóda
-        /// <see cref="Path.Combine(string[])" autoUpgrade="true">Path.Combine</see>, s pár upravenými detailami.
+        /// The method works similarly as standard .NET method <see cref="Path.Combine(string[])" autoUpgrade="true"/>,
+        /// with some different details:
         /// <list type="bullet">
-        /// <item>Ak niektorá časť začína lomítkom (normálnym, alebo spätným), správa sa k nej rovnako ako keby tak nebolo.
-        /// <see cref="Path.Combine(string[])" autoUpgrade="true">Path.Combine</see> výslednú cestu začne vytvárať od poslednej
-        /// časti začínajúcej lomítkom (ak taká je v zozname <paramref name="parts"/>), teda všetky časti predtým ignoruje.
+        /// <item>If any part begins with a slash (forward or backslash), this slash is ignored.
+        /// The <see cref="Path.Combine(string[])" autoUpgrade="true"/> ignores all parts before the last part begining
+        /// with a slash (if such exists).
         /// <example>
-        /// <c>Path.Combine("lorem", "\ipsum", "dolor")</c> vráti <c>\ipsum\dolor</c><br />
-        /// <c>PathHelper.BuildPath("lorem", "\ipsum", "dolor")</c> vráti <c>lorem\ipsum\dolor</c>
+        /// <c>Path.Combine("lorem", "\ipsum", "dolor")</c> returns <c>\ipsum\dolor</c><br />
+        /// <c>PathHelper.BuildPath("lorem", "\ipsum", "dolor")</c> returns <c>lorem\ipsum\dolor</c>
         /// </example>
         /// </item>
-        /// <item>Ak časť končí oddeľovačom disku (dvojbodka), oddeľovač adresárov (lomítko) je vložený aj za ňou.
+        /// <item>If any part ends with a disk separator (<c>:</c>), directory separator is appended even after it.
         /// <example>
-        /// <c>Path.Combine("c:", "lorem", "ipsum", "dolor")</c> vráti <b>c:lorem\ipsum\dolor</b><br />
-        /// <c>PathHelper.Build("c:", "lorem", "ipsum", "dolor")</c> vráti <b>c:\lorem\ipsum\dolor</b>
+        /// <c>Path.Combine("c:", "lorem", "ipsum", "dolor")</c> returns <b>c:lorem\ipsum\dolor</b><br />
+        /// <c>PathHelper.Build("c:", "lorem", "ipsum", "dolor")</c> returns <b>c:\lorem\ipsum\dolor</b>
         /// </example>
-        /// Niektoré funkcie .NET nedokážu s cestou v tvare <c>c:lorem</c> pracovať a vyvolávajú výnimky.
+        /// Some of the .NET function are not able to work with a paths like <c>c:lorem</c> and the throw exceptions.
         /// </item>
         /// </list>
         /// </para>
@@ -126,10 +125,11 @@ namespace Kros.IO
         }
 
         /// <summary>
-        /// V reťazci <paramref name="pathName" /> nahradí zakázané znaky pre názov súboru za pomlčku (<b>-</b>).
-        /// Ak je vo vstupnom reťazci viacero zakázaných znakov za sebou, sú všetky ako skupina nahradené jednou pomlčkou.
+        /// Replaces invalid characters in <paramref name="pathName"/> with dash (<c>-</c>). If there are
+        /// several succesive invalid characters, they all are replaced only by one dash.
         /// </summary>
-        /// <param name="pathName">Vstupný reťazec, predstavujúci názov súboru.</param>
+        /// <param name="pathName">Input path.</param>
+        /// <remarks><inheritdoc cref="ReplaceInvalidPathChars(string, string)"/></remarks>
         /// <returns><inheritdoc cref="ReplaceInvalidPathChars(string, string)"/></returns>
         public static string ReplaceInvalidPathChars(string pathName)
         {
@@ -137,15 +137,19 @@ namespace Kros.IO
         }
 
         /// <summary>
-        /// V reťazci <paramref name="pathName" /> nahradí zakázané znaky pre názov súboru za reťazec
-        /// <paramref name="replacement" />. Ak je vo vstupnom reťazci viacero zakázaných znakov za sebou,
-        /// sú všetky ako skupina nahradené jedným znakom.
+        /// Replaces invalid characters in <paramref name="pathName"/> with <paramref name="replacement"/>. If there are
+        /// several succesive invalid characters, they all are replaced only by one <paramref name="replacement"/>.
         /// </summary>
-        /// <param name="pathName">Vstupný reťazec, predstavujúci názov súboru.</param>
-        /// <param name="replacement">Reťazec, ktorým sa nahrádzajú zakázané znaky. Ak je <see langword="null"/>,
-        /// použije sa prázdny reťazec, tzn. zakázané znaky sa zo vstupného reťazca odstránia.</param>
-        /// <returns>Reťazec s nahradenými zakázanými znakmi. Ak vstupná hodnota <paramref name="pathName"/>
-        /// je <see langword="null"/>, je vrátený prázdny reťazec (<c>string.Empty</c>).</returns>
+        /// <param name="pathName">Input path.</param>
+        /// <param name="replacement">Value, by which are replaced invalid path charactes. If the value is <see langword="null"/>,
+        /// empty stirng is used, so invalid characters are removed.</param>
+        /// <remarks>
+        /// Replaced are all characters in <see cref="Path.GetInvalidFileNameChars"/> and <see cref="Path.GetInvalidPathChars"/>.
+        /// </remarks>
+        /// <returns>
+        /// String with invalid path characters replaced. If input <paramref name="pathName"/> is <see langword="null"/>,
+        /// empty string is returned.
+        /// </returns>
         public static string ReplaceInvalidPathChars(string pathName, string replacement)
         {
             if (pathName == null)
@@ -160,7 +164,7 @@ namespace Kros.IO
         }
 
         /// <summary>
-        /// Adresárová cesta ku systémovej zložke pre dočasné súbory <legacyBold>bez</legacyBold> lomítka na konci.
+        /// Returns path to system temporary folder (<see cref="Path.GetTempPath"/>) <b>without</b> trailing directory separator.
         /// </summary>
         public static string GetTempPath()
         {
@@ -168,10 +172,13 @@ namespace Kros.IO
         }
 
         /// <summary>
-        /// Zistí, či dané umiestnenie, adresár alebo súbor sídli na zdieľanom adresári na sieti.
+        /// Checks, if specified <paramref name="path"/> is network share path. The path is considered network share path,
+        /// if it begins with <c>\\</c>.
         /// </summary>
-        /// <param name="path">Cesta, ktorá sa testuje.</param>
-        /// <returns><see langword="true"/>, ak <paramref name="path"/> je sieťová cesta, inak <see langword="false"/>.</returns>
+        /// <param name="path">Checked path.</param>
+        /// <returns>
+        /// <see langword="true"/> if <paramref name="path"/> is network share path, <see langword="false"/> otherwise.
+        /// </returns>
         public static bool IsNetworkPath(string path)
         {
             return (GetDriveTypeFromPath(path) == DriveType.Network);

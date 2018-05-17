@@ -3,18 +3,16 @@
 namespace Kros.Utils
 {
     /// <summary>
-    /// Trieda sprístupňujúca dátum a čas, aby bolo možné "fixovať" čas v testoch
-    /// - <see cref="DateTimeProvider.InjectActualDateTime(DateTime)"/>.
+    /// Class for "freezing" date and time to constant value. Usable for example in tests.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Aktuálny čas je dostupný vlastnosťou <see cref="DateTimeProvider.Now"/>, vlastný čas je možné podhodiť volaním
-    /// <see cref="DateTimeProvider.InjectActualDateTime(DateTime)"/>:
-    /// <code language="cs" source="..\Examples\Kros.Utils\DateTimeProviderExamples.cs" region="BasicExample"/>
+    /// Current time is accessible in <see cref="Now"/> property. Own time can be injected using
+    /// <see cref="InjectActualDateTime(DateTime)"/>.
     /// </para>
+    /// <code language="cs" source="..\Examples\Kros.Utils\DateTimeProviderExamples.cs" region="BasicExample"/>
     /// <para>
-    /// Natavená hodnota je platná pre aktuálne vlákno, tzn. v dvoch rôznych vláknach je možné mať rôzne nastavené
-    /// hodnoty (<see cref="System.ThreadStaticAttribute"/>).
+    /// Set value is valid for current thread only, so it is possible to have different values in different threads.
     /// </para>
     /// </remarks>
     /// <seealso cref="System.IDisposable" />
@@ -28,8 +26,8 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Ak bol čas fixne nastavený metódou <see cref="InjectActualDateTime(DateTime)"/>, je vrátený ten. Inak je vrátený
-        /// reálny čas <see cref="DateTime.Now">DateTime.Now</see>.
+        /// Returns own date and time, if it was set by <see cref="InjectActualDateTime(DateTime)"/>. If it was not set,
+        /// <see cref="DateTime.Now">DateTime.Now</see> is returned.
         /// </summary>
         public static DateTime Now
         {
@@ -40,9 +38,10 @@ namespace Kros.Utils
         }
 
         /// <summary>
-        /// Nastaví fixný čas, ktorý provider potom vracia vo vlastnosti <see cref="Now"/>. Používa sa v <c>using</c> bloku.
+        /// Sets time <paramref name="actualDateTime"/>, which will be returned in <see cref="Now"/> property.
+        /// Use it in <c>using</c> block.
         /// </summary>
-        /// <param name="actualDateTime">Hodnota, ktorú bude provider vracať.</param>
+        /// <param name="actualDateTime">Required date and time value.</param>
         public static IDisposable InjectActualDateTime(DateTime actualDateTime)
         {
             _injectedDateTime = actualDateTime;
