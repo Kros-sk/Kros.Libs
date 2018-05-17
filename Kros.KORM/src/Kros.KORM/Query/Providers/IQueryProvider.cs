@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Threading.Tasks;
 
 namespace Kros.KORM.Query
 {
@@ -39,10 +40,13 @@ namespace Kros.KORM.Query
         object ExecuteScalar<T>(IQuery<T> query);
 
         /// <summary>
-        /// Executes action in transaction.
+        /// Asynchronously executes action in transaction.
         /// </summary>
         /// <param name="action">Action which will be executed.</param>
-        void ExecuteInTransaction(Action action);
+        /// <returns>
+        /// A task that represents the asynchronous operation.
+        /// </returns>
+        Task ExecuteInTransactionAsync(Func<Task> action);
 
         /// <summary>
         /// Executes the command.
@@ -50,6 +54,16 @@ namespace Kros.KORM.Query
         /// <param name="command">The command.</param>
         /// <returns>Number of affected rows.</returns>
         int ExecuteNonQueryCommand(IDbCommand command);
+
+        /// <summary>
+        /// Asynchronously executes the command.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <returns>
+        /// A task that represents the asynchronous save operation. The task result contains the
+        /// numbers of affected rows.
+        /// </returns>
+        Task<int> ExecuteNonQueryCommandAsync(DbCommand command);
 
         /// <summary>
         /// Returns <see cref="DbProviderFactory"/> for current provider.

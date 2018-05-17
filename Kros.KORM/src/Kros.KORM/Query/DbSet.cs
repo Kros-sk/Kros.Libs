@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Kros.KORM.Query
 {
@@ -238,13 +239,18 @@ namespace Kros.KORM.Query
         /// <summary>
         /// Commits all pending changes to the database.
         /// </summary>
-        public void CommitChanges()
+        public void CommitChanges() => CommitChangesCoreAsync(false).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public Task CommitChangesAsync() => CommitChangesCoreAsync(true);
+
+        private async Task CommitChangesCoreAsync(bool useAsync)
         {
-            _provider.ExecuteInTransaction(() =>
+            await _provider.ExecuteInTransactionAsync(async () =>
             {
-                CommitChangesAddedItems(_addedItems);
-                CommitChangesEditedItems(_editedItems);
-                CommitChangesDeletedItems(_deletedItems);
+                await CommitChangesAddedItemsAsync(_addedItems, useAsync);
+                await CommitChangesEditedItemsAsync(_editedItems, useAsync);
+                await CommitChangesDeletedItemsAsync(_deletedItems, useAsync);
 
                 Clear();
             });
@@ -273,7 +279,7 @@ namespace Kros.KORM.Query
 
         #region Private Helpers
 
-        private void CommitChangesAddedItems(HashSet<T> items)
+        private async Task CommitChangesAddedItemsAsync(HashSet<T> items, bool useAsync)
         {
             if (items?.Count > 0)
             {
@@ -285,9 +291,21 @@ namespace Kros.KORM.Query
                     foreach (T item in items)
                     {
                         _commandGenerator.FillCommand(command, item);
-                        _provider.ExecuteNonQueryCommand(command);
+                        await ExecuteNonQueryAsync(command, useAsync);
                     }
                 }
+            }
+        }
+
+        private async Task ExecuteNonQueryAsync(DbCommand command, bool useAsync)
+        {
+            if (useAsync)
+            {
+                await _provider.ExecuteNonQueryCommandAsync(command);
+            }
+            else
+            {
+                _provider.ExecuteNonQueryCommand(command);
             }
         }
 
@@ -313,7 +331,7 @@ namespace Kros.KORM.Query
         private bool CanGeneratePrimaryKeys() =>
             _tableInfo.PrimaryKey.Count(p => p.AutoIncrementMethodType == AutoIncrementMethodType.Custom) == 1;
 
-        private void CommitChangesEditedItems(HashSet<T> items)
+        private async Task CommitChangesEditedItemsAsync(HashSet<T> items, bool useAsync)
         {
             if (items?.Count > 0)
             {
@@ -324,14 +342,13 @@ namespace Kros.KORM.Query
                     foreach (T item in items)
                     {
                         _commandGenerator.FillCommand(command, item);
-                        _provider.ExecuteNonQueryCommand(command);
+                        await ExecuteNonQueryAsync(command, useAsync);
                     }
                 }
             }
         }
 
-
-        private void CommitChangesDeletedItems(HashSet<T> items)
+        private async Task CommitChangesDeletedItemsAsync(HashSet<T> items, bool useAsync)
         {
             if (items?.Count > 0)
             {
@@ -340,7 +357,7 @@ namespace Kros.KORM.Query
                     foreach (T item in items)
                     {
                         _commandGenerator.FillCommand(command, item);
-                        _provider.ExecuteNonQueryCommand(command);
+                        await ExecuteNonQueryAsync(command, useAsync);
                     }
                 }
             }

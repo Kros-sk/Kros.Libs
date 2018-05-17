@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace Kros.KORM.Query
 {
@@ -58,6 +59,14 @@ namespace Kros.KORM.Query
         /// Commits all pending changes to the database.
         /// </summary>
         void CommitChanges();
+
+        /// <summary>
+        /// Asynchronously commits all pending changes to the database.
+        /// </summary>
+        /// <returns>
+        /// A task that represents the asynchronous save operation.
+        /// </returns>
+        Task CommitChangesAsync();
 
         /// <summary>
         /// List of items in Added state.
