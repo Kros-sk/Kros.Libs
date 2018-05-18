@@ -547,16 +547,16 @@ ORDER BY tables.name, indexes.name, index_columns.key_ordinal
 
         private IndexSchema CreateIndexSchema(TableSchema table, DataRow row)
         {
+            string indexName = (string)row[IndexesQueryNames.IndexName];
+            bool clustered = ((string)row[IndexesQueryNames.TypDesc]).Equals("CLUSTERED", StringComparison.OrdinalIgnoreCase);
             if ((bool)row[IndexesQueryNames.IsPrimaryKey])
             {
-                return table.PrimaryKey;
+                return table.SetPrimaryKey(indexName, clustered);
             }
             else
             {
-                return table.Indexes.Add(
-                    (string)row[IndexesQueryNames.IndexName],
-                    (bool)row[IndexesQueryNames.IsUnique] ? IndexType.UniqueKey : IndexType.Index,
-                    ((string)row[IndexesQueryNames.TypDesc]).Equals("CLUSTERED", StringComparison.OrdinalIgnoreCase));
+                IndexType indexType = (bool)row[IndexesQueryNames.IsUnique] ? IndexType.UniqueKey : IndexType.Index;
+                return table.Indexes.Add(indexName, indexType, clustered);
             }
         }
 

@@ -1,18 +1,16 @@
-﻿using System;
+﻿using FluentAssertions;
+using Kros.Data.Schema;
+using Kros.Data.Schema.SqlServer;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using FluentAssertions;
-using Kros.Data.Schema;
-using Kros.Data.Schema.SqlServer;
-using Kros.UnitTests;
 using Xunit;
 
 namespace Kros.Utils.UnitTests.Data.Schema
 {
     public class SqlServerSchemaLoaderShould : DatabaseTestBase
     {
-
         #region Constants
 
         private const string TestSchemaTableName = "SchemaTest";
@@ -67,7 +65,7 @@ ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColBoolean]  DEFAULT(
     [ColIndex3] [nvarchar](255) NULL,
     [ColUniqueIndex] [int] NULL,
 
-    CONSTRAINT [PK_IndexesTest] PRIMARY KEY CLUSTERED ([Id] ASC) ON [PRIMARY]
+    CONSTRAINT [PK_IndexesTest_PK] PRIMARY KEY CLUSTERED ([Id] ASC) ON [PRIMARY]
 
 ) ON [PRIMARY];
 
@@ -202,18 +200,19 @@ ALTER TABLE [dbo].[ChildTableCascade] CHECK CONSTRAINT [FK_ChildTableCascade_Par
             TableSchema table = schema.Tables["IndexesTest"];
 
             table.PrimaryKey.Should().NotBeNull();
+            table.PrimaryKey.Name.Should().Be("PK_IndexesTest_PK", "Primary key does not have correct name.");
             CheckIndex(table.PrimaryKey, IndexType.PrimaryKey,
-                new Tuple<string, Kros.Data.Schema.SortOrder>[] { Tuple.Create("Id", Kros.Data.Schema.SortOrder.Ascending) });
-            CheckIndex(table.Indexes["I_Index"], IndexType.Index, new Tuple<string, Kros.Data.Schema.SortOrder>[]
+                new Tuple<string, SortOrder>[] { Tuple.Create("Id", SortOrder.Ascending) });
+            CheckIndex(table.Indexes["I_Index"], IndexType.Index, new Tuple<string, SortOrder>[]
             {
-                Tuple.Create("ColIndex1", Kros.Data.Schema.SortOrder.Ascending),
-                    Tuple.Create("ColIndex2Desc", Kros.Data.Schema.SortOrder.Descending),
-                    Tuple.Create("ColIndex3", Kros.Data.Schema.SortOrder.Ascending)
+                Tuple.Create("ColIndex1", SortOrder.Ascending),
+                    Tuple.Create("ColIndex2Desc", SortOrder.Descending),
+                    Tuple.Create("ColIndex3", SortOrder.Ascending)
             });
             CheckIndex(table.Indexes["I_UniqueIndex"], IndexType.UniqueKey,
-                new Tuple<string, Kros.Data.Schema.SortOrder>[]
+                new Tuple<string, SortOrder>[]
                 {
-                    Tuple.Create("ColUniqueIndex", Kros.Data.Schema.SortOrder.Ascending)
+                    Tuple.Create("ColUniqueIndex", SortOrder.Ascending)
                 });
         }
 
@@ -304,7 +303,7 @@ ALTER TABLE [dbo].[ChildTableCascade] CHECK CONSTRAINT [FK_ChildTableCascade_Par
             }
         }
 
-        private static void CheckIndex(IndexSchema index, IndexType indexType, Tuple<string, Kros.Data.Schema.SortOrder>[] columns)
+        private static void CheckIndex(IndexSchema index, IndexType indexType, Tuple<string, SortOrder>[] columns)
         {
             index.IndexType.Should().Be(indexType, $"Index {index.Name} should have correct type.");
             index.Columns.Count.Should().Be(columns.Length, $"Index {index.Name} should have correct columns count.");
@@ -313,8 +312,8 @@ ALTER TABLE [dbo].[ChildTableCascade] CHECK CONSTRAINT [FK_ChildTableCascade_Par
             IEnumerable<string> actualColumns = from column in index.Columns select column.Name;
             actualColumns.Should().Equal(expectedColumns, $"Index {index.Name} should have correct columns.");
 
-            IEnumerable<Kros.Data.Schema.SortOrder> expectedOrdering = from column in columns select column.Item2;
-            IEnumerable<Kros.Data.Schema.SortOrder> actualOrdering = from column in index.Columns select column.Order;
+            IEnumerable<SortOrder> expectedOrdering = from column in columns select column.Item2;
+            IEnumerable<SortOrder> actualOrdering = from column in index.Columns select column.Order;
             actualOrdering.Should().Equal(expectedOrdering, $"Index {index.Name} should have correct columns ordering.");
         }
 
@@ -329,6 +328,5 @@ ALTER TABLE [dbo].[ChildTableCascade] CHECK CONSTRAINT [FK_ChildTableCascade_Par
         }
 
         #endregion
-
     }
 }
