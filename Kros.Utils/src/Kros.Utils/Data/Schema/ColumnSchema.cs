@@ -119,26 +119,13 @@ namespace Kros.Data.Schema
         public int Size { get; set; } = DefaultSize;
 
         /// <summary>
-        /// Column's data type.
-        /// </summary>
-        public abstract DbType DbType { get; }
-
-        /// <summary>
         /// Sets data type to command parameter <paramref name="param"/>.
         /// </summary>
         /// <param name="param">Parameter for <see cref="IDbCommand"/> commands.</param>
         public abstract void SetParameterDbType(IDataParameter param);
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public override string ToString()
-        {
-            return string.Format("Column {0}: DbType = {1}, AllowNull = {2}, DefaultValue = {3}, Size = {4}",
-                FullName, DbType, AllowNull, ToStringDefaultValue(), Size);
-        }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-
         /// <summary>
-        /// Returns value for <see cref="DefaultValue"/> for use in <see cref="ToString"/>.
+        /// Returns value for <see cref="DefaultValue"/> for use in <c>ToString()</c>.
         /// </summary>
         /// <returns>String "<c>NULL</c>" if value of <see cref="DefaultValue"/> is <see cref="DBNull"/> or
         /// <see langword="null"/>. Otherwise returns <see cref="DefaultValue"/>.</returns>
