@@ -94,7 +94,7 @@ namespace Kros.KORM.Query
 
         /// <summary>
         /// Vytvorí inicializovaný príkaz <see cref="DbCommand"/>, pre aktuálnu transakciu.
-        /// Používa sa iba v rámci volania <see cref="ExecuteInTransaction(Action)"/>.
+        /// Používa sa iba v rámci volania <see cref="ExecuteInTransactionAsync(Func{Task})"/>.
         /// </summary>
         /// <returns>Inicializovaný príkaz.</returns>
         DbCommand GetCommandForCurrentTransaction();
