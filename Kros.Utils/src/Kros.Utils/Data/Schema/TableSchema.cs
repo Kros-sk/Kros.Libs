@@ -9,6 +9,12 @@ namespace Kros.Data.Schema
     /// </summary>
     public class TableSchema
     {
+        #region Fields
+
+        private IndexSchema _primaryKey;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -38,7 +44,6 @@ namespace Kros.Data.Schema
 
             Database = database;
             Columns = new ColumnSchemaCollection(this);
-            PrimaryKey = new IndexSchema($"PK_{name}", IndexType.PrimaryKey, true);
             Indexes = new IndexSchemaCollection(this);
             ForeignKeys = new ForeignKeySchemaCollection(this);
         }
@@ -66,10 +71,25 @@ namespace Kros.Data.Schema
         /// Table's primary key.
         /// </summary>
         /// <remarks>
-        /// Instance of this property is always created (it is never <see langword="null"/>. If table does not have
-        /// a primary key, column list of this index is empty.
+        /// If table does not have a primary key, value is <see langword="null"/>.
         /// </remarks>
-        public IndexSchema PrimaryKey { get; }
+        public IndexSchema PrimaryKey => _primaryKey;
+
+        /// <summary>
+        /// Sets primary key with name <paramref name="primaryKeyName"/> and flag <paramref name="clustered"/>.
+        /// </summary>
+        /// <param name="primaryKeyName">Primary key name.</param>
+        /// <param name="clustered">If <see langword="true"/>, primary key is <c>CLUSTERED</c>.</param>
+        /// <returns>Created primary key or <see langword="null"/> value, if primary key name was not specified.</returns>
+        /// <remarks>If <paramref name="primaryKeyName"/> is <see langword="null"/> or empty string or white space string,
+        /// primary key is removed (value of <see cref="PrimaryKey"/> will be <see langword="null"/>).</remarks>
+        public IndexSchema SetPrimaryKey(string primaryKeyName, bool clustered)
+        {
+            _primaryKey = string.IsNullOrWhiteSpace(primaryKeyName)
+                ? null
+                : new IndexSchema(primaryKeyName, IndexType.PrimaryKey, clustered);
+            return _primaryKey;
+        }
 
         /// <summary>
         /// List of table's indexes.
@@ -88,7 +108,7 @@ namespace Kros.Data.Schema
             sb.Append("Table ");
             sb.Append(Name);
             sb.Append(": Primary Key = ");
-            if (PrimaryKey.Columns.Count == 0)
+            if ((PrimaryKey == null) || (PrimaryKey.Columns.Count == 0))
             {
                 sb.Append("*not set*");
             }
