@@ -11,45 +11,6 @@ namespace Kros.Data.Schema.SqlServer
     public class SqlServerColumnSchema
         : ColumnSchema
     {
-        #region Fields
-
-        // Taken from .NET framework from internal class System.Data.SqlClient.MetaType.
-        private static readonly Dictionary<SqlDbType, DbType> _dbTypeMapping = new Dictionary<SqlDbType, DbType>() {
-            { SqlDbType.BigInt, DbType.Int64 },
-            { SqlDbType.Binary, DbType.Binary },
-            { SqlDbType.Bit, DbType.Boolean },
-            { SqlDbType.Date, DbType.Date },
-            { SqlDbType.DateTime, DbType.DateTime },
-            { SqlDbType.DateTime2, DbType.DateTime2 },
-            { SqlDbType.DateTimeOffset, DbType.DateTimeOffset },
-            { SqlDbType.Decimal, DbType.Decimal },
-            { SqlDbType.Float, DbType.Double },
-            { SqlDbType.Char, DbType.AnsiStringFixedLength },
-            { SqlDbType.Image, DbType.Binary },
-            { SqlDbType.Int, DbType.Int32 },
-            { SqlDbType.Money, DbType.Currency },
-            { SqlDbType.NChar, DbType.StringFixedLength },
-            { SqlDbType.NText, DbType.String },
-            { SqlDbType.NVarChar, DbType.String },
-            { SqlDbType.Real, DbType.Single },
-            { SqlDbType.SmallDateTime, DbType.DateTime },
-            { SqlDbType.SmallInt, DbType.Int16 },
-            { SqlDbType.SmallMoney, DbType.Currency },
-            { SqlDbType.Structured, DbType.Object },
-            { SqlDbType.Text, DbType.AnsiString },
-            { SqlDbType.Time, DbType.Time },
-            { SqlDbType.Timestamp, DbType.Binary },
-            { SqlDbType.TinyInt, DbType.Byte },
-            { SqlDbType.Udt, DbType.Object },
-            { SqlDbType.UniqueIdentifier, DbType.Guid },
-            { SqlDbType.VarBinary, DbType.Binary },
-            { SqlDbType.VarChar, DbType.AnsiString },
-            { SqlDbType.Variant, DbType.Object },
-            { SqlDbType.Xml, DbType.Xml }
-        };
-
-        #endregion
-
         #region Constructors
 
         /// <inheritdoc/>
@@ -84,14 +45,6 @@ namespace Kros.Data.Schema.SqlServer
         /// Data type of the column.
         /// </summary>
         public SqlDbType SqlDbType { get; set; }
-
-        /// <inheritdoc/>
-        public override DbType DbType
-        {
-            get {
-                return _dbTypeMapping[SqlDbType];
-            }
-        }
 
         /// <inheritdoc/>
         /// <exception cref="System.ArgumentException">

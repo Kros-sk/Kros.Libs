@@ -12,52 +12,6 @@ namespace Kros.Data.Schema.MsAccess
     public class MsAccessColumnSchema
         : ColumnSchema
     {
-        #region Fields
-
-        // Prevzaté z .NET z internej triedy System.Data.OleDb.NativeDBType.
-        private static readonly Dictionary<OleDbType, DbType> _dbTypeMapping = new Dictionary<OleDbType, DbType>() {
-            { OleDbType.BigInt, DbType.Int64 },
-            { OleDbType.Binary, DbType.Binary },
-            { OleDbType.Boolean, DbType.Boolean },
-            { OleDbType.BSTR, DbType.String },
-            { OleDbType.Currency, DbType.Currency },
-            { OleDbType.Date, DbType.DateTime },
-            { OleDbType.DBDate, DbType.Date },
-            { OleDbType.DBTime, DbType.Time },
-            { OleDbType.DBTimeStamp, DbType.DateTime },
-            { OleDbType.Decimal, DbType.Decimal },
-            { OleDbType.Double, DbType.Double },
-            { OleDbType.Empty, DbType.Object },
-            { OleDbType.Error, DbType.Int32 },
-            { OleDbType.Filetime, DbType.DateTime },
-            { OleDbType.Guid, DbType.Guid },
-            { OleDbType.Char, DbType.AnsiStringFixedLength },
-            { OleDbType.IDispatch, DbType.Object },
-            { OleDbType.Integer, DbType.Int32 },
-            { OleDbType.IUnknown, DbType.Object },
-            { OleDbType.LongVarBinary, DbType.Binary },
-            { OleDbType.LongVarChar, DbType.AnsiString },
-            { OleDbType.LongVarWChar, DbType.String },
-            { OleDbType.Numeric, DbType.Decimal },
-            { OleDbType.PropVariant, DbType.Object },
-            { OleDbType.Single, DbType.Single },
-            { OleDbType.SmallInt, DbType.Int16 },
-            { OleDbType.TinyInt, DbType.SByte },
-            { OleDbType.UnsignedBigInt, DbType.UInt64 },
-            { OleDbType.UnsignedInt, DbType.UInt32 },
-            { OleDbType.UnsignedSmallInt, DbType.UInt16 },
-            { OleDbType.UnsignedTinyInt, DbType.Byte },
-            { OleDbType.VarBinary, DbType.Binary },
-            { OleDbType.VarChar, DbType.AnsiString },
-            { OleDbType.Variant, DbType.Object },
-            { OleDbType.VarNumeric, DbType.VarNumeric },
-            { OleDbType.VarWChar, DbType.String },
-            { OleDbType.WChar, DbType.StringFixedLength }
-        };
-
-        #endregion
-
-
         #region Constructors
 
         /// <summary>
@@ -124,15 +78,6 @@ namespace Kros.Data.Schema.MsAccess
         /// Dátový typ stĺpca ako hodnota enumerátu <see cref="OleDbType"/>.
         /// </summary>
         public OleDbType OleDbType { get; set; }
-
-        /// <inheritdoc/>
-        public override DbType DbType
-        {
-            get
-            {
-                return _dbTypeMapping[OleDbType];
-            }
-        }
 
         /// <inheritdoc/>
         /// <exception cref="ArgumentException">Hodnota <paramref name="param"/> nie je typu <see cref="OleDbParameter"/>.
