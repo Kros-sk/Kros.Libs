@@ -1,6 +1,7 @@
 ﻿using Kros.KORM.CommandGenerator;
 using Kros.KORM.Metadata;
 using Kros.KORM.Query.Expressions;
+using Kros.KORM.Query.Sql;
 using Kros.Utils;
 using System;
 using System.Collections;
@@ -70,11 +71,31 @@ namespace Kros.KORM.Query
         /// Sql must be server specific. Because no translation is provide.
         /// </remarks>
         /// <exception cref="ArgumentNullException">if <c>sql</c> is null or white string.</exception>
-        public IQueryBase<T> Sql(string sql, params object[] args)
+        public IQueryBase<T> Sql(RawSqlString sql, params object[] args)
         {
-            Check.NotNullOrWhiteSpace(sql, nameof(sql));
+            Check.NotNullOrWhiteSpace(sql.Format, nameof(sql));
 
             this.Expression = new SqlExpression(sql, args);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Create query from sql statement.
+        /// </summary>
+        /// <param name="sql">The SQL for executing in server.</param>
+        /// <returns>
+        /// Query from sql.
+        /// </returns>
+        /// <remarks>
+        /// Sql must be server specific. Because no translation is provide.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">if <c>sql</c> is null or white string.</exception>
+        public IQueryBase<T> Sql(FormattableString sql)
+        {
+            Check.NotNullOrWhiteSpace(sql.Format, nameof(sql));
+
+            this.Expression = new SqlExpression(sql, sql.GetArguments());
 
             return this;
         }

@@ -34,6 +34,15 @@ namespace Kros.KORM.UnitTests.Query
         }
 
         [Fact]
+        public void CreateExpressionFromSqlInterpolation()
+        {
+            var query = CreateQuery();
+            var expression = (query.Sql($"SELECT * FROM TPerson").Expression as SqlExpression);
+
+            expression.Sql.Should().Be("SELECT * FROM TPerson");
+        }
+
+        [Fact]
         public void CreateExpressionWithColumns()
         {
             var query = CreateQuery();
