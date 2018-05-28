@@ -1,6 +1,7 @@
 ﻿using Kros.Utils;
 using System;
 using System.Net;
+using System.Net.Http;
 using System.Net.NetworkInformation;
 
 namespace Kros.Net
@@ -16,45 +17,31 @@ namespace Kros.Net
     /// </remarks>
     public class NetworkChecker
     {
-        #region Nested classes
-
-        private class KrosWebClient : WebClient, IWebClient
-        {
-            public KrosWebClient(int timeout)
-            {
-                Timeout = timeout;
-            }
-
-            public int Timeout { get; }
-
-            protected override WebRequest GetWebRequest(Uri uri)
-            {
-                WebRequest request = base.GetWebRequest(uri);
-                request.Timeout = Timeout;
-
-                return request;
-            }
-        }
-
-        #endregion
-
         #region Fields
 
-        private const int DefaultRequestTimeout = 1 * 1000;
-        private const int DefaultResponseCacheExpiration = 3 * 60 * 1000;
+        private static readonly TimeSpan DefaultRequestTimeout = TimeSpan.FromSeconds(1);
+        private static readonly TimeSpan DefaultResponseCacheExpiration = TimeSpan.FromMinutes(3);
         private DateTime _lastSuccessResponseTime;
 
         #endregion
 
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NetworkChecker"/> with address <paramref name="serviceAddress"/>
-        /// for requests.
-        /// </summary>
-        /// <param name="serviceAddress">Wen address for requests checking internet availability.</param>
-        public NetworkChecker(string serviceAddress)
-            : this(serviceAddress, DefaultRequestTimeout, DefaultResponseCacheExpiration)
+        /// <inheritdoc cref="NetworkChecker(Uri, Uri, TimeSpan, TimeSpan)"/>
+        public NetworkChecker(Uri serviceAddress)
+            : this(serviceAddress, null, DefaultRequestTimeout, DefaultResponseCacheExpiration)
+        {
+        }
+
+        /// <inheritdoc cref="NetworkChecker(Uri, Uri, TimeSpan, TimeSpan)"/>
+        public NetworkChecker(Uri serviceAddress, Uri proxyAddress)
+            : this(serviceAddress, proxyAddress, DefaultRequestTimeout, DefaultResponseCacheExpiration)
+        {
+        }
+
+        /// <inheritdoc cref="NetworkChecker(Uri, Uri, TimeSpan, TimeSpan)"/>
+        public NetworkChecker(Uri serviceAddress, TimeSpan requestTimeout, TimeSpan responseCacheExpiration)
+            : this(serviceAddress, null, requestTimeout, responseCacheExpiration)
         {
         }
 
@@ -62,17 +49,25 @@ namespace Kros.Net
         /// Initializes a new instance of the <see cref="NetworkChecker"/> with address <paramref name="serviceAddress"/>
         /// and aditional parameters.
         /// </summary>
-        /// <param name="serviceAddress">Wen address for requests checking internet availability.</param>
+        /// <param name="serviceAddress">The address for requests checking internet availability. It must be <c>http</c>
+        /// or <c>https</c> address.</param>
+        /// <param name="proxyAddress">The address of a proxy server (optional).</param>
         /// <param name="requestTimeout">Maximum time for waiting for the response from server. If the response will not
-        /// came in this time, we consider that the internet is not available. Value is in milliseconds.</param>
-        /// <param name="responseCacheExpiration">Time in milliseconds during which the last response will be remembered
+        /// came in this time, we consider that the internet is not available.</param>
+        /// <param name="responseCacheExpiration">Time during which the last response will be remembered
         /// and so no requests to <paramref name="serviceAddress"/> will be performed.
         /// </param>
-        public NetworkChecker(string serviceAddress, int requestTimeout, int responseCacheExpiration)
+        public NetworkChecker(
+            Uri serviceAddress,
+            Uri proxyAddress,
+            TimeSpan requestTimeout,
+            TimeSpan responseCacheExpiration)
         {
-            ServiceAddress = Check.NotNullOrWhiteSpace(serviceAddress, nameof(serviceAddress));
-            RequestTimeout = Check.GreaterOrEqualThan(requestTimeout, 0, nameof(requestTimeout));
-            ResponseCacheExpiration = Check.GreaterOrEqualThan(responseCacheExpiration, 0, nameof(responseCacheExpiration));
+            ServiceAddress = Check.NotNull(serviceAddress, nameof(serviceAddress));
+            ProxyAddress = proxyAddress;
+            RequestTimeout = Check.GreaterOrEqualThan(requestTimeout, TimeSpan.Zero, nameof(requestTimeout));
+            ResponseCacheExpiration = Check.GreaterOrEqualThan(responseCacheExpiration, TimeSpan.Zero,
+                nameof(responseCacheExpiration));
         }
 
         #endregion
@@ -82,19 +77,24 @@ namespace Kros.Net
         /// <summary>
         /// Web address to which requests are made to check internet availability.
         /// </summary>
-        public string ServiceAddress { get; }
+        public Uri ServiceAddress { get; }
+
+        /// <summary>
+        /// Address of a proxy server.
+        /// </summary>
+        public Uri ProxyAddress { get; }
 
         /// <summary>
         /// Maximum time for waiting for the response from server. If the response will not
-        /// came in this time, we consider that the internet is not available. Value is in milliseconds.
+        /// came in this time, we consider that the internet is not available. Default timeout is 1 second.
         /// </summary>
-        public int RequestTimeout { get; }
+        public TimeSpan RequestTimeout { get; }
 
         /// <summary>
-        /// Time in milliseconds during which the last response will be remembered
-        /// and so no other requests to <see cref="ServiceAddress"/> will be performed.
+        /// Time during which the last response will be remembered and so no other requests to <see cref="ServiceAddress"/>
+        /// will be performed. Default value is 3 minutes.
         /// </summary>
-        public int ResponseCacheExpiration { get; }
+        public TimeSpan ResponseCacheExpiration { get; }
 
         /// <summary>
         /// Checks if the internet (specifically the service at the address <see cref="ServiceAddress"/>) is available.
@@ -109,14 +109,14 @@ namespace Kros.Net
         internal virtual bool CheckNetwork() => NetworkInterface.GetIsNetworkAvailable();
 
         private bool HasCachedResponse() =>
-            _lastSuccessResponseTime.AddMilliseconds(ResponseCacheExpiration) >= DateTimeProvider.Now;
+            _lastSuccessResponseTime.Add(ResponseCacheExpiration) >= DateTimeProvider.Now;
 
         private bool CheckService()
         {
             try
             {
-                using (var wc = CreateWebClient())
-                using (var stream = wc.OpenRead(ServiceAddress))
+                using (var client = new HttpClient(CreateMessageHandler()) { Timeout = RequestTimeout })
+                using (var stream = client.GetStreamAsync(ServiceAddress).GetAwaiter().GetResult())
                 {
                     _lastSuccessResponseTime = DateTimeProvider.Now;
                     return true;
@@ -128,7 +128,15 @@ namespace Kros.Net
             }
         }
 
-        internal virtual IWebClient CreateWebClient() => new KrosWebClient(RequestTimeout);
+        internal virtual HttpMessageHandler CreateMessageHandler()
+        {
+            var handler = new HttpClientHandler();
+            if (ProxyAddress != null)
+            {
+                handler.Proxy = new WebProxy(ProxyAddress);
+            }
+            return handler;
+        }
 
         #endregion
     }
