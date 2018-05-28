@@ -18,7 +18,8 @@ namespace Kros.KORM.Query.Sql
         /// Implicitly converts a <see cref="FormattableString" /> to a <see cref="RawSqlString" />
         /// </summary>
         /// <param name="fs"> The string format. </param>
-        public static implicit operator RawSqlString(FormattableString fs) => new RawSqlString(fs.Format);
+        public static implicit operator RawSqlString(FormattableString fs) =>
+            new RawSqlString(fs.Format.Replace("{", "@").Replace("}", string.Empty));
 
         /// <summary>
         /// Constructs a <see cref="RawSqlString" /> from a see <see cref="string" />

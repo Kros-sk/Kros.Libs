@@ -34,12 +34,21 @@ namespace Kros.KORM.UnitTests.Query
         }
 
         [Fact]
-        public void CreateExpressionFromSqlInterpolation()
+        public void CreateExpressionFromInterpolatedSql()
         {
             var query = CreateQuery();
             var expression = (query.Sql($"SELECT * FROM TPerson").Expression as SqlExpression);
 
             expression.Sql.Should().Be("SELECT * FROM TPerson");
+        }
+
+        [Fact]
+        public void CreateExpressionFromInterpolatedSqlWithParameters()
+        {
+            var query = CreateQuery();
+            var expression = (query.Sql($"SELECT * FROM TPerson WHERE Id = {11}").Expression as SqlExpression);
+
+            expression.Sql.Should().Be("SELECT * FROM TPerson WHERE Id = @0");
         }
 
         [Fact]
@@ -124,6 +133,20 @@ namespace Kros.KORM.UnitTests.Query
         }
 
         [Fact]
+        public void CallProviderForFirstOrDefaultFromInterpolatedString()
+        {
+            var provider = Substitute.For<KORM.Query.IQueryProvider>();
+            List<Person> list = new List<Person>() { new Person() { Id = 5 } };
+            provider.Execute<Person>(Arg.Any<IQuery<Person>>()).Returns(list);
+
+            var id = 5;
+            var query = new Query<Person>(new DatabaseMapper(new ConventionModelMapper()), provider);
+            var person = query.FirstOrDefault($"Id > {id}");
+
+            person.Id.Should().Be(5);
+        }
+
+        [Fact]
         public void ReturnTrueFromAnyIfExistItem()
         {
             var provider = Substitute.For<KORM.Query.IQueryProvider>();
@@ -132,6 +155,20 @@ namespace Kros.KORM.UnitTests.Query
 
             var query = new Query<Person>(new DatabaseMapper(new ConventionModelMapper()), provider);
             var any = query.Any("Id> @1", 5);
+
+            any.Should().BeTrue();
+        }
+
+        [Fact]
+        public void ReturnTrueFromAnyIfExistItemFromInterpolatedString()
+        {
+            var provider = Substitute.For<KORM.Query.IQueryProvider>();
+
+            provider.ExecuteScalar<Person>(Arg.Any<IQuery<Person>>()).Returns(5);
+
+            var id = 5;
+            var query = new Query<Person>(new DatabaseMapper(new ConventionModelMapper()), provider);
+            var any = query.Any($"Id > {id}");
 
             any.Should().BeTrue();
         }

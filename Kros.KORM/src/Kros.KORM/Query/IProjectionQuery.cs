@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Kros.KORM.Query.Sql;
+using System;
 
 namespace Kros.KORM.Query
 {
@@ -25,7 +23,22 @@ namespace Kros.KORM.Query
         /// <code source="..\Examples\Kros.KORM.Examples\IQueryExample.cs" title="Projection" region="Where1" lang="C#"  />
         /// </example>
         /// <exception cref="ArgumentNullException">if <c>whereCondition</c> is null or white string.</exception>
-        IFilteredQuery<T> Where(string whereCondition, params object[] args);
+        IFilteredQuery<T> Where(RawSqlString whereCondition, params object[] args);
+
+        /// <summary>
+        /// Add where condition to sql.
+        /// </summary>
+        /// <param name="whereCondition">The where condition.</param>
+        /// <returns>
+        /// Query for enumerable models.
+        /// </returns>
+        /// <example>
+        /// <code>
+        /// var item = query.Where($"Id = {1}")
+        /// </code>
+        /// </example>
+        /// <exception cref="ArgumentNullException">if <c>whereCondition</c> is null or white string.</exception>
+        IFilteredQuery<T> Where(FormattableString whereCondition);
 
         /// <summary>
         /// Returns the first item of which match where condition, or a default value if item doesn't exist.
@@ -41,7 +54,22 @@ namespace Kros.KORM.Query
         /// </code>
         /// </example>
         /// <exception cref="ArgumentNullException">if <c>whereCondition</c> is null or white string.</exception>
-        T FirstOrDefault(string whereCondition, params object[] args);
+        T FirstOrDefault(RawSqlString whereCondition, params object[] args);
+
+        /// <summary>
+        /// Returns the first item of which match where condition, or a default value if item doesn't exist.
+        /// </summary>
+        /// <param name="whereCondition">The where condition.</param>
+        /// <returns>
+        ///  <b>null</b> if item doesn't exist; otherwise, the first item which match the condition.
+        /// </returns>
+        /// <example>
+        /// <code>
+        /// var item = query.FirstOrDefault($"Id = {22}");
+        /// </code>
+        /// </example>
+        /// <exception cref="ArgumentNullException">if <c>whereCondition</c> is null or white string.</exception>
+        T FirstOrDefault(FormattableString whereCondition);
 
         /// <summary>
         /// Check if exist elements in the table which match condition.
@@ -55,7 +83,22 @@ namespace Kros.KORM.Query
         /// <code source="..\Examples\Kros.KORM.Examples\IQueryExample.cs" title="Check if exist elements in the table which match condition" region="Any" lang="C#"  />
         /// </example>
         /// <exception cref="ArgumentNullException">if <c>whereCondition</c> is null or white string.</exception>
-        bool Any(string whereCondition, params object[] args);
+        bool Any(RawSqlString whereCondition, params object[] args);
+
+        /// <summary>
+        /// Check if exist elements in the table which match condition.
+        /// </summary>
+        /// <param name="whereCondition">The where condition.</param>
+        /// <returns>
+        /// <see langword="true"/> if exist elements in the table which match condition; otherwise, false.
+        /// </returns>
+        /// <example>
+        /// <code>
+        /// var exist = database.Query&lt;Person&gt;().Any($"Age @gt; {18}");
+        /// </code>
+        /// </example>
+        /// <exception cref="ArgumentNullException">if <c>whereCondition</c> is null or white string.</exception>
+        bool Any(FormattableString whereCondition);
 
         /// <summary>
         /// Add order by statement to sql.

@@ -95,8 +95,6 @@ namespace Kros.KORM.Query.Sql
                 _sql = sql.Replace(Environment.NewLine, " ");
                 _sql = _sql.Replace("(", " ");
                 _sql = _sql.Replace(")", " ");
-                _sql = _sql.Replace("{", "@");
-                _sql = _sql.Replace("}", string.Empty);
             }
 
             public string Current

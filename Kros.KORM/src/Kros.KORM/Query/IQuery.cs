@@ -52,6 +52,13 @@ namespace Kros.KORM.Query
         /// <remarks>
         /// Sql must be server specific. Because no translation is provide.
         /// </remarks>
+        /// <example>
+        /// <code>
+        /// var id = 15;
+        /// var name = "Name";
+        /// var items = query.Sql($"SELECT * FROM Table WHERE Id = {id} AND Name = {name}");
+        /// </code>
+        /// </example>
         /// <exception cref="ArgumentNullException">if <c>sql</c> is null or white string.</exception>
         IQueryBase<T> Sql(FormattableString sql);
 
