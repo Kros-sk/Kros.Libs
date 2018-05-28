@@ -22,17 +22,17 @@ namespace Kros.KORM.Query.Expressions
         /// </summary>
         /// <param name="whereCondition">The where condition.</param>
         /// <param name="args">Where args.</param>
-        public WhereExpression(string whereCondition, params object[] args)
+        public WhereExpression(RawSqlString whereCondition, params object[] args)
         {
-            Check.NotNullOrWhiteSpace(whereCondition, "whereCondition");
+            Check.NotNullOrWhiteSpace(whereCondition.Format, "whereCondition");
 
-            whereCondition = whereCondition.Trim();
-            if (whereCondition.StartsWith(WhereStatement, StringComparison.InvariantCultureIgnoreCase))
+            whereCondition = whereCondition.Format.Trim();
+            if (whereCondition.Format.StartsWith(WhereStatement, StringComparison.InvariantCultureIgnoreCase))
             {
-                whereCondition = whereCondition.Substring(WhereStatement.Length).TrimStart();
+                whereCondition = whereCondition.Format.Substring(WhereStatement.Length).TrimStart();
             }
 
-            this.Sql = whereCondition;
+            this.Sql = whereCondition.Format;
 
             this.Parameters = args.ToList();
         }
