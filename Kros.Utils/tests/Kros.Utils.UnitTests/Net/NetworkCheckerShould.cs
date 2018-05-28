@@ -1,38 +1,37 @@
 ﻿using FluentAssertions;
 using Kros.Net;
 using System;
-using System.IO;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Kros.Utils.UnitTests.Net
 {
     public class NetworkCheckerShould
     {
-
         #region Nested classes
 
-        private class FakeWebClient : IWebClient
+        private class FakeMessageHandler : HttpMessageHandler
         {
             private readonly bool _throwException;
 
-            public FakeWebClient(bool throwExpcetion)
+            public FakeMessageHandler(bool throwExpcetion)
             {
                 _throwException = throwExpcetion;
             }
 
-            public void Dispose()
-            {
-            }
-
-            public Stream OpenRead(string address)
+            protected override Task<HttpResponseMessage> SendAsync(
+                HttpRequestMessage request,
+                CancellationToken cancellationToken)
             {
                 if (_throwException)
                 {
-                    throw new Exception();
+                    throw new InvalidOperationException();
                 }
                 else
                 {
-                    return new MemoryStream();
+                    return Task.FromResult(new HttpResponseMessage());
                 }
             }
         }
@@ -40,7 +39,7 @@ namespace Kros.Utils.UnitTests.Net
         private class TestNetworkChecker : NetworkChecker
         {
             public TestNetworkChecker(bool throwException)
-                : base("www.kros.sk", 2, 200)
+                : base(new Uri("https://www.kros.sk"), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))
             {
                 ThrowException = throwException;
             }
@@ -49,7 +48,10 @@ namespace Kros.Utils.UnitTests.Net
 
             public bool ThrowException { get; set; }
 
-            internal override IWebClient CreateWebClient() => new FakeWebClient(ThrowException);
+            internal override HttpMessageHandler CreateMessageHandler()
+            {
+                return new FakeMessageHandler(ThrowException);
+            }
 
             internal override bool CheckNetwork() => CheckNetworkResponse;
         }
@@ -118,6 +120,5 @@ namespace Kros.Utils.UnitTests.Net
         }
 
         #endregion
-
     }
 }
