@@ -94,7 +94,7 @@ namespace Kros.KORM.Query
         /// </returns>
         /// <example>
         /// <code>
-        /// var exist = database.Query&lt;Person&gt;().Any($"Age @gt; {18}");
+        /// var exist = database.Query&lt;Person&gt;().Any($"Age &gt; {18}");
         /// </code>
         /// </example>
         /// <exception cref="ArgumentNullException">if <c>whereCondition</c> is null or white string.</exception>
