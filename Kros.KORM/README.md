@@ -13,7 +13,7 @@ Kros.KORM is simple, fast and easy to use micro-ORM framework for .NETStandard c
 
 * [Kros.KORM.dll](#kroskormdll)
 * [Query](#query)
-* [Linq to Kros.KORM](#linq-to-kros-korm)
+* [Linq to Kros.KORM](#linq-to-kroskorm)
 * [DataAnnotation attributes](#dataannotation-attributes)
 * [Convention model mapper](#convention-model-mapper)
 * [Converters](#converters)
