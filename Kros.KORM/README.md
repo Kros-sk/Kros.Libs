@@ -1,4 +1,4 @@
-Kros.KORM
+# Kros.KORM
 
 Kros.KORM is simple, fast and easy to use micro-ORM framework for .NETStandard created by Kros a.s. from Slovakia.
 
@@ -7,20 +7,20 @@ Kros.KORM is simple, fast and easy to use micro-ORM framework for .NETStandard c
 * You can easily create query builder for creating queries returning IEnumerable of your POCO objects
 * Linq support
 * Saving changes to your data (Insert / Update / Delete)
-* Korm supports bulk operations for fast inserting and updating large amounts of data (BulkInsert, BulkDelete)
+* Kros.KORM supports bulk operations for fast inserting and updating large amounts of data (BulkInsert, BulkDelete)
 
 ## This topic contains following sections:
 
 * [Kros.KORM.dll](#kroskormdll)
 * [Query](#query)
-* [Linq to KORM](#linq-to-korm)
+* [Linq to Kros.KORM](#linq-to-kros.korm)
 * [DataAnnotation attributes](#dataannotation-attributes)
 * [Convention model mapper](#convention-model-mapper)
 * [Converters](#converters)
 * [OnAfterMaterialize](#onaftermaterialize)
 * [Property injection](#property-injection)
 * [Model builder](#model-builder)
-* [Changes committing](#changes-committing)
+* [Committing of changes](#committing-of-changes)
 * [SQL commands executing](#sql-commands-executing)
 * [Logging](#logging)
 * [Supported database types](#supported-database-types)
@@ -65,7 +65,7 @@ foreach (var person in people)
 
 For more information take a look at definition of [IQuery](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM.Query.IQuery-1.html).
 
-### Linq to KORM
+### Linq to Kros.KORM
 
 Kros.KORM allows you to use Linq for creating queries. Basic queries are translated to SQL language.
 
@@ -288,7 +288,7 @@ public void OnAfterMaterialize(IDataRecord source)
 
 ### Property injection
 
-Sometimes you might need to inject some service to your model, for example calculator or logger. For these purposes KORM offers IInjectionConfigurator, that can help you with injection configuration.
+Sometimes you might need to inject some service to your model, for example calculator or logger. For these purposes Kros.KORM offers IInjectionConfigurator, that can help you with injection configuration.
 
 Let's have properties in model
 
@@ -311,7 +311,7 @@ Database.DefaultModelMapper
 
 ### Model builder
 
-For materialisation KORM uses IModelFactory, that creates factory for creating and filling your POCO objects.
+For materialisation Kros.KORM uses IModelFactory, that creates factory for creating and filling your POCO objects.
 
 By default DynamicMethodModelFactory is implemented, which uses dynamic method for creating delegates.
 
@@ -321,9 +321,9 @@ If you want to try some other implementation (for example based on reflexion) yo
 Database.DefaultModelFactory = new ReflectionModelfactory();
 ```
 
-### Changes committing
+### Committing of changes
 
-You can use KORM also for editing, adding or deleting records from database. [IdDbSet](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.IDbSet-1.html) is designed for that.
+You can use Kros.KORM also for editing, adding or deleting records from database. [IdDbSet](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.IDbSet-1.html) is designed for that.
 
 Records to edit or delete are identified by the primary key. You can set primary key to your POCO class by using ```Key``` attribute.
 
@@ -353,7 +353,7 @@ public void Insert()
 }
 ```
 
-KORM supports bulk inserting, which is one of its best features. You add records to DbSet standardly by method ```Add```, but for committing to database use method ```BulkInsert``` instead of ```CommitChanges```.
+Kros.KORM supports bulk inserting, which is one of its best features. You add records to DbSet standardly by method ```Add```, but for committing to database use method ```BulkInsert``` instead of ```CommitChanges```.
 
 ```c#
 var people = database.Query<Person>().AsDbSet();
@@ -366,7 +366,7 @@ foreach (var person in dataForImport)
 people.BulkInsert();
 ```
 
-KORM supports also bulk update of records, you can use ```BulkUpdate``` method.
+Kros.KORM supports also bulk update of records, you can use ```BulkUpdate``` method.
 
 ```c#
 var people = database.Query<Person>().AsDbSet();
@@ -381,18 +381,18 @@ people.BulkUpdate();
 
 This bulk way of inserting or updating data is several times faster than standard inserts or updates.
 
-For both of bulk operations you can provide data as an argument of method. The advantage is that if we have a specific enumerator, we do not need to spill data into memory.
+For both of bulk operations you can provide data as an argument of method. The advantage is that if you have a specific enumerator, you do not need to spill data into memory.
 
 ##### Primary key generating.
 
-KORM supports generating of primary keys for inserted records. Primary key must be simple Int32 column. Primary key property in POCO class must be decorated by ```Key``` attribute and its property ```AutoIncrementMethodType``` must be set to ```Custom```.
+Kros.KORM supports generating of primary keys for inserted records. Primary key must be simple Int32 column. Primary key property in POCO class must be decorated by ```Key``` attribute and its property ```AutoIncrementMethodType``` must be set to ```Custom```.
 
 ```c#
 [Key(autoIncrementMethodType: AutoIncrementMethodType.Custom)]
 public int Id { get; set; }
 ```
 
-KORM generates primary key for every inserted record, that does not have value for primary key property. For generating primary keys implementations of [IIdGenerator](https://kros-sk.github.io/Kros.Libs/api/Kros.Utils/Kros.Data.IIdGenerator.html) are used.
+Kros.KORM generates primary key for every inserted record, that does not have value for primary key property. For generating primary keys implementations of [IIdGenerator](https://kros-sk.github.io/Kros.Libs/api/Kros.Utils/Kros.Data.IIdGenerator.html) are used.
 
 ##### Editing records in database
 
@@ -435,7 +435,7 @@ public void Delete()
 
 By default, changes of a DbSet are committed to database in a transaction. If committing of one record fails, rollback of transaction is executed.
 
-Sometimes you might come to situation, when such implicit transaction would not meet your requirements. For example you need to commit changes to two tables as an atomic operation. When saving changes to first of tables is not successful, you want to discard changes to the other table. Solution of that task is easy with explicit transactions supported by KORM. See the documentation of [BeginTransaction](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.IDatabase.html#Kros_KORM_IDatabase_BeginTransaction).
+Sometimes you might come to situation, when such implicit transaction would not meet your requirements. For example you need to commit changes to two tables as an atomic operation. When saving changes to first of tables is not successful, you want to discard changes to the other table. Solution of that task is easy with explicit transactions supported by Kros.KORM. See the documentation of [BeginTransaction](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.IDatabase.html#Kros_KORM_IDatabase_BeginTransaction).
 
 ```c#
 using (var transaction = database.BeginTransaction())
@@ -462,7 +462,7 @@ using (var transaction = database.BeginTransaction())
 
 ### SQL commands executing
 
-KORM supports SQL commands execution. There are three types of commands:
+Kros.KORM supports SQL commands execution. There are three types of commands:
 
 * ```ExecuteNonQuery``` for commands that do not return value (DELETE, UPDATE, ...)
 * ```ExecuteScalar``` for commands that return only one value (SELECT)
@@ -531,7 +531,102 @@ using (var transaction = database.BeginTransaction(IsolationLevel.Chaos))
 ```
 
 ### Logging
+Kros.KORM offers the ability to log each generated and executed query. All you have to do is add this line to your source code.
+```c#
+Database.Log = Console.WriteLine;
+```
 
 ### Supported database types
+Kros.KORM uses its own [QueryProvider](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.QueryProvider.html) to execute query in a database. [ISqlExpressionVisitor](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.Sql.ISqlExpressionVisitor.html) transforms IQuery to SELECT command specific for each supported database engine.
+
+MsAccess is suported from version 2.4 in Kros.KORM.MsAccess library. If you need to work with MS Access database, you have to refer this library in your project and register [MsAccessQueryProviderFactory](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM.MsAccess/Kros.KORM.Query.MsAccess.MsAccessQueryProviderFactory.html).
+
+```c#
+MsAccessQueryProviderFactory.Register();
+```
+
+Current version of Kros.KORM suports databases MS ACCESS and MS SQL.
+
+If you want to support a different database engine, you can implement your own [IQueryProvider](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.IQueryProvider.html). And register it in [QueryProviderFactories](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.QueryProviderFactories.html).
+
+```c#
+public class CustomQueryProvider : QueryProvider
+{
+    public CustomQueryProvider(ConnectionStringSettings connectionString,
+       ISqlExpressionVisitor sqlGenerator,
+       IModelBuilder modelBuilder,
+       ILogger logger)
+        : base(connectionString, sqlGenerator, modelBuilder, logger)
+    {
+    }
+
+    public CustomQueryProvider(DbConnection connection,
+        ISqlExpressionVisitor sqlGenerator,
+        IModelBuilder modelBuilder,
+        ILogger logger)
+            : base(connection, sqlGenerator, modelBuilder, logger)
+    {
+    }
+
+    public override DbProviderFactory DbProviderFactory => CustomDbProviderFactory.Instance;
+
+    public override IBulkInsert CreateBulkInsert()
+    {
+        if (IsExternalConnection)
+        {
+            return new CustomBulkInsert(Connection as CustomConnection);
+        }
+        else
+        {
+            return new CustomBulkInsert(ConnectionString);
+        }
+    }
+
+    public override IBulkUpdate CreateBulkUpdate()
+    {
+        if (IsExternalConnection)
+        {
+            return new CustomBulkUpdate(Connection as CustomConnection);
+        }
+        else
+        {
+            return new CustomBulkUpdate(ConnectionString);
+        }
+    }
+
+    protected override IDatabaseSchemaLoader GetSchemaLoader()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class CustomQuerySqlGenerator : DefaultQuerySqlGenerator
+{
+    public CustomQuerySqlGenerator(IDatabaseMapper databaseMapper)
+        : base(databaseMapper)
+    { }
+}
+
+
+public class CustomQueryProviderFactory : IQueryProviderFactory
+{
+    public Query.IQueryProvider Create(DbConnection connection, IModelBuilder modelBuilder, IDatabaseMapper databaseMapper) =>
+        new CustomQueryProvider(connection, new CustomQuerySqlGenerator(databaseMapper), modelBuilder, new Logger());
+
+    public Query.IQueryProvider Create(ConnectionStringSettings connectionString, IModelBuilder modelBuilder, IDatabaseMapper databaseMapper) =>
+        new CustomQueryProvider(connectionString, new CustomQuerySqlGenerator(databaseMapper), modelBuilder, new Logger());
+
+    public static void Register()
+    {
+        QueryProviderFactories.Register<CustomConnection>("System.Data.CustomDb", new CustomQueryProviderFactory());
+    }
+}
+```
 
 ### Unit and performance tests
+
+Kros.KORM unit test coverage is more than 87%.
+There are also some performance test written for Kros.KORM. Here you can see some of their results:
+
+* Reading of 150 000 records with 25 columns (long strings and guids) from DataTable is finished in about 410 ms.
+* Reading of 1 500 records with 25 columns (long strings and guids) from DataTable is finished in about 7 ms.
