@@ -438,16 +438,16 @@ namespace Kros.Data.Schema.MsAccess
 
         private IndexSchema CreateIndexSchema(TableSchema table, DataRow row)
         {
+            string indexName = row.Field<string>(IndexesSchemaNames.IndexName);
+            bool clustered = row.Field<bool>(IndexesSchemaNames.Clustered);
             if (row.Field<bool>(IndexesSchemaNames.PrimaryKey))
             {
-                return table.PrimaryKey;
+                return table.SetPrimaryKey(indexName, clustered);
             }
             else
             {
-                return table.Indexes.Add(
-                    row.Field<string>(IndexesSchemaNames.IndexName),
-                    row.Field<bool>(IndexesSchemaNames.Unique) ? IndexType.UniqueKey : IndexType.Index,
-                    row.Field<bool>(IndexesSchemaNames.Clustered));
+                IndexType indexType = row.Field<bool>(IndexesSchemaNames.Unique) ? IndexType.UniqueKey : IndexType.Index;
+                return table.Indexes.Add(indexName, indexType, clustered);
             }
         }
 

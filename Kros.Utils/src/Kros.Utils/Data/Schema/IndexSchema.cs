@@ -6,48 +6,47 @@ using System.Text;
 namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Schéma indexu tabuľky.
+    /// Schema of a table's index.
     /// </summary>
     public class IndexSchema
     {
-
         #region Constructors
 
         /// <summary>
-        /// Vytvorí schmému indexu typu <see cref="IndexType.Index">IndexType.Index</see> s menom <paramref name="indexName"/>.
+        /// Creates an instance of index with name <paramref name="indexName"/>.
         /// </summary>
-        /// <param name="indexName">Meno indexu. Musí byť zadané.</param>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="indexName"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Hodnota <paramref name="indexName"/> je prázdny reťazec, alebo reťazec bielych
-        /// znakov.</exception>
+        /// <param name="indexName">Name of the index.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="indexName"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="indexName"/> is empty string, or string containing only
+        /// whitespace characters.</exception>
         public IndexSchema(string indexName)
             : this(indexName, IndexType.Index, false)
         {
         }
 
         /// <summary>
-        /// Vytvorí schmému indexu typu <paramref name="indexType"/> s menom <paramref name="indexName"/>.
+        /// Creates an instance of index of type <paramref name="indexType"/>, with name <paramref name="indexName"/>.
         /// </summary>
-        /// <param name="indexName">Meno indexu. Musí byť zadané.</param>
-        /// <param name="indexType">Typ indexu.</param>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="indexName"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Hodnota <paramref name="indexName"/> je prázdny reťazec, alebo reťazec bielych
-        /// znakov.</exception>
+        /// <param name="indexName">Name of the index.</param>
+        /// <param name="indexType">Type of the index.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="indexName"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="indexName"/> is empty string, or string containing only
+        /// whitespace characters.</exception>
         public IndexSchema(string indexName, IndexType indexType)
             : this(indexName, indexType, false)
         {
         }
 
         /// <summary>
-        /// Vytvorí schmému indexu typu <paramref name="indexType"/> s menom <paramref name="indexName"/>
-        /// a nastavením či je <paramref name="clustered"/>.
+        /// Creates an instance of index of type <paramref name="indexType"/>, with name <paramref name="indexName"/> and
+        /// setting if the index is <paramref name="clustered"/>.
         /// </summary>
-        /// <param name="indexName">Meno indexu. Musí byť zadané.</param>
-        /// <param name="indexType">Typ indexu.</param>
-        /// <param name="clustered">Určuje, či je index <c>CLUSTERED</c>.</param>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="indexName"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Hodnota <paramref name="indexName"/> je prázdny reťazec, alebo reťazec bielych
-        /// znakov.</exception>
+        /// <param name="indexName">Name of the index.</param>
+        /// <param name="indexType">Type of the index.</param>
+        /// <param name="clustered">Specifies, if the index is <c>CLUSTERED</c>.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="indexName"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="indexName"/> is empty string, or string containing only
+        /// whitespace characters.</exception>
         public IndexSchema(string indexName, IndexType indexType, bool clustered)
         {
             Check.NotNullOrWhiteSpace(indexName, nameof(indexName));
@@ -60,15 +59,16 @@ namespace Kros.Data.Schema
 
         #endregion
 
-
         #region Common
 
         private string _name;
 
         /// <summary>
-        /// Meno indexu. Ak index už patrí nejakej tabuľke (hodnota <see cref="Table"/> je nastavená), meno indexu nie je možné
-        /// zmeniť. V takom prípade je vyvolaná výnimka <see cref="InvalidOperationException"/>.
+        /// Name of the index. It is not possible to set the name, if the index already belongs to some table
+        /// (value of <see cref="Table"/> is not <see langword="null"/>)
         /// </summary>
+        /// <exception cref="InvalidOperationException">Attempt to change the name, but index already belongs to some table.
+        /// </exception>
         public string Name
         {
             get {
@@ -85,22 +85,22 @@ namespace Kros.Data.Schema
         }
 
         /// <summary>
-        /// Typ indexu.
+        /// Index type.
         /// </summary>
         public IndexType IndexType { get; }
 
         /// <summary>
-        /// Určuje, či je index <c>CLUSTERED</c>.
+        /// Specifies, if the index is <c>CLUSTERED</c>.
         /// </summary>
         bool Clustered { get; set; }
 
         /// <summary>
-        /// Zoznam stĺpcov indexu.
+        /// List of index's columns.
         /// </summary>
         public IndexColumnSchemaCollection Columns { get; }
 
         /// <summary>
-        /// Tabuľka, ktorej index patrí.
+        /// Table, to which index belongs.
         /// </summary>
         public TableSchema Table { get; internal set; }
 
@@ -159,6 +159,5 @@ namespace Kros.Data.Schema
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }

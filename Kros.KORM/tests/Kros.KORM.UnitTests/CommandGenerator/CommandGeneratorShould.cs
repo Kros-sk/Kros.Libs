@@ -191,7 +191,7 @@ namespace Kros.KORM.UnitTests.CommandGenerator
         {
             Query<Foo> query = new Query<Foo>(new DatabaseMapper(new ConventionModelMapper()),
                                               new SqlServerQueryProvider(new SqlConnection(),
-                                                                new SqlServerQuerySqlGenerator(new DatabaseMapper(new ConventionModelMapper())),
+                                                                new DefaultQuerySqlGenerator(new DatabaseMapper(new ConventionModelMapper())),
                                                                 Substitute.For<IModelBuilder>(),
                                                                 new Logger()));
 

@@ -1,30 +1,29 @@
 ﻿using Kros.Data.Schema;
 using Kros.Utils;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace Kros.Data.BulkActions.SqlServer
 {
     /// <summary>
-    /// Trieda umožňujúca rýchle hromadné vkladanie dát pre SQL Server.
+    /// Class for fast data inserting into SQL Server.
     /// </summary>
     public class SqlServerBulkInsert : IBulkInsert
     {
 
         /// <summary>
-        /// Predvolená hodnota <see cref="SqlBulkCopyOptions"/> pre internú inštanciu <see cref="SqlBulkCopy"/>, ak sa nepoužíva
-        /// externá transakcia.
-        /// hodnota je <c>SqlBulkCopyOptions.TableLock | SqlBulkCopyOptions.UseInternalTransaction</c>.
+        /// Default <see cref="SqlBulkCopyOptions"/> for internal instance of <see cref="SqlBulkCopy"/>,
+        /// if external transaction is not used.
+        /// Value is <c>SqlBulkCopyOptions.TableLock | SqlBulkCopyOptions.UseInternalTransaction</c>.
         /// </summary>
         public static SqlBulkCopyOptions DefaultBulkCopyOptions { get; } =
             SqlBulkCopyOptions.TableLock | SqlBulkCopyOptions.UseInternalTransaction;
 
         /// <summary>
-        /// Predvolená hodnota <see cref="SqlBulkCopyOptions"/> pre internú inštanciu <see cref="SqlBulkCopy"/>, ak sa používa
-        /// externá transakcia.
-        /// Hodnota je ako <c>SqlBulkCopyOptions.TableLock</c>.
+        /// Default <see cref="SqlBulkCopyOptions"/> for internal instance of <see cref="SqlBulkCopy"/>,
+        /// if external transaction is used.
+        /// Value is <c>SqlBulkCopyOptions.TableLock</c>.
         /// </summary>
         public static SqlBulkCopyOptions DefaultBulkCopyOptionsExternalTransaction { get; } = SqlBulkCopyOptions.TableLock;
 
@@ -39,24 +38,23 @@ namespace Kros.Data.BulkActions.SqlServer
         #region Constructors
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="SqlServerBulkInsert"/> použitím spojenia na databázu
-        /// <paramref name="connection"/>.
+        /// Initialize new instance of <see cref="SqlServerBulkInsert"/> with database connection <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu, kam sa vložia dáta. Spojenie musí byť otvorené.
-        /// Ak je na spojení spustená transakcia, mysí sa použiť konštruktor s externou transakciou a tá musí
-        /// byť zadaná.</param>
+        /// <param name="connection">Database connection where data will be inserted, connection has to be opened.
+        /// If transaction is running on connection, contructor with defined external transaction must be used.</param>
         public SqlServerBulkInsert(SqlConnection connection)
             : this(connection, null, DefaultBulkCopyOptions)
         {
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="SqlServerBulkInsert"/> použitím spojenia na databázu
-        /// <paramref name="connection"/> a externej transakcie <paramref name="externalTransaction"/>.
+        /// Initialize new instance of <see cref="SqlServerBulkInsert"/> with database connection <paramref name="connection"/>
+        /// and external transaction <paramref name="externalTransaction"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu, kam sa vložia dáta. Spojenie musí byť otvorené.
-        /// Ak je na spojení spustená transakcia, musí byť zadaná v parametri <paramref name="externalTransaction"/>.</param>
-        /// <param name="externalTransaction">Externá transakcia, v ktorej hromadné vloženie prebehne.</param>
+        /// <param name="connection">Database connection where data will be inserted, connection has to be opened.
+        /// If transaction is running on connection, transaction has to be defined in <paramref name="externalTransaction"/>.
+        /// </param>
+        /// <param name="externalTransaction">External transaction, in which bulk insert is executed.</param>
         public SqlServerBulkInsert(SqlConnection connection, SqlTransaction externalTransaction)
             : this(connection, externalTransaction,
                   externalTransaction == null ? DefaultBulkCopyOptions : DefaultBulkCopyOptionsExternalTransaction)
@@ -64,25 +62,25 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="SqlServerBulkInsert"/> použitím spojenia na databázu
-        /// <paramref name="connection"/> a zadaných nastavení <paramref name="options"/>.
+        /// Initialize new instance of <see cref="SqlServerBulkInsert"/> with database connection <paramref name="connection"/>
+        /// and defined options <paramref name="options"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu, kam sa vložia dáta. Spojenie musí byť otvorené.</param>
-        /// <param name="options">Nastavenia <see cref="SqlBulkCopyOptions"/>.</param>
+        /// <param name="connection">Database connection where data will be inserted, connection has to be opened.</param>
+        /// <param name="options">Options <see cref="SqlBulkCopyOptions"/>.</param>
         public SqlServerBulkInsert(SqlConnection connection, SqlBulkCopyOptions options)
             : this(connection, null, options)
         {
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="SqlServerBulkInsert"/> použitím spojenia na databázu
-        /// <paramref name="connection"/>, externej transakcie <paramref name="externalTransaction"/>
-        /// a zadaných nastavení <paramref name="options"/>.
+        /// Initialize new instance of <see cref="SqlServerBulkInsert"/> with database connection <paramref name="connection"/>,
+        /// external transaction <paramref name="externalTransaction"/> and defined options <paramref name="options"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu, kam sa vložia dáta. Spojenie musí byť otvorené.
-        /// Ak je na spojení spustená transakcia, musí byť zadaná v parametri <paramref name="externalTransaction"/>.</param>
-        /// <param name="externalTransaction">Externá transakcia, v ktorej hromadné vloženie prebehne.</param>
-        /// <param name="options">Nastavenia <see cref="SqlBulkCopyOptions"/>.</param>
+        /// <param name="connection">Database connection where data will be inserted, connection has to be opened.
+        /// If transaction is running on connection, transaction has to be defined in <paramref name="externalTransaction"/>.
+        /// </param>
+        /// <param name="externalTransaction">External transaction, in which bulk insert is executed.</param>
+        /// <param name="options">Options <see cref="SqlBulkCopyOptions"/>.</param>
         public SqlServerBulkInsert(SqlConnection connection, SqlTransaction externalTransaction, SqlBulkCopyOptions options)
         {
             Check.NotNull(connection, nameof(connection));
@@ -92,21 +90,20 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="SqlServerBulkInsert"/> použitím spojenia na databázu
-        /// <paramref name="connectionString"/>.
+        /// Initialize new instance of <see cref="SqlServerBulkInsert"/> with <paramref name="connectionString"/>.
         /// </summary>
-        /// <param name="connectionString">Spojenie na databázu, kam sa vložia dáta.</param>
+        /// <param name="connectionString">Connection string for database connection.</param>
         public SqlServerBulkInsert(string connectionString)
             : this(connectionString, DefaultBulkCopyOptions)
         {
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="SqlServerBulkInsert"/> použitím spojenia na databázu
-        /// <paramref name="connectionString"/> a zadaných nastavení <paramref name="options"/>.
+        /// Initialize new instance of <see cref="SqlServerBulkInsert"/> with <paramref name="connectionString"/>
+        /// and defined options <paramref name="options"/>.
         /// </summary>
-        /// <param name="connectionString">Spojenie na databázu, kam sa vložia dáta.</param>
-        /// <param name="options">Nastavenia <see cref="SqlBulkCopyOptions"/>.</param>
+        /// <param name="connectionString">Connection string for database connection.</param>
+        /// <param name="options">Options <see cref="SqlBulkCopyOptions"/>.</param>
         public SqlServerBulkInsert(string connectionString, SqlBulkCopyOptions options)
             : this(new SqlConnection(connectionString), null, options)
         {
@@ -119,12 +116,12 @@ namespace Kros.Data.BulkActions.SqlServer
         #region Common
 
         /// <summary>
-        /// Externá transakcia, v ktorej sa vykoná vloženie dát.
+        /// External transaction, in which bulk insert is executed.
         /// </summary>
         public SqlTransaction ExternalTransaction { get; }
 
         /// <summary>
-        /// Nastavenia <see cref="BulkCopyOptions"/> pre internú inštanciu <see cref="SqlBulkCopy"/>.
+        /// Options <see cref="BulkCopyOptions"/> for internal instance of <see cref="SqlBulkCopy"/>.
         /// </summary>
         public SqlBulkCopyOptions BulkCopyOptions { get; }
 
@@ -136,9 +133,9 @@ namespace Kros.Data.BulkActions.SqlServer
         private int _batchSize = 0;
 
         /// <summary>
-        /// Počet riadkov v dávke, ktorá sa posiela do databázy. Ak je hodnota 0, veľkosť dávky nie je obmedzená.
+        /// Row count for batch sent to database. If 0, batch size is not limited.
         /// </summary>
-        /// <exception cref="ArgumentException">Zadaná hodnota je záporná.</exception>
+        /// <exception cref="ArgumentException">Value is negative.</exception>
         public int BatchSize
         {
             get
@@ -155,9 +152,9 @@ namespace Kros.Data.BulkActions.SqlServer
         private int _bulkInsertTimeout = 0;
 
         /// <summary>
-        /// Počet sekúnd na dokončenie operácie. ak je hodnota 0, trvanie operácie nie je obmedzené.
+        /// Timeout for BulkInsert operation. If 0, duration of operation is not limited.
         /// </summary>
-        /// <exception cref="ArgumentException">Zadaná hodnota je záporná.</exception>
+        /// <exception cref="ArgumentException">Value is negative.</exception>
         public int BulkInsertTimeout
         {
             get
@@ -171,14 +168,14 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         /// <summary>
-        /// Meno cieľovej tabuľky v databáze.
+        /// Destination table name in database.
         /// </summary>
         public string DestinationTableName { get; set; }
 
         /// <summary>
-        /// Vloží všetky dáta zo zdroja <paramref name="reader"/>.
+        /// Inserts all data from <paramref name="reader"/>.
         /// </summary>
-        /// <param name="reader">Zdroj dát.</param>
+        /// <param name="reader">Data source.</param>
         public void Insert(IBulkActionDataReader reader)
         {
             using (var bulkInsertReader = new BulkActionDataReader(reader))
@@ -188,9 +185,9 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         /// <summary>
-        /// Vloží všetky dáta zo zdroja <paramref name="reader"/>.
+        /// Inserts all data from <paramref name="reader"/>.
         /// </summary>
-        /// <param name="reader">Zdroj dát.</param>
+        /// <param name="reader">Data source.</param>
         public void Insert(IDataReader reader)
         {
             using (ConnectionHelper.OpenConnection(_connection))
@@ -230,9 +227,9 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         /// <summary>
-        /// Vloží všetky riadky z tabuľky <paramref name="table"/>.
+        /// Inserts all rows from table <paramref name="table"/>.
         /// </summary>
-        /// <param name="table">Zdrojové dáta.</param>
+        /// <param name="table">Source table.</param>
         public void Insert(DataTable table)
         {
             using (var reader = table.CreateDataReader())

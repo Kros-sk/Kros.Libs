@@ -17,6 +17,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Kros.KORM.Query
 {
@@ -170,6 +171,7 @@ namespace Kros.KORM.Query
                     tableName, columnName));
             }
             table.Columns[columnName].SetParameterDbType(parameter);
+            parameter.Size = table.Columns[columnName].Size;
         }
 
         private TableSchema LoadTableSchema(string tableName)
@@ -229,18 +231,15 @@ namespace Kros.KORM.Query
             }
         }
 
-        /// <summary>
-        /// Executes action in transaction.
-        /// </summary>
-        /// <param name="action">Action which will be executed.</param>
-        public void ExecuteInTransaction(Action action)
+        /// <inheritdoc/>
+        public async Task ExecuteInTransactionAsync(Func<Task> action)
         {
             using (OpenConnection())
             using (var transaction = _transactionHelper.Value.BeginTransaction())
             {
                 try
                 {
-                    action();
+                    await action();
                     transaction.Commit();
                 }
                 catch
@@ -262,6 +261,15 @@ namespace Kros.KORM.Query
             _logger.LogCommand(command);
 
             return command.ExecuteNonQuery();
+        }
+
+        /// <inheritdoc/>
+        public async Task<int> ExecuteNonQueryCommandAsync(DbCommand command)
+        {
+            Check.NotNull(command, nameof(command));
+            _logger.LogCommand(command);
+
+            return await command.ExecuteNonQueryAsync();
         }
 
         /// <summary>
@@ -291,7 +299,7 @@ namespace Kros.KORM.Query
             CheckCommandParameters(parameters);
 
             using (OpenConnection())
-            using (DbCommand command = CreateCommand(Connection, query, parameters))
+            using (DbCommand command = CreateCommand(query, parameters))
             {
                 return command.ExecuteNonQuery();
             }
@@ -317,7 +325,7 @@ namespace Kros.KORM.Query
             try
             {
                 cnHelper = OpenConnection();
-                command = CreateCommand(Connection, storedProcedureName, parameters);
+                command = CreateCommand(storedProcedureName, parameters);
                 command.CommandType = CommandType.StoredProcedure;
                 _logger.LogCommand(command);
 
@@ -430,7 +438,7 @@ namespace Kros.KORM.Query
 
         /// <summary>
         /// Vytvorí inicializovaný príkaz <see cref="DbCommand"/>, pre aktuálnu transakciu.
-        /// Používa sa iba v rámci volania <see cref="ExecuteInTransaction(Action)"/>.
+        /// Používa sa iba v rámci volania <see cref="ExecuteInTransactionAsync(Func{Task})"/>.
         /// </summary>
         /// <returns>Inicializovaný príkaz.</returns>
         public DbCommand GetCommandForCurrentTransaction() => _transactionHelper.Value.CreateCommand();
@@ -563,12 +571,9 @@ namespace Kros.KORM.Query
             return command;
         }
 
-        private DbCommand CreateCommand(
-            DbConnection connection,
-            string commandText,
-            CommandParameterCollection parameters)
+        private DbCommand CreateCommand(string commandText, CommandParameterCollection parameters)
         {
-            DbCommand command = connection.CreateCommand();
+            DbCommand command = _transactionHelper.Value.CreateCommand();
             command.CommandText = commandText;
 
             if (parameters?.Count > 0)

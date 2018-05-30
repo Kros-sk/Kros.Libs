@@ -5,18 +5,18 @@ using System.Text.RegularExpressions;
 namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Štandardné parsery pre predvolené hodnoty stĺpcov databáz. Predvolené hodnoty sú v databáze uložené ako reťazec
-    /// a je potrebné ich konvertovať na typ daného stĺpca. Ak sa hodnotu nepodarilo skonvertovať na určený typ,
-    /// vždy je vrátená hodnota <c>null</c>.
+    /// Standard parsers for columns' default values. The default values in database are stored as string and it is
+    /// necessary to convert them to the specific column's type. If conversion to desired type fails, the returned
+    /// value is always <see langword="null"/>.
     /// </summary>
     public static class DefaultValueParsers
     {
 
         /// <summary>
-        /// Hlavička funkcie, ktorá parsuje predvolenú hodnotu stĺpca.
+        /// Delegate for function which parses default value.
         /// </summary>
-        /// <param name="defaultValue">Predvolená hodnota stĺpca ako reťazec.</param>
-        /// <returns>Vráti hodnotu skonvertovanú na potrebný dátový typ, alebo <c>null</c>, ak sa konverzia nepodarila.</returns>
+        /// <param name="defaultValue">Column's default value as string.</param>
+        /// <returns>Returns value converted to desired data type, or <see langword="null"/> if conversion failed.</returns>
         public delegate object ParseDefaultValueFunction(string defaultValue);
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member

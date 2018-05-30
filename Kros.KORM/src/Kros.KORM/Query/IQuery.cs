@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
+﻿using Kros.KORM.Query.Sql;
+using System;
 
 namespace Kros.KORM.Query
 {
@@ -43,7 +40,27 @@ namespace Kros.KORM.Query
         /// Sql must be server specific. Because no translation is provide.
         /// </remarks>
         /// <exception cref="ArgumentNullException">if <c>sql</c> is null or white string.</exception>
-        IQueryBase<T> Sql(string sql, params object[] args);
+        IQueryBase<T> Sql(RawSqlString sql, params object[] args);
+
+        /// <summary>
+        /// Create query from sql statement.
+        /// </summary>
+        /// <param name="sql">The SQL for executing in server.</param>
+        /// <returns>
+        /// Query from sql.
+        /// </returns>
+        /// <remarks>
+        /// Sql must be server specific. Because no translation is provide.
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// var id = 15;
+        /// var name = "Name";
+        /// var items = query.Sql($"SELECT * FROM Table WHERE Id = {id} AND Name = {name}");
+        /// </code>
+        /// </example>
+        /// <exception cref="ArgumentNullException">if <c>sql</c> is null or white string.</exception>
+        IQueryBase<T> Sql(FormattableString sql);
 
         /// <summary>
         /// Add columns to sql.

@@ -16,11 +16,11 @@ namespace Kros.KORM.Query.Expressions
         /// </summary>
         /// <param name="sqlQuery">The SQL query.</param>
         /// <param name="args">Where args.</param>
-        public SqlExpression(string sqlQuery, params object[] args)
+        public SqlExpression(RawSqlString sqlQuery, params object[] args)
         {
-            Check.NotNullOrWhiteSpace(sqlQuery, "sqlQuery");
+            Check.NotNullOrWhiteSpace(sqlQuery.Format, "sqlQuery");
 
-            this.Sql = sqlQuery.TrimStart().TrimEnd();
+            this.Sql = sqlQuery.Format.TrimStart().TrimEnd();
             this.Parameters = args.ToList();
         }
 

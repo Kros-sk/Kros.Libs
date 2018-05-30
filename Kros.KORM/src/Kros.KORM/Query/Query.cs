@@ -1,6 +1,7 @@
 ﻿using Kros.KORM.CommandGenerator;
 using Kros.KORM.Metadata;
 using Kros.KORM.Query.Expressions;
+using Kros.KORM.Query.Sql;
 using Kros.Utils;
 using System;
 using System.Collections;
@@ -70,14 +71,17 @@ namespace Kros.KORM.Query
         /// Sql must be server specific. Because no translation is provide.
         /// </remarks>
         /// <exception cref="ArgumentNullException">if <c>sql</c> is null or white string.</exception>
-        public IQueryBase<T> Sql(string sql, params object[] args)
+        public IQueryBase<T> Sql(RawSqlString sql, params object[] args)
         {
-            Check.NotNullOrWhiteSpace(sql, nameof(sql));
+            Check.NotNullOrWhiteSpace(sql.Format, nameof(sql));
 
             this.Expression = new SqlExpression(sql, args);
 
             return this;
         }
+
+        /// <inheritdoc/>
+        public IQueryBase<T> Sql(FormattableString sql) => Sql(sql, sql.GetArguments());
 
         /// <summary>
         /// Create query from sql statement.
@@ -169,14 +173,18 @@ namespace Kros.KORM.Query
         /// Query for enumerable models.
         /// </returns>
         /// <exception cref="ArgumentNullException">if <c>whereCondition</c> is null or white string.</exception>
-        public IFilteredQuery<T> Where(string whereCondition, params object[] args)
+        public IFilteredQuery<T> Where(RawSqlString whereCondition, params object[] args)
         {
-            Check.NotNullOrWhiteSpace(whereCondition, nameof(whereCondition));
+            Check.NotNullOrWhiteSpace(whereCondition.Format, nameof(whereCondition));
 
             this.SelectExpression.SetWhereExpression(new WhereExpression(whereCondition, args));
 
             return this;
         }
+
+        /// <inheritdoc />
+        public IFilteredQuery<T> Where(FormattableString whereCondition) =>
+            Where(whereCondition, whereCondition.GetArguments());
 
         /// <summary>
         /// Returns the first item of which match where condition, or a default value if item doesn't exist.
@@ -187,14 +195,18 @@ namespace Kros.KORM.Query
         ///  <b>null</b> if item doesn't exist; otherwise, the first item which match the condition.
         /// </returns>
         /// <exception cref="ArgumentNullException">if <c>whereCondition</c> is null or white string.</exception>
-        public T FirstOrDefault(string whereCondition, params object[] args)
+        public T FirstOrDefault(RawSqlString whereCondition, params object[] args)
         {
-            Check.NotNullOrWhiteSpace(whereCondition, nameof(whereCondition));
+            Check.NotNullOrWhiteSpace(whereCondition.Format, nameof(whereCondition));
 
             this.SelectExpression.SetWhereExpression(new WhereExpression(whereCondition, args));
 
             return this.AsEnumerable().FirstOrDefault();
         }
+
+        /// <inheritdoc />
+        public T FirstOrDefault(FormattableString whereCondition) =>
+            FirstOrDefault(whereCondition, whereCondition.GetArguments());
 
         /// <summary>
         /// Check if exist elements in the table which match condition; otherwise, false.
@@ -208,9 +220,9 @@ namespace Kros.KORM.Query
         /// <example>
         ///   <code source="..\Examples\Kros.KORM.Examples\IQueryExample.cs" title="Any" region="Any" lang="C#" />
         /// </example>
-        public bool Any(string whereCondition, params object[] args)
+        public bool Any(RawSqlString whereCondition, params object[] args)
         {
-            Check.NotNullOrWhiteSpace(whereCondition, nameof(whereCondition));
+            Check.NotNullOrWhiteSpace(whereCondition.Format, nameof(whereCondition));
             const string top = "TOP 1 1";
 
             this.SelectExpression.SetColumnsExpression(new ColumnsExpression(top));
@@ -218,6 +230,10 @@ namespace Kros.KORM.Query
 
             return _provider.ExecuteScalar<T>(this) != null;
         }
+
+        /// <inheritdoc />
+        public bool Any(FormattableString whereCondition) =>
+            Any(whereCondition, whereCondition.GetArguments());
 
         /// <summary>
         /// Add order by statement to sql.

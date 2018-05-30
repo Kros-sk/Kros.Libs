@@ -13,6 +13,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Kros.KORM.UnitTests
@@ -352,6 +353,13 @@ namespace Kros.KORM.UnitTests
             }
 
             public IIdGenerator CreateIdGenerator(string tableName, int batchSize)
+            {
+                throw new NotImplementedException();
+            }
+
+            public async Task ExecuteInTransactionAsync(Func<Task> action) => await action();
+
+            public Task<int> ExecuteNonQueryCommandAsync(DbCommand command)
             {
                 throw new NotImplementedException();
             }

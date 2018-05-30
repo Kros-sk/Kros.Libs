@@ -365,9 +365,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
             using (var transaction = korm.BeginTransaction())
             {
                 transaction.CommandTimeout = 3;
-
-                string sql = @"EXEC WaitForTwoSeconds";
-                Action commit = () => { korm.ExecuteScalar(sql); };
+                Action commit = () => { korm.ExecuteStoredProcedure<Object>("WaitForTwoSeconds"); };
 
                 commit.ShouldNotThrow<SqlException>();
             }

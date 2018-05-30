@@ -51,6 +51,31 @@ namespace Kros.KORM.UnitTests.Query.Sql
         }
 
         [Fact]
+        public void ExtractParamsFromSqlExpressionInterpolated()
+        {
+            using (var connection = new SqlConnection())
+            using (var database = new Database(connection))
+            {
+                var name = "Milan";
+                var query = database.Query<Person>()
+                    .Sql($"Select * from Person where (Id = {0} Or Name = {"Victor"} Or Name = {name})");
+                var command = connection.CreateCommand();
+
+                ParameterExtractingExpressionVisitor.ExtractParametersToCommand(command, query.Expression);
+
+                command.Parameters.Should().HaveCount(3);
+                command.Parameters[0].ParameterName.Should().Be("@0");
+                command.Parameters[0].Value.Should().Be(0);
+
+                command.Parameters[1].ParameterName.Should().Be("@1");
+                command.Parameters[1].Value.Should().Be("Victor");
+
+                command.Parameters[2].ParameterName.Should().Be("@2");
+                command.Parameters[2].Value.Should().Be("Milan");
+            }
+        }
+
+        [Fact]
         public void ExtractParamsFromSqlExpressionWithEnter()
         {
             var connection = new SqlConnection();

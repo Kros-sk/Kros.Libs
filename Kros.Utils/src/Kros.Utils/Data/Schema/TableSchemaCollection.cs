@@ -5,45 +5,40 @@ using System;
 namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Zoznam tabuliek databázy.
+    /// List of tables for <see cref="DatabaseSchema"/>.
     /// </summary>
-    /// <remarks>Tabuľkám pridaným do zoznamu je automaticky nastavená databáza <see cref="TableSchema.Database"/>.
-    /// Do zoznamu nie je možné pridať tabuľku, ktorá už patrí inej databáze. V takom prípade je vyvolaná výnimka
-    /// <see cref="InvalidOperationException"/>.</remarks>
+    /// <remarks>To the tables added to this list is automatically set their <see cref="TableSchema.Database"/>. The table
+    /// can belong only to one database.</remarks>
     public class TableSchemaCollection
         : System.Collections.ObjectModel.KeyedCollection<string, TableSchema>
     {
-
         #region Constructors
 
         /// <summary>
-        /// Vytvorí zoznam tabuliek pre databázu <paramref name="database"/>.
+        /// Creates a new table list for <paramref name="database"/>.
         /// </summary>
-        /// <param name="database">Databáza.</param>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="database"/> je <c>null</c>.</exception>
+        /// <param name="database">Database to which table belongs.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="database"/> is <see langword="null"/>.</exception>
         public TableSchemaCollection(DatabaseSchema database)
             : base(StringComparer.OrdinalIgnoreCase)
         {
-            Check.NotNull(database, nameof(database));
-
-            Database = database;
+            Database = Check.NotNull(database, nameof(database));
         }
 
         #endregion
 
-
         #region Common
 
         /// <summary>
-        /// Databáza, ktorej zoznam tabuliek patrí.
+        /// Database to which table list belongs.
         /// </summary>
         public DatabaseSchema Database { get; }
 
         /// <summary>
-        /// Vytvorí schému tabuľky s menom <paramref name="name"/> a pridá ju do zoznamu.
+        /// Creates a new <see cref="TableSchema"/> with <paramref name="name"/> and adds it to the list.
         /// </summary>
-        /// <param name="name">Meno novej tabuľky.</param>
-        /// <returns>Vytvorená schéma tabuľky.</returns>
+        /// <param name="name">Name of the created table.</param>
+        /// <returns>Created table schema.</returns>
         public TableSchema Add(string name)
         {
             TableSchema schema = new TableSchema(Database, name);
@@ -52,7 +47,6 @@ namespace Kros.Data.Schema
         }
 
         #endregion
-
 
         #region KeyedCollection
 
@@ -87,6 +81,5 @@ namespace Kros.Data.Schema
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }

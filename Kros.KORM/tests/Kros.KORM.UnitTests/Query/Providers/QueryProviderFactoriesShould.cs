@@ -97,10 +97,10 @@ namespace Kros.KORM.UnitTests.Query.Providers
             }
 
             public IQueryProvider Create(DbConnection connection, IModelBuilder modelBuilder, IDatabaseMapper databaseMapper) =>
-                new CustomQueryProvider(connection, new SqlServerQuerySqlGenerator(databaseMapper), modelBuilder, new Logger());
+                new CustomQueryProvider(connection, new DefaultQuerySqlGenerator(databaseMapper), modelBuilder, new Logger());
 
             public IQueryProvider Create(ConnectionStringSettings connectionString, IModelBuilder modelBuilder, IDatabaseMapper databaseMapper) =>
-                new CustomQueryProvider(connectionString, new SqlServerQuerySqlGenerator(databaseMapper), modelBuilder, new Logger());
+                new CustomQueryProvider(connectionString, new DefaultQuerySqlGenerator(databaseMapper), modelBuilder, new Logger());
 
             internal static void Register() => QueryProviderFactories.Register<SqlConnection>("System.Data.CustomDb", new CustomQueryProviderFactory());
         }

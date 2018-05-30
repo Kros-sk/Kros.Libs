@@ -15,6 +15,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Kros.KORM.UnitTests.Query.Sql
 {
@@ -36,7 +37,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         /// Create visitor for translate query to SQL.
         /// </summary>
         protected virtual ISqlExpressionVisitor CreateVisitor() =>
-           new SqlServerQuerySqlGenerator(Database.DatabaseMapper);
+           new DefaultQuerySqlGenerator(Database.DatabaseMapper);
 
         /// <summary>
         /// Query should be equel to <paramref name="expectedSql"/>.
@@ -192,6 +193,11 @@ namespace Kros.KORM.UnitTests.Query.Sql
                 throw new NotImplementedException();
             }
 
+            public Task ExecuteInTransactionAsync(Func<Task> action)
+            {
+                throw new NotImplementedException();
+            }
+
             public int ExecuteNonQuery(string query)
             {
                 throw new NotImplementedException();
@@ -203,6 +209,11 @@ namespace Kros.KORM.UnitTests.Query.Sql
             }
 
             public int ExecuteNonQueryCommand(IDbCommand command)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<int> ExecuteNonQueryCommandAsync(DbCommand command)
             {
                 throw new NotImplementedException();
             }

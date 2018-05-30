@@ -1,34 +1,37 @@
 ﻿namespace Kros.Data.Schema
 {
     /// <summary>
-    /// Rozhranie pre triedy načítavajúce a kešujúce schému databázy.
+    /// Interface for classes which loads and caches database schema.
     /// </summary>
+    /// <remarks>
+    /// Loading of a database schema can take some time, so it is good to cache loaded schemas for later use.
+    /// </remarks>
     public interface IDatabaseSchemaCache
     {
         /// <summary>
-        /// Vráti schému databázy pre spojenie <paramref name="connection"/>.
+        /// Returns database schema <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Schéma danej databázy.</returns>
+        /// <param name="connection">database connection.</param>
+        /// <returns>Loaded database schema.</returns>
         DatabaseSchema GetSchema(object connection);
 
         /// <summary>
-        /// Zruší z keše schému databázy načítanú pre spojenie <paramref name="connection"/>.
+        /// Removes cached schema loaded for <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
+        /// <param name="connection">Database connection.</param>
         void ClearSchema(object connection);
 
         /// <summary>
-        /// Vyčistí celú keš - vymaže všetky načítané schémy.
+        /// Clears the whole cache (removes all cached schemas).
         /// </summary>
         void ClearAllSchemas();
 
         /// <summary>
-        /// Načíta schému databázy pre spojenie <paramref name="connection"/>. Schéma je načítaná priamo z databázy aj v prípade,
-        /// že už je uložená v keši.
+        /// Loads database schema for <paramref name="connection"/>. The schema is loaded directly from database even when
+        /// it is already cached. New loaded schema is cached.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Schéma danej databázy.</returns>
+        /// <param name="connection">Database connection.</param>
+        /// <returns>Loaded database schema.</returns>
         DatabaseSchema RefreshSchema(object connection);
     }
 }
