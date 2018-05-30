@@ -136,7 +136,7 @@ private void StaffExample()
 }
 ```
 
-When you need to have read-write properties independent of the database use NoMapAttribute.
+When you need to have read-write properties independent of the database use `NoMapAttribute`.
 
 ```c#
 [NoMap]
@@ -187,9 +187,9 @@ If your POCO class is defined in external library, you can redefine mapper, so i
 ##### External class mapping example
 ```c#
 var externalPersonMap = new Dictionary<string, string>() {
-    { PropertyName<ExternalPerson>.GetPropertyName(p => p.oId), "Id" },
-    { PropertyName<ExternalPerson>.GetPropertyName(p => p.Name), "FirstName" },
-    { PropertyName<ExternalPerson>.GetPropertyName(p => p.SecondName), "LastName" }
+    { nameOf(ExternalPerson.oId), "Id" },
+    { nameOf(ExternalPerson.Name), "FirstName" },
+    { nameOf(ExternalPerson.SecondName), "LastName" }
 };
 
 Database.DefaultModelMapper.MapColumnName = (colInfo, modelType) =>
@@ -223,9 +223,9 @@ Database.DefaultModelMapper.SetColumnName<Person, string>(p => p.Name, "FirstNam
 
 ### Converters
 
-Data type of column in database and data type of property in your POCO class may differ. Some of these differences are automatically solved by Kros.KORM, for example double in database is converted to int in your model, same as int in database to enum in model, etc.
+Data type of column in database and data type of property in your POCO class may differ. Some of these differences are automatically solved by Kros.KORM, for example `double` in database is converted to `int` in your model, same as `int` in database to `enum` in model, etc.
 
-For more complicated conversion Kros.KORM offers possibility similar to data binding in WPF, where IValueConverter is used.
+For more complicated conversion Kros.KORM offers possibility similar to data binding in WPF, where `IValueConverter` is used.
 
 Imagine you store a list of addresses separated by some special character (for example #) in one long text column, but the property in your POCO class is list of strings.
 
@@ -288,7 +288,7 @@ public void OnAfterMaterialize(IDataRecord source)
 
 ### Property injection
 
-Sometimes you might need to inject some service to your model, for example calculator or logger. For these purposes Kros.KORM offers IInjectionConfigurator, that can help you with injection configuration.
+Sometimes you might need to inject some service to your model, for example calculator or logger. For these purposes Kros.KORM offers `IInjectionConfigurator`, that can help you with injection configuration.
 
 Let's have properties in model
 
@@ -311,11 +311,11 @@ Database.DefaultModelMapper
 
 ### Model builder
 
-For materialisation Kros.KORM uses IModelFactory, that creates factory for creating and filling your POCO objects.
+For materialisation Kros.KORM uses `IModelFactory`, that creates factory for creating and filling your POCO objects.
 
-By default DynamicMethodModelFactory is implemented, which uses dynamic method for creating delegates.
+By default `DynamicMethodModelFactory` is implemented, which uses dynamic method for creating delegates.
 
-If you want to try some other implementation (for example based on reflexion) you can redefine property Database.DefaultModelFactory.
+If you want to try some other implementation (for example based on reflexion) you can redefine property `Database.DefaultModelFactory`.
 
 ```c#
 Database.DefaultModelFactory = new ReflectionModelfactory();
@@ -325,7 +325,7 @@ Database.DefaultModelFactory = new ReflectionModelfactory();
 
 You can use Kros.KORM also for editing, adding or deleting records from database. [IdDbSet](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.IDbSet-1.html) is designed for that.
 
-Records to edit or delete are identified by the primary key. You can set primary key to your POCO class by using ```Key``` attribute.
+Records to edit or delete are identified by the primary key. You can set primary key to your POCO class by using `Key` attribute.
 
 ```c#
 [Key()]
@@ -385,7 +385,7 @@ For both of bulk operations you can provide data as an argument of method. The a
 
 ##### Primary key generating.
 
-Kros.KORM supports generating of primary keys for inserted records. Primary key must be simple Int32 column. Primary key property in POCO class must be decorated by ```Key``` attribute and its property ```AutoIncrementMethodType``` must be set to ```Custom```.
+Kros.KORM supports generating of primary keys for inserted records. Primary key must be simple `Int32` column. Primary key property in POCO class must be decorated by `Key` attribute and its property `AutoIncrementMethodType` must be set to `Custom`.
 
 ```c#
 [Key(autoIncrementMethodType: AutoIncrementMethodType.Custom)]
@@ -433,7 +433,7 @@ public void Delete()
 
 ##### Explicit transactions
 
-By default, changes of a DbSet are committed to database in a transaction. If committing of one record fails, rollback of transaction is executed.
+By default, changes of a `DbSet` are committed to database in a transaction. If committing of one record fails, rollback of transaction is executed.
 
 Sometimes you might come to situation, when such implicit transaction would not meet your requirements. For example you need to commit changes to two tables as an atomic operation. When saving changes to first of tables is not successful, you want to discard changes to the other table. Solution of that task is easy with explicit transactions supported by Kros.KORM. See the documentation of [BeginTransaction](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.IDatabase.html#Kros_KORM_IDatabase_BeginTransaction).
 
@@ -507,9 +507,9 @@ IEnumerable<Person> persons = _database.ExecuteStoredProcedure<IEnumerable<Perso
 
 ##### CommandTimeout support.
 
-If you want to execute time-consuming command, you will definitely appreciate CommandTimeout property of transaction. See the documentation of [BeginTransaction](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.IDatabase.html#Kros_KORM_IDatabase_BeginTransaction).
+If you want to execute time-consuming command, you will definitely appreciate `CommandTimeout` property of transaction. See the documentation of [BeginTransaction](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.IDatabase.html#Kros_KORM_IDatabase_BeginTransaction).
 
-Warning: You can set CommandTimeout only for main transaction, not for nested transactions. In that case CommandTimout of main transaction will be used.
+Warning: You can set `CommandTimeout` only for main transaction, not for nested transactions. In that case CommandTimout of main transaction will be used.
 
 ```c#
 IEnumerable<Person> persons = null;
