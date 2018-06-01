@@ -50,5 +50,14 @@ namespace Kros.Data.BulkActions
         /// </summary>
         /// <param name="table">Source table.</param>
         void Insert(DataTable table);
+
+        /// <summary>
+        /// Asynchronously inserts all rows from table <paramref name="table"/>.
+        /// </summary>
+        /// <param name="table">Source table.</param>
+        /// <returns>
+        /// A task that represents the asynchronous Insert operation.
+        /// </returns>
+        Task InsertAsync(DataTable table);
     }
 }

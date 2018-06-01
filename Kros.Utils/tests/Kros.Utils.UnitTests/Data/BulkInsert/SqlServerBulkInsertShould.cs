@@ -104,6 +104,13 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
         [Fact]
         public void BulkInsertDataFromDataTable()
+            => BulkInsertDataFromDataTableCore();
+
+        [Fact]
+        public void BulkInsertDataFromDataTableSynchronouslyWithoutDeadLock() =>
+            AsyncContext.Run(() => BulkInsertDataFromDataTableCore());
+
+        private void BulkInsertDataFromDataTableCore()
         {
             DataTable expectedData = CreateDataTableDataSource();
             DataTable actualData = null;
@@ -112,6 +119,22 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             {
                 bulkInsert.DestinationTableName = TableName;
                 bulkInsert.Insert(expectedData);
+            }
+            actualData = LoadData(ServerHelper.Connection, TableName);
+
+            SqlServerBulkHelper.CompareTables(actualData, expectedData);
+        }
+
+        [Fact]
+        public async Task BulkInsertDataFromDataTableAsynchronously()
+        {
+            DataTable expectedData = CreateDataTableDataSource();
+            DataTable actualData = null;
+
+            using (SqlServerBulkInsert bulkInsert = new SqlServerBulkInsert(ServerHelper.Connection))
+            {
+                bulkInsert.DestinationTableName = TableName;
+                await bulkInsert.InsertAsync(expectedData);
             }
             actualData = LoadData(ServerHelper.Connection, TableName);
 

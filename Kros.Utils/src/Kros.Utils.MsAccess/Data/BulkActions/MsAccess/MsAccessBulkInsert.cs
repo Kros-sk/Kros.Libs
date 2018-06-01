@@ -248,15 +248,21 @@ namespace Kros.Data.BulkActions.MsAccess
             }
         }
 
-        /// <summary>
-        /// Vloží všetky riadky z tabuľky <paramref name="table"/>.
-        /// </summary>
-        /// <param name="table">Zdrojové dáta.</param>
+        /// <inheritdoc/>
         public void Insert(DataTable table)
         {
             using (var reader = table.CreateDataReader())
             {
                 Insert(reader);
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task InsertAsync(DataTable table)
+        {
+            using (var reader = table.CreateDataReader())
+            {
+                await InsertAsync(reader);
             }
         }
 
