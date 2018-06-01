@@ -1,4 +1,5 @@
 ﻿using Kros.KORM.Metadata.Attribute;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -12,7 +13,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id == 5 && p.Name == "John");
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE (((Id = @1) AND (FirstName = @2)))", 5, "John");
         }
 
@@ -21,7 +22,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id == 5 & p.Name == "John");
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE (((Id = @1) AND (FirstName = @2)))", 5, "John");
         }
 
@@ -30,7 +31,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id == 5 || p.Name == "John");
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE (((Id = @1) OR (FirstName = @2)))", 5, "John");
         }
 
@@ -39,7 +40,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id == 5 | p.Name == "John");
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE (((Id = @1) OR (FirstName = @2)))", 5, "John");
         }
 
@@ -48,7 +49,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id == 5);
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE ((Id = @1))", 5);
         }
 
@@ -57,7 +58,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id != 5);
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE ((Id <> @1))", 5);
         }
 
@@ -66,7 +67,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id < 5);
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE ((Id < @1))", 5);
         }
 
@@ -75,7 +76,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id <= 5);
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE ((Id <= @1))", 5);
         }
 
@@ -84,7 +85,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id > 5);
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE ((Id > @1))", 5);
         }
 
@@ -93,7 +94,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id >= 5);
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE ((Id >= @1))", 5);
         }
 
@@ -102,7 +103,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id + 1 >= 5);
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE (((Id + @1) >= @2))", 1, 5);
         }
 
@@ -111,7 +112,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id - 1 >= 5);
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE (((Id - @1) >= @2))", 1, 5);
         }
 
@@ -120,7 +121,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id * 1 >= 5);
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE (((Id * @1) >= @2))", 1, 5);
         }
 
@@ -129,9 +130,29 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var query = Query<Person>().Where(p => p.Id /1  >= 5);
 
-            AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE (((Id / @1) >= @2))", 1, 5);
         }
+
+
+        [Fact]
+        public void TranslateIsNullOperator()
+        {
+            var query = Query<Person>().Where(p => p.PaymentId == null);
+
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
+                           " WHERE ((PaymentId IS NULL))");
+        }
+
+        [Fact]
+        public void TranslateIsNotNullOperator()
+        {
+            var query = Query<Person>().Where(p => p.PaymentId != null);
+
+            AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
+                           " WHERE ((PaymentId IS NOT NULL))");
+        }
+
 
         [Alias("People")]
         public class Person
@@ -141,6 +162,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
             [Alias("FirstName")]
             public string Name { get; set; }
             public string LastName { get; set; }
+            public int? PaymentId { get; set; }
         }
     }
 }

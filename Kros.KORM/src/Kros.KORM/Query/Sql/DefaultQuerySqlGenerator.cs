@@ -635,9 +635,9 @@ namespace Kros.KORM.Query.Sql
                 case ExpressionType.OrElse:
                     return "OR";
                 case ExpressionType.Equal:
-                    return "=";
+                    return IsCompareToNull(expression) ? "IS" : "=";
                 case ExpressionType.NotEqual:
-                    return "<>";
+                    return IsCompareToNull(expression) ? "IS NOT" : "<>";
                 case ExpressionType.LessThan:
                     return "<";
                 case ExpressionType.LessThanOrEqual:
@@ -664,6 +664,12 @@ namespace Kros.KORM.Query.Sql
                 default:
                     return "";
             }
+
+            bool IsCompareToNull(BinaryExpression exp) =>
+                IsNullable(exp) && (exp.Right is ConstantExpression constExpr) && constExpr.Value == null;
+
+            bool IsNullable(BinaryExpression exp) =>
+                Nullable.GetUnderlyingType(exp.Left.Type) != null;
         }
 
         /// <summary>
