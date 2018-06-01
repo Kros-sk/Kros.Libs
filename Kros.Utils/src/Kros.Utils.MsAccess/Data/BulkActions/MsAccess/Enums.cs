@@ -1,18 +1,17 @@
 ﻿namespace Kros.Data.BulkActions.MsAccess
 {
     /// <summary>
-    /// Typ stĺpca pre hromadné vkladanie dát do databázy zo súboru.
+    /// Column type for bulk insert into Microsoft Access database from file.
     /// </summary>
-    /// <remarks></remarks>
     public enum BulkInsertColumnType
     {
         /// <summary>
-        /// Typ stĺpca nie definovaný.
+        /// Undefined (default) column type.
         /// </summary>
         Undefined = 0,
 
         /// <summary>
-        /// Stĺpec je textový.
+        /// Text column type.
         /// </summary>
         Text = 1
     }

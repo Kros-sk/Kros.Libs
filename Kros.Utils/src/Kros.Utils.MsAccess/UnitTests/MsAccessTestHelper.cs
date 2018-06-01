@@ -8,8 +8,8 @@ using System.IO;
 namespace Kros.UnitTests
 {
     /// <summary>
-    /// Pomocná trieda pre unit testy, ak je potrebné mať pri testovaní reálnu databázu. Umožňuje jednoducho
-    /// vytvoriť dočasnú databázu v ktorej sa bude testovať. Táto databáza je automaticky po skončení práce vymazaná.
+    /// Helper class for unit tests, if there is a need for real database in tests. It creates temporary empty database
+    /// for testing. This database is automatically deleted after finishing the work.
     /// </summary>
     public class MsAccessTestHelper
         : IDisposable
@@ -18,35 +18,34 @@ namespace Kros.UnitTests
 
         private readonly ProviderType _provider;
         private readonly Stream _sourceDatabaseStream = null;
-        private readonly string _sourceDatabaseStreamPath = null;
+        private readonly string _sourceDatabasePath = null;
         private string _databasePath;
         private OleDbConnection _connection = null;
         private readonly IEnumerable<string> _initDatabaseScripts = null;
 
         #endregion
 
-
         #region Constructors
 
         /// <summary>
-        /// Vytvorí inštanciu so zadanými parametrami. Nový <c>mdb</c> súbor je vytvorený ako kópia
+        /// Creates an instance of helper with specified parameters. New database file is created as a copy of
         /// <paramref name="sourceDatabasePath"/>.
         /// </summary>
-        /// <param name="provider">MS Access provider, ktorý sa má pre spojenie použiť.</param>
-        /// <param name="sourceDatabasePath">Zdrojová databáza - nová databáza sa vytvorí ako jej kópia.</param>
+        /// <param name="provider">Microsoft Access provider type.</param>
+        /// <param name="sourceDatabasePath">Source database. New temporary database is created as a copy of this.</param>
         public MsAccessTestHelper(ProviderType provider, string sourceDatabasePath)
             : this(provider, sourceDatabasePath, null as IEnumerable<string>)
         {
         }
 
         /// <summary>
-        /// Vytvorí inštanciu so zadanými parametrami. Nový <c>mdb</c> súbor je vytvorený ako kópia súboru
-        /// <paramref name="sourceDatabasePath"/> a inicializovaný skriptom <paramref name="initDatabaseScript"/>.
+        /// Creates an instance of helper with specified parameters. New database file is created as a copy of
+        /// <paramref name="sourceDatabasePath"/> and initialized with script <paramref name="initDatabaseScript"/>.
         /// </summary>
-        /// <param name="provider">MS Access provider, ktorý sa má pre spojenie použiť.</param>
-        /// <param name="sourceDatabasePath">Zdrojová databáza - nová databáza sa vytvorí ako jej kópia.</param>
-        /// <param name="initDatabaseScript">Skript, ktorý sa spustí a inicializuje tak novovytvorenú databázu.
-        /// Môže to byť napríklad skript na vytvorenie a naplnenie potrebných tabuliek.</param>
+        /// <param name="provider">Microsoft Access provider type.</param>
+        /// <param name="sourceDatabasePath">Source database. New temporary database is created as a copy of this.</param>
+        /// <param name="initDatabaseScript">A script, which is used for database initialization.
+        /// For example, it can be script for creating some table.</param>
         public MsAccessTestHelper(ProviderType provider, string sourceDatabasePath, string initDatabaseScript)
             : this(provider, sourceDatabasePath,
                   string.IsNullOrWhiteSpace(initDatabaseScript) ? null : new string[] { initDatabaseScript })
@@ -54,75 +53,71 @@ namespace Kros.UnitTests
         }
 
         /// <summary>
-        /// Vytvorí inštanciu so zadanými parametrami. Nový <c>mdb</c> súbor je vytvorený ako kópia súboru
-        /// <paramref name="sourceDatabasePath"/> a inicializovaný skriptami <paramref name="initDatabaseScripts"/>.
+        /// Creates an instance of helper with specified parameters. New database file is created as a copy of
+        /// <paramref name="sourceDatabasePath"/> and initialized with scripts in <paramref name="initDatabaseScripts"/>.
         /// </summary>
-        /// <param name="provider">MS Access provider, ktorý sa má pre spojenie použiť.</param>
-        /// <param name="sourceDatabasePath">Zdrojová databáza - nová databáza sa vytvorí ako jej kópia.</param>
-        /// <param name="initDatabaseScripts">Zoznam skriptov, ktoré sa spustia a inicializujú tak novovytvorenú databázu.
-        /// Môžu to byť napríklad skripty na vytvorenie a naplnenie potrebných tabuliek.</param>
+        /// <param name="provider">Microsoft Access provider type.</param>
+        /// <param name="sourceDatabasePath">Source database. New temporary database is created as a copy of this.</param>
+        /// <param name="initDatabaseScripts">List of scripts, which are used for database initialization.
+        /// For example, they can be scripts for creating and filling necessary tables.</param>
         public MsAccessTestHelper(ProviderType provider, string sourceDatabasePath, IEnumerable<string> initDatabaseScripts)
         {
-            Check.NotNullOrWhiteSpace(sourceDatabasePath, nameof(sourceDatabasePath));
-
+            _sourceDatabasePath = Check.NotNullOrWhiteSpace(sourceDatabasePath, nameof(sourceDatabasePath));
             _provider = provider;
-            _sourceDatabaseStreamPath = sourceDatabasePath;
             _initDatabaseScripts = initDatabaseScripts;
         }
 
         /// <summary>
-        /// Vytvorí inštanciu so zadanými parametrami. Nový <c>mdb</c> súbor je vytvorený ako kópia
+        /// Creates an instance of helper with specified parameters. New database file is created as a copy of
         /// <paramref name="sourceDatabaseStream"/>.
         /// </summary>
-        /// <param name="provider">MS Access provider, ktorý sa má pre spojenie použiť.</param>
-        /// <param name="sourceDatabaseStream">Zdrojová databáza - nová databáza sa vytvorí ako jej kópia.</param>
+        /// <param name="provider">Microsoft Access provider type.</param>
+        /// <param name="sourceDatabaseStream">Source database. New temporary database is created as a copy of this.</param>
         public MsAccessTestHelper(ProviderType provider, Stream sourceDatabaseStream)
             : this(provider, sourceDatabaseStream, null as IEnumerable<string>)
         {
         }
 
         /// <summary>
-        /// Vytvorí inštanciu so zadanými parametrami. Nový <c>mdb</c> súbor je vytvorený ako kópia
-        /// <paramref name="sourceDatabaseStream"/> a inicializovaný skriptom <paramref name="initDatabaseScript"/>.
+        /// Creates an instance of helper with specified parameters. New database file is created as a copy of
+        /// <paramref name="sourceDatabaseStream"/> and initialized with script <paramref name="initDatabaseScript"/>.
         /// </summary>
-        /// <param name="provider">MS Access provider, ktorý sa má pre spojenie použiť.</param>
-        /// <param name="sourceDatabaseStream">Zdrojová databáza - nová databáza sa vytvorí ako jej kópia.</param>
-        /// <param name="initDatabaseScript">Skript, ktorý sa spustí a inicializuje tak novovytvorenú databázu.
-        /// Môže to byť napríklad skript na vytvorenie a naplnenie potrebných tabuliek.</param>
+        /// <param name="provider">Microsoft Access provider type.</param>
+        /// <param name="sourceDatabaseStream">Source database. New temporary database is created as a copy of this.</param>
+        /// <param name="initDatabaseScript">A script, which is used for database initialization.
+        /// For example, it can be script for creating some table.</param>
         public MsAccessTestHelper(ProviderType provider, Stream sourceDatabaseStream, string initDatabaseScript)
-            : this(provider, sourceDatabaseStream, new string[] { initDatabaseScript })
+            : this(provider, sourceDatabaseStream,
+                  string.IsNullOrWhiteSpace(initDatabaseScript) ? null : new string[] { initDatabaseScript })
         {
         }
 
         /// <summary>
-        /// Vytvorí inštanciu so zadanými parametrami. Nový <c>mdb</c> súbor je vytvorený ako kópia
-        /// <paramref name="sourceDatabaseStream"/> a inicializovaný skriptami <paramref name="initDatabaseScripts"/>.
+        /// Creates an instance of helper with specified parameters. New database file is created as a copy of
+        /// <paramref name="sourceDatabaseStream"/> and initialized with scripts in <paramref name="initDatabaseScripts"/>.
         /// </summary>
-        /// <param name="provider">MS Access provider, ktorý sa má pre spojenie použiť.</param>
-        /// <param name="sourceDatabaseStream">Zdrojová databáza - nová databáza sa vytvorí ako jej kópia.</param>
-        /// <param name="initDatabaseScripts">Zoznam skriptov, ktoré sa spustia a inicializujú tak novovytvorenú databázu.
-        /// Môžu to byť napríklad skripty na vytvorenie a naplnenie potrebných tabuliek.</param>
+        /// <param name="provider">Microsoft Access provider type.</param>
+        /// <param name="sourceDatabaseStream">Source database. New temporary database is created as a copy of this.</param>
+        /// <param name="initDatabaseScripts">List of scripts, which are used for database initialization.
+        /// For example, they can be scripts for creating and filling necessary tables.</param>
         public MsAccessTestHelper(ProviderType provider, Stream sourceDatabaseStream, IEnumerable<string> initDatabaseScripts)
         {
-            Check.NotNull(sourceDatabaseStream, nameof(sourceDatabaseStream));
-
+            _sourceDatabaseStream = Check.NotNull(sourceDatabaseStream, nameof(sourceDatabaseStream));
             _provider = provider;
-            _sourceDatabaseStream = sourceDatabaseStream;
             _initDatabaseScripts = initDatabaseScripts;
         }
 
         #endregion
 
-
         #region Test helpers
 
         /// <summary>
-        /// Cesta k vytvorenej databáze.
+        /// Path to created temporary database.
         /// </summary>
         public string DatabasePath { get => _databasePath; }
 
         /// <summary>
-        /// Spojenie na vytvorenú databázu.
+        /// Connection to created temporary database.
         /// </summary>
         public OleDbConnection Connection
         {
@@ -138,21 +133,20 @@ namespace Kros.UnitTests
 
         #endregion
 
-
         #region Helpers
 
         /// <summary>
-        /// Vygeneruje názov k súboru, kde sa vytovrí databáza. Štandardne je to náhodný súbor v dočasnom (Temp) priečinku.
+        /// Generates path to the file where database will be created. Default is random filename in system's temp folder.
         /// </summary>
-        /// <returns>Názov databázy.</returns>
+        /// <returns>Path to the database file.</returns>
         protected virtual string GenerateDatabaseName()
         {
             return Path.GetTempFileName();
         }
 
         /// <summary>
-        /// Inicializuje databázu. Metóda je volaná po vytvorení databázy a štandardne spustí skript(y), ktoré
-        /// boli zadané v konštruktore. Metóda sa volá iba raz, po vytvorení databázy.
+        /// Initializes new empty database. Method is called after empty temporary database is created and it executes
+        /// initialization scripts (specified in constructor). method is called only once.
         /// </summary>
         protected virtual void InitDatabase()
         {
@@ -193,7 +187,7 @@ namespace Kros.UnitTests
             _databasePath = GenerateDatabaseName();
             if (_sourceDatabaseStream == null)
             {
-                File.Copy(_sourceDatabaseStreamPath, _databasePath, true);
+                File.Copy(_sourceDatabasePath, _databasePath, true);
             }
             else
             {
@@ -226,7 +220,6 @@ namespace Kros.UnitTests
         }
 
         #endregion
-
 
         #region IDisposable
 

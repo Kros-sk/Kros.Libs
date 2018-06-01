@@ -9,14 +9,11 @@ using System.Text;
 
 namespace Kros.Data.BulkActions.MsAccess
 {
-
     /// <summary>
-    /// Trieda na vytváranie CSV súborov, tzn. textových súborov, kde dáta sú oddelene čiarkou, prípadne iným znakom.
+    /// Class for generating CSV files for Microsoft Access bulk insert.
     /// </summary>
-    /// <remarks></remarks>
     internal class CsvFileWriter : IDisposable
     {
-
         #region Static
 
         private const string StringTrue = "1";
@@ -31,132 +28,78 @@ namespace Kros.Data.BulkActions.MsAccess
 
         #endregion
 
-
         #region Constructors
 
         /// <summary>
-        /// Vytvorí inštanciu so zadaným výstupným názvom súboru <paramref name="filePath" /> a kódovaním súboru
+        /// Creates an instance of writer with specified output file <paramref name="filePath" /> and encoding
         /// <paramref name="encoding" />.
         /// </summary>
-        /// <param name="filePath">Názov výstupného súboru, do ktorého sa zapisujú dáta.</param>
-        /// <param name="encoding">Kódovanie výstupného súboru.</param>
-        /// <param name="append">Ak výstupnú súbor už existuje, určuje, či sa bude do neho pridávať (<see langword="true"/>),
-        /// alebo súbor bude prepísaný novým (<see langword="false"/>). Ak súbor neexistuje, je vytvorený nový.
-        /// Štandardná hodnota je <see langword="true"/>, čiže do súboru sa pridáva.</param>
-        /// <exception cref="ArgumentException">Vyvolaná, ak cesta k súboru <paramref name="filePath" />
-        /// je zložená iba z bielych znakov, prípadne jej hodnota je <see langword="null"/>.</exception>
-        /// <remarks></remarks>
+        /// <param name="filePath">Path to the output file.</param>
+        /// <param name="encoding">Encoding of the output file.</param>
+        /// <param name="append">Specifies if output file wil be ovrewritten (<see langword="false"/>), or appended to
+        /// (<see langword="true"/>) if it already exists.</param>
+        /// <exception cref="ArgumentException">The value of súboru <paramref name="filePath" /> is empty string, or string
+        /// containing whitespace characters only.</exception>
         public CsvFileWriter(string filePath, Encoding encoding, bool append)
         {
-            Check.NotNullOrWhiteSpace(filePath, nameof(filePath));
-            FilePath = filePath;
+            FilePath = Check.NotNullOrWhiteSpace(filePath, nameof(filePath));
             FileEncoding = encoding;
             _writer = new StreamWriter(FilePath, append, FileEncoding);
             StringQuote = DefaultStringQuote;
         }
 
         /// <summary>
-        /// Vytvorí inštanciu so zadaným výstupným názvom súboru <paramref name="filePath" /> a kódovaním UTF-8.
+        /// Creates an instance of writer with specified output file <paramref name="filePath" /> and UTF-8 encoding.
         /// </summary>
-        /// <param name="filePath">Názov výstupného súboru, do ktorého sa zapisujú dáta.</param>
-        /// <param name="append">Ak výstupnú súbor už existuje, určuje, či sa bude do neho pridávať (<see langword="true"/>),
-        /// alebo súbor bude prepísaný novým (<see langword="false"/>). Ak súbor neexistuje, je vytvorený nový.
-        /// Štandardná hodnota je <see langword="true"/>, čiže do súboru sa pridáva.</param>
-        /// <exception cref="ArgumentException">Vyvolaná, ak cesta k súboru <paramref name="filePath" />
-        /// je zložená iba z bielych znakov, prípadne jej hodnota je <see langword="null"/>.</exception>
-        /// <remarks></remarks>
+        /// <param name="filePath">Path to the output file.</param>
+        /// <param name="append">Specifies if output file wil be ovrewritten (<see langword="false"/>), or appended to
+        /// (<see langword="true"/>) if it already exists.</param>
+        /// <exception cref="ArgumentException">The value of súboru <paramref name="filePath" /> is empty string, or string
+        /// containing whitespace characters only.</exception>
         public CsvFileWriter(string filePath, bool append)
             : this(filePath, DefaultFileEncoding, append)
         {
         }
 
         /// <summary>
-        /// Vytvorí inštanciu so zadaným výstupným názvom súboru <paramref name="filePath" /> a kódovaním UTF-8.
+        /// Creates an instance of writer with specified output file <paramref name="filePath" /> and encoding
+        /// <paramref name="codePage" />.
         /// </summary>
-        /// <param name="filePath">Názov výstupného súboru, do ktorého sa zapisujú dáta.</param>
-        /// <param name="codePage">Číslo kódovej stránky pre kódovanie výstupného súboru. Napríklad pre stredoeurópske
-        /// Windows kódovanie je hodnota 1250.</param>
-        /// <param name="append">Ak výstupnú súbor už existuje, určuje, či sa bude do neho pridávať (<see langword="true"/>),
-        /// alebo súbor bude prepísaný novým (<see langword="false"/>). Ak súbor neexistuje, je vytvorený nový.
-        /// Štandardná hodnota je <see langword="true"/>, čiže do súboru sa pridáva.</param>
-        /// <exception cref="ArgumentException">Vyvolaná, ak cesta k súboru <paramref name="filePath" />
-        /// je zložená iba z bielych znakov, prípadne jej hodnota je <see langword="null"/>.</exception>
-        /// <remarks></remarks>
+        /// <param name="filePath">Path to the output file.</param>
+        /// <param name="codePage">Code page number. For example value for Windows central europe is 1250</param>
+        /// <param name="append">Specifies if output file wil be ovrewritten (<see langword="false"/>), or appended to
+        /// (<see langword="true"/>) if it already exists.</param>
+        /// <exception cref="ArgumentException">The value of súboru <paramref name="filePath" /> is empty string, or string
+        /// containing whitespace characters only.</exception>
         public CsvFileWriter(string filePath, int codePage, bool append)
             : this(filePath, Encoding.GetEncoding(codePage), append)
         {
         }
 
         /// <summary>
-        /// Vytvorí inštanciu s náhodne vygenerovanou cestou k súboru v systémovej zložke pre dočasné súbory.
-        /// Kódovanie súboru je UTF-8.
+        /// Creates an instance of writer where output file is random file in system's temporary folder.
         /// </summary>
-        /// <remarks>Výstupný súbor má náhodný názov je vytvorený v systémovej zložke pre dočasné súbory.
-        /// Na jeho vytvorenie je použitá metóda <see cref="System.IO.Path.GetTempFileName">Path.GetTempFileName</see>.
-        /// Cesta k výstupnému súboru je dostupná vo vlastnosti <see cref="FilePath">FilePath</see>
-        /// a je dostupná aj po uvoľnení (<see cref="Dispose()">Dispose()</see>) objektu.</remarks>
+        /// <remarks>Path to the generated output file is accessible in <see cref="FilePath" /> property.</remarks>
         public CsvFileWriter()
             : this(Path.GetTempFileName(), DefaultFileEncoding, true)
         {
         }
 
-        /// <summary>
-        /// Vytvorí inštanciu s náhodne vygenerovanou cestou k súboru v systémovej zložke pre dočasné súbory.
-        /// Kódovanie súboru je UTF-8.
-        /// </summary>
-        /// <param name="encoding">Kódovanie výstupného súboru.</param>
-        /// <remarks>Výstupný súbor má náhodný názov je vytvorený v systémovej zložke pre dočasné súbory.
-        /// Na jeho vytvorenie je použitá metóda <see cref="System.IO.Path.GetTempFileName">Path.GetTempFileName</see>.
-        /// Cesta k výstupnému súboru je dostupná vo vlastnosti <see cref="FilePath">FilePath</see>
-        /// a je dostupná aj po uvoľnení (<see cref="Dispose()">Dispose()</see>) objektu.</remarks>
         public CsvFileWriter(Encoding encoding)
             : this(Path.GetTempFileName(), encoding, true)
         {
         }
 
-        /// <summary>
-        /// Vytvorí inštanciu s náhodne vygenerovanou cestou k súboru v systémovej zložke pre dočasné súbory.
-        /// Kódovanie súboru je UTF-8.
-        /// </summary>
-        /// <param name="encoding">Kódovanie výstupného súboru.</param>
-        /// <param name="append">Ak výstupnú súbor už existuje, určuje, či sa bude do neho pridávať (<see langword="true"/>),
-        /// alebo súbor bude prepísaný novým (<see langword="false"/>). Ak súbor neexistuje, je vytvorený nový.</param>
-        /// <remarks>Výstupný súbor má náhodný názov je vytvorený v systémovej zložke pre dočasné súbory.
-        /// Na jeho vytvorenie je použitá metóda <see cref="System.IO.Path.GetTempFileName">Path.GetTempFileName</see>.
-        /// Cesta k výstupnému súboru je dostupná vo vlastnosti <see cref="FilePath">FilePath</see>
-        /// a je dostupná aj po uvoľnení (<see cref="Dispose()">Dispose()</see>) objektu.</remarks>
         public CsvFileWriter(Encoding encoding, bool append)
             : this(Path.GetTempFileName(), encoding, append)
         {
         }
 
-        /// <summary>
-        /// Vytvorí inštanciu s náhodne vygenerovanou cestou k súboru v systémovej zložke pre dočasné súbory.
-        /// Kódovanie súboru je UTF-8.
-        /// </summary>
-        /// <param name="codePage">Číslo kódovej stránky pre kódovanie výstupného súboru. Napríklad pre stredoeurópske
-        /// Windows kódovanie je hodnota 1250.</param>
-        /// <remarks>Výstupný súbor má náhodný názov je vytvorený v systémovej zložke pre dočasné súbory.
-        /// Na jeho vytvorenie je použitá metóda <see cref="System.IO.Path.GetTempFileName">Path.GetTempFileName</see>.
-        /// Cesta k výstupnému súboru je dostupná vo vlastnosti <see cref="FilePath">FilePath</see>
-        /// a je dostupná aj po uvoľnení (<see cref="Dispose()">Dispose()</see>) objektu.</remarks>
         public CsvFileWriter(int codePage)
             : this(Path.GetTempFileName(), Encoding.GetEncoding(codePage), true)
         {
         }
 
-        /// <summary>
-        /// Vytvorí inštanciu s náhodne vygenerovanou cestou k súboru v systémovej zložke pre dočasné súbory.
-        /// Kódovanie súboru je UTF-8.
-        /// </summary>
-        /// <param name="codePage">Číslo kódovej stránky pre kódovanie výstupného súboru. Napríklad pre stredoeurópske
-        /// Windows kódovanie je hodnota 1250.</param>
-        /// <param name="append">Ak výstupnú súbor už existuje, určuje, či sa bude do neho pridávať (<see langword="true"/>),
-        /// alebo súbor bude prepísaný novým (<see langword="false"/>). Ak súbor neexistuje, je vytvorený nový.</param>
-        /// <remarks>Výstupný súbor má náhodný názov je vytvorený v systémovej zložke pre dočasné súbory.
-        /// Na jeho vytvorenie je použitá metóda <see cref="System.IO.Path.GetTempFileName">Path.GetTempFileName</see>.
-        /// Cesta k výstupnému súboru je dostupná vo vlastnosti <see cref="FilePath">FilePath</see>
-        /// a je dostupná aj po uvoľnení (<see cref="Dispose()">Dispose()</see>) objektu.</remarks>
         public CsvFileWriter(int codePage, bool append)
             : this(Path.GetTempFileName(), Encoding.GetEncoding(codePage), append)
         {
@@ -164,26 +107,21 @@ namespace Kros.Data.BulkActions.MsAccess
 
         #endregion
 
-
         #region Common
 
         /// <summary>
-        /// Oddeľovač hodnôt v súbore.
+        /// Value separator in output file.
         /// </summary>
-        /// <value>Znak, štandardná hodnota je čiarka (<b>,</b>).</value>
-        /// <remarks>Hodnotu je potrebné nastaviť pred sápisom do súboru, aby sa nestalo, že sa nejaké dáta zapíšu
-        /// s jedným oddeľovačom a ďalšie dáta s iným.</remarks>
+        /// <value>Default value is comma (<b>,</b>).</value>
         public char ValueDelimiter { get; set; } = DefaultValueDelimiter;
 
         private char _stringQuote;
         private string _stringQuoteSubstitute;
 
         /// <summary>
-        /// Znak na uzatváranie reťazcov.
+        /// Character for quoting strings.
         /// </summary>
-        /// <value>Znak, štandardná hodnota sú dvojité úvodzovky (<b>"</b>).</value>
-        /// <remarks>Hodnotu je potrebné nastaviť pred sápisom do súboru, aby sa nestalo, že sa nejaké dáta sú
-        /// uzatvorené jedným znakom a ďalšie dáta iným.</remarks>
+        /// <value>Default value is quotation mark (<b>"</b>).</value>
         public char StringQuote
         {
             get { return _stringQuote; }
@@ -195,55 +133,31 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         /// <summary>
-        /// Kódovanie výstupného súboru.
+        /// Text encoding of output file.
         /// </summary>
-        /// <value>Objekt <see cref="System.Text.Encoding">Encoding</see>.</value>
-        /// <remarks>Hodnota je nastavená v konštruktore pri vytvorení inštancie a nie je možné ju neskôr zmeniť.</remarks>
+        /// <value>Some <see cref="System.Text.Encoding">Encoding</see>.</value>
         public Encoding FileEncoding { get; } = DefaultFileEncoding;
 
         /// <summary>
-        /// Cesta k výstupnému súboru.
+        /// Path to the output file.
         /// </summary>
-        /// <value>Reťazec.</value>
-        /// <remarks>Hodnota je v konštruktore pri vytvorení inštancie. Zadaná je buď explicitne, alebo sa vygeneruje
-        /// náhodný súbor v systémovej zložke pre dočasné súbory.</remarks>
+        /// <value>String.</value>
         public string FilePath { get; }
 
         #endregion
-
 
         #region Writing CSV
 
         private readonly TextWriter _writer;
 
         /// <summary>
-        /// Do súboru zapíše jeden záznam, ktorý predstavujú všetky dáta v zozname
-        /// <paramref name="data">data</paramref>.
+        /// Writes one record <paramref name="data"/> to the output file.
         /// </summary>
-        /// <param name="data">Zoznam dátových hodnôt.</param>
-        /// <remarks>Jedným volaním sa do súboru zapíše celý jeden dátový riadok. Jednotlivé hodnoty musia byť
-        /// správneho .NET dátového typu, pretože podľa neho sa určuje, ako budú dáta zapísané. <b>Teda napríklad
-        /// je nesprávne zapisovať rôzne typy dát ako reťazce.</b> Na konverziu dát na správny reťazec sú použité
-        /// virtuálne metódy <c>ProcessXxxValue</c>. Štandardná konverzia na reťazce z dátových typov je:
-        /// <list type="bullet">
-        /// <item><b>Reťazec (<see cref="System.String">String</see>):</b> Celý reťazec sa uzavrie medzi znaky
-        /// <see cref="StringQuote">StringQuote</see> a v reťazci sú tieto znaky zdvojené.
-        /// Takže napríklad reťazec <b><c>Lorem "ipsum" dolor sit amet.</c></b> bude zapísaný ako
-        /// <b><c>"Lorem ""ipsum"" dolor sit amet."</c></b> (v prípade, že hodnota
-        /// <see cref="StringQuote">StringQuote</see> je dvojitá úvodzovka.</item>
-        /// <item><b>Celé číslo (<see cref="int" />, <see cref="long" /> a ostatné celočíselné typy):</b>
-        /// Zapísané je ako obyčajné číslo, bez oddeľovačov tisícov.</item>
-        /// <item><b>Desatinné číslo (<see cref="double" />, <see cref="decimal" /> a ostatné desatinné typy):</b>
-        /// Zapísané je ako číslo s desatinnou <b>bodkou</b>, bez oddeľovačov tisícov.</item>
-        /// <item><b><see cref="System.Guid">GUID</see>:</b> Zapísaný je vo formáte
-        /// <c>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</c>. Efektívne je to len volanie <c>ToString()</c>
-        /// nad <c>Guid</c> objektom.</item>
-        /// <item><b>Dátum a čas (<see cref="DateTime">DateTime</see>):</b> Zapísaný je fo formáte ISO 8601,
-        /// kde oddeľovač dátumovej a časovej časti je medzera. Celý reťazec je uzavretý medzi znakmi
-        /// <see cref="StringQuote">StringQuote</see> (napríklad <c>"1978-12-10 06:31:28"</c>).</item>
-        /// <item><b>Booelan hodnota (<see cref="bool">Boolean</see>):</b> Ak je <see langword="true"/>, zapísaná je <b>1</b>,
-        /// v prípade <see langword="false"/> je zapísaná <b>0</b>.</item>
-        /// </list>
+        /// <param name="data">List of data values.</param>
+        /// <remarks>
+        /// Whole one record/line is written to the output file. Individual values must be of correct .NET data type, because
+        /// data type determines how the value will be written. <b>So for example it is bad to write float values as strings.</b>
+        /// For conversion to correct string for output are used methods <c>ProcesXxxValue</c>.
         /// </remarks>
         public void Write(IEnumerable<object> data)
         {
@@ -307,10 +221,9 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         /// <summary>
-        /// Zapíše jednu hodnotu do výstupného súboru.
+        /// Writes one value to the output file.
         /// </summary>
-        /// <param name="value">Zapisované dáta.</param>
-        /// <remarks></remarks>
+        /// <param name="value">Written data.</param>
         protected void WriteValue(object value)
         {
             TypeCode valueTypeCode = default(TypeCode);
@@ -372,6 +285,7 @@ namespace Kros.Data.BulkActions.MsAccess
                             break;
 
                         default:
+                            // RES:
                             throw new ArgumentException(string.Format("Neznámy typ dát pre zápis. Typ dát: {0}, hodnota: {1}.",
                                                                       value.GetType().FullName, value.ToString()));
                     }
@@ -420,7 +334,6 @@ namespace Kros.Data.BulkActions.MsAccess
 
         #endregion
 
-
         #region IDisposable
 
         protected void CheckDisposed()
@@ -447,13 +360,10 @@ namespace Kros.Data.BulkActions.MsAccess
 
         public void Dispose()
         {
-            // Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         #endregion
-
     }
-
 }

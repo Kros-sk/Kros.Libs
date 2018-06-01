@@ -3,19 +3,20 @@
 namespace Kros.Data.Schema.MsAccess
 {
     /// <summary>
-    /// Argumenty pre udalosť <see cref="MsAccessSchemaLoader.ParseDefaultValue"/>.
+    /// Arguments for the event <see cref="MsAccessSchemaLoader.ParseDefaultValue"/>.
     /// </summary>
     public class MsAccessParseDefaultValueEventArgs
         : System.EventArgs
     {
         /// <summary>
-        /// Vytvorí inštanciu so zadanými parametrami.
+        /// Creates and initializes instance of arguments.
         /// </summary>
-        /// <param name="tableName">Meno tabuľky ktorej schéma sa načítava.</param>
-        /// <param name="columnName">Meno stĺpca, ktorého predvolená hodnota sa parsuje.</param>
-        /// <param name="oleDbType">Dátový typ stĺpca, ktorého predvolená hodnota sa parsuje.</param>
-        /// <param name="defaultValueString">Predvolená hodnota stĺpca, tzn. reťazec, ktorý sa parsuje.</param>
-        /// <param name="defaultValue">Hodnota, ktorá bola získaná štandardným parserom.</param>
+        /// <param name="tableName"><inheritdoc cref="TableName"/></param>
+        /// <param name="columnName"><inheritdoc cref="ColumnName"/></param>
+        /// <param name="oleDbType"><inheritdoc cref="OleDbType"/></param>
+        /// <param name="defaultValueString"><inheritdoc cref="DefaultValueString"/></param>
+        /// <param name="defaultValue">Value, which was obtained by default parser.</param>
+        /// <summary>
         public MsAccessParseDefaultValueEventArgs(
             string tableName,
             string columnName,
@@ -31,32 +32,34 @@ namespace Kros.Data.Schema.MsAccess
         }
 
         /// <summary>
-        /// Meno tabuľky ktorej schéma sa načítava.
+        /// Table which schema is being loaded.
         /// </summary>
         public string TableName { get; }
 
         /// <summary>
-        /// Meno stĺpca, ktorého predvolená hodnota sa parsuje.
+        /// Column name which default value is being parsed.
         /// </summary>
         public string ColumnName { get; }
 
         /// <summary>
-        /// Dátový typ stĺpca, ktorého predvolená hodnota sa parsuje.
+        /// Data type of column which default value is being parsed.
         /// </summary>
         public OleDbType OleDbType { get; }
 
         /// <summary>
-        /// Predvolená hodnota stĺpca, tzn. reťazec, ktorý sa parsuje.
+        /// Default value of a column. It is the string which is being parsed.
         /// </summary>
         public string DefaultValueString { get; }
 
         /// <summary>
-        /// Hodnota, ktorá bola získaná štandardným parserom. Pri vlastnej obsluhe je potrebné tu nastaviť vlastnú hodnotu.
+        /// Value, which was obtained by default parser. Set this value, when using custom logic for parsing default value
+        /// in event handler.
         /// </summary>
         public object DefaultValue { get; set; } = null;
 
         /// <summary>
-        /// Je potrebné nastaviť na <see langword="true"/>, ak bola v obsluhe udalosti nastavená vlastná hodnota <see cref="DefaultValue"/>.
+        /// Flag indicating if default value was parsed using custom logic in event handler. Set this to <see langword="true"/>
+        /// if you set your own default value in <see cref="DefaultValue"/>.
         /// </summary>
         public bool Handled { get; set; } = false;
 
