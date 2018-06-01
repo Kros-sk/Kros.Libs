@@ -1,7 +1,7 @@
 ﻿namespace Kros.Data.MsAccess
 {
     /// <summary>
-    /// Typ MS Access providera, ktorý sa má použiť.
+    /// Type of Microsoft Access provider.
     /// </summary>
     public enum ProviderType
     {

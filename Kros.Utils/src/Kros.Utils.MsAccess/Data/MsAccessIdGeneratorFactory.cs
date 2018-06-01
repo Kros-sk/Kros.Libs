@@ -4,14 +4,13 @@ using System.Data.OleDb;
 namespace Kros.Data.MsAccess
 {
     /// <summary>
-    /// Interface popisujúci factory triedu, ktorá vie vytvoriť inštanciu <see cref="MsAccessIdGenerator"/>.
+    /// Creates an instances of <see cref="MsAccessIdGenerator"/> for specified database.
     /// </summary>
     /// <seealso cref="MsAccessIdGenerator"/>
     /// <seealso cref="IdGeneratorFactories"/>
     /// <example>
     /// <code language="cs" source="..\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
     /// </example>
-    /// <remarks>Štandardne sa nevytvára priamo ale cez <see cref="IdGeneratorFactories"/>.</remarks>
     public class MsAccessIdGeneratorFactory
         : IIdGeneratorFactory
     {
@@ -40,8 +39,7 @@ namespace Kros.Data.MsAccess
         }
 
         /// <inheritdoc/>
-        public IIdGenerator GetGenerator(string tableName) =>
-            GetGenerator(tableName, 1);
+        public IIdGenerator GetGenerator(string tableName) => GetGenerator(tableName, 1);
 
         /// <inheritdoc/>
         public IIdGenerator GetGenerator(string tableName, int batchSize) =>
@@ -50,7 +48,7 @@ namespace Kros.Data.MsAccess
                 new MsAccessIdGenerator(_connectionString, tableName, batchSize);
 
         /// <summary>
-        /// Registrovanie factory metód na vytvorenie inštancie do <see cref="IdGeneratorFactories"/>.
+        /// Registers factory methods for creating an instance of factory into <see cref="IdGeneratorFactories"/>.
         /// </summary>
         public static void Register() =>
             IdGeneratorFactories.Register<OleDbConnection>("System.Data.OleDb",

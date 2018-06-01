@@ -1,16 +1,16 @@
 ﻿namespace Kros.Data.MsAccess
 {
     /// <summary>
-    /// Chybové kódy Microsoft JET.
+    /// Error codes for Microsoft Access database provider.
     /// </summary>
-    /// <remarks>Chybový kód je vo výnimke <see cref="System.Data.OleDb.OleDbException">OleDbException</see>
-    /// vo vlastnosti <see cref="System.Data.OleDb.OleDbError.SQLState">SqlState</see>. Zoznam chybových kódov
-    /// je na adrese <b>https://msdn.microsoft.com/en-us/library/bb221208(v=office.12).aspx</b>.</remarks>
+    /// <remarks>The error code is in the exception <see cref="System.Data.OleDb.OleDbException">OleDbException</see>
+    /// in the <see cref="System.Data.OleDb.OleDbError.SQLState">SqlState</see> property. The list of all error codes
+    /// is at <see href="https://msdn.microsoft.com/en-us/library/bb221208(v=office.12).aspx" />.</remarks>
     public enum MsAccessErrorCode
     {
 
         /// <summary>
-        /// Neznámy typ chyby.
+        /// Unknown error.
         /// </summary>
         Unknown = 0,
 

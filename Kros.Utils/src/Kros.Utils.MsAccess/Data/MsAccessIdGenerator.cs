@@ -9,11 +9,11 @@ using System.Reflection;
 namespace Kros.Data.MsAccess
 {
     /// <summary>
-    /// Generátor unikátnych identifikátorov pre Ms Access.
+    /// The unique ID generator for Microsoft Access.
     /// </summary>
     /// <seealso cref="IdGeneratorFactories" />
     /// <seealso cref="MsAccessIdGeneratorFactory" />
-    /// <remarks>Štandardne sa nevytvára priamo, ale cez <see cref="MsAccessIdGeneratorFactory"/>.</remarks>
+    /// <remarks>In general, the generator should be created using <see cref="MsAccessIdGeneratorFactory"/>.</remarks>
     /// <example>
     /// <code language="cs" source="..\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
     /// </example>
@@ -21,24 +21,36 @@ namespace Kros.Data.MsAccess
         : IdGeneratorBase
     {
         /// <summary>
-        /// Konštruktor.
+        /// Creates a generator for table <paramref name="tableName"/> in database <paramref name="connectionString"/>
+        /// with batch size <paramref name="batchSize"/>.
         /// </summary>
-        /// <param name="connectionString">
-        /// Connection string, ktorý sa použije na vytvorenie conenction pre získavanie unikátnych identifikátorov.
-        /// </param>
-        /// <param name="tableName">Názov tabuľky, pre ktorú generujem identifikátory.</param>
-        /// <param name="batchSize">Veľkosť dávky, ktorú si zarezervuje dopredu.</param>
+        /// <param name="connectionString">Connection string to the database.</param>
+        /// <param name="tableName">Table name, for which IDs are generated.</param>
+        /// <param name="batchSize">IDs batch size. Saves round trips to database for IDs.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Value of <paramref name="connectionString"/> or <paramref name="tableName"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException"><list type="bullet">
+        /// <item>Value of <paramref name="connectionString"/> is empty string, or string containing only
+        /// whitespace characters.</item>
+        /// <item>Value of <paramref name="batchSize"/> is less or equal than 0.</item>
+        /// </list></exception>
         public MsAccessIdGenerator(string connectionString, string tableName, int batchSize)
             : base(connectionString, tableName, batchSize)
         {
         }
 
         /// <summary>
-        /// Konštruktor.
+        /// Creates a generator for table <paramref name="tableName"/> in database <paramref name="connection"/>
+        /// with batch size <paramref name="batchSize"/>.
         /// </summary>
-        /// <param name="connection">Connection, ktorá sa použije pre získavanie unikátnych identifikátorov.</param>
-        /// <param name="tableName">Názov tabuľky, pre ktorú generujem identifikátory.</param>
-        /// <param name="batchSize">Veľkosť dávky, ktorú si zarezervuje dopredu.</param>
+        /// <param name="connection">Database connection.</param>
+        /// <param name="tableName">Table name, for which IDs are generated.</param>
+        /// <param name="batchSize">IDs batch size. Saves round trips to database for IDs.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Value of <paramref name="connection"/> or <paramref name="tableName"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">Value of <paramref name="batchSize"/> is less or equal than 0.</exception>
         public MsAccessIdGenerator(OleDbConnection connection, string tableName, int batchSize)
             : base(connection, tableName, batchSize)
         {
@@ -63,10 +75,9 @@ namespace Kros.Data.MsAccess
         }
 
         /// <summary>
-        /// Získanie scriptu na vytvorenie IdStore tabuľky.
+        /// Returns SQL script for creating <c>IdStore</c> table.
         /// </summary>
-        public static string GetIdStoreTableCreationScript() =>
-            Resources.SqlIdGeneratorTableScript;
+        public static string GetIdStoreTableCreationScript() => Resources.SqlIdGeneratorTableScript;
 
         /// <inheritdoc/>
         public override void InitDatabaseForIdGenerator()
@@ -95,7 +106,6 @@ namespace Kros.Data.MsAccess
         }
 
         #region Private helpers
-        // Všetko prevzaté z C4 - tam to prebrali z xLib-u
 
         private bool GetNewIDMsAccessCore(
             OleDbConnection cn,
@@ -134,12 +144,12 @@ namespace Kros.Data.MsAccess
         {
             var valueIsOk = false;
             var actualValue = GetLastID(cn, transaction, tableName);
-            var expectedValueInDB = (actualValue + numberOfItems); // Túto hodnotu očakávame po našom aktualizovaní počítadla.
+            var expectedValueInDB = (actualValue + numberOfItems); // Value expected in database after counter update.
 
             SaveChanges(cn, transaction, tableName, actualValue, numberOfItems);
 
-            // Porovnáme, či aktuálna hodnota v databáze je taká, ako očakávame.
-            // Ak nie je, niekto stihol počítadlo zdvihnúť a tak musíme začať odznova.
+            // If value in database is not as expected, somebody else was fast enough to update our counter,
+            // so we need to start over.
             var actualValueInDB = GetLastID(cn, transaction, tableName);
             if (actualValueInDB == expectedValueInDB)
             {
@@ -170,16 +180,16 @@ namespace Kros.Data.MsAccess
                     }
                     else
                     {
-                        // Nastane to, ak niekto stihol hodnotu zdvihnúť.
-                        // MS Access chvíľu v transakcii čaká - ak to iná transakcia
-                        // stihne dostatočne rýchlo, táto nespadne, iba zdvihne už zdvihnutú hodnotu.
+                        // Thos occurs when somebody else updated the value in the meantime.
+                        // MS Access "waits" a while in transaction. If other transaction is fast enough,
+                        // this one will not throw, but it will update already updated value.
                         transaction.Rollback();
                     }
                 }
                 catch (OleDbException ex) when (ex.MsAccessErrorCode() == MsAccessErrorCode.CouldNotUpdateCurrentlyLocked)
                 {
-                    // Tu sa dostaneme, ak iná transakcia aktualizovala počítadlo, ale nie dostatočne rýchlo.
-                    // Access spadne na tom, že dáta sú zamknuté.
+                    // We can end here, if some other transaction updates counter, but not fast enougn.
+                    // MS Access client throws exception, that data are locked.
                     transaction.Rollback();
                 }
             }
