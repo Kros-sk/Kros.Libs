@@ -140,6 +140,25 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         [Fact]
+        public async Task BulkUpdateDataFromIBulkInsertDataReaderAsynchronously()
+        {
+            DataTable expectedData = CreateExpectedData();
+            DataTable actualData = null;
+
+            using (IBulkActionDataReader reader = CreateDataReaderForUpdate())
+            using (var bulkUpdate = new SqlServerBulkUpdate(ServerHelper.Connection))
+            {
+                bulkUpdate.DestinationTableName = TABLE_NAME;
+                bulkUpdate.PrimaryKeyColumn = PRIMARY_KEY_COLUMN;
+                await bulkUpdate.UpdateAsync(reader);
+            }
+
+            actualData = LoadData(ServerHelper.Connection);
+
+            SqlServerBulkHelper.CompareTables(actualData, expectedData);
+        }
+
+        [Fact]
         public void BulkUpdateDataFromIDataReaderWithAction()
         {
             DataTable expectedData = CreateExpectedDataWithAction();
@@ -170,6 +189,24 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 bulkUpdate.DestinationTableName = TABLE_NAME;
                 bulkUpdate.PrimaryKeyColumn = PRIMARY_KEY_COLUMN;
                 bulkUpdate.Update(expectedData);
+            }
+
+            actualData = LoadData(ServerHelper.Connection);
+
+            SqlServerBulkHelper.CompareTables(actualData, expectedData);
+        }
+
+        [Fact]
+        public async Task BulkUpdateDataFromDataTableAsynchronously()
+        {
+            DataTable expectedData = CreateExpectedData();
+            DataTable actualData = null;
+
+            using (var bulkUpdate = new SqlServerBulkUpdate(ServerHelper.Connection))
+            {
+                bulkUpdate.DestinationTableName = TABLE_NAME;
+                bulkUpdate.PrimaryKeyColumn = PRIMARY_KEY_COLUMN;
+                await bulkUpdate.UpdateAsync(expectedData);
             }
 
             actualData = LoadData(ServerHelper.Connection);

@@ -61,15 +61,21 @@ namespace Kros.Data.BulkActions
         /// </summary>
         public string PrimaryKeyColumn { get; set; }
 
-        /// <summary>
-        /// Updates all data from source <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">Data source.</param>
+        /// <inheritdoc/>
         public void Update(IBulkActionDataReader reader)
         {
             using (var bulkUpdateReader = new BulkActionDataReader(reader))
             {
                 Update(bulkUpdateReader);
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task UpdateAsync(IBulkActionDataReader reader)
+        {
+            using (var bulkUpdateReader = new BulkActionDataReader(reader))
+            {
+                await UpdateAsync(bulkUpdateReader);
             }
         }
 
@@ -94,15 +100,21 @@ namespace Kros.Data.BulkActions
             }
         }
 
-        /// <summary>
-        /// Updates all rows in table <paramref name="table"/>.
-        /// </summary>
-        /// <param name="table">Source data.</param>
+        ///<inheritdoc/>
         public void Update(DataTable table)
         {
             using (var reader = table.CreateDataReader())
             {
                 Update(reader);
+            }
+        }
+
+        ///<inheritdoc/>
+        public async Task UpdateAsync(DataTable table)
+        {
+            using (var reader = table.CreateDataReader())
+            {
+                await UpdateAsync(reader);
             }
         }
 
