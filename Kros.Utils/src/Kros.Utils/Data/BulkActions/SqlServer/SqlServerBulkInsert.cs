@@ -3,6 +3,7 @@ using Kros.Utils;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions.SqlServer
 {
@@ -184,11 +185,13 @@ namespace Kros.Data.BulkActions.SqlServer
             }
         }
 
-        /// <summary>
-        /// Inserts all data from <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">Data source.</param>
-        public void Insert(IDataReader reader)
+        /// <inheritdoc/>
+        public void Insert(IDataReader reader) => InsertCoreAsync(reader, useAsync: false).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public Task InsertAsync(IDataReader reader) => InsertCoreAsync(reader, useAsync: true);
+
+        private async Task InsertCoreAsync(IDataReader reader, bool useAsync)
         {
             using (ConnectionHelper.OpenConnection(_connection))
             using (SqlBulkCopy bulkCopy = new SqlBulkCopy(_connection, BulkCopyOptions, ExternalTransaction))
@@ -197,7 +200,14 @@ namespace Kros.Data.BulkActions.SqlServer
                 bulkCopy.BulkCopyTimeout = BulkInsertTimeout;
                 bulkCopy.BatchSize = BatchSize;
                 SetColumnMappings(bulkCopy, reader);
-                bulkCopy.WriteToServer(reader);
+                if (useAsync)
+                {
+                    await bulkCopy.WriteToServerAsync(reader);
+                }
+                else
+                {
+                    bulkCopy.WriteToServer(reader);
+                }
             }
         }
 

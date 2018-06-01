@@ -2,12 +2,14 @@
 using Kros.Data.BulkActions.MsAccess;
 using Kros.Data.MsAccess;
 using Kros.UnitTests;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Kros.Utils.UnitTests.Data.BulkActions
@@ -87,26 +89,26 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         [SkippableFact]
-        public void BulkInsertDataFromIDataReaderIntoAccdb()
+        public void BulkInsertDataFromIBulkActionDataReaderIntoAccdb()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
             using (var helper = CreateHelper(ProviderType.Ace, AccdbFileName))
             {
-                IDataReaderBulkInsertCore(helper.Connection);
+                IBulkActionDataReaderBulkInsertCore(helper.Connection);
             }
         }
 
         [SkippableFact]
-        public void BulkInsertDataFromIDataReaderIntoMdb()
+        public void BulkInsertDataFromIBulkActionDataReaderIntoMdb()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
             using (var helper = CreateHelper(ProviderType.Jet, MdbFileName))
             {
-                IDataReaderBulkInsertCore(helper.Connection);
+                IBulkActionDataReaderBulkInsertCore(helper.Connection);
             }
         }
 
-        private void IDataReaderBulkInsertCore(OleDbConnection cn)
+        private void IBulkActionDataReaderBulkInsertCore(OleDbConnection cn)
         {
             DataTable expectedData = CreateDataTableDataSource();
             DataTable actualData = null;
@@ -120,6 +122,53 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             }
 
             MsAccessBulkHelper.CompareTables(actualData, expectedData);
+        }
+
+        [SkippableFact]
+        public void BulkInsertDataFromIDataReaderIntoMdbSynchronouslyWithoutDeadLock()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+
+            AsyncContext.Run(() =>
+            {
+                using (var helper = CreateHelper(ProviderType.Jet, MdbFileName))
+                {
+                    DataTable expectedData = CreateDataTableDataSource();
+                    DataTable actualData = null;
+
+                    using (IDataReader reader = expectedData.CreateDataReader())
+                    {
+                        MsAccessBulkInsert bulkInsert = new MsAccessBulkInsert(helper.Connection);
+                        bulkInsert.DestinationTableName = TableName;
+                        bulkInsert.Insert(reader);
+                        actualData = LoadData(helper.Connection);
+                    }
+
+                    MsAccessBulkHelper.CompareTables(actualData, expectedData);
+                }
+            });
+        }
+
+        [SkippableFact]
+        public async Task BulkInsertDataFromIDataReaderIntoMdbAsynchronously()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+
+            using (var helper = CreateHelper(ProviderType.Jet, MdbFileName))
+            {
+                DataTable expectedData = CreateDataTableDataSource();
+                DataTable actualData = null;
+
+                using (IDataReader reader = expectedData.CreateDataReader())
+                {
+                    MsAccessBulkInsert bulkInsert = new MsAccessBulkInsert(helper.Connection);
+                    bulkInsert.DestinationTableName = TableName;
+                    await bulkInsert.InsertAsync(reader);
+                    actualData = LoadData(helper.Connection);
+                }
+
+                MsAccessBulkHelper.CompareTables(actualData, expectedData);
+            }
         }
 
         #endregion

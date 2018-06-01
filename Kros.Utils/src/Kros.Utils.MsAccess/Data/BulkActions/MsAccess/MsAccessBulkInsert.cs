@@ -7,6 +7,7 @@ using System.Data.OleDb;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions.MsAccess
 {
@@ -214,11 +215,13 @@ namespace Kros.Data.BulkActions.MsAccess
             }
         }
 
-        /// <summary>
-        /// Vloží všetky dáta zo zdroja <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">Zdroj dát.</param>
-        public void Insert(IDataReader reader)
+        /// <inheritdoc/>
+        public void Insert(IDataReader reader) => InsertCoreAsync(reader, useAsync: false).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public Task InsertAsync(IDataReader reader) => InsertCoreAsync(reader, useAsync: true);
+
+        private async Task InsertCoreAsync(IDataReader reader, bool useAsync)
         {
             string filePath = null;
 
@@ -226,7 +229,7 @@ namespace Kros.Data.BulkActions.MsAccess
             {
                 filePath = CreateDataFile(reader);
                 InitBulkInsert(filePath, reader);
-                Insert(filePath);
+                await InsertAsync(filePath, useAsync);
             }
             finally
             {
@@ -261,11 +264,11 @@ namespace Kros.Data.BulkActions.MsAccess
         /// Hromadne vloží dáta z CSV súboru <paramref name="sourceFilePath" />.
         /// </summary>
         /// <param name="sourceFilePath">Cesta k vstupnému súboru dát.</param>
-        /// <returns>Vráti počet vložených záznamov.</returns>
+        /// <param name="useAsync">Can execute asynchronously?</param>
         /// <exception cref="FileNotFoundException">Vstupný súbor <paramref name="sourceFilePath" /> neexistuje.</exception>
         /// <remarks>V prípade, že súbor existuje, ale je prázdny, metóda nič nerobí a vráti <b>0</b>.</remarks>
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private int Insert(string sourceFilePath)
+        private async Task InsertAsync(string sourceFilePath, bool useAsync)
         {
             if (!File.Exists(sourceFilePath))
             {
@@ -274,10 +277,9 @@ namespace Kros.Data.BulkActions.MsAccess
             }
             if ((new FileInfo(sourceFilePath)).Length == 0)
             {
-                return 0;
+                return;
             }
 
-            int ret = 0;
             if ((ExternalTransaction == null) && _connection.IsOpened())
             {
                 _connection.Close();
@@ -289,10 +291,15 @@ namespace Kros.Data.BulkActions.MsAccess
             {
                 cmd.CommandText = CreateInsertSql(DestinationTableName, sourceFilePath);
                 cmd.Transaction = ExternalTransaction;
-                ret = cmd.ExecuteNonQuery();
+                if (useAsync)
+                {
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                else
+                {
+                    cmd.ExecuteNonQuery();
+                }
             }
-
-            return ret;
         }
 
         #endregion
