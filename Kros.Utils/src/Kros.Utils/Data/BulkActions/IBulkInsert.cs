@@ -31,6 +31,15 @@ namespace Kros.Data.BulkActions
         void Insert(IBulkActionDataReader reader);
 
         /// <summary>
+        /// Asynchronously inserts all data from <paramref name="reader"/>.
+        /// </summary>
+        /// <param name="reader">Data source.</param>
+        /// <returns>
+        /// A task that represents the asynchronous Insert operation.
+        /// </returns>
+        Task InsertAsync(IBulkActionDataReader reader);
+
+        /// <summary>
         /// Inserts all data from <paramref name="reader"/>.
         /// </summary>
         /// <param name="reader">Data source.</param>

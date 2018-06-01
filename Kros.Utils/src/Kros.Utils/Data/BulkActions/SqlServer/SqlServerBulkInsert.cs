@@ -173,15 +173,21 @@ namespace Kros.Data.BulkActions.SqlServer
         /// </summary>
         public string DestinationTableName { get; set; }
 
-        /// <summary>
-        /// Inserts all data from <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">Data source.</param>
+        /// <inheritdoc/>
         public void Insert(IBulkActionDataReader reader)
         {
             using (var bulkInsertReader = new BulkActionDataReader(reader))
             {
                 Insert(bulkInsertReader);
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task InsertAsync(IBulkActionDataReader reader)
+        {
+            using (var bulkInsertReader = new BulkActionDataReader(reader))
+            {
+                await InsertAsync(bulkInsertReader);
             }
         }
 

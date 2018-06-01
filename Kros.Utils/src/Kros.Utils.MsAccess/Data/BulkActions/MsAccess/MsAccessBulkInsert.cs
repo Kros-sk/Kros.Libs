@@ -203,15 +203,21 @@ namespace Kros.Data.BulkActions.MsAccess
         /// </summary>
         public string DestinationTableName { get; set; }
 
-        /// <summary>
-        /// Vloží všetky dáta zo zdroja <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">Zdroj dát.</param>
+        /// <inheritdoc/>
         public void Insert(IBulkActionDataReader reader)
         {
             using (var bulkInsertReader = new BulkActionDataReader(reader))
             {
                 Insert(bulkInsertReader);
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task InsertAsync(IBulkActionDataReader reader)
+        {
+            using (var bulkInsertReader = new BulkActionDataReader(reader))
+            {
+                await InsertAsync(bulkInsertReader);
             }
         }
 

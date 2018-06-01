@@ -183,7 +183,33 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         [Fact]
-        public void BulkInsertDataFromIBulkActionDataReader()
+        public void BulkInsertDataFromIBulkActionDataReader() =>
+            BulkInsertDataFromIBulkActionDataReaderCore();
+
+        [Fact]
+        public void BulkInsertDataFromIBulkActionDataReaderSynchronouslyWithoutDeadLock() =>
+            AsyncContext.Run(() => BulkInsertDataFromIBulkActionDataReaderCore());
+
+        [Fact]
+        public async Task BulkInsertDataFromIBulkActionDataReaderAsynchronously()
+        {
+            DataTable expectedData = CreateDataTableDataSource();
+            DataTable actualData = null;
+
+            using (IBulkActionDataReader reader = CreateIDataReaderDataSource(true))
+            {
+                using (SqlServerBulkInsert bulkInsert = new SqlServerBulkInsert(ServerHelper.Connection))
+                {
+                    bulkInsert.DestinationTableName = TableName;
+                    await bulkInsert.InsertAsync(reader);
+                }
+                actualData = LoadData(ServerHelper.Connection, TableName);
+            }
+
+            SqlServerBulkHelper.CompareTables(actualData, expectedData);
+        }
+
+        private void BulkInsertDataFromIBulkActionDataReaderCore()
         {
             DataTable expectedData = CreateDataTableDataSource();
             DataTable actualData = null;
