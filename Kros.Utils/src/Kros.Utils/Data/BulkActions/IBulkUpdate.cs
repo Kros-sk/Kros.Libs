@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions
 {
@@ -48,6 +49,15 @@ namespace Kros.Data.BulkActions
         /// </summary>
         /// <param name="reader">Data source.</param>
         void Update(IDataReader reader);
+
+        /// <summary>
+        /// Asynchronously updates all data from source <paramref name="reader"/>.
+        /// </summary>
+        /// <param name="reader">Data source.</param>
+        /// <returns>
+        /// A task that represents the asynchronous Insert operation.
+        /// </returns>
+        Task UpdateAsync(IDataReader reader);
 
         /// <summary>
         /// Updates all data from table <paramref name="table"/>.

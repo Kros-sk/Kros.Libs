@@ -1,7 +1,9 @@
 ﻿using Kros.Utils;
 using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions.SqlServer
 {
@@ -95,7 +97,10 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         /// <inheritdoc/>
-        protected override void UpdateDestinationTable(IDataReader reader, string tempTableName)
+        protected async override Task UpdateDestinationTableAsync(
+            IDataReader reader,
+            string tempTableName,
+            bool useAsync)
         {
             using (var cmd = _connection.CreateCommand())
             {
@@ -106,7 +111,14 @@ namespace Kros.Data.BulkActions.SqlServer
                                   $"SET {GetUpdateColumnNames(reader, tempTableName)} " +
                                   $"FROM [{DestinationTableName}] INNER JOIN [{tempTableName}] " +
                                                                 $"ON ({innerJoin})";
-                cmd.ExecuteNonQuery();
+                if (useAsync)
+                {
+                    await(cmd as DbCommand).ExecuteNonQueryAsync();
+                }
+                else
+                {
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
