@@ -80,12 +80,10 @@ namespace Kros.Data.BulkActions
         }
 
         /// <inheritdoc/>
-        public void Update(IDataReader reader) =>
-            UpdateCoreAsync(reader, useAsync: false).GetAwaiter().GetResult();
+        public void Update(IDataReader reader) => UpdateCoreAsync(reader, useAsync: false).GetAwaiter().GetResult();
 
         /// <inheritdoc/>
-        public Task UpdateAsync(IDataReader reader) =>
-            UpdateCoreAsync(reader, useAsync: true);
+        public Task UpdateAsync(IDataReader reader) => UpdateCoreAsync(reader, useAsync: true);
 
         private async Task UpdateCoreAsync(IDataReader reader, bool useAsync)
         {
