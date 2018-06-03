@@ -111,24 +111,31 @@ namespace Kros.Data.BulkActions.SqlServer
                                   $"SET {GetUpdateColumnNames(reader, tempTableName)} " +
                                   $"FROM [{DestinationTableName}] INNER JOIN [{tempTableName}] " +
                                                                 $"ON ({innerJoin})";
-                if (useAsync)
-                {
-                    await(cmd as DbCommand).ExecuteNonQueryAsync();
-                }
-                else
-                {
-                    cmd.ExecuteNonQuery();
-                }
+
+                await ExecuteNonQueryAsync(useAsync, cmd);
             }
         }
 
         /// <inheritdoc/>
-        protected override void DoneTempTable(string tempTableName)
+        protected async override Task DoneTempTableAsync(string tempTableName, bool useAsync)
         {
             using (var cmd = _connection.CreateCommand())
             {
                 cmd.Transaction = ExternalTransaction;
                 cmd.CommandText = $"DROP TABLE [{tempTableName}]";
+
+                await ExecuteNonQueryAsync(useAsync, cmd);
+            }
+        }
+
+        private static async Task ExecuteNonQueryAsync(bool useAsync, IDbCommand cmd)
+        {
+            if (useAsync)
+            {
+                await (cmd as DbCommand).ExecuteNonQueryAsync();
+            }
+            else
+            {
                 cmd.ExecuteNonQuery();
             }
         }

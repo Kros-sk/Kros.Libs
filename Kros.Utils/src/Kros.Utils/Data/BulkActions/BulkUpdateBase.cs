@@ -94,7 +94,7 @@ namespace Kros.Data.BulkActions
                 await InsertIntoTempTableAsync(reader, tempTableName, useAsync);
                 InvokeAction(tempTableName);
                 await UpdateDestinationTableAsync(reader, tempTableName, useAsync);
-                DoneTempTable(tempTableName);
+                await DoneTempTableAsync(tempTableName, useAsync);
             }
         }
 
@@ -168,7 +168,8 @@ namespace Kros.Data.BulkActions
         /// Ends work with temporary table.
         /// </summary>
         /// <param name="tempTableName">Temporary table name.</param>
-        protected virtual void DoneTempTable(string tempTableName) { }
+        /// <param name="useAsync"><see langword="true"/> if action can by executed asynchronously.</param>
+        protected virtual Task DoneTempTableAsync(string tempTableName, bool useAsync) => Task.CompletedTask;
 
         #endregion
 
