@@ -97,10 +97,7 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         /// <inheritdoc/>
-        protected async override Task UpdateDestinationTableAsync(
-            IDataReader reader,
-            string tempTableName,
-            bool useAsync)
+        protected async override Task UpdateDestinationTableAsync(IDataReader reader, string tempTableName, bool useAsync)
         {
             using (var cmd = _connection.CreateCommand())
             {
