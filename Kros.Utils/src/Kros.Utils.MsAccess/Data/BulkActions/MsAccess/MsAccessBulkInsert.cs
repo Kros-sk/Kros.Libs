@@ -1,5 +1,6 @@
 ﻿using Kros.Data.Schema;
 using Kros.Data.Schema.MsAccess;
+using Kros.MsAccess.Properties;
 using Kros.Utils;
 using System;
 using System.Data;
@@ -261,8 +262,7 @@ namespace Kros.Data.BulkActions.MsAccess
         {
             if (!File.Exists(sourceFilePath))
             {
-                throw new FileNotFoundException(string.Format("Dáta nie je možné vložiť. Dátový súbor \"{0}\" neexistuje.",
-                                                              sourceFilePath), sourceFilePath);
+                throw new FileNotFoundException(string.Format(Resources.CsvFileDoesNotExist, sourceFilePath), sourceFilePath);
             }
             if ((new FileInfo(sourceFilePath)).Length == 0)
             {
@@ -368,8 +368,7 @@ namespace Kros.Data.BulkActions.MsAccess
 
         private string SqlCodePage
         {
-            get
-            {
+            get {
                 if (CodePage == AnsiCodePage)
                 {
                     return "ANSI";
@@ -472,8 +471,7 @@ namespace Kros.Data.BulkActions.MsAccess
                     }
 
                 default:
-                    throw new InvalidOperationException(
-                        $"Nepodporovaný dátový typ pre MsAccessBulkInsert: OleDbType.{column.OleDbType}");
+                    throw new InvalidOperationException(string.Format(Resources.UnsupportedBulkInsertDataType, column.OleDbType));
             }
         }
 

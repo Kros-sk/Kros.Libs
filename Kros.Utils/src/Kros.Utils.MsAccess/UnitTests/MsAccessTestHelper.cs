@@ -1,4 +1,5 @@
 ﻿using Kros.Data.MsAccess;
+using Kros.MsAccess.Properties;
 using Kros.Utils;
 using System;
 using System.Collections.Generic;
@@ -121,8 +122,7 @@ namespace Kros.UnitTests
         /// </summary>
         public OleDbConnection Connection
         {
-            get
-            {
+            get {
                 if (_connection == null)
                 {
                     CreateDatabase();
@@ -181,7 +181,7 @@ namespace Kros.UnitTests
         {
             if (!MsAccessDataHelper.HasProvider(provider))
             {
-                throw new InvalidOperationException($"Provider {provider.ToString()} is not installed.");
+                throw new InvalidOperationException(string.Format(Resources.ProviderNotInstaller, provider.ToString()));
             }
 
             _databasePath = GenerateDatabaseName();

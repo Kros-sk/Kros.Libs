@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.MsAccess.Properties;
+using Kros.Utils;
 using System;
 using System.Data;
 using System.Data.OleDb;
@@ -12,6 +13,12 @@ namespace Kros.Data.MsAccess
     /// </summary>
     public static class MsAccessDataHelper
     {
+        /// <summary>
+        /// Identification of Microsoft Access classes (used for example in <see cref="MsAccessIdGeneratorFactory"/>,
+        /// <see cref="BulkActions.MsAccess.MsAccessBulkActionFactory"/>).
+        /// </summary>
+        public const string ClientId = "System.Data.OleDb";
+
         /// <summary>
         /// Identification of Microsoft Access ACE provider: <c>Microsoft.ACE.OLEDB</c>.
         /// </summary>
@@ -109,8 +116,7 @@ namespace Kros.Data.MsAccess
         /// </remarks>
         public static string MsAccessAceProvider
         {
-            get
-            {
+            get {
                 if (_msAccessAceProvider == null)
                 {
                     _msAccessAceProvider = GetMsAccessProvider(AceProviderBase);
@@ -129,8 +135,7 @@ namespace Kros.Data.MsAccess
         /// </remarks>
         public static string MsAccessJetProvider
         {
-            get
-            {
+            get {
                 if (_msAccessJetProvider == null)
                 {
                     _msAccessJetProvider = GetMsAccessProvider(JetProviderBase);
@@ -174,12 +179,15 @@ namespace Kros.Data.MsAccess
         {
             Check.NotNullOrWhiteSpace(connectionString, nameof(connectionString));
 
-            // RES:
-            return IsMsAccessConnection(connectionString)
-                ? IsMsAccessJetProvider(connectionString)
-                    ? ProviderType.Jet
-                    : ProviderType.Ace
-                : throw new InvalidOperationException("Zadaný connection string nie je spojenie na MS Access databázu.");
+            if (IsMsAccessAceProvider(connectionString))
+            {
+                return ProviderType.Ace;
+            }
+            else if (IsMsAccessJetProvider(connectionString))
+            {
+                return ProviderType.Jet;
+            }
+            throw new InvalidOperationException(Resources.ConnectionStringIsNotMsAccess);
         }
 
         /// <summary>

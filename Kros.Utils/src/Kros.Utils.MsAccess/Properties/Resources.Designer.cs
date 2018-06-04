@@ -61,11 +61,29 @@ namespace Kros.MsAccess.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nepodporovaný typ spojenia na databázu. Spojenie musí byť typu OleDbConnection a musí mať nastaveného správneho providera..
+        ///   Looks up a localized string similar to Provided connection string is not a connection string for Microsoft Access database. Supported providers are Microsoft.ACE.OLEDB and Microsoft.Jet.OLEDB..
         /// </summary>
-        internal static string MsAccessSchemaLoader_UnsupportedConnectionType {
+        internal static string ConnectionStringIsNotMsAccess {
             get {
-                return ResourceManager.GetString("MsAccessSchemaLoader_UnsupportedConnectionType", resourceCulture);
+                return ResourceManager.GetString("ConnectionStringIsNotMsAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data cannot be inserted. Data file does not exist: {0}.
+        /// </summary>
+        internal static string CsvFileDoesNotExist {
+            get {
+                return ResourceManager.GetString("CsvFileDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MS Access provider &quot;{0}&quot; is not installed..
+        /// </summary>
+        internal static string ProviderNotInstaller {
+            get {
+                return ResourceManager.GetString("ProviderNotInstaller", resourceCulture);
             }
         }
         
@@ -81,6 +99,33 @@ namespace Kros.MsAccess.Properties {
         internal static string SqlIdGeneratorTableScript {
             get {
                 return ResourceManager.GetString("SqlIdGeneratorTableScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown data type for CSV file. Data type: {0}, value: {1}.
+        /// </summary>
+        internal static string UnknownDataTypeForCsv {
+            get {
+                return ResourceManager.GetString("UnknownDataTypeForCsv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsupported data type for Microsoft Access bulk insert: OleDbType.{0}.
+        /// </summary>
+        internal static string UnsupportedBulkInsertDataType {
+            get {
+                return ResourceManager.GetString("UnsupportedBulkInsertDataType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection type is not supported. The connection must be of type OleDbConnection and must have correct provider, Microsoft.ACE.OLEDB or Microsoft.Jet.OLEDB..
+        /// </summary>
+        internal static string UnsupportedConnectionType {
+            get {
+                return ResourceManager.GetString("UnsupportedConnectionType", resourceCulture);
             }
         }
     }
