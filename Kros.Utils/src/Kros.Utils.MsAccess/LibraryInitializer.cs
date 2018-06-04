@@ -1,4 +1,5 @@
 ﻿using Kros.Data;
+using Kros.Data.BulkActions;
 using Kros.Data.BulkActions.MsAccess;
 using Kros.Data.MsAccess;
 using Kros.Data.Schema;
@@ -7,21 +8,22 @@ using Kros.Data.Schema.MsAccess;
 namespace Kros.Utils.MsAccess
 {
     /// <summary>
-    /// Inicialiácia knižnice.
+    /// Initialization of the library.
     /// </summary>
     public static class LibraryInitializer
     {
         /// <summary>
-        /// Inicializuje knižnicu - zavolať raz pri štarte programu.
+        /// Initializes the library. Method should be called once at a start of a program.
         /// </summary>
         /// <remarks>
-        /// Inicializácia vykoná:
+        /// The initialization will do:
         /// <list type="bullet">
-        /// <item>Pridanie <see cref="MsAccessSchemaLoader"/> do zoznamu
+        /// <item>Adds <see cref="MsAccessSchemaLoader"/> to the default static list
         /// <see cref="DatabaseSchemaLoader.Default">DatabaseSchemaLoader.Default</see>.</item>
-        /// <item>Pridanie <see cref="MsAccessSchemaLoader"/> do zoznamu
+        /// <item>Adds <see cref="MsAccessSchemaLoader"/> to the defaule schema cache
         /// <see cref="DatabaseSchemaCache.Default">DatabaseSchemaCache.Default</see>.</item>
-        /// <item>Zaregistruje <see cref="MsAccessIdGeneratorFactory"/> do <see cref="IdGeneratorFactories"/>.</item>
+        /// <item>Registers <see cref="MsAccessIdGeneratorFactory"/> to the <see cref="IdGeneratorFactories"/>.</item>
+        /// <item>Registers <see cref="MsAccessBulkActionFactory"/> to the <see cref="BulkActionFactories"/>.</item>
         /// </list>
         /// </remarks>
         public static void InitLibrary()

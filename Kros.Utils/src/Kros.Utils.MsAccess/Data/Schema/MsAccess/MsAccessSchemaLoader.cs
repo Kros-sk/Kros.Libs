@@ -1,20 +1,19 @@
-﻿using Kros.Utils;
+﻿using Kros.Data.MsAccess;
 using Kros.MsAccess.Properties;
+using Kros.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using Kros.Data.MsAccess;
 
 namespace Kros.Data.Schema.MsAccess
 {
     /// <summary>
-    /// Implementácia <see cref="IDatabaseSchemaLoader{T}"/>, ktorá načítava schému MS Access databáz.
+    /// The implementation of <see cref="IDatabaseSchemaLoader{T}"/> for Microsoft Access.
     /// </summary>
     public partial class MsAccessSchemaLoader
         : IDatabaseSchemaLoader<OleDbConnection>
     {
-
         #region Helper mappings
 
         private static readonly Dictionary<OleDbType, object> _defaultValueMapping = new Dictionary<OleDbType, object>() {
@@ -59,23 +58,20 @@ namespace Kros.Data.Schema.MsAccess
 
         #endregion
 
-
         #region Events
 
         /// <summary>
-        /// Udalosť vyvolaná pri parsovaní predvolenej hodnoty stĺpca. V obsluhe je možné predvolenú hodnotu parsovať
-        /// vlastným spôsobom, ak interné parsovanie zlyhalo.
+        /// Event raised while parsing default value of a column. It is possible to use custom parsing logic in the event handler.
         /// </summary>
-        /// <remarks>V obsluhe udalosti je možné spraviť vlatné parsovanie predvolenej hodnoty stĺpca. Ak je v obsluhe
-        /// predvolená hodnota rozparsovaná, je potrebné ju nastaviť v argumente
-        /// <see cref="MsAccessParseDefaultValueEventArgs.DefaultValue"/> a zároveň je potrebné nastaviť
-        /// <see cref="MsAccessParseDefaultValueEventArgs.Handled"/> na <see langword="true"/>.</remarks>
+        /// <remarks>When custom logic for parsing column's default value is used, the parsed value is set in
+        /// <see cref="MsAccessParseDefaultValueEventArgs.DefaultValue"/> property and
+        /// <see cref="MsAccessParseDefaultValueEventArgs.Handled"/> flag must be set to <see langword="true"/>.</remarks>
         public event EventHandler<MsAccessParseDefaultValueEventArgs> ParseDefaultValue;
 
         /// <summary>
-        /// Vyvolá udalosť <see cref="ParseDefaultValue"/>.
+        /// Raises the <see cref="ParseDefaultValue"/> event with arguments <paramref name="e"/>.
         /// </summary>
-        /// <param name="e">Argumenty udalosti.</param>
+        /// <param name="e">Arguments for the event.</param>
         protected virtual void OnParseDefaultValue(MsAccessParseDefaultValueEventArgs e)
         {
             ParseDefaultValue?.Invoke(this, e);
@@ -83,29 +79,26 @@ namespace Kros.Data.Schema.MsAccess
 
         #endregion
 
-
         #region Schema loading
 
-        /// <summary>
-        /// Kontroluje, či dokáže načítať schému zo spojenia <paramref name="connection"/>, tzn. či zadané spojenie je
-        /// spojenie na MS Access databázu.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns><see langword="true"/>, ak je možné načítať schému databázy, <see langword="false"/>, ak to možné nie je.</returns>
+        /// <inheritdoc cref="SupportsConnectionType(OleDbConnection)"/>
         bool IDatabaseSchemaLoader.SupportsConnectionType(object connection)
         {
             return SupportsConnectionType(connection as OleDbConnection);
         }
 
         /// <summary>
-        /// Načíta celú schému databázy určenej spojením <paramref name="connection"/>.
+        /// Loads database schema for <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Vráti schému celej databázy.</returns>
-        /// <remarks>Štandardne sa na získanie schémy vytvorí nové spojenie na databázu podľa vstupného spojenia
-        /// <paramref name="connection"/>. Ak je však vstupné spojenie exkluzívne, použije sa priamo.</remarks>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Spojenie <paramref name="connection"/> nie je spojenie na MS Access databázu.
+        /// <param name="connection">Database connection.</param>
+        /// <returns>Database schema.</returns>
+        /// <remarks>By default, schema is loaded using new connection to the database, based on <paramref name="connection"/>.
+        /// But if <paramref name="connection"/> is an exclusive connection, it is used directly.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// The value of <paramref name="connection"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// The connection <paramref name="connection"/> is not a connection to Microsoft Access database.
         /// </exception>
         DatabaseSchema IDatabaseSchemaLoader.LoadSchema(object connection)
         {
@@ -114,18 +107,23 @@ namespace Kros.Data.Schema.MsAccess
         }
 
         /// <summary>
-        /// Načíta schému tabuľky <paramref name="tableName"/> z databázy <paramref name="connection"/>.
+        /// Loads table schema for table <paramref name="tableName"/> in database <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <param name="tableName">Meno tabuľky, ktorej schéma sa načíta.</param>
-        /// <returns>Vráti načítanú schému tabuľky, alebo hodnotu <c>null</c>, ak taká tabuľka neexistuje.</returns>
-        /// <remarks>Štandardne sa na získanie schémy vytvorí nové spojenie na databázu podľa vstupného spojenia
-        /// <paramref name="connection"/>. Ak je však vstupné spojenie exkluzívne, použije sa priamo.</remarks>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Spojenie <paramref name="connection"/> nie je spojenie na MS Access databázu.
+        /// <param name="connection">Database connection.</param>
+        /// <param name="tableName">Table name.</param>
+        /// <returns>Table schema, or value <see langword="null"/> if specified table does not exist.</returns>
+        /// <remarks>By default, schema is loaded using new connection to the database, based on <paramref name="connection"/>.
+        /// But if <paramref name="connection"/> is an exclusive connection, it is used directly.</remarks>
+        /// <exception cref="ArgumentNullException">The value of <paramref name="connection"/> or <paramref name="tableName"/>
+        /// is <see langword="null"/>.
         /// </exception>
-        /// <exception cref="ArgumentException">Názov tabuľky <paramref name="tableName"/> má hodnotu <c>null</c>,
-        /// alebo je to prázdny reťazec, alebo je zložený len z bielych znakov.</exception>
+        /// <exception cref="ArgumentException">
+        /// <list>
+        /// <item>The connection <paramref name="connection"/> is not a connection to Microsoft Access database.</item>
+        /// <item>The value of <paramref name="tableName"/> is empty string, or string containing whitespace characters only.
+        /// </item>
+        /// </list>
+        /// </exception>
         TableSchema IDatabaseSchemaLoader.LoadTableSchema(object connection, string tableName)
         {
             CheckConnection(connection);
@@ -133,26 +131,28 @@ namespace Kros.Data.Schema.MsAccess
         }
 
         /// <summary>
-        /// Kontroluje, či dokáže načítať schému zo spojenia <paramref name="connection"/>, tzn. či zadané spojenie je
-        /// spojenie na MS Access databázu.
+        /// Checks if it is poosible to load database schema for <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns><see langword="true"/>, ak je možné načítať schému databázy, <see langword="false"/>, ak to možné nie je.</returns>
+        /// <param name="connection">Database connection.</param>
+        /// <returns><see langword="false"/> if value of <paramref name="connection"/> is <see langword="null"/>, or it is not
+        /// a connection to Microsoft Access database. Otherwise <see langword="true"/>.</returns>
         public bool SupportsConnectionType(OleDbConnection connection)
         {
             return (connection != null) && MsAccessDataHelper.IsMsAccessConnection(connection);
         }
 
         /// <summary>
-        /// Načíta celú schému databázy určenej spojením <paramref name="connection"/>.
+        /// Loads database schema for <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Vráti schému celej databázy.</returns>
-        /// <remarks>Štandardne sa na získanie schémy vytvorí nové spojenie na databázu podľa vstupného spojenia
-        /// <paramref name="connection"/>. Ak je však vstupné spojenie exkluzívne, použije sa priamo.</remarks>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Spojenie <paramref name="connection"/> nie je spojenie na MS Access databázu.
-        /// </exception>
+        /// <param name="connection">Database connection.</param>
+        /// <returns>Database schema.</returns>
+        /// <remarks>
+        /// Loading schema creates a new connection to database based on <paramref name="connection"/>. If loading with
+        /// new connection fails (for example input connection is exclusive), schema is loaded using input
+        /// <paramref name="connection"/> directly.</remarks>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="connection"/> id <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">The connection <paramref name="connection"/> is not a connection
+        /// to Microsoft Access database.</exception>
         public DatabaseSchema LoadSchema(OleDbConnection connection)
         {
             CheckConnection(connection);
@@ -170,18 +170,24 @@ namespace Kros.Data.Schema.MsAccess
         }
 
         /// <summary>
-        /// Načíta schému tabuľky <paramref name="tableName"/> z databázy <paramref name="connection"/>.
+        /// Loads table schema for table <paramref name="tableName"/> in database <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <param name="tableName">Meno tabuľky, ktorej schéma sa načíta.</param>
-        /// <returns>Vráti načítanú schému tabuľky, alebo hodnotu <c>null</c>, ak taká tabuľka neexistuje.</returns>
-        /// <remarks>Štandardne sa na získanie schémy vytvorí nové spojenie na databázu podľa vstupného spojenia
-        /// <paramref name="connection"/>. Ak je však vstupné spojenie exkluzívne, použije sa priamo.</remarks>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Spojenie <paramref name="connection"/> nie je spojenie na MS Access databázu.
+        /// <param name="connection">Database connection.</param>
+        /// <param name="tableName">Table name.</param>
+        /// <returns>Table schema, or value <see langword="null"/> if specified table does not exist.</returns>
+        /// <remarks>
+        /// Loading schema creates a new connection to database based on <paramref name="connection"/>. If loading with
+        /// new connection fails (for example input connection is exclusive), schema is loaded using input
+        /// <paramref name="connection"/> directly.</remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <item>Value of <paramref name="connection"/> is <see langword="null"/>.</item>
+        /// <item>Value of <paramref name="tableName"/> is <see langword="null"/>.</item>
+        /// </list>
         /// </exception>
-        /// <exception cref="ArgumentException">Názov tabuľky <paramref name="tableName"/> má hodnotu <c>null</c>,
-        /// alebo je to prázdny reťazec, alebo je zložený len z bielych znakov.</exception>
+        /// <exception cref="ArgumentException">
+        /// Value of <paramref name="tableName"/> is an empty string, or string containing whitespace characters only.
+        /// </exception>
         public TableSchema LoadTableSchema(OleDbConnection connection, string tableName)
         {
             CheckConnection(connection);
@@ -212,8 +218,7 @@ namespace Kros.Data.Schema.MsAccess
 
         #endregion
 
-
-        #region Table schema loading
+        #region Tables
 
         private TableSchema LoadTableSchemaCore(OleDbConnection connection, string tableName)
         {
@@ -314,14 +319,15 @@ namespace Kros.Data.Schema.MsAccess
         }
 
         /// <summary>
-        /// Upraví reťazec predvolenej hodnoty, ktorý je uložený priamo v databáze, aby bol vhodný na parsovanie.
+        /// Adjusts the string <paramref name="rawDefaultValueString"/> so column's default value can be obtained from it.
         /// </summary>
-        /// <param name="rawDefaultValueString">Reťazec predvolenej hodnoty stĺpca uložený priamo v databáze.</param>
-        /// <returns>Upravený reťazec. Z oboch koncov vstupného reťazca odstráni apostrofy a úvodzovky.</returns>
+        /// <param name="rawDefaultValueString">Default value string as it is stored in database.</param>
+        /// <returns>Adjusted string - trimmed of unneeded characters.</returns>
         protected virtual string GetDefaultValueString(string rawDefaultValueString)
         {
-            // Predvolená hodnota je uložená tak, že je uzatvorená v apostrofoch a v prípade textových stĺpcov
-            // ešte v úvodzovkách. Ich odstránenie - Trim - je potrebné robiť na dvakrát.
+            // Default value are in database stored in a way, that the value is enclosed in apostrophes.
+            // In case of string column, it is also in quotation marks.
+            // To remove them (Trim) is needed to do twice.
             return rawDefaultValueString.Trim('\'').Trim('"');
         }
 
@@ -400,8 +406,7 @@ namespace Kros.Data.Schema.MsAccess
 
         #endregion
 
-
-        #region Index schema loading
+        #region Indexes
 
         private void LoadIndexes(OleDbConnection connection, DatabaseSchema database)
         {
@@ -460,7 +465,6 @@ namespace Kros.Data.Schema.MsAccess
 
         #endregion
 
-
         #region Helpers
 
         private void CheckConnection(object connection)
@@ -496,6 +500,5 @@ namespace Kros.Data.Schema.MsAccess
         }
 
         #endregion
-
     }
 }
