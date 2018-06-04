@@ -5,35 +5,35 @@ using System.Data.OleDb;
 namespace Kros.Data.BulkActions.MsAccess
 {
     /// <summary>
-    /// Zoznam stĺpcov pre hromadné vkladanie do MS Access tabuľky z CSV súboru
+    /// Collection of columns for bulk insert into Microsoft Access database from CSV file
     /// (<see cref="MsAccessBulkInsert">MsAccessBulkInsert</see>).
     /// </summary>
-    /// <remarks></remarks>
     public class MsAccessBulkInsertColumnCollection : List<MsAccessBulkInsertColumn>
     {
-
         #region Constructors
 
         /// <summary>
-        /// Inicializuje novú inštanciu triedy <see cref="MsAccessBulkInsertColumnCollection"/>.
+        /// Creates a new instance of <see cref="MsAccessBulkInsertColumnCollection"/>.
         /// </summary>
         public MsAccessBulkInsertColumnCollection() : base()
         {
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu triedy <see cref="MsAccessBulkInsertColumnCollection"/> so zadanou počiatočnou kapacitou.
+        /// Creates a new instance of <see cref="MsAccessBulkInsertColumnCollection"/> with specified initial
+        /// capacity <paramref name="capacity"/>.
         /// </summary>
-        /// <param name="capacity">Počet položiek, ktoré môže zoznam zo začiatku obsahovať.</param>
+        /// <param name="capacity">Initial capacity of the inner list.</param>
         public MsAccessBulkInsertColumnCollection(int capacity)
             : base(capacity)
         {
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu triedy <see cref="MsAccessBulkInsertColumnCollection"/> so zadaných dát.
+        /// Creates a new instance of <see cref="MsAccessBulkInsertColumnCollection"/> and adds into it data
+        /// <paramref name="collection"/>.
         /// </summary>
-        /// <param name="collection">Dáta, ktorými je zoznam naplnený.</param>
+        /// <param name="collection">Initial data added to the collection.</param>
         public MsAccessBulkInsertColumnCollection(IEnumerable<MsAccessBulkInsertColumn> collection)
             : base(collection)
         {
@@ -41,49 +41,42 @@ namespace Kros.Data.BulkActions.MsAccess
 
         #endregion
 
-
         #region Common
 
         /// <summary>
-        /// Pridá stĺpec s názvom <paramref name="columnName">columnName</paramref>. Typ stĺpca nie je definovaný
-        /// <see cref="BulkInsertColumnType">BulkInsertColumnType.Undefined</see>.
+        /// Adds a column with name <paramref name="columnName"/> with type set to
+        /// <see cref="BulkInsertColumnType.Undefined">BulkInsertColumnType.Undefined</see>.
         /// </summary>
-        /// <param name="columnName">Názov stĺpca.</param>
-        /// <remarks></remarks>
+        /// <param name="columnName">Column name.</param>
         public void Add(string columnName)
         {
             Add(new MsAccessBulkInsertColumn(columnName));
         }
 
         /// <summary>
-        /// Pridá stĺpec s názvom <paramref name="columnName">columnName</paramref>
-        /// a typom <paramref name="columnType">columnType</paramref>.
+        /// Adds a column with name <paramref name="columnName"/> and type <paramref name="columnType"/>.
         /// </summary>
-        /// <param name="columnName">Názov stĺpca.</param>
-        /// <param name="columnType">Typ stĺpca.</param>
-        /// <remarks></remarks>
+        /// <param name="columnName">Column name.</param>
+        /// <param name="columnType">Column type.</param>
         public void Add(string columnName, BulkInsertColumnType columnType)
         {
             Add(new MsAccessBulkInsertColumn(columnName, columnType));
         }
 
         /// <summary>
-        /// Pridá stĺpec podľa definície stĺpca z databázy. Typ stĺpca je určený automaticky podľa dátového typu
-        /// v databáze.
+        /// Adds column based on database column schema <paramref name="column"/>.
         /// </summary>
-        /// <param name="column">Definícia databázového stĺpca.</param>
-        /// <remarks></remarks>
+        /// <param name="column">Database column schema.</param>
         public void Add(MsAccessColumnSchema column)
         {
             Add(new MsAccessBulkInsertColumn(column.Name, GetColumnType(column)));
         }
 
         /// <summary>
-        /// Pridá viacero stĺpcov naraz v zozname <paramref name="columnNames">columnNames</paramref>. Všetky stĺpce
-        /// nemajú definovaný typ (<see cref="BulkInsertColumnType">BulkInsertColumnType.Undefined</see>).
+        /// Adds all columns in <paramref name="columnNames"/> with type set to
+        /// <see cref="BulkInsertColumnType.Undefined">BulkInsertColumnType.Undefined</see>.
         /// </summary>
-        /// <param name="columnNames">Zoznam názvov stĺpcov.</param>
-        /// <remarks></remarks>
+        /// <param name="columnNames">Column names.</param>
         public void AddRange(params string[] columnNames)
         {
             foreach (var columnName in columnNames)
@@ -93,11 +86,9 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         /// <summary>
-        /// Pridá viacero stĺpcov naraz určených podľa definícií z databázy <paramref name="columns">columns</paramref>.
-        /// Typy stĺpcov sú určené automaticky podľa dátového typu v databáze.
+        /// Adds columns based on database column schemas <paramref name="columns"/>.
         /// </summary>
-        /// <param name="columns">Zoznam databázových definícií stĺpcov.</param>
-        /// <remarks></remarks>
+        /// <param name="columns">Database column schemas.</param>
         public void AddRange(IEnumerable<MsAccessColumnSchema> columns)
         {
             foreach (var column in columns)
@@ -108,10 +99,9 @@ namespace Kros.Data.BulkActions.MsAccess
 
         #endregion
 
-
         #region Pomocné
 
-        // Na základe dátového typu v databáze vráti typ stĺpca pre hromadné vkladanie.
+        // Returns type of the column for bulk insert based on column's data type.
         private static BulkInsertColumnType GetColumnType(MsAccessColumnSchema column)
         {
             if ((column.OleDbType == OleDbType.VarChar) ||
@@ -127,6 +117,5 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         #endregion
-
     }
 }
