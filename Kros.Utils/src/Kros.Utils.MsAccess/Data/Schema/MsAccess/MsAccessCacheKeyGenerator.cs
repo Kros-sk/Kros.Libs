@@ -5,17 +5,18 @@ using System.Data.OleDb;
 namespace Kros.Data.Schema.MsAccess
 {
     /// <summary>
-    /// Generátor kľúča pre MS Access databázu.
+    /// Cache key generator for Microsoft Access used by <see cref="DatabaseSchemaCache"/>.
     /// </summary>
     public class MsAccessCacheKeyGenerator
         : ISchemaCacheKeyGenerator<OleDbConnection>
     {
         /// <summary>
-        /// Vygeneruje kľúč pre spojenie <paramref name="connection"/>. Vygenerovaný kľúč je cesta k databázovému súboru.
+        /// Generates a cache key for <paramref name="connection"/>.
+        /// The generated key is a string "<c>MsAccess:database path</c>".
         /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Reťazec.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
+        /// <param name="connection">Database connection.</param>
+        /// <returns>String.</returns>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="connection"/> is <see langword="null"/>.</exception>
         public string GenerateKey(OleDbConnection connection)
         {
             Check.NotNull(connection, nameof(connection));
@@ -23,12 +24,7 @@ namespace Kros.Data.Schema.MsAccess
             return "MsAccess:" + builder.DataSource.ToLower();
         }
 
-        /// <summary>
-        /// Vygeneruje kľúč pre spojenie <paramref name="connection"/>. Vygenerovaný kľúč je cesta k databázovému súboru.
-        /// </summary>
-        /// <param name="connection">Spojenie na databázu.</param>
-        /// <returns>Reťazec.</returns>
-        /// <exception cref="ArgumentNullException">Hodnota <paramref name="connection"/> je <c>null</c>.</exception>
+        /// <inheritdoc cref="GenerateKey(OleDbConnection)"/>
         string ISchemaCacheKeyGenerator.GenerateKey(object connection)
         {
             return GenerateKey(connection as OleDbConnection);

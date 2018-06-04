@@ -3,6 +3,7 @@ using Kros.Utils;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions.SqlServer
 {
@@ -172,10 +173,7 @@ namespace Kros.Data.BulkActions.SqlServer
         /// </summary>
         public string DestinationTableName { get; set; }
 
-        /// <summary>
-        /// Inserts all data from <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">Data source.</param>
+        /// <inheritdoc/>
         public void Insert(IBulkActionDataReader reader)
         {
             using (var bulkInsertReader = new BulkActionDataReader(reader))
@@ -184,11 +182,22 @@ namespace Kros.Data.BulkActions.SqlServer
             }
         }
 
-        /// <summary>
-        /// Inserts all data from <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">Data source.</param>
-        public void Insert(IDataReader reader)
+        /// <inheritdoc/>
+        public async Task InsertAsync(IBulkActionDataReader reader)
+        {
+            using (var bulkInsertReader = new BulkActionDataReader(reader))
+            {
+                await InsertAsync(bulkInsertReader);
+            }
+        }
+
+        /// <inheritdoc/>
+        public void Insert(IDataReader reader) => InsertCoreAsync(reader, useAsync: false).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public Task InsertAsync(IDataReader reader) => InsertCoreAsync(reader, useAsync: true);
+
+        private async Task InsertCoreAsync(IDataReader reader, bool useAsync)
         {
             using (ConnectionHelper.OpenConnection(_connection))
             using (SqlBulkCopy bulkCopy = new SqlBulkCopy(_connection, BulkCopyOptions, ExternalTransaction))
@@ -197,7 +206,14 @@ namespace Kros.Data.BulkActions.SqlServer
                 bulkCopy.BulkCopyTimeout = BulkInsertTimeout;
                 bulkCopy.BatchSize = BatchSize;
                 SetColumnMappings(bulkCopy, reader);
-                bulkCopy.WriteToServer(reader);
+                if (useAsync)
+                {
+                    await bulkCopy.WriteToServerAsync(reader);
+                }
+                else
+                {
+                    bulkCopy.WriteToServer(reader);
+                }
             }
         }
 
@@ -226,15 +242,21 @@ namespace Kros.Data.BulkActions.SqlServer
             }
         }
 
-        /// <summary>
-        /// Inserts all rows from table <paramref name="table"/>.
-        /// </summary>
-        /// <param name="table">Source table.</param>
+        /// <inheritdoc/>
         public void Insert(DataTable table)
         {
             using (var reader = table.CreateDataReader())
             {
                 Insert(reader);
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task InsertAsync(DataTable table)
+        {
+            using (var reader = table.CreateDataReader())
+            {
+                await InsertAsync(reader);
             }
         }
 

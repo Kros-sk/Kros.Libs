@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions
 {
@@ -30,15 +31,42 @@ namespace Kros.Data.BulkActions
         void Insert(IBulkActionDataReader reader);
 
         /// <summary>
+        /// Asynchronously inserts all data from <paramref name="reader"/>.
+        /// </summary>
+        /// <param name="reader">Data source.</param>
+        /// <returns>
+        /// A task that represents the asynchronous Insert operation.
+        /// </returns>
+        Task InsertAsync(IBulkActionDataReader reader);
+
+        /// <summary>
         /// Inserts all data from <paramref name="reader"/>.
         /// </summary>
         /// <param name="reader">Data source.</param>
         void Insert(IDataReader reader);
 
         /// <summary>
+        /// Asynchronously inserts all data from <paramref name="reader"/>.
+        /// </summary>
+        /// <param name="reader">Data source.</param>
+        /// <returns>
+        /// A task that represents the asynchronous Insert operation.
+        /// </returns>
+        Task InsertAsync(IDataReader reader);
+
+        /// <summary>
         /// Inserts all rows from table <paramref name="table"/>.
         /// </summary>
         /// <param name="table">Source table.</param>
         void Insert(DataTable table);
+
+        /// <summary>
+        /// Asynchronously inserts all rows from table <paramref name="table"/>.
+        /// </summary>
+        /// <param name="table">Source table.</param>
+        /// <returns>
+        /// A task that represents the asynchronous Insert operation.
+        /// </returns>
+        Task InsertAsync(DataTable table);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions
 {
@@ -60,10 +61,7 @@ namespace Kros.Data.BulkActions
         /// </summary>
         public string PrimaryKeyColumn { get; set; }
 
-        /// <summary>
-        /// Updates all data from source <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">Data source.</param>
+        /// <inheritdoc/>
         public void Update(IBulkActionDataReader reader)
         {
             using (var bulkUpdateReader = new BulkActionDataReader(reader))
@@ -72,32 +70,49 @@ namespace Kros.Data.BulkActions
             }
         }
 
-        /// <summary>
-        /// Updates all data from source <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">Data source.</param>
-        public void Update(IDataReader reader)
+        /// <inheritdoc/>
+        public async Task UpdateAsync(IBulkActionDataReader reader)
+        {
+            using (var bulkUpdateReader = new BulkActionDataReader(reader))
+            {
+                await UpdateAsync(bulkUpdateReader);
+            }
+        }
+
+        /// <inheritdoc/>
+        public void Update(IDataReader reader) => UpdateCoreAsync(reader, useAsync: false).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public Task UpdateAsync(IDataReader reader) => UpdateCoreAsync(reader, useAsync: true);
+
+        private async Task UpdateCoreAsync(IDataReader reader, bool useAsync)
         {
             var tempTableName = CreateTempTable(reader);
 
             using (ConnectionHelper.OpenConnection(_connection))
             {
-                InsertIntoTempTable(reader, tempTableName);
+                await InsertIntoTempTableAsync(reader, tempTableName, useAsync);
                 InvokeAction(tempTableName);
-                UpdateDestinationTable(reader, tempTableName);
-                DoneTempTable(tempTableName);
+                await UpdateDestinationTableAsync(reader, tempTableName, useAsync);
+                await DoneTempTableAsync(tempTableName, useAsync);
             }
         }
 
-        /// <summary>
-        /// Updates all rows in table <paramref name="table"/>.
-        /// </summary>
-        /// <param name="table">Source data.</param>
+        ///<inheritdoc/>
         public void Update(DataTable table)
         {
             using (var reader = table.CreateDataReader())
             {
                 Update(reader);
+            }
+        }
+
+        ///<inheritdoc/>
+        public async Task UpdateAsync(DataTable table)
+        {
+            using (var reader = table.CreateDataReader())
+            {
+                await UpdateAsync(reader);
             }
         }
 
@@ -146,13 +161,15 @@ namespace Kros.Data.BulkActions
         /// </summary>
         /// <param name="reader">Reader for accesing data.</param>
         /// <param name="tempTableName">Temporary table name.</param>
-        protected abstract void UpdateDestinationTable(IDataReader reader, string tempTableName);
+        /// <param name="useAsync"><see langword="true"/> if action can by executed asynchronously.</param>
+        protected abstract Task UpdateDestinationTableAsync(IDataReader reader, string tempTableName, bool useAsync);
 
         /// <summary>
         /// Ends work with temporary table.
         /// </summary>
         /// <param name="tempTableName">Temporary table name.</param>
-        protected virtual void DoneTempTable(string tempTableName) { }
+        /// <param name="useAsync"><see langword="true"/> if action can by executed asynchronously.</param>
+        protected virtual Task DoneTempTableAsync(string tempTableName, bool useAsync) => Task.CompletedTask;
 
         #endregion
 
@@ -198,12 +215,20 @@ namespace Kros.Data.BulkActions
             return ret.ToString();
         }
 
-        private void InsertIntoTempTable(IDataReader reader, string tempTableName)
+        private async Task InsertIntoTempTableAsync(IDataReader reader, string tempTableName, bool useAsync)
         {
             using (var bulkInsert = CreateBulkInsert())
             {
                 bulkInsert.DestinationTableName = GetTempTableNameForBulkInsert(tempTableName);
-                bulkInsert.Insert(reader);
+                if (useAsync)
+                {
+                    await bulkInsert.InsertAsync(reader);
+                }
+                else
+                {
+                    bulkInsert.Insert(reader);
+                }
+
             }
         }
 

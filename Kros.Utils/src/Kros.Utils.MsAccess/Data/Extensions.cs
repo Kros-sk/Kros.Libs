@@ -5,31 +5,37 @@ using System.Linq;
 namespace Kros.Data.MsAccess
 {
     /// <summary>
-    /// Všeobecné rozšírenia pre MS Access.
+    /// General extensions for Microsoft Access.
     /// </summary>
     public static class Extensions
     {
 
         /// <summary>
-        /// Vráti chybový kód výnimky pre MsAccess.
+        /// Returns Microsoft Access error code.
         /// </summary>
-        /// <param name="ex">Výnimka, ktorej chybový kód sa kontroluje.</param>
-        /// Metóda pozerá hodnotu <see cref="OleDbError.SQLState">SQLState</see> prvej chyby v zozname
+        /// <param name="ex">Exception, whose error code is checked.</param>
+        /// <returns>Returns error code as an enumeration <see cref="MsAccess.MsAccessErrorCode" />. If the error code
+        /// is unknown, or not defined, value <see cref="MsAccess.MsAccessErrorCode">MsAccess.MsAccessErrorCode</see> is returned.
+        /// </returns>
+        /// <remarks>
+        /// Method checks the value of <see cref="OleDbError.SQLState">SQLState</see> of the first error in the list
         /// <see cref="OleDbException.Errors">OleDbException.Errors</see>.
+        /// </remarks>
         public static MsAccessErrorCode MsAccessErrorCode(this OleDbException ex)
         {
             return MsAccessErrorCode(ex, out string sqlState);
         }
 
         /// <summary>
-        /// Vráti chybový kód výnimky pre MsAccess.
+        /// Returns Microsoft Access error code.
         /// </summary>
-        /// <param name="ex">Výnimka, ktorej chybový kód sa kontroluje.</param>
-        /// <param name="sqlState">Skutočná hodnota vlastnosti <see cref="OleDbError.SQLState">SQLState</see>.</param>
-        /// <returns>Vráti chybový kód ako hodnotu enumerátu <see cref="Kros.Data.MsAccess.MsAccessErrorCode" />. Ak chybový kód
-        /// je neznámy, alebo nie je definovaný, je vrátená hodnota <see cref="MsAccessErrorCode.Unknown" />.</returns>
+        /// <param name="ex">Exception, whose error code is checked.</param>
+        /// <param name="sqlState">Real value of <see cref="OleDbError.SQLState">SQLState</see>.</param>
+        /// <returns>Returns error code as an enumeration <see cref="MsAccess.MsAccessErrorCode" />. If the error code
+        /// is unknown, or not defined, value <see cref="MsAccess.MsAccessErrorCode">MsAccess.MsAccessErrorCode</see> is returned.
+        /// </returns>
         /// <remarks>
-        /// Metóda pozerá hodnotu <see cref="OleDbError.SQLState">SQLState</see> prvej chyby v zozname
+        /// Method checks the value of <see cref="OleDbError.SQLState">SQLState</see> of the first error in the list
         /// <see cref="OleDbException.Errors">OleDbException.Errors</see>.
         /// </remarks>
         public static MsAccessErrorCode MsAccessErrorCode(this OleDbException ex, out string sqlState)

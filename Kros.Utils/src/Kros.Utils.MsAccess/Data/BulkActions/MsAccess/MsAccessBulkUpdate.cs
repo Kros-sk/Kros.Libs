@@ -2,15 +2,17 @@
 using Kros.Utils;
 using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.OleDb;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions.MsAccess
 {
     /// <summary>
-    /// Trieda umožňujúca rýchlu hromadnú editáciu dát pre Ms Access.
+    /// Class for fast bulk data update for Microsoft Access.
     /// </summary>
-    /// <remarks>Používa tempovú databazázu.</remarks>
+    /// <remarks>The bulk update uses a temporary database.</remarks>
     /// <example>
     ///   <code source="..\Examples\Kros.Utils.MsAccess\MsAccessExamples.cs" title="Bulk update" region="BulkUpdate" lang="C#" />
     /// </example>
@@ -23,13 +25,12 @@ namespace Kros.Data.BulkActions.MsAccess
 
         #endregion
 
-
         #region Constructors
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="MsAccessBulkUpdate"/> použitím spojenia na databázu
-        /// <paramref name="connectionString"/>.</summary>
-        /// <param name="connectionString">Spojenie na databázu, kam sa vložia dáta.</param>
+        /// Creates new instance of <see cref="MsAccessBulkUpdate"/> for database <paramref name="connectionString"/>.
+        /// </summary>
+        /// <param name="connectionString">Connection string to the database where the data will be inserted.</param>
         public MsAccessBulkUpdate(string connectionString)
         {
             Check.NotNullOrWhiteSpace(connectionString, nameof(connectionString));
@@ -40,20 +41,22 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="MsAccessBulkUpdate"/> použitím spojenia na databázu
-        /// <paramref name="connection"/>.</summary>
-        /// <param name="connection">Spojenie na databázu, kam sa vložia dáta. Spojenie musí byť otvorené.</param>
+        /// Creates new instance of <see cref="MsAccessBulkUpdate"/> for database <paramref name="connection"/>.
+        /// </summary>
+        /// <param name="connection">Database connection where the data will be inserted. The connection mus be opened.</param>
         public MsAccessBulkUpdate(OleDbConnection connection)
             : this(connection, null)
         {
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="MsAccessBulkUpdate"/> použitím spojenia na databázu
-        /// <paramref name="connection"/> a externej transakcie <paramref name="externalTransaction"/>.</summary>
-        /// <param name="connection">Spojenie na databázu, kam sa vložia dáta. Spojenie musí byť otvorené.
-        /// Ak je na spojení spustená transakcia, musí byť zadaná v parametri <paramref name="externalTransaction"/>.</param>
-        /// <param name="externalTransaction">Externá transakcia, v ktorej hromadné vloženie prebehne.</param>
+        /// Creates new instance of <see cref="MsAccessBulkUpdate"/> for database <paramref name="connection"/>
+        /// and with transaction <paramref name="externalTransaction"/>.
+        /// </summary>
+        /// <param name="connection">Database connection where the data will be inserted. The connection mus be opened.
+        /// If there already is running transaction in this connection, it must be specified in
+        /// <paramref name="externalTransaction"/>.</param>
+        /// <param name="externalTransaction">Transaction in which the bulk insert will be performed.</param>
         public MsAccessBulkUpdate(OleDbConnection connection, OleDbTransaction externalTransaction)
         {
             _connection = connection;
@@ -61,7 +64,6 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         #endregion
-
 
         #region BulkUpdateBase Members
 
@@ -110,7 +112,7 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         /// <inheritdoc/>
-        protected override void UpdateDestinationTable(IDataReader reader, string tempTableName)
+        protected async override Task UpdateDestinationTableAsync(IDataReader reader, string tempTableName, bool useAsync)
         {
             using (var cmd = _connection.CreateCommand())
             {
@@ -119,10 +121,17 @@ namespace Kros.Data.BulkActions.MsAccess
                 var innerJoin = $"[{DestinationTableName}].[{PrimaryKeyColumn}] = [{tempAlias}].[{PrimaryKeyColumn}]";
 
                 cmd.Transaction = ExternalTransaction;
-                cmd.CommandText = $"UPDATE [{DestinationTableName}] INNER JOIN {tempDatabasePathAndTable} AS [{tempAlias}] " +
-                                                                  $"ON ({innerJoin}) " +
-                                  $"SET {GetUpdateColumnNames(reader, $"{tempAlias}")} ";
-                cmd.ExecuteNonQuery();
+                cmd.CommandText = $"UPDATE [{DestinationTableName}] " +
+                    $"INNER JOIN {tempDatabasePathAndTable} AS [{tempAlias}] ON ({innerJoin}) " +
+                    $"SET " + GetUpdateColumnNames(reader, tempAlias.ToString());
+                if (useAsync)
+                {
+                    await (cmd as DbCommand).ExecuteNonQueryAsync();
+                }
+                else
+                {
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
@@ -157,6 +166,5 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         #endregion
-
     }
 }

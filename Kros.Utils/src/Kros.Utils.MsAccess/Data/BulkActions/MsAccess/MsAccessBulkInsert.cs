@@ -7,53 +7,51 @@ using System.Data.OleDb;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions.MsAccess
 {
-
     /// <summary>
-    /// Trieda na hromadné vkladanie dát do MS Access tabuľky.
+    /// The calss for fast bulk insert big amount of data into Microsoft Access database.
     /// </summary>
     /// <remarks>
-    /// Na pozadí sa využíva vkladanie dát z textového CSV súboru.
+    /// In the background, it creates a text CSV file with data which are inserted.
     /// </remarks>
     public class MsAccessBulkInsert : IBulkInsert
     {
-
         #region Constants
 
         /// <summary>
-        /// Predvolený oddeľovať dát vo vstupnom súbore - čiarka (<b>,</b>).
+        /// Default value separator for CSV file: comma (<b>,</b>).
         /// </summary>
         public const char DefaultValueDelimiter = ',';
 
         /// <summary>
-        /// Predvolená kódová stránka vstupného súboru - <b>UTF-8</b>.
+        /// Default code page: <see cref="Utf8CodePage"/>.
         /// </summary>
         public const int DefaultCodePage = Utf8CodePage;
 
         /// <summary>
-        /// Kódová stránka UTF-8.
+        /// UTF-8 code page: 65001.
         /// </summary>
         public const int Utf8CodePage = 65001;
 
         /// <summary>
-        /// Kódová stránka vstupného súboru - <b>1250</b>.
+        /// Windows Central Europe code page: <b>1250</b>.
         /// </summary>
         public const int WindowsCentralEuropeCodePage = 1250;
 
         /// <summary>
-        /// Kódová stránka ANSI.
+        /// ANSI code page.
         /// </summary>
         public const int AnsiCodePage = int.MaxValue;
 
         /// <summary>
-        /// Kódová stránka OEM.
+        /// OEM code page.
         /// </summary>
         public const int OemCodePage = int.MaxValue - 1;
 
         #endregion
-
 
         #region Private fields
 
@@ -62,14 +60,13 @@ namespace Kros.Data.BulkActions.MsAccess
 
         #endregion
 
-
         #region Constructors
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="MsAccessBulkInsert"/> použitím spojenia na databázu
-        /// <paramref name="connectionString"/>.</summary>
-        /// <param name="connectionString">Spojenie na databázu, kam sa vložia dáta.</param>
-        /// <remarks></remarks>
+        /// Creates a new instance with database connection specifiend in <paramref name="connectionString"/>
+        /// and default settings for CSV file.
+        /// </summary>
+        /// <param name="connectionString">Connection string for the database connection where the data will be inserted.</param>
         public MsAccessBulkInsert(string connectionString)
         {
             Check.NotNullOrWhiteSpace(connectionString, nameof(connectionString));
@@ -82,59 +79,63 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="MsAccessBulkInsert"/> použitím spojenia na databázu
-        /// <paramref name="connection"/></summary>
-        /// <param name="connection">Spojenie na databázu, kam sa vložia dáta. Spojenie musí byť otvorené.</param>
-        /// <remarks></remarks>
+        /// Creates a new instance with database connection <paramref name="connection"/> and default settings for CSV file.
+        /// </summary>
+        /// <param name="connection">Database connection where the data will be inserted. The connection mus be opened.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="connection"/> is <see langword="null"/>.</exception>
         public MsAccessBulkInsert(OleDbConnection connection)
             : this(connection, null, DefaultCodePage, DefaultValueDelimiter)
         {
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="MsAccessBulkInsert"/> použitím spojenia na databázu
-        /// <paramref name="connection"/> a externej transakcie <paramref name="externalTransaction"/>.</summary>
-        /// <param name="connection">Spojenie na databázu, kam sa vložia dáta. Spojenie musí byť otvorené.
-        /// Ak je na spojení spustená transakcia, musí byť zadaná v parametri <paramref name="externalTransaction"/>.</param>
-        /// <param name="externalTransaction">Externá transakcia, v ktorej hromadné vloženie prebehne.</param>
-        /// <remarks></remarks>
+        /// Creates a new instance with database connection <paramref name="connection"/>, transaction
+        /// <paramref name="externalTransaction"/> and default settings for CSV file.
+        /// </summary>
+        /// <param name="connection">Database connection where the data will be inserted. The connection mus be opened.
+        /// If there already is running transaction in this connection, it must be specified in
+        /// <paramref name="externalTransaction"/>.</param>
+        /// <param name="externalTransaction">Transaction in which the bulk insert will be performed.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="connection"/> is <see langword="null"/>.</exception>
         public MsAccessBulkInsert(OleDbConnection connection, OleDbTransaction externalTransaction)
             : this(connection, externalTransaction, DefaultCodePage, DefaultValueDelimiter)
         {
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="MsAccessBulkInsert"/> použitím spojenia na databázu
-        /// <paramref name="connection"/>, externej transakcie <paramref name="externalTransaction"/>, kódovaním CSV súboru
-        /// <paramref name="csvFileCodePage"/>.</summary>
-        /// <param name="connection">Spojenie na databázu, kam sa vložia dáta. Spojenie musí byť otvorené.
-        /// Ak je na spojení spustená transakcia, musí byť zadaná v parametri <paramref name="externalTransaction"/>.</param>
-        /// <param name="externalTransaction">Externá transakcia, v ktorej hromadné vloženie prebehne.</param>
-        /// <param name="csvFileCodePage">Kódová stránka vstupného súboru.</param>
-        /// <remarks></remarks>
+        /// Creates a new instance with database connection <paramref name="connection"/>, transaction
+        /// <paramref name="externalTransaction"/> and CSV file code page <paramref name="csvFileCodePage"/>.
+        /// </summary>
+        /// <param name="connection">Database connection where the data will be inserted. The connection mus be opened.
+        /// If there already is running transaction in this connection, it must be specified in
+        /// <paramref name="externalTransaction"/>.</param>
+        /// <param name="externalTransaction">Transaction in which the bulk insert will be performed.</param>
+        /// <param name="csvFileCodePage">Code page for generated CSV file.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="connection"/> is <see langword="null"/>.</exception>
         public MsAccessBulkInsert(OleDbConnection connection, OleDbTransaction externalTransaction, int csvFileCodePage)
             : this(connection, externalTransaction, csvFileCodePage, DefaultValueDelimiter)
         {
         }
 
         /// <summary>
-        /// Inicializuje novú inštanciu <see cref="MsAccessBulkInsert"/> použitím spojenia na databázu
-        /// <paramref name="connection"/>, externej transakcie <paramref name="externalTransaction"/>, kódovaním CSV súboru
-        /// <paramref name="csvFileCodePage"/> a oddeľovačom hodnôt v CSV súbore <paramref name="valueDelimiter"/>.
+        /// Creates a new instance with database connection <paramref name="connection"/>, transaction
+        /// <paramref name="externalTransaction"/> and CSV file settings <paramref name="csvFileCodePage"/>
+        /// and <paramref name="valueDelimiter"/>.
         /// </summary>
-        /// <param name="connection">Spojenie na databázu, kam sa vložia dáta. Spojenie musí byť otvorené.
-        /// Ak je na spojení spustená transakcia, musí byť zadaná v parametri <paramref name="externalTransaction"/>.</param>
-        /// <param name="externalTransaction">Externá transakcia, v ktorej hromadné vloženie prebehne.</param>
-        /// <param name="csvFileCodePage">Kódová stránka vstupného súboru.</param>
-        /// <param name="valueDelimiter">Oddeľovač dát vo vstupnom súbore.</param>
-        /// <remarks></remarks>
+        /// <param name="connection">Database connection where the data will be inserted. The connection mus be opened.
+        /// If there already is running transaction in this connection, it must be specified in
+        /// <paramref name="externalTransaction"/>.</param>
+        /// <param name="externalTransaction">Transaction in which the bulk insert will be performed.</param>
+        /// <param name="csvFileCodePage">Code page for generated CSV file.</param>
+        /// <param name="valueDelimiter">Value delimiter for generated CSV file.</param>
+        /// <exception cref="ArgumentNullException">Value of <paramref name="connection"/> is <see langword="null"/>.</exception>
         public MsAccessBulkInsert(
             OleDbConnection connection,
             OleDbTransaction externalTransaction,
             int csvFileCodePage,
             char valueDelimiter)
         {
-            _connection = connection;
+            _connection = Check.NotNull(connection, nameof(connection));
             ExternalTransaction = externalTransaction;
             CodePage = csvFileCodePage;
             ValueDelimiter = valueDelimiter;
@@ -142,70 +143,51 @@ namespace Kros.Data.BulkActions.MsAccess
 
         #endregion
 
-
         #region Common
 
         /// <summary>
-        /// Zoznam vkladaných stĺpcov.
+        /// List of inserted columns.
         /// </summary>
-        /// <value>Zoznam stĺpcov <see cref="MsAccessBulkInsertColumnCollection" />.</value>
-        /// <remarks>Stĺpce musia byť v zozname v rovnakom poradí, ako sú uložené vo vstupnom súbore.</remarks>
+        /// <value>List of columns as <see cref="MsAccessBulkInsertColumnCollection" />.</value>
+        /// <remarks>Columns in the list must be in the same order as they are in input CSV file.</remarks>
         public MsAccessBulkInsertColumnCollection Columns { get; } = new MsAccessBulkInsertColumnCollection();
 
         /// <summary>
-        /// Kódová stránka vstupného súboru.
+        /// Code page used for CSV file and bulk insert. Default value is 65001 <see cref="Utf8CodePage"/>.
         /// </summary>
-        /// <value>Číslo.</value>
-        /// <remarks></remarks>
+        /// <value>Number of code page.</value>
         public int CodePage { get; }
 
         /// <summary>
-        /// Oddeľovač hodnôt v CSV súbore.
+        /// Value separator in generated CSV file.
         /// </summary>
         public char ValueDelimiter { get; }
 
         /// <summary>
-        /// Externá transakcia, v ktorej sa vykoná vloženie dát.
+        /// External transaction, in which bulk insert is executed.
         /// </summary>
         public OleDbTransaction ExternalTransaction { get; }
 
         #endregion
 
-
         #region IBulkInsert
 
-        private int _batchSize = 0;
-
         /// <summary>
-        /// Počet riadkov v dávke, ktorá sa posiela do databázy. Ak je hodnota 0, veľkosť dávky nie je obmedzená.
+        /// This setting is not used.
         /// </summary>
-        /// <exception cref="ArgumentException">Zadaná hodnota je záporná.</exception>
-        public int BatchSize
-        {
-            get
-            {
-                return _batchSize;
-            }
-            set
-            {
-                _batchSize = Check.GreaterOrEqualThan(value, 0, nameof(value));
-            }
-        }
+        public int BatchSize { get; set; } = 0;
 
         /// <summary>
-        /// <c>MsAccessBulkInsert</c> toto nastavenie nepoužíva.
+        /// This setting is not used.
         /// </summary>
         public int BulkInsertTimeout { get; set; }
 
         /// <summary>
-        /// Meno cieľovej tabuľky v databáze.
+        /// Destination table name in database.
         /// </summary>
         public string DestinationTableName { get; set; }
 
-        /// <summary>
-        /// Vloží všetky dáta zo zdroja <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">Zdroj dát.</param>
+        /// <inheritdoc/>
         public void Insert(IBulkActionDataReader reader)
         {
             using (var bulkInsertReader = new BulkActionDataReader(reader))
@@ -214,11 +196,22 @@ namespace Kros.Data.BulkActions.MsAccess
             }
         }
 
-        /// <summary>
-        /// Vloží všetky dáta zo zdroja <paramref name="reader"/>.
-        /// </summary>
-        /// <param name="reader">Zdroj dát.</param>
-        public void Insert(IDataReader reader)
+        /// <inheritdoc/>
+        public async Task InsertAsync(IBulkActionDataReader reader)
+        {
+            using (var bulkInsertReader = new BulkActionDataReader(reader))
+            {
+                await InsertAsync(bulkInsertReader);
+            }
+        }
+
+        /// <inheritdoc/>
+        public void Insert(IDataReader reader) => InsertCoreAsync(reader, useAsync: false).GetAwaiter().GetResult();
+
+        /// <inheritdoc/>
+        public Task InsertAsync(IDataReader reader) => InsertCoreAsync(reader, useAsync: true);
+
+        private async Task InsertCoreAsync(IDataReader reader, bool useAsync)
         {
             string filePath = null;
 
@@ -226,7 +219,7 @@ namespace Kros.Data.BulkActions.MsAccess
             {
                 filePath = CreateDataFile(reader);
                 InitBulkInsert(filePath, reader);
-                Insert(filePath);
+                await InsertAsync(filePath, useAsync);
             }
             finally
             {
@@ -245,10 +238,7 @@ namespace Kros.Data.BulkActions.MsAccess
             }
         }
 
-        /// <summary>
-        /// Vloží všetky riadky z tabuľky <paramref name="table"/>.
-        /// </summary>
-        /// <param name="table">Zdrojové dáta.</param>
+        /// <inheritdoc/>
         public void Insert(DataTable table)
         {
             using (var reader = table.CreateDataReader())
@@ -257,15 +247,17 @@ namespace Kros.Data.BulkActions.MsAccess
             }
         }
 
-        /// <summary>
-        /// Hromadne vloží dáta z CSV súboru <paramref name="sourceFilePath" />.
-        /// </summary>
-        /// <param name="sourceFilePath">Cesta k vstupnému súboru dát.</param>
-        /// <returns>Vráti počet vložených záznamov.</returns>
-        /// <exception cref="FileNotFoundException">Vstupný súbor <paramref name="sourceFilePath" /> neexistuje.</exception>
-        /// <remarks>V prípade, že súbor existuje, ale je prázdny, metóda nič nerobí a vráti <b>0</b>.</remarks>
+        /// <inheritdoc/>
+        public async Task InsertAsync(DataTable table)
+        {
+            using (var reader = table.CreateDataReader())
+            {
+                await InsertAsync(reader);
+            }
+        }
+
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private int Insert(string sourceFilePath)
+        private async Task InsertAsync(string sourceFilePath, bool useAsync)
         {
             if (!File.Exists(sourceFilePath))
             {
@@ -274,10 +266,9 @@ namespace Kros.Data.BulkActions.MsAccess
             }
             if ((new FileInfo(sourceFilePath)).Length == 0)
             {
-                return 0;
+                return;
             }
 
-            int ret = 0;
             if ((ExternalTransaction == null) && _connection.IsOpened())
             {
                 _connection.Close();
@@ -289,14 +280,18 @@ namespace Kros.Data.BulkActions.MsAccess
             {
                 cmd.CommandText = CreateInsertSql(DestinationTableName, sourceFilePath);
                 cmd.Transaction = ExternalTransaction;
-                ret = cmd.ExecuteNonQuery();
+                if (useAsync)
+                {
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                else
+                {
+                    cmd.ExecuteNonQuery();
+                }
             }
-
-            return ret;
         }
 
         #endregion
-
 
         #region Helpers
 
@@ -336,14 +331,7 @@ namespace Kros.Data.BulkActions.MsAccess
             return folder;
         }
 
-        /// <summary>
-        /// Vytvorá SQL príkaz pre vloženie dát do tabuľky <paramref name="tableName">tableName</paramref>
-        /// zo vstupného súboru <paramref name="sourceFilePath">sourceFilePath</paramref>
-        /// </summary>
-        /// <param name="tableName">Názov tabuľky, do ktorej sa vkladá.</param>
-        /// <param name="sourceFilePath">Cesta k vstupnému súboru s dátami.</param>
-        /// <returns>Reťazec - SQL príkaz, na vloženie dát.</returns>
-        /// <remarks></remarks>
+        // Vytvorá SQL príkaz pre vloženie dát do tabuľky "tableName" zo vstupného súboru "sourceFilePath".
         private string CreateInsertSql(string tableName, string sourceFilePath)
         {
             StringBuilder sql = new StringBuilder(2000);
@@ -353,7 +341,7 @@ namespace Kros.Data.BulkActions.MsAccess
             {
                 sql.AppendFormat("[{0}], ", column.ColumnName);
             }
-            sql.Length -= 2; // Odstránenie poslednej čiarky a medzery.
+            sql.Length -= 2; // Removes last comma and space.
             sql.AppendLine(")");
 
             sql.Append("SELECT ");
@@ -370,7 +358,7 @@ namespace Kros.Data.BulkActions.MsAccess
                     sql.AppendFormat("F{0} AS [{1}], ", i, column.ColumnName);
                 }
             }
-            sql.Length -= 2; // Odstránenie poslednej čiarky a medzery.
+            sql.Length -= 2; // Removes last comma and space.
             sql.AppendLine();
             sql.AppendFormat("FROM [Text;Database={0}].[{1}]",
                 Path.GetDirectoryName(sourceFilePath), Path.GetFileName(sourceFilePath));
@@ -491,16 +479,11 @@ namespace Kros.Data.BulkActions.MsAccess
 
         #endregion
 
-
         #region IDisposable
 
         private bool disposedValue = false;
 
-        /// <summary>
-        /// Uvoľní všetky zdroje používané <c>MsAccessBulkInsert</c>.
-        /// </summary>
-        /// <param name="disposing"><see langword="true"/> to release both managed and unmanaged resources;
-        /// <see langword="false"/> to release only unmanaged resources.</param>
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -517,16 +500,12 @@ namespace Kros.Data.BulkActions.MsAccess
             }
         }
 
-        /// <summary>
-        /// Uvoľní všetky zdroje triedy <c>MsAccessBulkInsert</c>.
-        /// </summary>
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
         }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }

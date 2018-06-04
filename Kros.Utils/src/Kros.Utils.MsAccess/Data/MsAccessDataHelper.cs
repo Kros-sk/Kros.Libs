@@ -8,17 +8,17 @@ using System.Reflection;
 namespace Kros.Data.MsAccess
 {
     /// <summary>
-    /// Všeobecné pomocné metódy pre praácu s MS Access.
+    /// General helpers for work Microsoft Access.
     /// </summary>
     public static class MsAccessDataHelper
     {
         /// <summary>
-        /// Identifikácia MS Access ACE providera: <c>Microsoft.ACE.OLEDB</c>.
+        /// Identification of Microsoft Access ACE provider: <c>Microsoft.ACE.OLEDB</c>.
         /// </summary>
         public const string AceProviderBase = "Microsoft.ACE.OLEDB";
 
         /// <summary>
-        /// Identifikácia MS Access JET providera: <c>Microsoft.Jet.OLEDB</c>.
+        /// Identification of Microsoft Access JET provider: <c>Microsoft.Jet.OLEDB</c>.
         /// </summary>
         public const string JetProviderBase = "Microsoft.Jet.OLEDB";
 
@@ -32,20 +32,20 @@ namespace Kros.Data.MsAccess
         private static string _msAccessJetProvider = null;
 
         /// <summary>
-        /// Vytvorí prázdnu MS Access databázu na umiestnení <paramref name="path"/>. Typ databázy (<c>.accdb</c>, <c>.mdb</c>)
-        /// je určený parametrom <paramref name="provider"/>.
+        /// Creates an empty Microsoft Access database at location <paramref name="path"/>. Database type
+        /// (<c>.accdb</c>, <c>.mdb</c>) is specified with <paramref name="provider"/>.
         /// </summary>
-        /// <param name="path">Cesta, kde sa databáza vytvorí. Cesta je úplná, aj s názvom vytváraného súboru.</param>
-        /// <param name="provider">Typ databázy, ktorá sa vytovrí.</param>
+        /// <param name="path">Path, where the database will be created. The path must be full, must contain also file name.
+        /// <param name="provider">Microsoft Access database type.</param>
         /// <remarks>
         /// <alert class="warning">
-        /// <para>Ak súbor <paramref name="path"/> už existuje, bude prepísaný.</para>
+        /// <para>If the file <paramref name="path"/> already exists, it will be overwritten.</para>
         /// </alert>
         /// <para>
-        /// Na základe hodnoty <paramref name="provider"/> sa len vytvorí daný typ databázy, buď databáza typu <c>.accdb</c>,
-        /// alebo staršieho typu <c>.mdb</c>. S príponou súboru sa však nič nerobí, tzn. databázový súbor sa bude volať tak,
-        /// ako je zadané v <paramref name="path"/>. Je tak možné vytvoriť databázový súbor s príponou <c>.mdb</c>, ktorý
-        /// ale v skutočnosti bude databáza <c>.accdb</c>. Správna prípona je tak plne v kompetencii toho, kto metódu volá.
+        /// Based on the value of <paramref name="provider"/> is created specified database type (<c>.accdb</c>, or older
+        /// <c>.mdb</c>). But nothing is done with the file extension, so the file name will be created as
+        /// <paramref name="path"/>. So it is possible to create a file with <c>.mdb</c> extension, which actually will be
+        /// database type <c>.accdb</c>. So the caller must provide correct file name.
         /// </para>
         /// </remarks>
         public static void CreateEmptyDatabase(string path, ProviderType provider)
@@ -61,38 +61,28 @@ namespace Kros.Data.MsAccess
         }
 
         /// <summary>
-        /// Vráti nainštalovaný provider pre Microsoft Access. Preferovaný je ACE provider pred JET providerom.
-        /// Ak nie je nainštalovaný žiadny ACE, alebo JET provider, je vrátený prázdny reťazec.
+        /// Returns installed provider for Microsoft Access. ACE provider is preferred over JET provider (if both are available).
+        /// If none provider is installed, empty string is returned.
         /// </summary>
-        public static string MsAccessProvider
-        {
-            get
-            {
-                if (MsAccessAceProvider == string.Empty)
-                {
-                    return MsAccessJetProvider;
-                }
-                return MsAccessAceProvider;
-            }
-        }
+        public static string MsAccessProvider => MsAccessAceProvider == string.Empty ? MsAccessJetProvider : MsAccessAceProvider;
 
         /// <summary>
-        /// Vráti, či je dostupný zadaný MS Access provider.
+        /// Returns is specified Microsoft Access provider <paramref name="provider"/> is available.
         /// </summary>
-        /// <param name="provider">Typ providera, ktorý sa kontroluje.</param>
-        /// <returns><see langword="true"/> ak zadaný provider je dostupný, <see langword="false"/> ak nie je.</returns>
+        /// <param name="provider">Checked provider type.</param>
+        /// <returns><see langword="true"/> if provider is available, otherwise <see langword="false"/>.</returns>
         public static bool HasProvider(ProviderType provider) =>
             provider == ProviderType.Ace
                 ? !string.IsNullOrEmpty(MsAccessAceProvider)
                 : !string.IsNullOrEmpty(MsAccessJetProvider);
 
         /// <summary>
-        /// Pre zadaný typ MS Access providera <paramref name="provider"/> vráti konkrétny reťazec predstavujúci
-        /// tento provider pre použitie v connection string-u. Ak nie je dostupný žiadny provider, je vrátený prázdny reťazec.
+        /// For specified provider type <paramref name="provider"/> returns string of the provider for use in connection string.
+        /// If there is no provider available, empty string is returned.
         /// </summary>
-        /// <param name="provider">Typ MS Access pridera.</param>
+        /// <param name="provider">Provider type.</param>
         /// <returns>
-        /// Vráti hodnoty vlastností:
+        /// Method just returns the values of other properties:
         /// <list type="table">
         /// <item>
         ///   <term><see cref="ProviderType.Ace">ProviderType.Ace</see></term>
@@ -110,9 +100,13 @@ namespace Kros.Data.MsAccess
         }
 
         /// <summary>
-        /// Vráti nainštalovaný ACE provider pre Microsoft Access (napríklad <b>Microsoft.ACE.OLEDB.12.0</b>).
-        /// Ak ACE provider nie je nainštalovaný, vráti prázdny reťazec.
+        /// Returns string for installed Microsoft Access ACE provider (for example <b>Microsoft.ACE.OLEDB.12.0</b>).
+        /// If ACE provider is not installed, empty string is returned.
         /// </summary>
+        /// <remarks>
+        /// Provider is loaded from the system only once and the value is cached. So when no provider is found, this state is
+        /// returned for any subsequent reads of the property.
+        /// </remarks>
         public static string MsAccessAceProvider
         {
             get
@@ -126,9 +120,13 @@ namespace Kros.Data.MsAccess
         }
 
         /// <summary>
-        /// Vráti nainštalovaný JET provider pre Microsoft Access (napríklad <b>Microsoft.Jet.OLEDB.4.0</b>).
-        /// Ak JET provider nie je nainštalovaný, vráti prázdny reťazec.
+        /// Returns string for installed Microsoft Access ACE provider (for example <b>Microsoft.Jet.OLEDB.4.0</b>).
+        /// If JET provider is not installed, empty string is returned.
         /// </summary>
+        /// <remarks>
+        /// Provider is loaded from the system only once and the value is cached. So when no provider is found, this state is
+        /// returned for any subsequent reads of the property.
+        /// </remarks>
         public static string MsAccessJetProvider
         {
             get
@@ -158,24 +156,25 @@ namespace Kros.Data.MsAccess
         }
 
         /// <summary>
-        /// Vráti typ providera z <paramref name="connection"/>.
+        /// Returns Microsoft Access provider type used in connection <paramref name="connection"/>.
         /// </summary>
-        /// <param name="connection">Testované spojenie.</param>
-        /// <returns>Typ providera.</returns>
+        /// <param name="connection">Database connection.</param>
+        /// <returns>Provider type.</returns>
         public static ProviderType GetProviderType(IDbConnection connection)
         {
             return GetProviderType(connection.ConnectionString);
         }
 
         /// <summary>
-        /// Vráti typ providera z <paramref name="connectionString"/>.
+        /// Returns Microsoft Access provider type used in connection string <paramref name="connectionString"/>.
         /// </summary>
-        /// <param name="connectionString">Testované spojenie.</param>
-        /// <returns>Typ providera.</returns>
+        /// <param name="connectionString">Connection string.</param>
+        /// <returns>Provider type.</returns>
         public static ProviderType GetProviderType(string connectionString)
         {
             Check.NotNullOrWhiteSpace(connectionString, nameof(connectionString));
 
+            // RES:
             return IsMsAccessConnection(connectionString)
                 ? IsMsAccessJetProvider(connectionString)
                     ? ProviderType.Jet
@@ -183,38 +182,39 @@ namespace Kros.Data.MsAccess
                 : throw new InvalidOperationException("Zadaný connection string nie je spojenie na MS Access databázu.");
         }
 
-
         /// <summary>
-        /// Určuje, či zadané spojenie je spojenie na <b>Microsoft Access</b>.
+        /// Checks if database connection <paramref name="connectionString"/> is Microsoft Access.
         /// </summary>
-        /// <param name="connectionString">Testované spojenie.</param>
-        /// <returns><see langword="true"/>, ak spojenie je na Microsoft Access, <see langword="false"/> ak nie je.</returns>
+        /// <param name="connectionString">Tested connection string.</param>
+        /// <returns><see langword="true"/> if connection is to Microsoft Access database, otherwise <see langword="false"/>.
+        /// </returns>
         public static bool IsMsAccessConnection(string connectionString) =>
             IsMsAccessAceProvider(connectionString) || IsMsAccessJetProvider(connectionString);
 
         /// <summary>
-        /// Určuje, či zadané spojenie je spojenie na <b>Microsoft Access</b>.
+        /// Checks if database connection <paramref name="connection"/> is Microsoft Access.
         /// </summary>
-        /// <param name="connection">Testované spojenie.</param>
-        /// <returns><see langword="true"/>, ak spojenie je na Microsoft Access, <see langword="false"/> ak nie je.</returns>
+        /// <param name="connection">Tested connection.</param>
+        /// <returns><see langword="true"/> if connection is to Microsoft Access database, otherwise <see langword="false"/>.
+        /// </returns>
         public static bool IsMsAccessConnection(IDbConnection connection)
         {
             return IsMsAccessConnection(connection.ConnectionString);
         }
 
         /// <summary>
-        /// Vráti, či v zadanom <paramref name="connectionString"/> je použitý Ace provider.
+        /// Checks if ACE provider is used in <paramref name="connectionString"/>.
         /// </summary>
         /// <param name="connectionString">Connection string.</param>
-        /// <returns><see langword="true"/>, ak provider je Ace provider, <see langword="false"/> ak nie je.</returns>
+        /// <returns><see langword="true"/> if ACE provider is used, otherwise <see langword="false"/>.</returns>
         public static bool IsMsAccessAceProvider(string connectionString) =>
             GetProviderName(connectionString).StartsWith(AceProviderBase, StringComparison.OrdinalIgnoreCase);
 
         /// <summary>
-        /// Vráti, či v zadanom <paramref name="connectionString"/> je použitý Jet provider.
+        /// Checks if JET provider is used in <paramref name="connectionString"/>.
         /// </summary>
         /// <param name="connectionString">Connection string.</param>
-        /// <returns><see langword="true"/>, ak provider je Jet provider, <see langword="false"/> ak nie je.</returns>
+        /// <returns><see langword="true"/> if JET provider is used, otherwise <see langword="false"/>.</returns>
         public static bool IsMsAccessJetProvider(string connectionString) =>
             GetProviderName(connectionString).StartsWith(JetProviderBase, StringComparison.OrdinalIgnoreCase);
 
@@ -232,13 +232,10 @@ namespace Kros.Data.MsAccess
         }
 
         /// <summary>
-        /// Returns <see langword="true"/> if <paramref name="connection"/> is exclusive; otherwise <see langword="false"/>.
+        /// Checks if connection <paramref name="connection"/> is an exclusive connection to the database.
         /// </summary>
-        /// <param name="connection">The database connection.</param>
-        /// <returns>
-        /// <see langword="true"/> if connection string contains settings
-        /// (<b>Share Deny Read</b> and <b>Share Deny Write</b>) or <b>Share Exclusive</b>.
-        /// </returns>
+        /// <param name="connection">The connection.</param>
+        /// <returns><see langword="true"/> if connection is exclusive, otherwise <see langword="false"/>.</returns>
         public static bool IsExclusiveMsAccessConnection(IDbConnection connection)
         {
             if (connection.GetType() == typeof(OleDbConnection))
@@ -249,14 +246,10 @@ namespace Kros.Data.MsAccess
         }
 
         /// <summary>
-        /// Returns <see langword="true"/> if <paramref name="connectionString"/> has exclusive connection to MS Access database;
-        /// otherwise <see langword="false"/>.
+        /// Checks if connection <paramref name="connectionString"/> is an exclusive connection to the database.
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
-        /// <returns>
-        /// <see langword="true"/> if connection string contains settings
-        /// (<b>Share Deny Read</b> and <b>Share Deny Write</b>) or <b>Share Exclusive</b>.
-        /// </returns>
+        /// <returns><see langword="true"/> if connection is exclusive, otherwise <see langword="false"/>.</returns>
         public static bool IsExclusiveMsAccessConnection(string connectionString)
         {
             return
@@ -266,13 +259,13 @@ namespace Kros.Data.MsAccess
         }
 
         /// <summary>
-        /// Vytvorí connection string k databáze <paramref name="databasePath"/> s aktuálnym providerom
-        /// typu <paramref name="provider"/>.
+        /// Creates a connection string to the database <paramref name="databasePath"/> with provider type
+        /// <paramref name="provider"/>.
         /// </summary>
-        /// <param name="databasePath">Cesta k databáze.</param>
-        /// <param name="provider">Typ providera, ktorý sa má použiť. Konkrétny reťazec providera sa použije aktuálny,
-        /// ktorý je v systéme, takže nie je potrebné starať sa o jeho verziu.</param>
-        /// <returns>Vráti connection string k zadanej databáze, napríklad
+        /// <param name="databasePath">Path to the database.</param>
+        /// <param name="provider">Provider type, which will be usedProvider string is used for the current, installed provider,
+        /// so there is no need to care about provider version.</param>
+        /// <returns>Returns connection string to specified database. For example
         /// <c>Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\data\database.accdb;</c>.</returns>
         public static string CreateConnectionString(string databasePath, ProviderType provider)
             => string.Format(BaseConnectionString, GetProviderString(provider), databasePath);
