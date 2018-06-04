@@ -1,10 +1,12 @@
 ﻿using Kros.Data.BulkActions;
 using Kros.Data.BulkActions.SqlServer;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Kros.Utils.UnitTests.Data.BulkActions
@@ -78,6 +80,47 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         #region Tests
 
         [Fact]
+        public void BulkUpdateDataFromIDataReaderSynchronouslyWithoutDeadLock()
+        {
+            AsyncContext.Run(() =>
+            {
+                DataTable expectedData = CreateExpectedData();
+                DataTable actualData = null;
+
+                using (IDataReader reader = expectedData.CreateDataReader())
+                using (var bulkUpdate = new SqlServerBulkUpdate(ServerHelper.Connection))
+                {
+                    bulkUpdate.DestinationTableName = TABLE_NAME;
+                    bulkUpdate.PrimaryKeyColumn = PRIMARY_KEY_COLUMN;
+                    bulkUpdate.Update(reader);
+                }
+
+                actualData = LoadData(ServerHelper.Connection);
+
+                SqlServerBulkHelper.CompareTables(actualData, expectedData);
+            });
+        }
+
+        [Fact]
+        public async Task BulkUpdateDataFromIDataReaderAsynchronously()
+        {
+            DataTable expectedData = CreateExpectedData();
+            DataTable actualData = null;
+
+            using (IDataReader reader = expectedData.CreateDataReader())
+            using (var bulkUpdate = new SqlServerBulkUpdate(ServerHelper.Connection))
+            {
+                bulkUpdate.DestinationTableName = TABLE_NAME;
+                bulkUpdate.PrimaryKeyColumn = PRIMARY_KEY_COLUMN;
+                await bulkUpdate.UpdateAsync(reader);
+            }
+
+            actualData = LoadData(ServerHelper.Connection);
+
+            SqlServerBulkHelper.CompareTables(actualData, expectedData);
+        }
+
+        [Fact]
         public void BulkUpdateDataFromIBulkInsertDataReader()
         {
             DataTable expectedData = CreateExpectedData();
@@ -89,6 +132,25 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 bulkUpdate.DestinationTableName = TABLE_NAME;
                 bulkUpdate.PrimaryKeyColumn = PRIMARY_KEY_COLUMN;
                 bulkUpdate.Update(reader);
+            }
+
+            actualData = LoadData(ServerHelper.Connection);
+
+            SqlServerBulkHelper.CompareTables(actualData, expectedData);
+        }
+
+        [Fact]
+        public async Task BulkUpdateDataFromIBulkInsertDataReaderAsynchronously()
+        {
+            DataTable expectedData = CreateExpectedData();
+            DataTable actualData = null;
+
+            using (IBulkActionDataReader reader = CreateDataReaderForUpdate())
+            using (var bulkUpdate = new SqlServerBulkUpdate(ServerHelper.Connection))
+            {
+                bulkUpdate.DestinationTableName = TABLE_NAME;
+                bulkUpdate.PrimaryKeyColumn = PRIMARY_KEY_COLUMN;
+                await bulkUpdate.UpdateAsync(reader);
             }
 
             actualData = LoadData(ServerHelper.Connection);
@@ -127,6 +189,24 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 bulkUpdate.DestinationTableName = TABLE_NAME;
                 bulkUpdate.PrimaryKeyColumn = PRIMARY_KEY_COLUMN;
                 bulkUpdate.Update(expectedData);
+            }
+
+            actualData = LoadData(ServerHelper.Connection);
+
+            SqlServerBulkHelper.CompareTables(actualData, expectedData);
+        }
+
+        [Fact]
+        public async Task BulkUpdateDataFromDataTableAsynchronously()
+        {
+            DataTable expectedData = CreateExpectedData();
+            DataTable actualData = null;
+
+            using (var bulkUpdate = new SqlServerBulkUpdate(ServerHelper.Connection))
+            {
+                bulkUpdate.DestinationTableName = TABLE_NAME;
+                bulkUpdate.PrimaryKeyColumn = PRIMARY_KEY_COLUMN;
+                await bulkUpdate.UpdateAsync(expectedData);
             }
 
             actualData = LoadData(ServerHelper.Connection);

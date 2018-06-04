@@ -2,8 +2,10 @@
 using Kros.Utils;
 using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.OleDb;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Kros.Data.BulkActions.MsAccess
 {
@@ -110,7 +112,7 @@ namespace Kros.Data.BulkActions.MsAccess
         }
 
         /// <inheritdoc/>
-        protected override void UpdateDestinationTable(IDataReader reader, string tempTableName)
+        protected async override Task UpdateDestinationTableAsync(IDataReader reader, string tempTableName, bool useAsync)
         {
             using (var cmd = _connection.CreateCommand())
             {
@@ -122,7 +124,14 @@ namespace Kros.Data.BulkActions.MsAccess
                 cmd.CommandText = $"UPDATE [{DestinationTableName}] INNER JOIN {tempDatabasePathAndTable} AS [{tempAlias}] " +
                                                                   $"ON ({innerJoin}) " +
                                   $"SET {GetUpdateColumnNames(reader, $"{tempAlias}")} ";
-                cmd.ExecuteNonQuery();
+                if (useAsync)
+                {
+                    await (cmd as DbCommand).ExecuteNonQueryAsync();
+                }
+                else
+                {
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
