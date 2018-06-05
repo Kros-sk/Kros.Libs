@@ -18,6 +18,20 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             CompareData(actualTable, expectedTable);
         }
 
+        public static void CompareColumnValues(DataTable actualTable, DataTable expectedTable, string columnName)
+        {
+            actualTable.Columns[columnName].Should().NotBeNull($"Tabuľke chýba stĺpec [{columnName}].");
+
+            actualTable.Rows.Count.Should().Be(expectedTable.Rows.Count,
+                $"Tabuľky majú rôzny počet stĺpcov: actual = {actualTable.Rows.Count}, " +
+                $"expected = {expectedTable.Rows.Count}.");
+
+            foreach (DataRow actual in expectedTable.Rows)
+            {
+                CompareRowOneColumn(actualTable, expectedTable, actual, columnName);
+            }
+        }
+
         private static void ComparePrimaryKeys(DataTable actualTable, DataTable expectedTable)
         {
             bool primaryKeysAreTheSame = false;
@@ -63,19 +77,34 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
         private static void CompareData(DataTable actualTable, DataTable expectedTable)
         {
-            object[] primaryKey = new object[expectedTable.PrimaryKey.Length];
-
             foreach (DataRow expectedRow in expectedTable.Rows)
             {
-                for (int i = 0; i < expectedTable.PrimaryKey.Length; i++)
-                {
-                    primaryKey[i] = expectedRow[expectedTable.PrimaryKey[i]];
-                }
-                CompareRowData(actualTable.Rows.Find(primaryKey), expectedRow);
+                CompareRowOneColumn(actualTable, expectedTable, expectedRow);
             }
         }
 
-        private static void CompareRowData(DataRow actualRow, DataRow expectedRow)
+        public static void CompareRowOneColumn(DataTable actualTable,
+                                               DataTable expectedTable,
+                                               DataRow expectedRow)
+        {
+            CompareRowOneColumn(actualTable, expectedTable, expectedRow, string.Empty);
+        }
+
+        public static void CompareRowOneColumn(DataTable actualTable,
+                                               DataTable expectedTable,
+                                               DataRow expectedRow,
+                                               string columnName)
+        {
+            object[] primaryKey = new object[expectedTable.PrimaryKey.Length];
+
+            for (int i = 0; i < expectedTable.PrimaryKey.Length; i++)
+            {
+                primaryKey[i] = expectedRow[expectedTable.PrimaryKey[i]];
+            }
+            CompareRowData(actualTable.Rows.Find(primaryKey), expectedRow, columnName);
+        }
+
+        private static void CompareRowData(DataRow actualRow, DataRow expectedRow, string columnName)
         {
             string pk = string.Empty;
             for (int i = 0; i < expectedRow.Table.PrimaryKey.Length; i++)
@@ -91,12 +120,15 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
             foreach (DataColumn column in expectedRow.Table.Columns)
             {
-                object expectedValue = expectedRow[column] == DBNull.Value ? "NULL" : expectedRow[column];
-                object actualValue = actualRow[column.ColumnName] == DBNull.Value ? "NULL" : actualRow[column.ColumnName];
+                if (string.IsNullOrEmpty(columnName) || columnName.ToUpper().Equals(column.ColumnName.ToUpper()))
+                {
+                    object expectedValue = expectedRow[column] == DBNull.Value ? "NULL" : expectedRow[column];
+                    object actualValue = actualRow[column.ColumnName] == DBNull.Value ? "NULL" : actualRow[column.ColumnName];
 
-                actualValue.Should().Be(expectedValue, $"Riadok s primárnym kľúčom \"{pk}\" nemá požadované dáta. " +
-                    $"V stĺpci [{column.ColumnName}] je hodnota \"{actualValue}\", " +
-                    $"očakávaná hodnota je \"{expectedValue}\".");
+                    actualValue.Should().Be(expectedValue, $"Riadok s primárnym kľúčom \"{pk}\" nemá požadované dáta. " +
+                        $"V stĺpci [{column.ColumnName}] je hodnota \"{actualValue}\", " +
+                        $"očakávaná hodnota je \"{expectedValue}\".");
+                }
             }
         }
 

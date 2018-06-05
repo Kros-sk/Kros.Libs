@@ -89,6 +89,16 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 ) ON [PRIMARY];
 ";
 
+        private const string TableName_PrimitiveDataTypes = "BulkInsertTest_ShortText";
+        private string CreateTable_BulkInsertTest_PrimitiveDataTypes =
+            $@"CREATE TABLE[dbo].[{TableName_PrimitiveDataTypes}] (
+    [ID] [int] NOT NULL IDENTITY(1, 1),
+    [ColValue] [nvarchar] (30) NULL,
+
+    CONSTRAINT [PK_TestTable_PrimitiveDataTypes] PRIMARY KEY CLUSTERED ([Id] ASC) ON [PRIMARY]
+
+) ON [PRIMARY];
+";
         #endregion
 
         #region DatabaseTestBase Overrides
@@ -96,7 +106,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         protected override string BaseDatabaseName => DATABASE_NAME;
 
         protected override IEnumerable<string> DatabaseInitScripts
-            => new string[] { CreateTable_BulkInsertTest, CreateTable_BulkInsertTest_IgnoreCaseInColumnNames };
+            => new string[] { CreateTable_BulkInsertTest, CreateTable_BulkInsertTest_IgnoreCaseInColumnNames, CreateTable_BulkInsertTest_PrimitiveDataTypes };
 
         #endregion
 
@@ -247,6 +257,25 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         [Fact]
+        public void BulkInsertDataFromIDataReaderShortText()
+        {
+            DataTable expectedData = CreateDataTableShortText();
+            DataTable actualData = null;
+
+            using (IBulkActionDataReader reader = CreateIDataReaderShortText())
+            {
+                using (SqlServerBulkInsert bulkInsert = new SqlServerBulkInsert(ServerHelper.Connection))
+                {
+                    bulkInsert.DestinationTableName = TableName_PrimitiveDataTypes;
+                    bulkInsert.Insert(reader);
+                }
+                actualData = LoadData(ServerHelper.Connection, TableName_PrimitiveDataTypes);
+            }
+
+            SqlServerBulkHelper.CompareTables(actualData, expectedData);
+        }
+
+        [Fact]
         public void ThrowInvalidOperationExceptionWhenColumnDoesNotExistInDestinationTable()
         {
             using (IBulkActionDataReader reader = CreateDataSourceWithNonExistingColumn())
@@ -367,6 +396,18 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             },
         };
 
+        private static List<string> _rawDataShortText = new List<string>
+            {
+                "Lorem",
+                "consectetur",
+                "Integer",
+                "scelerisque",
+                "pellentesque",
+                "convallis",
+                "metus",
+                "ullamcorper.",
+            };
+
         private DataTable LoadData(SqlConnection cn, string tableName)
         {
             DataTable data = new DataTable(TableName);
@@ -385,7 +426,13 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         {
             DataTable table = CreateBulkInsertDataTable(addDataColumns);
             FillBulkInsertDataTable(table);
+            return table;
+        }
 
+        private DataTable CreateDataTableShortText()
+        {
+            DataTable table = CreateBulkInsertDataTableShortText();
+            FillBulkInsertDataShortText(table);
             return table;
         }
 
@@ -446,6 +493,28 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             }
         }
 
+        private DataTable CreateBulkInsertDataTableShortText()
+        {
+            DataTable table = new DataTable("data");
+            DataColumn id = table.Columns.Add("Id", typeof(int));
+            id.AutoIncrement = true;
+            id.AutoIncrementSeed = 1;
+            id.AutoIncrementStep = 1;
+            table.Columns.Add("ColValue", typeof(string));
+            table.PrimaryKey = new DataColumn[] { table.Columns["Id"] };
+            return table;
+        }
+
+        private void FillBulkInsertDataShortText(DataTable table)
+        {
+            foreach (string data in _rawDataShortText)
+            {
+                DataRow row = table.NewRow();
+                row["ColValue"] = data;
+                table.Rows.Add(row);
+            }
+        }
+
         private IBulkActionDataReader CreateIDataReaderDataSource(bool addDataColumns)
         {
             List<DataItem> data = new List<DataItem>();
@@ -462,6 +531,16 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             }
 
             return new EnumerableDataReader<DataItem>(data, columnNames);
+        }
+
+        private IBulkActionDataReader CreateIDataReaderShortText()
+        {
+            List<string> data = new List<string>();
+            foreach (string item in _rawDataShortText)
+            {
+                data.Add(item);
+            }
+            return new EnumerableDataReader<string>(data, new List<string> { "ColValue" });
         }
 
         private IBulkActionDataReader CreateDataSourceWithNonExistingColumn()

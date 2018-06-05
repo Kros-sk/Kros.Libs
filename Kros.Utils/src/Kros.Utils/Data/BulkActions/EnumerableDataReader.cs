@@ -21,6 +21,7 @@ namespace Kros.Data.BulkActions
         private IEnumerator<T> _dataEnumerator;
         private readonly List<string> _columnNames;
         private readonly Dictionary<string, PropertyInfo> _propertyCache;
+        private readonly bool _isPrimitiveType = false;
 
         #endregion
 
@@ -48,8 +49,21 @@ namespace Kros.Data.BulkActions
 
             _columnNames = columnNames.ToList();
             Check.GreaterOrEqualThan(_columnNames.Count, 1, nameof(columnNames));
+            _isPrimitiveType = (typeof(T).IsPrimitive || typeof(T) == typeof(String));
 
-            _propertyCache = LoadProperties(_columnNames);
+            if (_isPrimitiveType)
+            {
+                Check.Equal(_columnNames.Count, 1, nameof(columnNames));
+            }
+            else
+            {
+                Check.GreaterOrEqualThan(_columnNames.Count, 1, nameof(columnNames));
+            }
+
+            if (!_isPrimitiveType)
+            {
+                _propertyCache = LoadProperties(_columnNames);
+            }
             _dataEnumerator = data.GetEnumerator();
         }
 
@@ -81,7 +95,17 @@ namespace Kros.Data.BulkActions
         /// </summary>
         /// <param name="i">Column index.</param>
         /// <returns>Column value.</returns>
-        public object GetValue(int i) => _propertyCache[GetName(i)].GetValue(_dataEnumerator.Current, null);
+        public object GetValue(int i)
+        {
+            if (_isPrimitiveType)
+            {
+                return _dataEnumerator.Current;
+            }
+            else
+            {
+                return _propertyCache[GetName(i)].GetValue(_dataEnumerator.Current, null);
+            }
+        }
 
         /// <summary>
         /// Moves to next record.
