@@ -35,7 +35,7 @@ namespace Kros.Utils.UnitTests.Data
                 Action action = () => { var factory = BulkActionFactories.GetFactory(conn); };
 
                 action.ShouldThrow<InvalidOperationException>()
-                    .WithMessage($"{nameof(IBulkActionFactory)} for connection type 'CustomConnection' is not registered.");
+                    .WithMessage($"*{typeof(CustomConnection).FullName}*");
             }
         }
 
@@ -45,7 +45,7 @@ namespace Kros.Utils.UnitTests.Data
             Action action = () => { var factory = BulkActionFactories.GetFactory("constring", "System.Data.CustomClient"); };
 
             action.ShouldThrow<InvalidOperationException>()
-                .WithMessage($"{nameof(IBulkActionFactory)} for ADO client 'System.Data.CustomClient' is not registered.");
+                .WithMessage($"*System.Data.CustomClient*");
         }
     }
 }

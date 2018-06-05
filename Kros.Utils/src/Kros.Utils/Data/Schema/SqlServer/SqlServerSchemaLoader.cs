@@ -56,7 +56,7 @@ namespace Kros.Data.Schema.SqlServer
         /// <summary>
         /// Event raised while parsing default value of a column. It is possible to use custom parsing logic in the event handler.
         /// </summary>
-        /// <remarks>When custom logic for parsing column's default value is used, the parsed value is set in 
+        /// <remarks>When custom logic for parsing column's default value is used, the parsed value is set in
         /// <see cref="SqlServerParseDefaultValueEventArgs.DefaultValue"/> property and
         /// <see cref="SqlServerParseDefaultValueEventArgs.Handled"/> flag must be set to <see langword="true"/>.</remarks>
         public event EventHandler<SqlServerParseDefaultValueEventArgs> ParseDefaultValue;

@@ -168,11 +168,32 @@
   <data name="ColumnBelongsToAnotherTable" xml:space="preserve">
     <value>Column "{0}" cannot be added to table "{1}" because it already belongs to table "{2}".</value>
   </data>
+  <data name="ColumnMissingInBulkInsertDestinationTable" xml:space="preserve">
+    <value>Destination table "{0}" does not have column "{1}".</value>
+  </data>
   <data name="ForeignKeyBelongsToAnotherTable" xml:space="preserve">
     <value>Foreign key "{0}" cannot be added to table "{1}" because it already belongs to table "{2}".</value>
   </data>
+  <data name="IBulkInsertFactoryNotRegisteredForClient" xml:space="preserve">
+    <value>{0} for ADO client "{1}" is not registered.</value>
+  </data>
+  <data name="IBulkInsertFactoryNotRegisteredForConnection" xml:space="preserve">
+    <value>{0} for connection type "{1}" is not registered.</value>
+  </data>
+  <data name="IdGeneratorFactoryNotRegisteredForClient" xml:space="preserve">
+    <value>IdGeneratorFactory for ADO client {0} is not registered.</value>
+  </data>
+  <data name="IdGeneratorFactoryNotRegisteredForConnection" xml:space="preserve">
+    <value>IdGeneratorFactory for connection type {0} is not registered.</value>
+  </data>
   <data name="IndexBelongsToAnotherTable" xml:space="preserve">
     <value>Index "{0}" cannot be added to table "{1}" because it already belongs to table "{2}".</value>
+  </data>
+  <data name="MissingPropertyInType" xml:space="preserve">
+    <value>Type "{0}" does not have property "{1}" which is in column names list.</value>
+  </data>
+  <data name="PathContainsInvalidCharacters" xml:space="preserve">
+    <value>One of the path parts contains invalid characters. Errorneous part is at index {0}: "{1}"</value>
   </data>
   <data name="SqlServerNoInitialCatalog" xml:space="preserve">
     <value>For loading the database schema, the database name (Initial Catalog) must be specified in the connection.</value>

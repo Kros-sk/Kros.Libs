@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.Properties;
+using Kros.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,7 +106,8 @@ namespace Kros.Data.BulkActions
                 properties[columnName] = typeof(T).GetProperty(columnName);
                 if (properties[columnName] == null)
                 {
-                    throw new InvalidOperationException($"Type {typeof(T).FullName} does not have property \"{columnName}\".");
+                    throw new InvalidOperationException(
+                        string.Format(Resources.MissingPropertyInType, typeof(T).FullName, columnName));
                 }
             }
 

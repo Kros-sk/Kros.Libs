@@ -12,7 +12,7 @@ namespace Kros.Data.Schema.SqlServer
     {
         /// <summary>
         /// Generates a cache key for <paramref name="connection"/>.
-        /// The generated key is a string "<c>SqlServer: SERVER\database</c>".
+        /// The generated key is a string "<c>SqlServer:SERVER\database</c>".
         /// </summary>
         /// <param name="connection">Database connection.</param>
         /// <returns>String.</returns>

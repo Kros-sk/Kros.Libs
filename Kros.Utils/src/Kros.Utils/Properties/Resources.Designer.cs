@@ -214,6 +214,15 @@ namespace Kros.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Destination table &quot;{0}&quot; does not have column &quot;{1}&quot;..
+        /// </summary>
+        internal static string ColumnMissingInBulkInsertDestinationTable {
+            get {
+                return ResourceManager.GetString("ColumnMissingInBulkInsertDestinationTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Foreign key &quot;{0}&quot; cannot be added to table &quot;{1}&quot; because it already belongs to table &quot;{2}&quot;..
         /// </summary>
         internal static string ForeignKeyBelongsToAnotherTable {
@@ -223,11 +232,65 @@ namespace Kros.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} for ADO client &quot;{1}&quot; is not registered..
+        /// </summary>
+        internal static string IBulkInsertFactoryNotRegisteredForClient {
+            get {
+                return ResourceManager.GetString("IBulkInsertFactoryNotRegisteredForClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} for connection type &quot;{1}&quot; is not registered..
+        /// </summary>
+        internal static string IBulkInsertFactoryNotRegisteredForConnection {
+            get {
+                return ResourceManager.GetString("IBulkInsertFactoryNotRegisteredForConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IdGeneratorFactory for ADO client {0} is not registered..
+        /// </summary>
+        internal static string IdGeneratorFactoryNotRegisteredForClient {
+            get {
+                return ResourceManager.GetString("IdGeneratorFactoryNotRegisteredForClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IdGeneratorFactory for connection type {0} is not registered..
+        /// </summary>
+        internal static string IdGeneratorFactoryNotRegisteredForConnection {
+            get {
+                return ResourceManager.GetString("IdGeneratorFactoryNotRegisteredForConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Index &quot;{0}&quot; cannot be added to table &quot;{1}&quot; because it already belongs to table &quot;{2}&quot;..
         /// </summary>
         internal static string IndexBelongsToAnotherTable {
             get {
                 return ResourceManager.GetString("IndexBelongsToAnotherTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &quot;{0}&quot; does not have property &quot;{1}&quot; which is in column names list..
+        /// </summary>
+        internal static string MissingPropertyInType {
+            get {
+                return ResourceManager.GetString("MissingPropertyInType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One of the path parts contains invalid characters. Errorneous part is at index {0}: &quot;{1}&quot;.
+        /// </summary>
+        internal static string PathContainsInvalidCharacters {
+            get {
+                return ResourceManager.GetString("PathContainsInvalidCharacters", resourceCulture);
             }
         }
         
