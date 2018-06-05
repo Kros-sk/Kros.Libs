@@ -16,7 +16,6 @@ namespace Kros.Data.Schema.MsAccess
         /// <param name="oleDbType"><inheritdoc cref="OleDbType"/></param>
         /// <param name="defaultValueString"><inheritdoc cref="DefaultValueString"/></param>
         /// <param name="defaultValue">Value, which was obtained by default parser.</param>
-        /// <summary>
         public MsAccessParseDefaultValueEventArgs(
             string tableName,
             string columnName,

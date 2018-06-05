@@ -711,11 +711,11 @@ ORDER BY foreign_key_columns.constraint_object_id
             Check.NotNull(connection, nameof(connection));
             if (!(this as IDatabaseSchemaLoader).SupportsConnectionType(connection))
             {
-                throw new ArgumentException(Resources.SqlServerSchemaLoader_UnsupportedConnectionType, nameof(connection));
+                throw new ArgumentException(Resources.SqlServerUnsupportedConnectionType, nameof(connection));
             }
             SqlConnectionStringBuilder cnBuilder = new SqlConnectionStringBuilder((connection as SqlConnection).ConnectionString);
             Check.NotNullOrWhiteSpace(
-                cnBuilder.InitialCatalog, nameof(connection), Resources.SqlServerSchemaLoader_NoInitialCatalog);
+                cnBuilder.InitialCatalog, nameof(connection), Resources.SqlServerNoInitialCatalog);
         }
 
         private DataTable GetSchemaTables(SqlConnection connection)

@@ -43,6 +43,7 @@ namespace Kros.Data.MsAccess
         /// (<c>.accdb</c>, <c>.mdb</c>) is specified with <paramref name="provider"/>.
         /// </summary>
         /// <param name="path">Path, where the database will be created. The path must be full, must contain also file name.
+        /// </param>
         /// <param name="provider">Microsoft Access database type.</param>
         /// <remarks>
         /// <alert class="warning">

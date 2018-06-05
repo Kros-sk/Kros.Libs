@@ -102,7 +102,7 @@ namespace Kros.Data.Schema
             }
             else if (item.Table != Table)
             {
-                throw new InvalidOperationException(string.Format(Resources.Schema_IndexBelongsToAnotherTable,
+                throw new InvalidOperationException(string.Format(Resources.IndexBelongsToAnotherTable,
                     item.Name, Table.Name, item.Table.Name));
             }
             base.InsertItem(index, item);

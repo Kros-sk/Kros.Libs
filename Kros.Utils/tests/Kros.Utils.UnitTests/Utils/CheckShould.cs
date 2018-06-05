@@ -618,7 +618,7 @@ namespace Kros.Utils.UnitTests.Utils
             DummyEnum value = DummyEnum.Value1;
             Action action = () => Check.IsInList(value, new DummyEnum[] { DummyEnum.Value2, DummyEnum.Value3 }, "arg");
             action.ShouldThrow<ArgumentException>()
-                .WithMessage($"*\"Value1\"*\"Value2, Value3\"*")
+                .WithMessage($"*Value1*Value2, Value3*")
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -654,7 +654,7 @@ namespace Kros.Utils.UnitTests.Utils
             string value = "a";
             Action action = () => Check.IsInList(value, new string[] { "b", "c", "d" }, "arg");
             action.ShouldThrow<ArgumentException>()
-                .WithMessage($"*\"a\"*\"b, c, d\"*")
+                .WithMessage($"*a*b, c, d*")
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -694,7 +694,7 @@ namespace Kros.Utils.UnitTests.Utils
             DummyEnum value = DummyEnum.Value1;
             Action action = () => Check.IsNotInList(value, new DummyEnum[] { DummyEnum.Value1, DummyEnum.Value2 }, "arg");
             action.ShouldThrow<ArgumentException>()
-                .WithMessage($"*\"Value1\"*\"Value1, Value2\"*")
+                .WithMessage($"*Value1*Value1, Value2*")
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -730,7 +730,7 @@ namespace Kros.Utils.UnitTests.Utils
             string value = "a";
             Action action = () => Check.IsNotInList(value, new string[] { "a", "b", "c" }, "arg");
             action.ShouldThrow<ArgumentException>()
-                .WithMessage($"*\"a\"*\"a, b, c\"*")
+                .WithMessage($"*a*a, b, c*")
                 .And.ParamName.Should().Be("arg");
         }
 
