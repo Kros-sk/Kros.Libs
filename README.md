@@ -42,7 +42,7 @@ For configuration, general information and examples [see the documentation](http
 ### Contributing to Kros.Libs
 
 * Do you miss something? [Create new issue](https://github.com/Kros-sk/Kros.Libs/issues/new).
-* Did you find a bug? [Create new issue](https://github.com/Kros-sk/Kros.Libs/issues/new).
+* Did you find a bug? [Create new issue](https://github.com/Kros-sk/Kros.Libs/issues/new?template=bug_report.md).
 * Do you want to fix a bug?
     * Ask for an issue labeled [_up-for-grabs_](https://github.com/Kros-sk/Kros.Libs/issues?utf8=✓&q=is%3Aopen+label%3Abug+label%3Aup-for-grabs).
     * Write the unit tests.
