@@ -391,11 +391,11 @@ namespace Kros.KORM.Query
                     {
                         if (useAsync)
                         {
-                            bulkInsert.Insert(reader);
+                            await bulkInsert.InsertAsync(reader);
                         }
                         else
                         {
-                            await bulkInsert.InsertAsync(reader);
+                            bulkInsert.Insert(reader);
                         }
                     }
                 }
