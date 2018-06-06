@@ -180,7 +180,7 @@ namespace Kros.Data.MsAccess
                     }
                     else
                     {
-                        // Thos occurs when somebody else updated the value in the meantime.
+                        // This occurs when somebody else updated the value in the meantime.
                         // MS Access "waits" a while in transaction. If other transaction is fast enough,
                         // this one will not throw, but it will update already updated value.
                         transaction.Rollback();

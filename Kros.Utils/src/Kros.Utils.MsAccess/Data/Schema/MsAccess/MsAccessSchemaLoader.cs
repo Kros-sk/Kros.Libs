@@ -472,7 +472,7 @@ namespace Kros.Data.Schema.MsAccess
             Check.NotNull(connection, nameof(connection));
             if (!(this as IDatabaseSchemaLoader).SupportsConnectionType(connection))
             {
-                throw new ArgumentException(Resources.MsAccessSchemaLoader_UnsupportedConnectionType, nameof(connection));
+                throw new ArgumentException(Resources.UnsupportedConnectionType, nameof(connection));
             }
         }
 

@@ -147,7 +147,7 @@ namespace Kros.Data.Schema
             if (linfo == null)
             {
                 throw new InvalidOperationException(
-                    string.Format(Resources.DatabaseSchemaCache_UnsupportedDatabaseType, connection.GetType().FullName));
+                    string.Format(Resources.UnsupportedConnectionType, connection.GetType().FullName));
             }
             return linfo;
         }

@@ -76,7 +76,7 @@ namespace Kros.UnitTests
         {
             if (_disposedValue)
             {
-                throw new ObjectDisposedException(GetType().Name);
+                throw new ObjectDisposedException(GetType().FullName);
             }
         }
 

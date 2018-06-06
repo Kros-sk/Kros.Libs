@@ -10,7 +10,6 @@ namespace Kros.Data.BulkActions
     /// </summary>
     public abstract class BulkUpdateBase : IBulkUpdate
     {
-
         #region Constants
 
         /// <summary>
@@ -19,7 +18,6 @@ namespace Kros.Data.BulkActions
         protected const char PrefixTempTable = '#';
 
         #endregion
-
 
         #region Private fields
 
@@ -35,7 +33,6 @@ namespace Kros.Data.BulkActions
 
         #endregion
 
-
         #region Properties
 
         /// <summary>
@@ -44,7 +41,6 @@ namespace Kros.Data.BulkActions
         public IDbTransaction ExternalTransaction { get; protected set; }
 
         #endregion
-
 
         #region IBulkUpdate Members
 
@@ -118,7 +114,6 @@ namespace Kros.Data.BulkActions
 
         #endregion
 
-
         #region Protected Virtual Methods
 
         /// <summary>
@@ -172,7 +167,6 @@ namespace Kros.Data.BulkActions
         protected virtual Task DoneTempTableAsync(string tempTableName, bool useAsync) => Task.CompletedTask;
 
         #endregion
-
 
         #region Helpers
 
@@ -260,7 +254,6 @@ namespace Kros.Data.BulkActions
 
         #endregion
 
-
         #region IDisposable
 
         private bool _disposedValue = false;
@@ -288,6 +281,5 @@ namespace Kros.Data.BulkActions
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }

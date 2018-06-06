@@ -64,7 +64,7 @@ namespace Kros.Data.Schema
             }
             else if (item.Database != Database)
             {
-                throw new InvalidOperationException(string.Format(Resources.Schema_TableBelongsToAnotherDatabase,
+                throw new InvalidOperationException(string.Format(Resources.TableBelongsToAnotherDatabase,
                     item.Name, Database.Name, item.Database.Name));
             }
             base.InsertItem(index, item);

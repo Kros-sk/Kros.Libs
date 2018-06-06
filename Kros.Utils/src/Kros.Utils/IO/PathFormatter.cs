@@ -346,10 +346,12 @@ namespace Kros.IO
         /// </remarks>
         public string InfoOpeningString
         {
-            get {
+            get
+            {
                 return _infoOpeningString;
             }
-            set {
+            set
+            {
                 _infoOpeningString = value == null ? string.Empty : PathHelper.ReplaceInvalidPathChars(value);
             }
         }
@@ -365,10 +367,12 @@ namespace Kros.IO
         /// </remarks>
         public string InfoClosingString
         {
-            get {
+            get
+            {
                 return _infoClosingString;
             }
-            set {
+            set
+            {
                 _infoClosingString = value == null ? string.Empty : PathHelper.ReplaceInvalidPathChars(value);
             }
         }
@@ -384,10 +388,12 @@ namespace Kros.IO
         /// </remarks>
         public string CounterOpeningString
         {
-            get {
+            get
+            {
                 return _counterOpeningString;
             }
-            set {
+            set
+            {
                 _counterOpeningString = value == null ? string.Empty : PathHelper.ReplaceInvalidPathChars(value);
             }
         }
@@ -403,10 +409,12 @@ namespace Kros.IO
         /// </remarks>
         public string CounterClosingString
         {
-            get {
+            get
+            {
                 return _counterClosingString;
             }
-            set {
+            set
+            {
                 _counterClosingString = value == null ? string.Empty : PathHelper.ReplaceInvalidPathChars(value);
             }
         }
@@ -424,10 +432,12 @@ namespace Kros.IO
         /// </summary>
         protected internal int MaxPathLength
         {
-            get {
+            get
+            {
                 return _maxPathLength;
             }
-            set {
+            set
+            {
                 _maxPathLength = value;
             }
         }

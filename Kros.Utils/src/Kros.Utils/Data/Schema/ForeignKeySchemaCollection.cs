@@ -114,7 +114,7 @@ namespace Kros.Data.Schema
             }
             else if (item.Table != Table)
             {
-                throw new InvalidOperationException(string.Format(Resources.Schema_ForeignKeyBelongsToAnotherTable,
+                throw new InvalidOperationException(string.Format(Resources.ForeignKeyBelongsToAnotherTable,
                     item.Name, Table.Name, item.Table.Name));
             }
             base.InsertItem(index, item);
