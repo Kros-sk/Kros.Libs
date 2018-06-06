@@ -77,8 +77,8 @@ namespace Kros.Data
             }
             else
             {
-                throw new InvalidOperationException(
-                    string.Format(Resources.IdGeneratorFactoryNotRegisteredForConnection, connection.GetType().FullName));
+                throw new InvalidOperationException(string.Format(Resources.FactoryNotRegisteredForConnection,
+                    nameof(IIdGeneratorFactory), connection.GetType().FullName));
             }
         }
 
@@ -100,8 +100,8 @@ namespace Kros.Data
             }
             else
             {
-                throw new InvalidOperationException(
-                    string.Format(Resources.IdGeneratorFactoryNotRegisteredForClient, adoClientName));
+                throw new InvalidOperationException(string.Format(Resources.FactoryNotRegisteredForClient,
+                    nameof(IIdGeneratorFactory), adoClientName));
             }
         }
     }

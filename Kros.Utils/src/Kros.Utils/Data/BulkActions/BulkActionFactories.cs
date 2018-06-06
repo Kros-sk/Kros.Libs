@@ -55,7 +55,7 @@ namespace Kros.Data.BulkActions
             }
             else
             {
-                throw new InvalidOperationException(string.Format(Resources.IBulkInsertFactoryNotRegisteredForConnection,
+                throw new InvalidOperationException(string.Format(Resources.FactoryNotRegisteredForConnection,
                     nameof(IBulkActionFactory), connection.GetType().FullName));
             }
         }
@@ -80,7 +80,7 @@ namespace Kros.Data.BulkActions
             }
             else
             {
-                throw new InvalidOperationException(string.Format(Resources.IBulkInsertFactoryNotRegisteredForClient,
+                throw new InvalidOperationException(string.Format(Resources.FactoryNotRegisteredForClient,
                     nameof(IBulkActionFactory), adoClientName));
             }
         }

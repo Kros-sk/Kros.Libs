@@ -99,7 +99,8 @@ namespace Kros.UnitTests
         /// </summary>
         public SqlConnection Connection
         {
-            get {
+            get
+            {
                 if (_connection == null)
                 {
                     CreateDatabase();

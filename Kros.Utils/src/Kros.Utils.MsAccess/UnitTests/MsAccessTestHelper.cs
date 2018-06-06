@@ -122,7 +122,8 @@ namespace Kros.UnitTests
         /// </summary>
         public OleDbConnection Connection
         {
-            get {
+            get
+            {
                 if (_connection == null)
                 {
                     CreateDatabase();

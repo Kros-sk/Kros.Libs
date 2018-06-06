@@ -117,7 +117,8 @@ namespace Kros.Data.MsAccess
         /// </remarks>
         public static string MsAccessAceProvider
         {
-            get {
+            get
+            {
                 if (_msAccessAceProvider == null)
                 {
                     _msAccessAceProvider = GetMsAccessProvider(AceProviderBase);
@@ -136,7 +137,8 @@ namespace Kros.Data.MsAccess
         /// </remarks>
         public static string MsAccessJetProvider
         {
-            get {
+            get
+            {
                 if (_msAccessJetProvider == null)
                 {
                     _msAccessJetProvider = GetMsAccessProvider(JetProviderBase);

@@ -71,10 +71,12 @@ namespace Kros.Data.Schema
         /// </exception>
         public string Name
         {
-            get {
+            get
+            {
                 return _name;
             }
-            set {
+            set
+            {
                 if (Table != null)
                 {
                     throw new InvalidOperationException(string.Format(

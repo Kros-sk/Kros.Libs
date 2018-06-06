@@ -368,7 +368,8 @@ namespace Kros.Data.BulkActions.MsAccess
 
         private string SqlCodePage
         {
-            get {
+            get
+            {
                 if (CodePage == AnsiCodePage)
                 {
                     return "ANSI";
