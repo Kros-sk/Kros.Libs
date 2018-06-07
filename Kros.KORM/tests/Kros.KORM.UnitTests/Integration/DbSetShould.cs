@@ -84,23 +84,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
         {
             var dbSet = korm.Query<Person>().AsDbSet();
 
-            dbSet.Add(new Person()
-            {
-                Id = 1,
-                FirstName = "Milan",
-                LastName = "Martiniak",
-                Age = 32,
-                Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" }
-            });
-
-            dbSet.Add(new Person()
-            {
-                Id = 2,
-                FirstName = "Peter",
-                LastName = "Juráček",
-                Age = 14,
-                Address = new List<string>() { "Novozámocká" }
-            });
+            dbSet.Add(GetData());
             return dbSet;
         }
 
@@ -152,23 +136,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
         {
             var dbSet = korm.Query<Person>().AsDbSet();
 
-            dbSet.Edit(new Person()
-            {
-                Id = 1,
-                FirstName = "Milan",
-                LastName = "Martiniak",
-                Age = 32,
-                Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" }
-            });
-
-            dbSet.Edit(new Person()
-            {
-                Id = 2,
-                FirstName = "Peter",
-                LastName = "Juráček",
-                Age = 14,
-                Address = new List<string>() { "Novozámocká" }
-            });
+            dbSet.Edit(GetData());
             return dbSet;
         }
 
@@ -232,7 +200,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
             using (var korm = CreateDatabase(CreateTable_TestTable))
             {
                 IDbSet<Person> dbSet = korm.Query<Person>().AsDbSet();
-                dbSet.Add(GetDataForBulkInsert());
+                dbSet.Add(GetData());
 
                 await dbSet.BulkInsertAsync();
 
@@ -247,7 +215,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
             {
                 IDbSet<Person> dbSet = korm.Query<Person>().AsDbSet();
 
-                await dbSet.BulkInsertAsync(GetDataForBulkInsert());
+                await dbSet.BulkInsertAsync(GetData());
 
                 AssertData(korm);
             }
@@ -261,7 +229,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
                 using (var korm = CreateDatabase(CreateTable_TestTable))
                 {
                     IDbSet<Person> dbSet = korm.Query<Person>().AsDbSet();
-                    dbSet.Add(GetDataForBulkInsert());
+                    dbSet.Add(GetData());
 
                     dbSet.BulkInsert();
 
@@ -279,36 +247,11 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
                 {
                     IDbSet<Person> dbSet = korm.Query<Person>().AsDbSet();
 
-                    dbSet.BulkInsert(GetDataForBulkInsert());
+                    dbSet.BulkInsert(GetData());
 
                     AssertData(korm);
                 }
             });
-        }
-
-        private static IEnumerable<Person> GetDataForBulkInsert()
-        {
-            var data = new List<Person>();
-
-            data.Add(new Person()
-            {
-                Id = 1,
-                FirstName = "Milan",
-                LastName = "Martiniak",
-                Age = 32,
-                Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" }
-            });
-
-            data.Add(new Person()
-            {
-                Id = 2,
-                FirstName = "Peter",
-                LastName = "Juráček",
-                Age = 14,
-                Address = new List<string>() { "Novozámocká" }
-            });
-
-            return data;
         }
 
         #endregion
@@ -324,7 +267,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
                 {
                     var dbSet = korm.Query<Person>().AsDbSet();
 
-                    dbSet.Edit(GetDataForBulkUpdate());
+                    dbSet.Edit(GetData());
 
                     dbSet.BulkUpdate();
 
@@ -340,7 +283,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
             {
                 var dbSet = korm.Query<Person>().AsDbSet();
 
-                dbSet.Edit(GetDataForBulkUpdate());
+                dbSet.Edit(GetData());
 
                 await dbSet.BulkUpdateAsync();
 
@@ -357,7 +300,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
                 {
                     var dbSet = korm.Query<Person>().AsDbSet();
 
-                    dbSet.Edit(GetDataForBulkUpdate());
+                    dbSet.Edit(GetData());
 
                     dbSet.BulkUpdate((c, t, s) => { });
 
@@ -373,7 +316,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
             {
                 var dbSet = korm.Query<Person>().AsDbSet();
 
-                dbSet.Edit(GetDataForBulkUpdate());
+                dbSet.Edit(GetData());
 
                 await dbSet.BulkUpdateAsync((c, t, s) => { });
 
@@ -390,7 +333,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
                 {
                     var dbSet = korm.Query<Person>().AsDbSet();
 
-                    dbSet.BulkUpdate(GetDataForBulkUpdate());
+                    dbSet.BulkUpdate(GetData());
 
                     AssertData(korm);
                 }
@@ -404,7 +347,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
             {
                 var dbSet = korm.Query<Person>().AsDbSet();
 
-                await dbSet.BulkUpdateAsync(GetDataForBulkUpdate());
+                await dbSet.BulkUpdateAsync(GetData());
 
                 AssertData(korm);
             }
@@ -419,7 +362,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
                 {
                     var dbSet = korm.Query<Person>().AsDbSet();
 
-                    dbSet.BulkUpdate(GetDataForBulkUpdate(), (c, t, s) => { });
+                    dbSet.BulkUpdate(GetData(), (c, t, s) => { });
 
                     AssertData(korm);
                 }
@@ -433,13 +376,13 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
             {
                 var dbSet = korm.Query<Person>().AsDbSet();
 
-                await dbSet.BulkUpdateAsync(GetDataForBulkUpdate(), (c, t, s) => { });
+                await dbSet.BulkUpdateAsync(GetData(), (c, t, s) => { });
 
                 AssertData(korm);
             }
         }
 
-        private static IEnumerable<Person> GetDataForBulkUpdate()
+        private static IEnumerable<Person> GetData()
         {
             var data = new List<Person>();
 
