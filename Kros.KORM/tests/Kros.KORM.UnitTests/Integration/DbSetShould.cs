@@ -84,28 +84,11 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
         {
             var dbSet = korm.Query<Person>().AsDbSet();
 
-            dbSet.Add(new Person()
-            {
-                Id = 1,
-                FirstName = "Milan",
-                LastName = "Martiniak",
-                Age = 32,
-                Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" }
-            });
-
-            dbSet.Add(new Person()
-            {
-                Id = 2,
-                FirstName = "Peter",
-                LastName = "Juráček",
-                Age = 14,
-                Address = new List<string>() { "Novozámocká" }
-            });
+            dbSet.Add(GetData());
             return dbSet;
         }
 
         #endregion
-
 
         #region Update data
 
@@ -153,28 +136,11 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
         {
             var dbSet = korm.Query<Person>().AsDbSet();
 
-            dbSet.Edit(new Person()
-            {
-                Id = 1,
-                FirstName = "Milan",
-                LastName = "Martiniak",
-                Age = 32,
-                Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" }
-            });
-
-            dbSet.Edit(new Person()
-            {
-                Id = 2,
-                FirstName = "Peter",
-                LastName = "Juráček",
-                Age = 14,
-                Address = new List<string>() { "Novozámocká" }
-            });
+            dbSet.Edit(GetData());
             return dbSet;
         }
 
         #endregion
-
 
         #region Delete Data
 
@@ -222,6 +188,223 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
 
                 korm.Query<Person>().Count().Should().Be(0);
             }
+        }
+
+        #endregion
+
+        #region Bulk Insert
+
+        [Fact]
+        public async Task BulkInsertDataAsync()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable))
+            {
+                IDbSet<Person> dbSet = korm.Query<Person>().AsDbSet();
+                dbSet.Add(GetData());
+
+                await dbSet.BulkInsertAsync();
+
+                AssertData(korm);
+            }
+        }
+
+        [Fact]
+        public async Task BulkInsertDataDirectlyAsync()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable))
+            {
+                IDbSet<Person> dbSet = korm.Query<Person>().AsDbSet();
+
+                await dbSet.BulkInsertAsync(GetData());
+
+                AssertData(korm);
+            }
+        }
+
+        [Fact]
+        public void BulkInsertDataSynchronouslyWithoutDeadLock()
+        {
+            AsyncContext.Run(() =>
+            {
+                using (var korm = CreateDatabase(CreateTable_TestTable))
+                {
+                    IDbSet<Person> dbSet = korm.Query<Person>().AsDbSet();
+                    dbSet.Add(GetData());
+
+                    dbSet.BulkInsert();
+
+                    AssertData(korm);
+                }
+            });
+        }
+
+        [Fact]
+        public void BulkInsertDataDirectlySynchronouslyWithoutDeadLock()
+        {
+            AsyncContext.Run(() =>
+            {
+                using (var korm = CreateDatabase(CreateTable_TestTable))
+                {
+                    IDbSet<Person> dbSet = korm.Query<Person>().AsDbSet();
+
+                    dbSet.BulkInsert(GetData());
+
+                    AssertData(korm);
+                }
+            });
+        }
+
+        #endregion
+
+        #region Bulk Update
+
+        [Fact]
+        public void BulkUpdateDataSynchronouslyWithoutDeadLock()
+        {
+            AsyncContext.Run(() =>
+            {
+                using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
+                {
+                    var dbSet = korm.Query<Person>().AsDbSet();
+
+                    dbSet.Edit(GetData());
+
+                    dbSet.BulkUpdate();
+
+                    AssertData(korm);
+                }
+            });
+        }
+
+        [Fact]
+        public async Task BulkUpdateDataAsync()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
+            {
+                var dbSet = korm.Query<Person>().AsDbSet();
+
+                dbSet.Edit(GetData());
+
+                await dbSet.BulkUpdateAsync();
+
+                AssertData(korm);
+            }
+        }
+
+        [Fact]
+        public void BulkUpdateDataWithActionSynchronouslyWithoutDeadLock()
+        {
+            AsyncContext.Run(() =>
+            {
+                using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
+                {
+                    var dbSet = korm.Query<Person>().AsDbSet();
+
+                    dbSet.Edit(GetData());
+
+                    dbSet.BulkUpdate((c, t, s) => { });
+
+                    AssertData(korm);
+                }
+            });
+        }
+
+        [Fact]
+        public async Task BulkUpdateDataWithActionAsync()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
+            {
+                var dbSet = korm.Query<Person>().AsDbSet();
+
+                dbSet.Edit(GetData());
+
+                await dbSet.BulkUpdateAsync((c, t, s) => { });
+
+                AssertData(korm);
+            }
+        }
+
+        [Fact]
+        public void BulkUpdateDataDirectlySynchronouslyWithoutDeadLock()
+        {
+            AsyncContext.Run(() =>
+            {
+                using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
+                {
+                    var dbSet = korm.Query<Person>().AsDbSet();
+
+                    dbSet.BulkUpdate(GetData());
+
+                    AssertData(korm);
+                }
+            });
+        }
+
+        [Fact]
+        public async Task BulkUpdateDataDirectlyAsync()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
+            {
+                var dbSet = korm.Query<Person>().AsDbSet();
+
+                await dbSet.BulkUpdateAsync(GetData());
+
+                AssertData(korm);
+            }
+        }
+
+        [Fact]
+        public void BulkUpdateDataWithActionDirectlySynchronouslyWithoutDeadLock()
+        {
+            AsyncContext.Run(() =>
+            {
+                using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
+                {
+                    var dbSet = korm.Query<Person>().AsDbSet();
+
+                    dbSet.BulkUpdate(GetData(), (c, t, s) => { });
+
+                    AssertData(korm);
+                }
+            });
+        }
+
+        [Fact]
+        public async Task BulkUpdateDataWithActionDirectlyAsync()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable, InsertDataScript))
+            {
+                var dbSet = korm.Query<Person>().AsDbSet();
+
+                await dbSet.BulkUpdateAsync(GetData(), (c, t, s) => { });
+
+                AssertData(korm);
+            }
+        }
+
+        private static IEnumerable<Person> GetData()
+        {
+            var data = new List<Person>();
+
+            data.Add(new Person()
+            {
+                Id = 1,
+                FirstName = "Milan",
+                LastName = "Martiniak",
+                Age = 32,
+                Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" }
+            });
+
+            data.Add(new Person()
+            {
+                Id = 2,
+                FirstName = "Peter",
+                LastName = "Juráček",
+                Age = 14,
+                Address = new List<string>() { "Novozámocká" }
+            });
+
+            return data;
         }
 
         #endregion
