@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.Properties;
+using Kros.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -76,8 +77,8 @@ namespace Kros.Data
             }
             else
             {
-                throw new InvalidOperationException(
-                    $"IIdGeneratorFactory for connection type '{connection.GetType().Name}' is not registered.");
+                throw new InvalidOperationException(string.Format(Resources.FactoryNotRegisteredForConnection,
+                    nameof(IIdGeneratorFactory), connection.GetType().FullName));
             }
         }
 
@@ -99,8 +100,8 @@ namespace Kros.Data
             }
             else
             {
-                throw new InvalidOperationException(
-                    $"IIdGeneratorFactory for ADO client '{adoClientName}' is not registered.");
+                throw new InvalidOperationException(string.Format(Resources.FactoryNotRegisteredForClient,
+                    nameof(IIdGeneratorFactory), adoClientName));
             }
         }
     }

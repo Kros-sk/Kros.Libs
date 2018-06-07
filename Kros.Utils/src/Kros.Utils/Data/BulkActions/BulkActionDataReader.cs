@@ -10,13 +10,11 @@ namespace Kros.Data.BulkActions
     /// </summary>
     public class BulkActionDataReader : System.Data.Common.DbDataReader
     {
-
         #region Fields
 
         private readonly IBulkActionDataReader _reader;
 
         #endregion
-
 
         #region Constructors
 
@@ -32,7 +30,6 @@ namespace Kros.Data.BulkActions
         }
 
         #endregion
-
 
         #region IDataReader
 
@@ -86,7 +83,6 @@ namespace Kros.Data.BulkActions
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
 
         #region NotImplemented
 

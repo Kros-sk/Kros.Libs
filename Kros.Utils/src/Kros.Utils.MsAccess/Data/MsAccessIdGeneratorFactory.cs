@@ -51,7 +51,7 @@ namespace Kros.Data.MsAccess
         /// Registers factory methods for creating an instance of factory into <see cref="IdGeneratorFactories"/>.
         /// </summary>
         public static void Register() =>
-            IdGeneratorFactories.Register<OleDbConnection>("System.Data.OleDb",
+            IdGeneratorFactories.Register<OleDbConnection>(MsAccessDataHelper.ClientId,
                 (conn) => new MsAccessIdGeneratorFactory(conn as OleDbConnection),
                 (connString) => new MsAccessIdGeneratorFactory(connString));
     }

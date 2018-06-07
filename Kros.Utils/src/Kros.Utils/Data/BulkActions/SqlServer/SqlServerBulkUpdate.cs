@@ -15,7 +15,6 @@ namespace Kros.Data.BulkActions.SqlServer
     /// </example>
     public class SqlServerBulkUpdate : BulkUpdateBase
     {
-
         #region Constructors
 
         /// <summary>
@@ -54,7 +53,6 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         #endregion
-
 
         #region BulkUpdateBase Members
 
@@ -138,6 +136,5 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         #endregion
-
     }
 }
