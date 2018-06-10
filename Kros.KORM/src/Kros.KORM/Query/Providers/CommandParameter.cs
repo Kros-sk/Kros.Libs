@@ -65,8 +65,8 @@ namespace Kros.KORM.Query
         public string ParameterName { get; }
 
         /// <summary>
-        /// Hodnota parametra. Ak je NULL (<c>null</c>, alebo <c>DbNull.Value</c>), mal by byť nastavený presný dátový typ
-        /// <see cref="DataType"/>.
+        /// Hodnota parametra. Ak je <c>NULL</c> (<see langword="null"/>, alebo <see cref="System.DBNull"/>),
+        /// mal by byť nastavený presný dátový typ <see cref="DataType"/>.
         /// </summary>
         public object Value { get; set; }
 

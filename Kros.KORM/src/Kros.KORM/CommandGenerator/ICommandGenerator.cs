@@ -45,7 +45,7 @@ namespace Kros.KORM.CommandGenerator
         /// <param name="command">Command which parameters are filled.</param>
         /// <param name="item">Item, from which command is filled.</param>
         /// <exception cref="System.ArgumentNullException">Either <paramref name="command" /> or <paramref name="item" />
-        /// is <c>null</c>.</exception>
+        /// is <see langword="null"/>.</exception>
         void FillCommand(DbCommand command, T item);
 
         /// <summary>

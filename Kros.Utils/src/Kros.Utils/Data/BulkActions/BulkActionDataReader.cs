@@ -22,7 +22,7 @@ namespace Kros.Data.BulkActions
         /// Creates <see cref="IDataReader"/> over defined <paramref name="reader"/>.
         /// </summary>
         /// <param name="reader">Input reader.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="reader"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="reader"/> is <see langword="null"/>.</exception>
         public BulkActionDataReader(IBulkActionDataReader reader)
         {
             Check.NotNull(reader, nameof(reader));

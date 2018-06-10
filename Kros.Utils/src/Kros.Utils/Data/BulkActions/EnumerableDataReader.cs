@@ -34,7 +34,7 @@ namespace Kros.Data.BulkActions
         /// <param name="columnNames">List of columns with which reader works.
         /// For every column must exists property with the same name in object <c>T</c>.</param>
         /// <exception cref="ArgumentNullException">
-        /// Value of <paramref name="data"/>, or <paramref name="columnNames"/> is <c>null</c>.
+        /// Value of <paramref name="data"/>, or <paramref name="columnNames"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// List <paramref name="columnNames"/> is empty, i.e. does not contain any value.
