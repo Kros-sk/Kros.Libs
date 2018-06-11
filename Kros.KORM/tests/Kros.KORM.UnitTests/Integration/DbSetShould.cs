@@ -418,7 +418,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
             person.Age.Should().Be(32);
             person.FirstName.Should().Be("Milan");
             person.LastName.Should().Be("Martiniak");
-            person.Address.ShouldBeEquivalentTo(new List<string>() { "Petzvalova", "Pekna", "Zelena" });
+            person.Address.Should().BeEquivalentTo(new List<string>() { "Petzvalova", "Pekna", "Zelena" });
         }
 
         [Fact]
@@ -533,10 +533,10 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
 
                 dbSet.CommitChanges();
 
-                sourcePeople.Select(p => p.Id).ShouldBeEquivalentTo(new int[] { 0, 0, 0 });
+                sourcePeople.Select(p => p.Id).Should().BeEquivalentTo(new int[] { 0, 0, 0 });
 
                 var people = korm.Query<Person>().AsEnumerable();
-                people.Select(p => p.Id).ShouldBeEquivalentTo(new int[] { 0, 0, 0 });
+                people.Select(p => p.Id).Should().BeEquivalentTo(new int[] { 0, 0, 0 });
             }
         }
 

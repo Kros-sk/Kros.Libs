@@ -224,7 +224,7 @@ END";
             {
                 QueryProvider provider = CreateQueryProvider(helper.Connection);
                 Action executeNonQuery = () => provider.ExecuteNonQuery("NO QUERY", parameters);
-                executeNonQuery.ShouldThrow<ArgumentException>().WithMessage("*@Param2*");
+                executeNonQuery.Should().Throw<ArgumentException>().WithMessage("*@Param2*");
             }
         }
 
@@ -291,7 +291,7 @@ END";
             {
                 QueryProvider provider = CreateQueryProvider(helper.Connection);
                 Action executeStoredProcedure = () => provider.ExecuteStoredProcedure<int>("NoProcedure", parameters);
-                executeStoredProcedure.ShouldThrow<ArgumentException>().WithMessage("*@Param2*");
+                executeStoredProcedure.Should().Throw<ArgumentException>().WithMessage("*@Param2*");
             }
         }
 
@@ -382,7 +382,7 @@ END";
                 QueryProvider provider = CreateQueryProvider(helper.Connection);
                 List<TestItem> result = provider.ExecuteStoredProcedure<IEnumerable<TestItem>>(Procedure_TableResult).ToList();
 
-                result.ShouldBeEquivalentTo(new TestItem[] {
+                result.Should().BeEquivalentTo(new TestItem[] {
                     new TestItem(1, 10, "Lorem ipsum"),
                     new TestItem(2, 20, null),
                     new TestItem(3, 30, "Hello world"),
@@ -399,7 +399,7 @@ END";
                 QueryProvider provider = CreateQueryProvider(helper.Connection.ConnectionString);
                 List<TestItem> result = provider.ExecuteStoredProcedure<IEnumerable<TestItem>>(Procedure_TableResult).ToList();
 
-                result.ShouldBeEquivalentTo(new TestItem[] {
+                result.Should().BeEquivalentTo(new TestItem[] {
                     new TestItem(1, 10, "Lorem ipsum"),
                     new TestItem(2, 20, null),
                     new TestItem(3, 30, "Hello world"),

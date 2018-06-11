@@ -17,7 +17,7 @@ namespace Kros.KORM.UnitTests
                 IDatabase database = new Database(connection);
             };
 
-            action.ShouldThrow<ArgumentNullException>();
+            action.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]

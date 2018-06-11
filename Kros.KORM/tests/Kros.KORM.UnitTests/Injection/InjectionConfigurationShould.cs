@@ -26,7 +26,7 @@ namespace Kros.KORM.UnitTests.Injection
             var foo = new Foo() { Id = 1 };
             Action action = () => configurator.GetValue("Value");
 
-            action.ShouldThrow<InvalidOperationException>();
+            action.Should().Throw<InvalidOperationException>();
         }
 
         [Fact]

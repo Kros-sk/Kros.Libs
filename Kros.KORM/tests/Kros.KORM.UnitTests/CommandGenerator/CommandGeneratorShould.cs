@@ -139,7 +139,7 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             {
                 DbCommand update = generator.GetUpdateCommand();
             };
-            action.ShouldThrow<KORM.Exceptions.MissingPrimaryKeyException>();
+            action.Should().Throw<KORM.Exceptions.MissingPrimaryKeyException>();
         }
 
 
@@ -157,7 +157,7 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             {
                 DbCommand update = generator.GetDeleteCommand();
             };
-            action.ShouldThrow<KORM.Exceptions.MissingPrimaryKeyException>();
+            action.Should().Throw<KORM.Exceptions.MissingPrimaryKeyException>();
         }
 
 
