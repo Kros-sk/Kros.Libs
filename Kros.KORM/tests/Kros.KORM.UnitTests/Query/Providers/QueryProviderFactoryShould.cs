@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Kros.Data.SqlServer;
 using Kros.KORM.Materializer;
 using Kros.KORM.Metadata;
 using Kros.KORM.Query;
@@ -46,7 +47,7 @@ namespace Kros.KORM.UnitTests.Query
         public void CreateSqlProviderBySettings()
         {
             var factory = CreateFactory();
-            var connectionString = new ConnectionStringSettings("Default", "", "System.Data.SqlClient");
+            var connectionString = new ConnectionStringSettings("Default", "", SqlServerDataHelper.ClientId);
 
             var provider = factory.Create(connectionString, CreateModelBuilder(), DatabaseMapper);
 
@@ -57,7 +58,7 @@ namespace Kros.KORM.UnitTests.Query
         public void CreateSqlProviderBySettingsCaseInsensitive()
         {
             var factory = CreateFactory();
-            var connectionString = new ConnectionStringSettings("Default", "", "System.DATA.SqlClient");
+            var connectionString = new ConnectionStringSettings("Default", "", SqlServerDataHelper.ClientId);
 
             var provider = factory.Create(connectionString, CreateModelBuilder(), DatabaseMapper);
 

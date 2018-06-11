@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Kros.Data.BulkActions;
 using Kros.Data.Schema;
+using Kros.Data.SqlServer;
 using Kros.KORM.Helper;
 using Kros.KORM.Materializer;
 using Kros.KORM.Query;
@@ -19,10 +20,8 @@ using Xunit;
 
 namespace Kros.KORM.UnitTests.Query.Providers
 {
-
     public class QueryProviderShould : DatabaseTestBase
     {
-
         #region Nested classes
 
         private class TestDbProviderFactory : DbProviderFactory
@@ -207,7 +206,6 @@ BEGIN
 END";
 
         #endregion
-
 
         #region Tests
 
@@ -450,7 +448,6 @@ END";
 
         #endregion
 
-
         #region Helpers
 
         private SqlServerTestHelper CreateHelper(string initScript)
@@ -472,12 +469,11 @@ END";
 
         private static SqlServerQueryProvider CreateQueryProvider(string connectionString)
             => new SqlServerQueryProvider(
-                new ConnectionStringSettings("Default", connectionString, "System.Data.SqlClient"),
+                new ConnectionStringSettings("Default", connectionString, SqlServerDataHelper.ClientId),
                 Substitute.For<ISqlExpressionVisitor>(),
                 new ModelBuilder(Database.DefaultModelFactory),
                 Substitute.For<ILogger>());
 
         #endregion
-
     }
 }

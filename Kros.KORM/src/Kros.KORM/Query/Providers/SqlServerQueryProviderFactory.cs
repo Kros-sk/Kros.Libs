@@ -1,4 +1,5 @@
-﻿using Kros.KORM.Helper;
+﻿using Kros.Data.SqlServer;
+using Kros.KORM.Helper;
 using Kros.KORM.Materializer;
 using Kros.KORM.Metadata;
 using Kros.KORM.Query.Sql;
@@ -42,7 +43,7 @@ namespace Kros.KORM.Query
         /// </summary>
         internal static void Register()
         {
-            QueryProviderFactories.Register<SqlConnection>("System.Data.SqlClient", new SqlServerQueryProviderFactory());
+            QueryProviderFactories.Register<SqlConnection>(SqlServerDataHelper.ClientId, new SqlServerQueryProviderFactory());
         }
     }
 }
