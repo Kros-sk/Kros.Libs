@@ -1,3 +1,4 @@
+using Kros.Data.SqlServer;
 using Kros.Utils;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -87,7 +88,7 @@ namespace Kros.Data.BulkActions.SqlServer
         /// Registers factory methods for creation instances to <see cref="BulkActionFactories"/>.
         /// </summary>
         public static void Register() =>
-            BulkActionFactories.Register<SqlConnection>("System.Data.SqlClient",
+            BulkActionFactories.Register<SqlConnection>(SqlServerDataHelper.ClientId,
                 (conn) => new SqlServerBulkActionFactory(conn as SqlConnection),
                 (connString) => new SqlServerBulkActionFactory(connString));
     }

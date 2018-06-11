@@ -1,4 +1,5 @@
-﻿using Kros.KORM.Helper;
+﻿using Kros.Data.MsAccess;
+using Kros.KORM.Helper;
 using Kros.KORM.Materializer;
 using Kros.KORM.Metadata;
 using Kros.KORM.Query.Sql.MsAccess;
@@ -43,7 +44,7 @@ namespace Kros.KORM.Query.MsAccess
         /// </summary>
         public static void Register()
         {
-            QueryProviderFactories.Register<OleDbConnection>("System.Data.OleDb", new MsAccessQueryProviderFactory());
+            QueryProviderFactories.Register<OleDbConnection>(MsAccessDataHelper.ClientId, new MsAccessQueryProviderFactory());
         }
     }
 }

@@ -1,8 +1,7 @@
 ﻿using FluentAssertions;
 using Kros.Data;
+using Kros.Data.SqlServer;
 using System;
-using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
 using Xunit;
 
@@ -24,7 +23,7 @@ namespace Kros.Utils.UnitTests.Data
         [Fact]
         public void GetFactoryByAdoClientName()
         {
-            var factory = IdGeneratorFactories.GetFactory("connectionstring", "System.Data.SqlClient");
+            var factory = IdGeneratorFactories.GetFactory("connectionstring", SqlServerDataHelper.ClientId);
 
             factory.Should().NotBeNull();
         }

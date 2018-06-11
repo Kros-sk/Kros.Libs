@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Kros.Data.BulkActions;
+using Kros.Data.SqlServer;
 using System;
 using System.Data.SqlClient;
 using Xunit;
@@ -22,7 +23,7 @@ namespace Kros.Utils.UnitTests.Data
         [Fact]
         public void GetFactoryByAdoClientName()
         {
-            var factory = BulkActionFactories.GetFactory("connectionstring", "System.Data.SqlClient");
+            var factory = BulkActionFactories.GetFactory("connectionstring", SqlServerDataHelper.ClientId);
 
             factory.Should().NotBeNull();
         }
