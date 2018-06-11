@@ -28,7 +28,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             {
                 var instance = new EnumerableDataReader<DataItem>(null, new string[] { "Id" });
             };
-            createInstance.ShouldThrow<ArgumentNullException>()
+            createInstance.Should().Throw<ArgumentNullException>()
                 .And.ParamName.Should().Be("data");
         }
 
@@ -39,7 +39,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             {
                 var instance = new EnumerableDataReader<DataItem>(new List<DataItem>(), null);
             };
-            createInstance.ShouldThrow<ArgumentNullException>()
+            createInstance.Should().Throw<ArgumentNullException>()
                 .And.ParamName.Should().Be("columnNames");
         }
 
@@ -50,7 +50,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             {
                 var instance = new EnumerableDataReader<DataItem>(new List<DataItem>(), new string[] { });
             };
-            createInstance.ShouldThrow<ArgumentException>()
+            createInstance.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("columnNames");
         }
 
@@ -63,7 +63,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             {
                 var instance = new EnumerableDataReader<DataItem>(new List<DataItem>(), new string[] { "Id", invalidColumn });
             };
-            createInstance.ShouldThrow<InvalidOperationException>()
+            createInstance.Should().Throw<InvalidOperationException>()
                 .WithMessage($"*{typeof(DataItem).FullName}*{invalidColumn}*");
         }
 

@@ -267,7 +267,7 @@ namespace Kros.KORM.UnitTests.Materializer
 
             Action act = () => bar = fact(data);
 
-            act.ShouldThrow<InvalidCastException>();
+            act.Should().Throw<InvalidCastException>();
         }
 
         [Fact]

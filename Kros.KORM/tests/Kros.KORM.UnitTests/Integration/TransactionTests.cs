@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using Xunit;
 
 namespace Kros.KORM.UnitTests.Integration
@@ -84,7 +85,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
                 var dbSet = korm.Query<Invoice>().AsDbSet();
 
                 Action bulkInsertAction = () => dbSet.BulkInsert(null);
-                bulkInsertAction.ShouldThrow<ArgumentNullException>();
+                bulkInsertAction.Should().Throw<ArgumentNullException>();
             }
         }
 
@@ -336,7 +337,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
                 string sql = @"EXEC WaitForTwoSeconds";
                 Action commit = () => { korm.ExecuteScalar(sql); };
 
-                commit.ShouldThrow<SqlException>().Which.Message.Contains("Timeout");
+                commit.Should().Throw<SqlException>().Which.Message.Contains("Timeout");
             }
         }
 
@@ -352,7 +353,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
                     mainTransaction.CommandTimeout = 1;
                     Action setCommandTimeout = () => { nestedTransaction.CommandTimeout = 3; };
 
-                    setCommandTimeout.ShouldThrow<InvalidOperationException>();
+                    setCommandTimeout.Should().Throw<InvalidOperationException>();
                 }
             }
         }
@@ -367,7 +368,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
                 transaction.CommandTimeout = 3;
                 Action commit = () => { korm.ExecuteStoredProcedure<Object>("WaitForTwoSeconds"); };
 
-                commit.ShouldNotThrow<SqlException>();
+                commit.Should().NotThrow<SqlException>();
             }
         }
 
@@ -378,7 +379,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
 
         private void DatabaseShouldContainInvoices(Database korm, IEnumerable<Invoice> expected)
         {
-            korm.Query<Invoice>().ShouldAllBeEquivalentTo(expected);
+            korm.Query<Invoice>().Should().BeEquivalentTo(expected);
         }
 
         private void DatabaseShouldBeEmpty(TestDatabase korm)

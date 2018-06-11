@@ -59,7 +59,7 @@ namespace Kros.Utils.UnitTests.Extensions
             value.Left(5).Should().Be("lorem", "Length = 5");
             value.Left(500).Should().Be(value, "Length is greater than string length.");
             Action action = () => value.Left(-5);
-            action.ShouldThrow<ArgumentException>("Length is negative.");
+            action.Should().Throw<ArgumentException>("Length is negative.");
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace Kros.Utils.UnitTests.Extensions
             value.Right(5).Should().Be("dolor", "Length = 5");
             value.Right(500).Should().Be(value, "Length is greater than string length.");
             Action action = () => value.Right(-5);
-            action.ShouldThrow<ArgumentException>("Length is negative.");
+            action.Should().Throw<ArgumentException>("Length is negative.");
         }
 
 #region RemoveNewLines

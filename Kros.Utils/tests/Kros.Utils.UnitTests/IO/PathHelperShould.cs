@@ -13,21 +13,21 @@ namespace Kros.Utils.UnitTest.IO
         public void ThrowArgumentNullExceptionWhenInputIsNull()
         {
             Action action = () => PathHelper.BuildPath(null);
-            action.ShouldThrow<ArgumentException>();
+            action.Should().Throw<ArgumentException>();
         }
 
         [Fact]
         public void ThrowArgumentNullExceptionWhenAnyPartIsNull()
         {
             Action action = () => PathHelper.BuildPath("lorem", null, "ipsum");
-            action.ShouldThrow<ArgumentException>();
+            action.Should().Throw<ArgumentException>();
         }
 
         [Fact]
         public void ThrowArgumentExceptionWhenAnyPartContainsInvalidPathCharacters()
         {
             Action action = () => PathHelper.BuildPath("lorem", "ips|um");
-            action.ShouldThrow<ArgumentException>();
+            action.Should().Throw<ArgumentException>();
         }
 
         [Fact]

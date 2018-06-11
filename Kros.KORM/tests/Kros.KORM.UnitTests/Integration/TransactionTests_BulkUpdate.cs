@@ -76,7 +76,7 @@ namespace Kros.KORM.UnitTests.Integration
                 IEnumerable<Invoice> items = null;
                 Action bulkUpdateAction = () => dbSet.BulkUpdate(items);
 
-                bulkUpdateAction.ShouldThrow<ArgumentNullException>();
+                bulkUpdateAction.Should().Throw<ArgumentNullException>();
             }
         }
 
@@ -192,7 +192,7 @@ namespace Kros.KORM.UnitTests.Integration
                 transaction.Rollback();
 
                 database.Connection.State.Should().Be(ConnectionState.Open);
-                korm.Query<Invoice>().ShouldBeEquivalentTo(CreateOriginalTestData());
+                korm.Query<Invoice>().Should().BeEquivalentTo(CreateOriginalTestData());
                 DatabaseShouldContainInvoices(database.ConnectionString, CreateOriginalTestData());
             }
         }

@@ -154,7 +154,7 @@ namespace Kros.KORM.UnitTests
 
             dbSet.Delete(newPerson);
             Action action = () => dbSet.Add(newPerson);
-            action.ShouldThrow<AlreadyInCollectionException>();
+            action.Should().Throw<AlreadyInCollectionException>();
         }
 
 
@@ -170,7 +170,7 @@ namespace Kros.KORM.UnitTests
 
             dbSet.Add(newPerson);
             Action action = () => dbSet.Edit(newPerson);
-            action.ShouldThrow<AlreadyInCollectionException>();
+            action.Should().Throw<AlreadyInCollectionException>();
         }
 
 
@@ -187,7 +187,7 @@ namespace Kros.KORM.UnitTests
             dbSet.Edit(newPerson);
             Action action = () => dbSet.Delete(newPerson);
 
-            action.ShouldThrow<AlreadyInCollectionException>();
+            action.Should().Throw<AlreadyInCollectionException>();
         }
 
 

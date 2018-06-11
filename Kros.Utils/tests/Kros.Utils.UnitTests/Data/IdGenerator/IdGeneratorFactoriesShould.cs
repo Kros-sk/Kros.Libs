@@ -36,7 +36,7 @@ namespace Kros.Utils.UnitTests.Data
             {
                 Action action = () => { var factory = IdGeneratorFactories.GetFactory(conn); };
 
-                action.ShouldThrow<InvalidOperationException>()
+                action.Should().Throw<InvalidOperationException>()
                     .WithMessage("*CustomConnection*");
             }
         }
@@ -46,7 +46,7 @@ namespace Kros.Utils.UnitTests.Data
         {
             Action action = () => { var factory = IdGeneratorFactories.GetFactory("constring", "System.Data.CustomClient"); };
 
-            action.ShouldThrow<InvalidOperationException>()
+            action.Should().Throw<InvalidOperationException>()
                 .WithMessage("*System.Data.CustomClient*");
         }
     }

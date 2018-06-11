@@ -255,7 +255,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 {
                     bulkInsert.DestinationTableName = TableName_IgnoreCaseInColumnNames;
                     Action action = () => bulkInsert.Insert(reader);
-                    action.ShouldThrow<InvalidOperationException>()
+                    action.Should().Throw<InvalidOperationException>()
                         .WithMessage($"*{TableName_IgnoreCaseInColumnNames}*{nameof(NonExistingColumnDataItem.NonExistingColumn)}*");
                 }
             }

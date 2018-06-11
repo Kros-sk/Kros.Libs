@@ -34,7 +34,7 @@ namespace Kros.Utils.UnitTests.Data
             {
                 Action action = () => { var factory = BulkActionFactories.GetFactory(conn); };
 
-                action.ShouldThrow<InvalidOperationException>()
+                action.Should().Throw<InvalidOperationException>()
                     .WithMessage($"*{typeof(CustomConnection).FullName}*");
             }
         }
@@ -44,7 +44,7 @@ namespace Kros.Utils.UnitTests.Data
         {
             Action action = () => { var factory = BulkActionFactories.GetFactory("constring", "System.Data.CustomClient"); };
 
-            action.ShouldThrow<InvalidOperationException>()
+            action.Should().Throw<InvalidOperationException>()
                 .WithMessage($"*System.Data.CustomClient*");
         }
     }
