@@ -19,8 +19,7 @@ namespace Kros.KORM.Materializer
     /// <seealso cref="Kros.KORM.Materializer.IModelFactory" />
     public class DynamicMethodModelFactory : IModelFactory
     {
-
-        #region "Private fields"
+        #region Private fields
 
         private IDatabaseMapper _databaseMapper;
         private ICache<int, Delegate> _factoriesCache = new Cache<int, Delegate>();
@@ -43,8 +42,7 @@ namespace Kros.KORM.Materializer
 
         #endregion
 
-
-        #region "Constructor"
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicMethodModelFactory" /> class.
@@ -107,7 +105,7 @@ namespace Kros.KORM.Materializer
             }
         }
 
-        //ToDo: Zrefaktorovať aby sa používal DynamicMethods.
+        // ToDo: Zrefaktorovať aby sa používal DynamicMethods.
         private static T FactoryForValueType<T>(IDataReader reader)
         {
             Type destType = typeof(T);

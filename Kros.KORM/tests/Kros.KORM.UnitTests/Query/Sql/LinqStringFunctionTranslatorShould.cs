@@ -111,7 +111,6 @@ namespace Kros.KORM.UnitTests.Query.Sql
                            " WHERE ((RTRIM(LTRIM(FirstName)) = @1))", "John");
         }
 
-
         [Alias("People")]
         public class Person
         {

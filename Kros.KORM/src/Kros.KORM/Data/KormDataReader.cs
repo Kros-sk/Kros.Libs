@@ -53,7 +53,6 @@ namespace Kros.KORM.Data
             return DataEnumerator.MoveNext();
         }
 
-
         #region IDisposable Support
 
         private bool disposedValue = false;
@@ -77,6 +76,5 @@ namespace Kros.KORM.Data
         }
 
         #endregion
-
     }
 }

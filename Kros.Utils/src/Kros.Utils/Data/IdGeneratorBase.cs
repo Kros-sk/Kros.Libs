@@ -11,7 +11,6 @@ namespace Kros.Data
     public abstract class IdGeneratorBase
         : IIdGenerator
     {
-
         private bool _disposeOfConnection = false;
 
         /// <summary>

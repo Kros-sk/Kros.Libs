@@ -19,7 +19,6 @@ namespace Kros.KORM.Query
     /// <typeparam name="T">The type that defines the set.</typeparam>
     public class DbSet<T> : IDbSet<T>
     {
-
         #region Private fields
 
         private ICommandGenerator<T> _commandGenerator;
@@ -31,7 +30,6 @@ namespace Kros.KORM.Query
         private readonly TableInfo _tableInfo;
 
         #endregion
-
 
         #region Constructor
 
@@ -52,7 +50,6 @@ namespace Kros.KORM.Query
 
         #endregion
 
-
         #region IDbSet Members
 
         /// <summary>
@@ -69,7 +66,6 @@ namespace Kros.KORM.Query
             _addedItems.Add(entity);
         }
 
-
         /// <summary>
         /// Adds the item to the context underlying the set in the Edited state such that it will be updated
         /// in the database when CommitChanges is called.
@@ -83,7 +79,6 @@ namespace Kros.KORM.Query
 
             _editedItems.Add(entity);
         }
-
 
         /// <summary>
         /// Adds the item to the context underlying the set in the Deleted state such that it will be deleted
@@ -257,18 +252,15 @@ namespace Kros.KORM.Query
             });
         }
 
-
         /// <summary>
         /// List of items in Added state.
         /// </summary>
         public IEnumerable<T> AddedItems { get { return _addedItems; } }
 
-
         /// <summary>
         /// List of items in Edited state.
         /// </summary>
         public IEnumerable<T> EditedItems { get { return _editedItems; } }
-
 
         /// <summary>
         /// List of items in Deleted state.
@@ -276,7 +268,6 @@ namespace Kros.KORM.Query
         public IEnumerable<T> DeletedItems { get { return _deletedItems; } }
 
         #endregion
-
 
         #region Private Helpers
 
@@ -439,7 +430,6 @@ namespace Kros.KORM.Query
 
         #endregion
 
-
         #region IEnumerator
 
         /// <summary>
@@ -453,13 +443,11 @@ namespace Kros.KORM.Query
             return _query.GetEnumerator();
         }
 
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
         #endregion
-
     }
 }

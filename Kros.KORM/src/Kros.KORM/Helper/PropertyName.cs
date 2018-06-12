@@ -12,7 +12,6 @@ namespace Kros.KORM.Helper
     /// </example>
     public static class PropertyName<P> where P : class
     {
-
         #region Methods
 
         /// <summary>
@@ -35,6 +34,5 @@ namespace Kros.KORM.Helper
         }
 
         #endregion
-
     }
 }

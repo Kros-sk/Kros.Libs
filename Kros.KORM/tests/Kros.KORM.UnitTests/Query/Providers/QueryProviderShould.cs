@@ -26,7 +26,6 @@ namespace Kros.KORM.UnitTests.Query.Providers
 
         private class TestDbProviderFactory : DbProviderFactory
         {
-
             private readonly DbConnection _connection;
 
             public TestDbProviderFactory(DbConnection connection)
@@ -70,7 +69,6 @@ namespace Kros.KORM.UnitTests.Query.Providers
             {
                 _dbProviderFactory = new TestDbProviderFactory(null);
             }
-
 
             DbProviderFactory _dbProviderFactory;
 
@@ -418,7 +416,6 @@ END";
                     .Should().BeTrue();
             }
         }
-
 
         [Fact]
         public void DisposeOfInternalConnection()

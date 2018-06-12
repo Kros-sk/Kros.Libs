@@ -20,6 +20,7 @@ namespace Kros.KORM.UnitTests.CommandGenerator
 {
     public class CommandGeneratorShould
     {
+        #region Tests
 
         [Fact]
         public void HaveCorrectInsertCommandText()
@@ -31,7 +32,6 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             insert.CommandText.Should().Be(expectedQuery);
         }
 
-
         [Fact]
         public void HaveCorrectUpdateCommandText()
         {
@@ -41,7 +41,6 @@ namespace Kros.KORM.UnitTests.CommandGenerator
 
             update.CommandText.Should().Be(expectedQuery);
         }
-
 
         [Fact]
         public void HaveCorrectDeleteCommandText()
@@ -53,7 +52,6 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             delete.CommandText.Should().Be(expectedQuery);
         }
 
-
         [Fact]
         public void HaveCorrectOneDeleteQuery()
         {
@@ -64,7 +62,6 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             result.Should().HaveCount(1);
             result[0].CommandText.Should().Be(expectedQuery);
         }
-
 
         [Fact]
         public void HaveCorrectThreeDeleteQueries()
@@ -90,7 +87,6 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             GetParameterValues<int>(result[1].Parameters).Should().Equal(expectedParameters_1);
             GetParameterValues<int>(result[2].Parameters).Should().Equal(expectedParameters_2);
         }
-
 
         [Fact]
         public void FillCommandWithCorrectArguments()
@@ -123,7 +119,6 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             insert.Parameters["@PropertyEnumConv"].Value.Should().Be("V2");
         }
 
-
         [Fact]
         public void ThrowMissingPrimaryKeyExceptionWhenGetUpdateCommand()
         {
@@ -142,7 +137,6 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             action.Should().Throw<KORM.Exceptions.MissingPrimaryKeyException>();
         }
 
-
         [Fact]
         public void ThrowMissingPrimaryKeyExceptionWhenGetDeleteCommand()
         {
@@ -160,6 +154,7 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             action.Should().Throw<KORM.Exceptions.MissingPrimaryKeyException>();
         }
 
+        #endregion
 
         #region Test Classes and Methods
 
@@ -175,7 +170,6 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             return result;
         }
 
-
         private CommandGenerator<Foo> GetFooGenerator()
         {
             var provider = Substitute.For<KORM.Query.IQueryProvider>();
@@ -185,7 +179,6 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             query.Select(p => new { p.Id, p.Plat });
             return new CommandGenerator<Foo>(GetFooTableInfo(), provider, query);
         }
-
 
         private IQuery<Foo> CreateFooQuery()
         {
@@ -225,7 +218,6 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             return new TableInfo(columns, new List<PropertyInfo>(), null) { Name = "Foo" };
         }
 
-
         private List<Foo> GetFooList(int itemsCount)
         {
             List<Foo> retVal = new List<Foo>();
@@ -238,12 +230,10 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             return retVal;
         }
 
-
         private PropertyInfo GetPropertyInfo<T>(string propertyName)
         {
             return typeof(T).GetProperty(propertyName);
         }
-
 
         private class Foo
         {
@@ -275,7 +265,6 @@ namespace Kros.KORM.UnitTests.CommandGenerator
             public TestEnum PropertyEnumConv { get; set; }
         }
 
-
         private enum TestEnum
         {
             Value1 = 1,
@@ -303,7 +292,6 @@ namespace Kros.KORM.UnitTests.CommandGenerator
                 }
             }
 
-
             public object ConvertBack(object value)
             {
                 if ((TestEnum)value == TestEnum.Value1)
@@ -322,6 +310,5 @@ namespace Kros.KORM.UnitTests.CommandGenerator
         }
 
         #endregion
-
     }
 }

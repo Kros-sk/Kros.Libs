@@ -9,7 +9,6 @@ namespace Kros.Data.MsAccess
     /// </summary>
     public static class Extensions
     {
-
         /// <summary>
         /// Returns Microsoft Access error code.
         /// </summary>

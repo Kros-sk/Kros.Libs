@@ -212,7 +212,6 @@ namespace Kros.KORM.Query.Sql
                 expression.Type == typeof(object))
                 return true;
 
-
             return expression.NodeType != ExpressionType.Parameter &&
                    expression.NodeType != ExpressionType.Lambda;
         }
@@ -348,7 +347,6 @@ namespace Kros.KORM.Query.Sql
 
             return ThrowNotSupportedException(expression);
         }
-
 
         private void VisitLinqMethods(MethodCallExpression expression)
         {
@@ -610,7 +608,6 @@ namespace Kros.KORM.Query.Sql
                     break;
                 default:
                     throw new NotSupportedException(string.Format("The binary operator '{0}' is not supported.", expression.NodeType));
-
             }
 
             this.Visit(expression.Right);

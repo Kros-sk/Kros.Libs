@@ -45,6 +45,5 @@ namespace Kros.KORM.Query.Expressions
         }
 
         #endregion
-
     }
 }

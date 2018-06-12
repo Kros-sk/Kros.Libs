@@ -13,7 +13,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 {
     public class SqlServerBulkInsertShould : DatabaseTestBase
     {
-
         #region Nested types
 
         public class DataItem
@@ -499,6 +498,5 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         #endregion
-
     }
 }

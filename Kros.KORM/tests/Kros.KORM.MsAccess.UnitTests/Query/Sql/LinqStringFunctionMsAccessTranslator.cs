@@ -75,7 +75,6 @@ namespace Kros.KORM.MsAccess.UnitTests.Query.Sql
                            " WHERE ((TRIM(FirstName) = @1))", "John");
         }
 
-
         [Alias("People")]
         public class Person
         {

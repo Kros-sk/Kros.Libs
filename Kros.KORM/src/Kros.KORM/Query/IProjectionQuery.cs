@@ -10,7 +10,6 @@ namespace Kros.KORM.Query
     /// <seealso cref="Kros.KORM.Query.IQueryBase{T}" />
     public interface IProjectionQuery<T> : IQueryBase<T>
     {
-
         /// <summary>
         /// Add where condition to sql.
         /// </summary>

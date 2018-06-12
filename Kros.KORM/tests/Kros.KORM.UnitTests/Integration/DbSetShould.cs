@@ -16,7 +16,6 @@ namespace Kros.KORM.UnitTests.Integration
 {
     public class DbSetShould : DatabaseTestBase
     {
-
         #region SQL Scripts
 
         private const string Table_TestTable = "People";

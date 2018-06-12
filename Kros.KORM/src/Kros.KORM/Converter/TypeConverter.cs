@@ -12,7 +12,6 @@ namespace Kros.KORM.Converter
     /// </example>
     internal class TypeConverter:IConverter
     {
-
         private Type _clrType;
         private Type _dbType;
 

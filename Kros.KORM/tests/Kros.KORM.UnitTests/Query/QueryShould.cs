@@ -251,7 +251,6 @@ namespace Kros.KORM.UnitTests.Query
             scalar.Should().Be("Mino");
         }
 
-
         [Fact]
         public void ExecuteStringScalarReturnNullIfProviderReturnNull()
         {

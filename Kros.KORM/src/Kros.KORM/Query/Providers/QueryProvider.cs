@@ -27,7 +27,6 @@ namespace Kros.KORM.Query
     /// <seealso cref="Kros.KORM.Query.IQueryProvider" />
     public abstract class QueryProvider : IQueryProvider
     {
-
         #region Nested types
 
         private class IdGeneratorHelper : IIdGenerator
@@ -63,7 +62,6 @@ namespace Kros.KORM.Query
                 }
             }
 
-
             public void Dispose() => Dispose(true);
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
@@ -73,13 +71,11 @@ namespace Kros.KORM.Query
 
         #endregion
 
-
         #region Constants
 
         private const string RETURN_VALUE_PARAM_NAME = "returnValue";
 
         #endregion
-
 
         #region Private fields
 
@@ -94,7 +90,6 @@ namespace Kros.KORM.Query
         private Lazy<TransactionHelper> _transactionHelper;
 
         #endregion
-
 
         #region Constructors
 
@@ -151,7 +146,6 @@ namespace Kros.KORM.Query
         }
 
         #endregion
-
 
         #region IQueryProvider
 
@@ -468,7 +462,6 @@ namespace Kros.KORM.Query
 
         #endregion
 
-
         #region Linq
 
         /// <summary>
@@ -515,7 +508,6 @@ namespace Kros.KORM.Query
         }
 
         #endregion
-
 
         #region Helpers
 
@@ -645,7 +637,6 @@ namespace Kros.KORM.Query
 
         #endregion
 
-
         #region IDisposable
 
         private bool _disposedValue = false;
@@ -674,6 +665,5 @@ namespace Kros.KORM.Query
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }

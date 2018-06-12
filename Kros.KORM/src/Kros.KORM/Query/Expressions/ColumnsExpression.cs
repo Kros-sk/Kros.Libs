@@ -14,7 +14,6 @@ namespace Kros.KORM.Query.Expressions
     /// <seealso cref="Kros.KORM.Query.Sql.ISqlExpressionVisitor" />
     public class ColumnsExpression : QueryExpression
     {
-
         /// <summary>
         /// The select statement
         /// </summary>

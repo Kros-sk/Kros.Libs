@@ -7,7 +7,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 {
     public class SqlServerBulkHelper
     {
-
         #region DataTable compare
 
         public static void CompareTables(DataTable actualTable, DataTable expectedTable)
@@ -101,6 +100,5 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         #endregion
-
     }
 }

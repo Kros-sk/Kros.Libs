@@ -52,8 +52,7 @@ namespace Kros.Utils
         }
 
         #endregion
-
-
+        
         private int _counter = 0;
 
         /// <summary>

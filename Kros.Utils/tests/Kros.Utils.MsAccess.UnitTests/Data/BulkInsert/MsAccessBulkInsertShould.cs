@@ -16,7 +16,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 {
     public class MsAccessBulkInsertShould
     {
-
         #region Nested types
 
         public class DataItem
@@ -225,7 +224,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         #endregion
-
 
         #region Helpers
 
@@ -442,6 +440,5 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         #endregion
-
     }
 }

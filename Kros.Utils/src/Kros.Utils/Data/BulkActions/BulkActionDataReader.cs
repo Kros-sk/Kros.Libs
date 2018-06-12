@@ -72,7 +72,6 @@ namespace Kros.Data.BulkActions
         /// </returns>
         public override bool Read() => _reader.Read();
 
-
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         // Close is implemented just because this class inherits from DbDataReader and in .NET Core is bug
         // in SqlBulkCopy implementation. If reader does not inherit from DbDataReader, it breaks on NullReferenceException

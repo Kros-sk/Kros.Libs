@@ -11,7 +11,6 @@ namespace Kros.KORM.UnitTests.Integration
 {
     public partial class TransactionTests
     {
-
         #region SQL Scripts
 
         private static string InsertIntoTestTable =
@@ -23,7 +22,6 @@ namespace Kros.KORM.UnitTests.Integration
                      VALUES (3, 'lorem' ,'ipsum')";
 
         #endregion
-
 
         #region Bulk Update Tests Edited Items
 
@@ -233,7 +231,6 @@ namespace Kros.KORM.UnitTests.Integration
 
         #endregion
 
-
         #region Helpers
 
         private IEnumerable<Invoice> CreateOriginalTestData() =>
@@ -292,6 +289,5 @@ namespace Kros.KORM.UnitTests.Integration
         }
 
         #endregion
-
     }
 }

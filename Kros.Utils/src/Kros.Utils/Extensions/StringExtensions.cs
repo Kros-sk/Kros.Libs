@@ -10,7 +10,6 @@ namespace Kros.Extensions
     /// </summary>
     public static class StringExtensions
     {
-
         /// <summary>
         /// Checks, if string <paramref name="value"/> is <see langword="null"/>, or empty string (<c>string.Empty</c>).
         /// </summary>
@@ -52,7 +51,6 @@ namespace Kros.Extensions
 
             return sb.ToString().Normalize(NormalizationForm.FormC);
         }
-
 
         private static readonly Regex _reRemoveNewLines = new Regex(@"[\n\r]");
 

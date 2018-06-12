@@ -213,7 +213,6 @@ namespace Kros.KORM.UnitTests.Query.Sql
                                        " WHERE ((Id = @1))", 5);
         }
 
-
         [Fact]
         public void TranslateCountMethod()
         {

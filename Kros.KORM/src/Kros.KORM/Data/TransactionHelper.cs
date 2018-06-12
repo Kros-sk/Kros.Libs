@@ -30,7 +30,6 @@ namespace Kros.KORM.Data
             private bool _wasCommitOrRollback = false;
             private TransactionHelper _transactionHelper;
 
-
             public Transaction(TransactionHelper transactionHelper, ConnectionHelper connectionHelper, IsolationLevel isolationLevel)
             {
                 _connectionHelper = connectionHelper;
@@ -110,7 +109,6 @@ namespace Kros.KORM.Data
                 get { return TIMEOUT_DEFAULT; }
                 set { throw new InvalidOperationException($"Set CommandTimeout is not allowed for {nameof(NestedTransaction)}."); }
             }
-
         }
 
         #endregion

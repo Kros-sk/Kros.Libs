@@ -342,7 +342,7 @@ namespace Kros.Data.Schema.MsAccess
                 (dataType == OleDbType.Char) ||
                 (dataType == OleDbType.WChar))
             {
-                result = defaultValueString; ;
+                result = defaultValueString;
             }
             else
             {
