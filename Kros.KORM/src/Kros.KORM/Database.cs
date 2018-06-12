@@ -1,4 +1,5 @@
-﻿using Kros.Data.BulkActions;
+﻿using Kros.Data;
+using Kros.Data.BulkActions;
 using Kros.KORM.Data;
 using Kros.KORM.Materializer;
 using Kros.KORM.Metadata;
@@ -27,7 +28,6 @@ namespace Kros.KORM
     /// <seealso cref="Kros.KORM.Materializer.IModelBuilder" />
     public class Database : IDatabase
     {
-
         #region Static
 
         /// <summary>
@@ -58,7 +58,6 @@ namespace Kros.KORM
 
         #endregion
 
-
         #region Private fields
 
         private IModelBuilder _modelBuilder;
@@ -66,7 +65,6 @@ namespace Kros.KORM
         private IDatabaseMapper _databaseMapper;
 
         #endregion
-
 
         #region Constructors
 
@@ -161,13 +159,15 @@ namespace Kros.KORM
             IDatabaseMapper databaseMapper,
             IModelFactory defaultModelFactory)
         {
+            _connection = activeConnection;
             _databaseMapper = databaseMapper;
             _modelBuilder = new ModelBuilder(defaultModelFactory);
             _queryProvider = queryProviderFactory.Create(activeConnection, _modelBuilder, databaseMapper);
         }
 
-        #endregion
+        DbConnection _connection = null;
 
+        #endregion
 
         #region Database
 
@@ -288,8 +288,16 @@ namespace Kros.KORM
         public ITransaction BeginTransaction(IsolationLevel isolationLevel) =>
             _queryProvider.BeginTransaction(isolationLevel);
 
-        #endregion
+        /// <inheritdoc/>
+        public void InitDatabaseForIdGenerator()
+        {
+            var factory = IdGeneratorFactories.GetFactory(_connection);
+            var generator = factory.GetGenerator("DummyTableName");
 
+            generator.InitDatabaseForIdGenerator();
+        }
+
+        #endregion
 
         #region IDisposable
 
@@ -316,6 +324,5 @@ namespace Kros.KORM
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }

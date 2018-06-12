@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Kros.Data;
 using System;
 using System.Data.SqlClient;
 using Xunit;
@@ -36,6 +37,21 @@ namespace Kros.KORM.UnitTests
             IDatabase database = new Database(connection);
 
             database.Query<Person>().Should().NotBeNull();
+        }
+
+        [Fact]
+        public void InitForIdGenerator()
+        {
+            var connection = new SqlConnection();
+            IDatabase database = new Database(connection);
+            var idGeneratorFactory = NSubstitute.Substitute.For<IIdGeneratorFactory>();
+
+            IdGeneratorFactories.Register<SqlConnection>(
+                "Sytem.Data.Fake",
+                (conn) => idGeneratorFactory,
+                (connString) => idGeneratorFactory);
+
+            database.InitDatabaseForIdGenerator();
         }
 
         private class Person

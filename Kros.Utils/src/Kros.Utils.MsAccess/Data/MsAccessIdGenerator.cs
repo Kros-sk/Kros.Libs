@@ -17,8 +17,7 @@ namespace Kros.Data.MsAccess
     /// <example>
     /// <code language="cs" source="..\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
     /// </example>
-    public class MsAccessIdGenerator
-        : IdGeneratorBase
+    public class MsAccessIdGenerator : IdGeneratorBase
     {
         /// <summary>
         /// Creates a generator for table <paramref name="tableName"/> in database <paramref name="connectionString"/>
