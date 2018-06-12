@@ -16,14 +16,13 @@ namespace Kros.KORM.UnitTests.Data
         {
             var data = new HashSet<Foo>() { new Foo() { Prop1 = 1, Prop2 = "1", Prop3 = 1m }, new Foo() { Prop1 = 2, Prop2 = "2", Prop3 = 2m } };
             var commandGenerator = Substitute.For<ICommandGenerator<Foo>>();
-            commandGenerator.GetQueryColumns().Returns(new List<ColumnInfo>() { new ColumnInfo() { } });
+            commandGenerator.GetQueryColumns().Returns(new List<ColumnInfo>() { new ColumnInfo() });
 
             using (var reader = new KormDataReader<Foo>(data, commandGenerator))
             {
                 reader.FieldCount.Should().Be(1);
             }
         }
-
 
         [Fact]
         public void GetColumnNameByIndex()

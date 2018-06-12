@@ -12,7 +12,6 @@ namespace Kros.KORM.Helper
     /// <seealso cref="Kros.KORM.Helper.ILogger" />
     public class Logger : ILogger
     {
-
         /// <summary>
         /// Logs the command.
         /// </summary>

@@ -21,13 +21,11 @@ namespace Kros.KORM.Query.Expressions
         private object _originalQuery;
 
         #endregion
-
-
+        
         /// <summary>
         /// The select statement
         /// </summary>
         public const string SelectStatement = "SELECT";
-
 
         #region Constructor
 
@@ -43,7 +41,6 @@ namespace Kros.KORM.Query.Expressions
         }
 
         #endregion
-
 
         #region Select parts
 
@@ -95,7 +92,6 @@ namespace Kros.KORM.Query.Expressions
         public OrderByExpression OrderByExpression { get; private set; }
 
         #endregion
-
 
         #region Adding select query parts
 
@@ -172,7 +168,6 @@ namespace Kros.KORM.Query.Expressions
 
         #endregion
 
-
         #region Visitor
 
         /// <summary>
@@ -224,7 +219,6 @@ namespace Kros.KORM.Query.Expressions
             return this;
         }
         #endregion
-
 
         #region Linq
 

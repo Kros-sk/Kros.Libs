@@ -9,7 +9,6 @@ namespace Kros.KORM.Query
     /// </summary>
     public class CommandParameter
     {
-
         /// <summary>
         /// Vytvorí nový parameter so zadanými hodnotami.
         /// </summary>
@@ -81,6 +80,5 @@ namespace Kros.KORM.Query
         /// pre stored procedúry.
         /// </summary>
         public ParameterDirection Direction { get; set; } = ParameterDirection.Input;
-
     }
 }

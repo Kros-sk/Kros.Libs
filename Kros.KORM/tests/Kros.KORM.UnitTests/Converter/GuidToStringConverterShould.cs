@@ -7,7 +7,6 @@ namespace Kros.KORM.UnitTests.Converter
 {
     public class GuidToStringConverterShould
     {
-
         private const string TEST_GUID = "{f6f266d3-8bb5-41ca-bb93-8b668e83fa2e}";
 
         [Fact]

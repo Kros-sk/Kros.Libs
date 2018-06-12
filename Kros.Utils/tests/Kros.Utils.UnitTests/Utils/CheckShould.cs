@@ -6,7 +6,6 @@ namespace Kros.Utils.UnitTests.Utils
 {
     public class CheckShould
     {
-
         #region Nested types
 
         private enum DummyEnum
@@ -786,6 +785,5 @@ namespace Kros.Utils.UnitTests.Utils
         }
 
         #endregion
-
     }
 }

@@ -125,6 +125,5 @@ namespace Kros.KORM.Query
         /// </example>
         /// <exception cref="ArgumentNullException">if <c>table</c> is null or white string.</exception>
         IProjectionQuery<T> From(string table);
-
     }
 }

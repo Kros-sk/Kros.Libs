@@ -23,6 +23,7 @@ namespace Kros.KORM.UnitTests
     /// </summary>
     public class DbSetShould
     {
+        #region Tests
 
         [Fact]
         public void AddItemToPendingChanges()
@@ -64,7 +65,6 @@ namespace Kros.KORM.UnitTests
             dbSet.AddedItems.Should().HaveCount(4);
         }
 
-
         [Fact]
         public void EditItemToPendingChanges()
         {
@@ -102,7 +102,6 @@ namespace Kros.KORM.UnitTests
             dbSet.EditedItems.Should().HaveCount(4);
         }
 
-
         [Fact]
         public void DeleteItemToPendingChanges()
         {
@@ -118,7 +117,6 @@ namespace Kros.KORM.UnitTests
 
             dbSet.DeletedItems.Should().HaveCount(4);
         }
-
 
         [Fact]
         public void DeleteItemsToPendingChanges()
@@ -141,7 +139,6 @@ namespace Kros.KORM.UnitTests
             dbSet.DeletedItems.Should().HaveCount(4);
         }
 
-
         [Fact]
         public void ThrowAlreadyInCollectionExceptionWhenAddExistingItem()
         {
@@ -156,7 +153,6 @@ namespace Kros.KORM.UnitTests
             Action action = () => dbSet.Add(newPerson);
             action.Should().Throw<AlreadyInCollectionException>();
         }
-
 
         [Fact]
         public void ThrowAlreadyInCollectionExceptionWhenEditingExistingItem()
@@ -173,7 +169,6 @@ namespace Kros.KORM.UnitTests
             action.Should().Throw<AlreadyInCollectionException>();
         }
 
-
         [Fact]
         public void ThrowAlreadyInCollectionExceptionWhenDeletingExistingItem()
         {
@@ -189,8 +184,7 @@ namespace Kros.KORM.UnitTests
 
             action.Should().Throw<AlreadyInCollectionException>();
         }
-
-
+        
         [Fact]
         public void ClearPendingChanges()
         {
@@ -213,7 +207,6 @@ namespace Kros.KORM.UnitTests
             dbSet.EditedItems.Should().BeEmpty();
             dbSet.DeletedItems.Should().BeEmpty();
         }
-
 
         [Fact]
         public void CommitPendingChanges()
@@ -244,6 +237,7 @@ namespace Kros.KORM.UnitTests
             dbSet.DeletedItems.Should().BeEmpty();
         }
 
+        #endregion
 
         #region Test classes
 
@@ -253,7 +247,6 @@ namespace Kros.KORM.UnitTests
             public string Name { get; set; }
             public int Age { get; set; }
         }
-
 
         private class FakeProvider : IQueryProvider
         {
@@ -270,7 +263,6 @@ namespace Kros.KORM.UnitTests
             {
                 throw new NotImplementedException();
             }
-
 
             public int ExecuteNonQuery(string query)
             {
@@ -336,7 +328,6 @@ namespace Kros.KORM.UnitTests
             {
             }
 
-
             public void ExecuteInTransaction(Action action)
             {
                 action();
@@ -366,6 +357,5 @@ namespace Kros.KORM.UnitTests
         }
 
         #endregion
-
     }
 }

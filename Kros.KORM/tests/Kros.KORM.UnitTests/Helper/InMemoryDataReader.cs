@@ -11,7 +11,6 @@ namespace Kros.KORM.UnitTests.Helper
     /// <seealso cref="System.Data.IDataReader" />
     public class InMemoryDataReader : IDataReader
     {
-
         private IEnumerator<Dictionary<string, object>> _data;
         private List<string> _keys;
         private List<object> _values;
@@ -79,7 +78,6 @@ namespace Kros.KORM.UnitTests.Helper
 
         public void Dispose()
         {
-
         }
 
         public int FieldCount

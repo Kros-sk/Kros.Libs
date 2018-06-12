@@ -30,7 +30,6 @@ namespace Kros.KORM.UnitTests.Query.Sql
             var expression = new SelectExpression(GetTableInfo());
             expression.SetColumnsExpression(new ColumnsExpression("Id, FirstName"));
 
-
             var generator = CreateQuerySqlGenerator();
 
             var sql = generator.GenerateSql(expression);

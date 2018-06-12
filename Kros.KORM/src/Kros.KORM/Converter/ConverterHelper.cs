@@ -8,7 +8,6 @@ namespace Kros.KORM.Converter
     /// </summary>
     internal static class ConverterHelper
     {
-
         private static readonly GuidToStringConverter _guidToStringConverter = new GuidToStringConverter();
 
         /// <summary>
@@ -46,6 +45,5 @@ namespace Kros.KORM.Converter
 
             return null;
         }
-
     }
 }

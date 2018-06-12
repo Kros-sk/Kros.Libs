@@ -36,7 +36,6 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
 
         #endregion
 
-
         #region Tests
 
         [Fact]
@@ -374,7 +373,6 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
 
         #endregion
 
-
         #region Helpers
 
         private void DatabaseShouldContainInvoices(Database korm, IEnumerable<Invoice> expected)
@@ -427,6 +425,5 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         #endregion
-
     }
 }

@@ -91,7 +91,6 @@ namespace Kros.KORM.UnitTests.Query.Providers
 
         public class CustomQueryProviderFactory : IQueryProviderFactory
         {
-
             public CustomQueryProviderFactory()
             {
             }
@@ -127,6 +126,5 @@ namespace Kros.KORM.UnitTests.Query.Providers
 
             protected override DbCommand CreateDbCommand() => throw new NotImplementedException();
         }
-
     }
 }

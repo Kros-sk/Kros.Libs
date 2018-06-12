@@ -6,7 +6,6 @@ namespace Kros.KORM.UnitTests.Query.Sql
 {
     public class ExecuteScalarShould: DatabaseTestBase
     {
-
         #region SQL Scripts
 
         private const string Table_TestTable = "TestTable";

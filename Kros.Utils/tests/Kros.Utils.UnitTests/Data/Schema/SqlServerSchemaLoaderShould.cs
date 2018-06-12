@@ -46,7 +46,6 @@ namespace Kros.Utils.UnitTests.Data.Schema
     [ColGuid] [uniqueidentifier] NULL
 ) ON[PRIMARY];
 
-
 ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColInt32]  DEFAULT((32)) FOR[ColInt32];
 ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColInt64]  DEFAULT((64)) FOR[ColInt64];
 ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColSingle]  DEFAULT((123.456)) FOR[ColSingle];

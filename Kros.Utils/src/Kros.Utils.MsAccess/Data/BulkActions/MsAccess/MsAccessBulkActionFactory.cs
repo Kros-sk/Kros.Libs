@@ -11,7 +11,6 @@ namespace Kros.Data.BulkActions.MsAccess
     /// <seealso cref="Kros.Data.BulkActions.IBulkActionFactory" />
     public class MsAccessBulkActionFactory : IBulkActionFactory
     {
-
         private readonly OleDbConnection _connection;
         private readonly string _connectionString;
 

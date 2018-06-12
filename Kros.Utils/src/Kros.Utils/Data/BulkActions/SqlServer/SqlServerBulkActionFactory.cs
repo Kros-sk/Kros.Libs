@@ -11,7 +11,6 @@ namespace Kros.Data.BulkActions.SqlServer
     /// <seealso cref="Kros.Data.BulkActions.IBulkActionFactory" />
     public class SqlServerBulkActionFactory : IBulkActionFactory
     {
-
         private readonly SqlConnection _connection;
         private readonly string _connectionString;
 

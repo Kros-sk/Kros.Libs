@@ -21,7 +21,6 @@ namespace Kros.KORM.UnitTests.Materializer
             actual.Should().Be(expected);
         }
 
-
         [Fact]
         public void ReturnSameKeyForReadersWhitSameColumns()
         {

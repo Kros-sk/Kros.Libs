@@ -7,7 +7,6 @@ namespace Kros.Utils.UnitTests.Caching
 {
     public class CacheShould
     {
-
         [Fact]
         public void GetValue()
         {

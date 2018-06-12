@@ -146,7 +146,6 @@ namespace Kros.Data.BulkActions.SqlServer
             }
         }
 
-
         private int _bulkInsertTimeout = 0;
 
         /// <summary>

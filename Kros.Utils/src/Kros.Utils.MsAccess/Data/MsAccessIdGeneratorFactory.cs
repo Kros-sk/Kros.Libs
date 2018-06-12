@@ -14,7 +14,6 @@ namespace Kros.Data.MsAccess
     public class MsAccessIdGeneratorFactory
         : IIdGeneratorFactory
     {
-
         private readonly string _connectionString;
         private readonly OleDbConnection _connection;
 

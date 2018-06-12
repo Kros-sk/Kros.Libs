@@ -25,7 +25,6 @@ namespace Kros.Utils.UnitTests.Data.Schema
 
         #endregion
 
-
         #region Tests
 
         [SkippableFact]
@@ -109,7 +108,6 @@ namespace Kros.Utils.UnitTests.Data.Schema
         }
 
         #endregion
-
 
         #region Helpers
 

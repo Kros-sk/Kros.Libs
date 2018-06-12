@@ -14,7 +14,6 @@ namespace Kros.KORM.Data
     [ExcludeFromCodeCoverage()]
     internal class DataRowReader : DbDataReader
     {
-
         private DataTable _dataTable;
         private DataRow _dataRow;
         private bool _isOpen = true;
@@ -698,6 +697,5 @@ namespace Kros.KORM.Data
             }
             return new DataTableReader(table).GetSchemaTable();
         }
-
     }
 }

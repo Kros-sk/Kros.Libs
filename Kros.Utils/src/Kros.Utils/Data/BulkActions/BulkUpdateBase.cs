@@ -222,7 +222,6 @@ namespace Kros.Data.BulkActions
                 {
                     bulkInsert.Insert(reader);
                 }
-
             }
         }
 

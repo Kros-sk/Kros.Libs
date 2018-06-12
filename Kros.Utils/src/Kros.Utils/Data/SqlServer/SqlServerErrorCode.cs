@@ -8,7 +8,6 @@
     /// <see href="https://msdn.microsoft.com/en-us/library/cc645603.aspx"/>.</remarks>
     public enum SqlServerErrorCode
     {
-
         /// <summary>
         /// Unknown error code.
         /// </summary>
@@ -56,6 +55,5 @@
         /// The ... statement conflicted with the ... constraint. The conflict occurred in database ..., table ....
         /// </summary>
         ConstraintViolation = 547
-
     }
 }
