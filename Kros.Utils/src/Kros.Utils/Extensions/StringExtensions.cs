@@ -1,4 +1,5 @@
 ﻿using Kros.Utils;
+using System;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -112,6 +113,54 @@ namespace Kros.Extensions
                 return value;
             }
             return value.Substring(value.Length - length);
+        }
+
+        /// <inheritdoc cref="System.String.Format(string, object)"/>
+        public static string Format(this string format, object arg0)
+        {
+            return string.Format(format, arg0);
+        }
+
+        /// <inheritdoc cref="System.String.Format(string, object, object)"/>
+        public static string Format(this string format, object arg0, object arg1)
+        {
+            return string.Format(format, arg0, arg1);
+        }
+
+        /// <inheritdoc cref="System.String.Format(string, object, object, object)"/>
+        public static string Format(this string format, object arg0, object arg1, object arg2)
+        {
+            return string.Format(format, arg0, arg1, arg2);
+        }
+
+        /// <inheritdoc cref="System.String.Format(string, object[])"/>
+        public static string Format(this string format, params object[] args)
+        {
+            return string.Format(format, args);
+        }
+
+        /// <inheritdoc cref="System.String.Format(IFormatProvider, string, object)"/>
+        public static string Format(this string format, IFormatProvider provider, object arg0)
+        {
+            return string.Format(provider, format, arg0);
+        }
+
+        /// <inheritdoc cref="System.String.Format(IFormatProvider, string, object, object)"/>
+        public static string Format(this string format, IFormatProvider provider, object arg0, object arg1)
+        {
+            return string.Format(provider, format, arg0, arg1);
+        }
+
+        /// <inheritdoc cref="System.String.Format(IFormatProvider, string, object, object, object)"/>
+        public static string Format(this string format, IFormatProvider provider, object arg0, object arg1, object arg2)
+        {
+            return string.Format(provider, format, arg0, arg1, arg2);
+        }
+
+        /// <inheritdoc cref="System.String.Format(IFormatProvider, string, object[])"/>
+        public static string Format(this string format, IFormatProvider provider, params object[] args)
+        {
+            return string.Format(provider, format, args);
         }
     }
 }

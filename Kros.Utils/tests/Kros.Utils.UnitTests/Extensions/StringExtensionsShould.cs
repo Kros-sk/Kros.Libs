@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Kros.Extensions;
 using System;
+using System.Globalization;
 using Xunit;
 
 namespace Kros.Utils.UnitTests.Extensions
@@ -72,7 +73,32 @@ namespace Kros.Utils.UnitTests.Extensions
             action.Should().Throw<ArgumentException>("Length is negative.");
         }
 
-#region RemoveNewLines
+        #region string.Format
+
+        [Fact]
+        public void CorrectlyFormatString()
+        {
+            "a {0} b".Format(0).Should().Be("a 0 b", "object");
+            "a {0} {1} b".Format(0, 1).Should().Be("a 0 1 b", "object, object");
+            "a {0} {1} {2} b".Format(0, 1, 2).Should().Be("a 0 1 2 b", "object, object, object");
+            "a {0} {1} {2} {3} {4} b".Format(0, 1, 2, 3, 4).Should().Be("a 0 1 2 3 4 b", "object[]");
+
+            CultureInfo sk = new CultureInfo("sk-SK");
+            "a {0} b".Format(sk, 1.5).Should().Be("a 1,5 b", "SK IFormatProvider, object");
+            "a {0} {1} b".Format(sk, 1.5, 1.5).Should().Be("a 1,5 1,5 b", "SK IFormatProvider, object, object");
+            "a {0} {1} {2} b".Format(sk, 1.5, 1.5, 1.5).Should().Be("a 1,5 1,5 1,5 b", "SK IFormatProvider, object, object, object");
+            "a {0} {1} {2} {3} {4} b".Format(sk, 1.5, 1.5, 1.5, 1.5, 1.5).Should().Be("a 1,5 1,5 1,5 1,5 1,5 b", "SK IFormatProvider, object[]");
+
+            CultureInfo en = new CultureInfo("en-US");
+            "a {0} b".Format(en, 1.5).Should().Be("a 1.5 b", "EN IFormatProvider, object");
+            "a {0} {1} b".Format(en, 1.5, 1.5).Should().Be("a 1.5 1.5 b", "EN IFormatProvider, object, object");
+            "a {0} {1} {2} b".Format(en, 1.5, 1.5, 1.5).Should().Be("a 1.5 1.5 1.5 b", "EN IFormatProvider, object, object, object");
+            "a {0} {1} {2} {3} {4} b".Format(en, 1.5, 1.5, 1.5, 1.5, 1.5).Should().Be("a 1.5 1.5 1.5 1.5 1.5 b", "EN IFormatProvider, object[]");
+        }
+
+        #endregion
+
+        #region RemoveNewLines
 
         [Fact]
         public void ReturnNullWhenInputIsNull()
