@@ -22,7 +22,7 @@ namespace Kros.KORM.UnitTests.Base
 
         public DatabaseTestBase()
         {
-            BaseConnectionString = "Server=(localdb)\\MSSQLlocaldb;Persist Security Info = 'TRUE'";
+            BaseConnectionString = "Server=(local)\\SQL2016; UID=sa;PWD=Password12!; Persist Security Info = 'TRUE'";
         }
 
         protected virtual IDatabase CreateDatabase(string initScript)
