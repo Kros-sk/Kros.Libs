@@ -18,16 +18,18 @@ namespace Kros.KORM.Query.Expressions
         /// <param name="args">Where args.</param>
         public SqlExpression(RawSqlString sqlQuery, params object[] args)
         {
-            Check.NotNullOrWhiteSpace(sqlQuery.Format, "sqlQuery");
+            Check.NotNullOrWhiteSpace(sqlQuery.Format, nameof(sqlQuery));
 
-            this.Sql = sqlQuery.Format.TrimStart().TrimEnd();
-            this.Parameters = args.ToList();
+            Sql = sqlQuery.Format.TrimStart().TrimEnd();
+            Parameters = args.ToList();
         }
 
         #region Visitor
 
         /// <summary>
-        /// Dispatches to the specific visit method for this node type. For example, <see cref="T:System.Linq.Expressions.MethodCallExpression" /> calls the <see cref="M:System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)" />.
+        /// Dispatches to the specific visit method for this node type. For example,
+        /// <see cref="T:System.Linq.Expressions.MethodCallExpression"/> calls the
+        /// <see cref="M:System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)"/>.
         /// </summary>
         /// <param name="visitor">The visitor to visit this node with.</param>
         /// <returns>
@@ -35,7 +37,7 @@ namespace Kros.KORM.Query.Expressions
         /// </returns>
         protected override Expression Accept(ExpressionVisitor visitor)
         {
-            Check.NotNull(visitor, "visitor");
+            Check.NotNull(visitor, nameof(visitor));
 
             var specificVisitor = visitor as ISqlExpressionVisitor;
 
