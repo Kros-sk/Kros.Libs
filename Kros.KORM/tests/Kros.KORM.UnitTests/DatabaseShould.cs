@@ -41,16 +41,18 @@ namespace Kros.KORM.UnitTests
         [Fact]
         public void InitForIdGenerator()
         {
-            var connection = new SqlConnection();
-            IDatabase database = new Database(connection);
-            var idGeneratorFactory = NSubstitute.Substitute.For<IIdGeneratorFactory>();
+            using (var connection = new SqlConnection())
+            using (var database = new Database(connection))
+            {
+                var idGeneratorFactory = NSubstitute.Substitute.For<IIdGeneratorFactory>();
 
-            IdGeneratorFactories.Register<SqlConnection>(
-                "Sytem.Data.Fake",
-                (conn) => idGeneratorFactory,
-                (connString) => idGeneratorFactory);
+                IdGeneratorFactories.Register<SqlConnection>(
+                    "Sytem.Data.Fake",
+                    (conn) => idGeneratorFactory,
+                    (connString) => idGeneratorFactory);
 
-            database.InitDatabaseForIdGenerator();
+                database.InitDatabaseForIdGenerator();
+            }
         }
 
         private class Person
