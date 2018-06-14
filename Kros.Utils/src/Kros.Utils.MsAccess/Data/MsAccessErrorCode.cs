@@ -8,7 +8,6 @@
     /// is at <see href="https://msdn.microsoft.com/en-us/library/bb221208(v=office.12).aspx" />.</remarks>
     public enum MsAccessErrorCode
     {
-
         /// <summary>
         /// Unknown error.
         /// </summary>
@@ -64,6 +63,5 @@
         /// Could not read the record; currently locked by another user.
         /// </summary>
         CouldNotReadRecordIsLocked = 3624
-
     }
 }

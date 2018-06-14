@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.Properties;
+using Kros.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -37,7 +38,8 @@ namespace Kros.Data
         /// <typeparam name="TConnection">Database connection type.</typeparam>
         /// <param name="adoClientName">
         /// Name of the database client. It identifies specific database. For example client name for
-        /// <see cref="SqlServer.SqlServerIdGeneratorFactory"/> is "System.Data.SqlClient".
+        /// <see cref="SqlServer.SqlServerIdGeneratorFactory"/> is "System.Data.SqlClient"
+        /// (<see cref="SqlServer.SqlServerDataHelper.ClientId"/>).
         /// </param>
         /// <param name="factoryByConnection">
         /// Factory method for creating <see cref="IIdGeneratorFactory"/> with connection instance.
@@ -76,8 +78,8 @@ namespace Kros.Data
             }
             else
             {
-                throw new InvalidOperationException(
-                    $"IIdGeneratorFactory for connection type '{connection.GetType().Name}' is not registered.");
+                throw new InvalidOperationException(string.Format(Resources.FactoryNotRegisteredForConnection,
+                    nameof(IIdGeneratorFactory), connection.GetType().FullName));
             }
         }
 
@@ -99,8 +101,8 @@ namespace Kros.Data
             }
             else
             {
-                throw new InvalidOperationException(
-                    $"IIdGeneratorFactory for ADO client '{adoClientName}' is not registered.");
+                throw new InvalidOperationException(string.Format(Resources.FactoryNotRegisteredForClient,
+                    nameof(IIdGeneratorFactory), adoClientName));
             }
         }
     }

@@ -192,7 +192,7 @@ namespace Kros.KORM.Query
         /// <param name="whereCondition">The where condition.</param>
         /// <param name="args">The arguments for where.</param>
         /// <returns>
-        ///  <b>null</b> if item doesn't exist; otherwise, the first item which match the condition.
+        /// <see langword="null"/> if item doesn't exist; otherwise, the first item which match the condition.
         /// </returns>
         /// <exception cref="ArgumentNullException">if <c>whereCondition</c> is null or white string.</exception>
         public T FirstOrDefault(RawSqlString whereCondition, params object[] args)

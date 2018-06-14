@@ -21,7 +21,6 @@ namespace Kros.KORM.Query.Expressions
 
         #endregion
 
-
         #region Constructors
 
         /// <summary>
@@ -54,12 +53,10 @@ namespace Kros.KORM.Query.Expressions
 
         #endregion
 
-
         /// <summary>
         /// Gets or sets the group by part.
         /// </summary>
         public string OrderByPart { get; private set; }
-
 
         #region Visitor
 
@@ -82,6 +79,5 @@ namespace Kros.KORM.Query.Expressions
         }
 
         #endregion
-
     }
 }

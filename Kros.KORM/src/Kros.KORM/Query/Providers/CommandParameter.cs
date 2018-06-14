@@ -9,7 +9,6 @@ namespace Kros.KORM.Query
     /// </summary>
     public class CommandParameter
     {
-
         /// <summary>
         /// Vytvorí nový parameter so zadanými hodnotami.
         /// </summary>
@@ -65,8 +64,8 @@ namespace Kros.KORM.Query
         public string ParameterName { get; }
 
         /// <summary>
-        /// Hodnota parametra. Ak je NULL (<c>null</c>, alebo <c>DbNull.Value</c>), mal by byť nastavený presný dátový typ
-        /// <see cref="DataType"/>.
+        /// Hodnota parametra. Ak je <c>NULL</c> (<see langword="null"/>, alebo <see cref="System.DBNull"/>),
+        /// mal by byť nastavený presný dátový typ <see cref="DataType"/>.
         /// </summary>
         public object Value { get; set; }
 
@@ -81,6 +80,5 @@ namespace Kros.KORM.Query
         /// pre stored procedúry.
         /// </summary>
         public ParameterDirection Direction { get; set; } = ParameterDirection.Input;
-
     }
 }

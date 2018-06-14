@@ -13,14 +13,12 @@ namespace Kros.KORM.Injection
     /// <typeparam name="TModel">Model type.</typeparam>
     internal class InjectionConfiguration<TModel> : IInjectionConfigurator<TModel>, IInjector
     {
-
         #region Private fields
 
         private Dictionary<string, Func<object>> _injectors =
             new Dictionary<string, Func<object>>(StringComparer.InvariantCultureIgnoreCase);
 
         #endregion
-
 
         /// <summary>
         /// Fill model property with injector.

@@ -26,7 +26,6 @@ namespace Kros.KORM.CommandGenerator
 
         #endregion
 
-
         #region Private Fields
 
         private TableInfo _tableInfo;
@@ -36,7 +35,6 @@ namespace Kros.KORM.CommandGenerator
         private int _maxParametersForDeleteCommandsInPart = DEFAULT_MAX_PARAMETERS_FOR_DELETE_COMMANDS_IN_PART;
 
         #endregion
-
 
         #region Public Fields
 
@@ -56,7 +54,6 @@ namespace Kros.KORM.CommandGenerator
         }
 
         #endregion
-
 
         #region Ctor
 
@@ -79,8 +76,7 @@ namespace Kros.KORM.CommandGenerator
 
         #endregion
 
-
-        #region ICommandGenerator Members
+        #region ICommandGenerator
 
         /// <summary>
         /// Gets the automatically generated DbCommand object required to perform insertions on the database.
@@ -189,7 +185,7 @@ namespace Kros.KORM.CommandGenerator
         /// <param name="command">Command which parameters are filled.</param>
         /// <param name="item">Item, from which command is filled.</param>
         /// <exception cref="System.ArgumentNullException">Either <paramref name="command" /> or <paramref name="item" />
-        /// is <c>null</c>.</exception>
+        /// is <see langword="null"/>.</exception>
         public void FillCommand(DbCommand command, T item)
         {
             Check.NotNull(command, nameof(command));
@@ -223,7 +219,6 @@ namespace Kros.KORM.CommandGenerator
             cmd.Parameters.Add(newParameter);
         }
 
-
         private DbCommand FinishDeleteCommand(DbCommand cmd, StringBuilder deleteQueryText)
         {
             deleteQueryText.Append(")");
@@ -232,7 +227,6 @@ namespace Kros.KORM.CommandGenerator
         }
 
         #endregion
-
 
         #region Private Helpers
 
@@ -258,7 +252,6 @@ namespace Kros.KORM.CommandGenerator
 
             return _columnsInfo;
         }
-
 
         private void AddParametersToCommand(DbCommand cmd, IEnumerable<ColumnInfo> columns)
         {
@@ -310,7 +303,6 @@ namespace Kros.KORM.CommandGenerator
             return string.Format(INSERT_QUERY_BASE, _tableInfo.Name, paramNames.ToString(), paramValues.ToString());
         }
 
-
         private string GetUpdateCommandText(IEnumerable<ColumnInfo> columns)
         {
             var paramSetPart = new StringBuilder();
@@ -338,7 +330,6 @@ namespace Kros.KORM.CommandGenerator
             return string.Format(UPDATE_QUERY_BASE, _tableInfo.Name, paramSetPart.ToString(), paramWherePart.ToString());
         }
 
-
         private string GetDeleteCommandText(IEnumerable<ColumnInfo> columns)
         {
             var paramWherePart = new StringBuilder();
@@ -356,6 +347,5 @@ namespace Kros.KORM.CommandGenerator
         }
 
         #endregion
-
     }
 }

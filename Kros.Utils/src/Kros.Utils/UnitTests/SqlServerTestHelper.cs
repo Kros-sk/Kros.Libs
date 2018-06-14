@@ -99,7 +99,8 @@ namespace Kros.UnitTests
         /// </summary>
         public SqlConnection Connection
         {
-            get {
+            get
+            {
                 if (_connection == null)
                 {
                     CreateDatabase();
@@ -153,7 +154,7 @@ namespace Kros.UnitTests
 
         private void CreateConnection()
         {
-            string databaseName = GenerateDatabaseName(); ;
+            string databaseName = GenerateDatabaseName();
             using (SqlConnection masterConnection = GetConnectionCore(MasterDatabaseName))
             {
                 using (SqlCommand cmd = masterConnection.CreateCommand())

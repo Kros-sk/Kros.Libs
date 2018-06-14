@@ -14,13 +14,11 @@ namespace Kros.KORM.Materializer
     /// <seealso cref="Kros.KORM.Materializer.IModelBuilder" />
     public class ModelBuilder : IModelBuilder
     {
-
         #region Nested classes
 
         internal class QueryDataReader
             : IDataReader
         {
-
             #region Fields
 
             IDbCommand _command;
@@ -100,7 +98,6 @@ namespace Kros.KORM.Materializer
 
             #endregion
 
-
             #region IDisposable Support
 
             private bool disposedValue = false; // To detect redundant calls
@@ -125,9 +122,7 @@ namespace Kros.KORM.Materializer
             }
 
             #endregion
-
         }
-
 
         /// <summary>
         /// Enumerable which support iteration over the materialized models.
@@ -137,7 +132,6 @@ namespace Kros.KORM.Materializer
         public class ModelBuilderEnumerable<T>
             : IEnumerable<T>
         {
-
             #region Private fields
 
             private readonly Func<IDataReader, T> _modelFactory;
@@ -179,7 +173,6 @@ namespace Kros.KORM.Materializer
             }
 
             #endregion
-
         }
 
         /// <summary>
@@ -190,7 +183,6 @@ namespace Kros.KORM.Materializer
         public class ModelBuilderEnumerator<T>
             : IEnumerator<T>
         {
-
             #region Private fields
 
             private Func<IDataReader, T> _modelFactory;
@@ -271,18 +263,15 @@ namespace Kros.KORM.Materializer
             }
 
             #endregion
-
         }
 
         #endregion
 
-
-        #region "Private Fields"
+        #region Private Fields
 
         private IModelFactory _modelFactory;
 
         #endregion
-
 
         #region Constructor
 

@@ -84,7 +84,7 @@ namespace Kros.Data.Schema
             }
             else if (item.Index != Index)
             {
-                throw new InvalidOperationException(string.Format(Resources.Schema_ColumnBelongsToAnotherIndex,
+                throw new InvalidOperationException(string.Format(Resources.ColumnBelongsToAnotherIndex,
                     item.Name, Index.Name, item.Index.Name));
             }
             base.InsertItem(index, item);

@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.Properties;
+using Kros.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -10,7 +11,6 @@ namespace Kros.Data.BulkActions
     /// </summary>
     public static class BulkActionFactories
     {
-
         private static Dictionary<string, Func<string, IBulkActionFactory>> _factoryByAdoClientName =
             new Dictionary<string, Func<string, IBulkActionFactory>>(StringComparer.InvariantCultureIgnoreCase);
         private static Dictionary<Type, Func<DbConnection, IBulkActionFactory>> _factoryByConnection =
@@ -54,8 +54,8 @@ namespace Kros.Data.BulkActions
             }
             else
             {
-                throw new InvalidOperationException(
-                    $"{nameof(IBulkActionFactory)} for connection type '{connection.GetType().Name}' is not registered.");
+                throw new InvalidOperationException(string.Format(Resources.FactoryNotRegisteredForConnection,
+                    nameof(IBulkActionFactory), connection.GetType().FullName));
             }
         }
 
@@ -79,8 +79,8 @@ namespace Kros.Data.BulkActions
             }
             else
             {
-                throw new InvalidOperationException(
-                    $"{nameof(IBulkActionFactory)} for ADO client '{adoClientName}' is not registered.");
+                throw new InvalidOperationException(string.Format(Resources.FactoryNotRegisteredForClient,
+                    nameof(IBulkActionFactory), adoClientName));
             }
         }
     }

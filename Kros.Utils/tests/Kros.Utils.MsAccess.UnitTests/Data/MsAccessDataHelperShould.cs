@@ -52,7 +52,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
                         cn.Open();
                     }
                 };
-                connectToEmptyDbAction.ShouldNotThrow();
+                connectToEmptyDbAction.Should().NotThrow();
             }
             finally
             {
@@ -68,13 +68,13 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
         public void GetProviderType_NullConnectionString()
         {
             string connectionString = null;
-            ((Action)(() => MsAccessDataHelper.GetProviderType(connectionString))).ShouldThrow<ArgumentNullException>();
+            ((Action)(() => MsAccessDataHelper.GetProviderType(connectionString))).Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
         public void GetProviderType_EmptyConnectionString()
         {
-            ((Action)(() => MsAccessDataHelper.GetProviderType(string.Empty))).ShouldThrow<ArgumentException>();
+            ((Action)(() => MsAccessDataHelper.GetProviderType(string.Empty))).Should().Throw<ArgumentException>();
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
         {
             var connectionString = string.Format(BaseConnectionString, string.Empty);
             ((Action)(() => MsAccessDataHelper.GetProviderType(connectionString)))
-                .ShouldThrow<InvalidOperationException>();
+                .Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -104,7 +104,7 @@ namespace Kros.Utils.MsAccess.UnitTests.Data
         {
             var connectionString = string.Format(BaseConnectionString, SqlProvider);
             ((Action)(() => MsAccessDataHelper.GetProviderType(connectionString)))
-                .ShouldThrow<InvalidOperationException>();
+                .Should().Throw<InvalidOperationException>();
         }
 
         #endregion

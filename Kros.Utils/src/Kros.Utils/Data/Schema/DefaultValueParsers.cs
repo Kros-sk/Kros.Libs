@@ -11,7 +11,6 @@ namespace Kros.Data.Schema
     /// </summary>
     public static class DefaultValueParsers
     {
-
         /// <summary>
         /// Delegate for function which parses default value.
         /// </summary>
@@ -158,7 +157,6 @@ namespace Kros.Data.Schema
             }
             return null;
         }
-
 
         private static Regex reDateTime =
             new Regex(@"(?<year>\d\d\d\d)-(?<month>\d\d)-(?<day>\d\d).(?<hour>\d\d):(?<min>\d\d):(?<sec>\d\d)",

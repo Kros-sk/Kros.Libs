@@ -13,14 +13,12 @@ namespace Kros.Caching
     /// <seealso cref="Kros.Caching.ICache{TKey,TValue}" />
     public class Cache<TKey, TValue> : ICache<TKey, TValue>
     {
-
         #region Private fields
 
         private Dictionary<TKey, TValue> _cache;
         private ReaderWriterLockSlim _cacheLock = new ReaderWriterLockSlim();
 
         #endregion
-
 
         #region Constructor
 
@@ -44,7 +42,6 @@ namespace Kros.Caching
         }
 
         #endregion
-
 
         #region Public Methods
 
@@ -113,6 +110,5 @@ namespace Kros.Caching
         }
 
         #endregion
-
     }
 }

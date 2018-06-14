@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Kros.Data.SqlServer;
 using Kros.KORM.Query;
 using Kros.KORM.UnitTests.Base;
 using System;
@@ -10,7 +11,6 @@ namespace Kros.KORM.UnitTests.Integration
 {
     public partial class TransactionTests
     {
-
         #region SQL Scripts
 
         private static string InsertIntoTestTable =
@@ -22,7 +22,6 @@ namespace Kros.KORM.UnitTests.Integration
                      VALUES (3, 'lorem' ,'ipsum')";
 
         #endregion
-
 
         #region Bulk Update Tests Edited Items
 
@@ -76,7 +75,7 @@ namespace Kros.KORM.UnitTests.Integration
                 IEnumerable<Invoice> items = null;
                 Action bulkUpdateAction = () => dbSet.BulkUpdate(items);
 
-                bulkUpdateAction.ShouldThrow<ArgumentNullException>();
+                bulkUpdateAction.Should().Throw<ArgumentNullException>();
             }
         }
 
@@ -182,7 +181,7 @@ namespace Kros.KORM.UnitTests.Integration
             Action<IDbSet<Invoice>, Action<IDbConnection, IDbTransaction, string>> dbSetAction)
         {
             using (var database = CreateDatabaseWithData())
-            using (var korm = new Database(database.ConnectionString, "System.Data.SqlClient"))
+            using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
                 var dbSet = korm.Query<Invoice>().AsDbSet();
@@ -192,7 +191,7 @@ namespace Kros.KORM.UnitTests.Integration
                 transaction.Rollback();
 
                 database.Connection.State.Should().Be(ConnectionState.Open);
-                korm.Query<Invoice>().ShouldBeEquivalentTo(CreateOriginalTestData());
+                korm.Query<Invoice>().Should().BeEquivalentTo(CreateOriginalTestData());
                 DatabaseShouldContainInvoices(database.ConnectionString, CreateOriginalTestData());
             }
         }
@@ -216,7 +215,7 @@ namespace Kros.KORM.UnitTests.Integration
             Action<IDbSet<Invoice>, Action<IDbConnection, IDbTransaction, string>> dbSetAction)
         {
             using (var database = CreateDatabaseWithData())
-            using (var korm = new Database(database.ConnectionString, "System.Data.SqlClient"))
+            using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
                 var dbSet = korm.Query<Invoice>().AsDbSet();
@@ -231,7 +230,6 @@ namespace Kros.KORM.UnitTests.Integration
         }
 
         #endregion
-
 
         #region Helpers
 
@@ -291,6 +289,5 @@ namespace Kros.KORM.UnitTests.Integration
         }
 
         #endregion
-
     }
 }

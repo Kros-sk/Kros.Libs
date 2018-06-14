@@ -84,7 +84,7 @@ namespace Kros.KORM.Query
         IEnumerable<T> DeletedItems { get; }
 
         /// <summary>
-        /// Executes bulk insert over pending added items.
+        /// Bulk inserts pending added items.
         /// </summary>
         /// <example>
         ///   <code source="..\Examples\Kros.KORM.Examples\WelcomeExample.cs" title="Bulk insert" region="BulkInsert" lang="C#" />
@@ -92,13 +92,30 @@ namespace Kros.KORM.Query
         void BulkInsert();
 
         /// <summary>
-        /// Executes bulk insert over <paramref name="items"/>.
+        /// Asynchronously bulk inserts pending added items.
+        /// </summary>
+        /// <returns>
+        /// A task that represents the asynchronous bulk insert operation.
+        /// </returns>
+        Task BulkInsertAsync();
+
+        /// <summary>
+        /// Bulk inserts <paramref name="items"/>.
         /// </summary>
         /// <param name="items">The items to insert.</param>
         void BulkInsert(IEnumerable<T> items);
 
         /// <summary>
-        /// Executes bulk update over pending edited items.
+        /// Asynchronously bulk inserts <paramref name="items"/>.
+        /// </summary>
+        /// <param name="items">The items to insert.</param>
+        /// <returns>
+        /// A task that represents the asynchronous bulk insert operation.
+        /// </returns>
+        Task BulkInsertAsync(IEnumerable<T> items);
+
+        /// <summary>
+        /// Bulk updates pending edited items.
         /// </summary>
         /// <example>
         ///   <code source="..\Examples\Kros.KORM.Examples\WelcomeExample.cs" title="Bulk update" region="BulkUpdate" lang="C#" />
@@ -106,13 +123,30 @@ namespace Kros.KORM.Query
         void BulkUpdate();
 
         /// <summary>
-        /// Executes bulk update over <paramref name="items"/>.
+        /// Asynchronously bulk updates pending edited items.
+        /// </summary>
+        /// <returns>
+        /// A task that represents the asynchronous bulk update operation.
+        /// </returns>
+        Task BulkUpdateAsync();
+
+        /// <summary>
+        /// Bulk updates <paramref name="items"/>.
         /// </summary>
         /// <param name="items">The items to update.</param>
         void BulkUpdate(IEnumerable<T> items);
 
         /// <summary>
-        /// Executes bulk update over pending edited items with specific action.
+        /// Asyncronously bulk updates <paramref name="items"/>.
+        /// </summary>
+        /// <param name="items">The items to update.</param>
+        /// <returns>
+        /// A task that represents the asynchronous bulk update operation.
+        /// </returns>
+        Task BulkUpdateAsync(IEnumerable<T> items);
+
+        /// <summary>
+        /// Bulk updates pending edited items with specific action.
         /// </summary>
         /// <param name="tempTableAction">The action execute on temp table (modify data in temp table).
         /// <list type="bullet">
@@ -129,7 +163,27 @@ namespace Kros.KORM.Query
         void BulkUpdate(Action<IDbConnection, IDbTransaction, string> tempTableAction);
 
         /// <summary>
-        /// Executes bulk update over <paramref name="items"/> with specific action.
+        /// Asyncronousky bulk updates pending edited items with specific action.
+        /// </summary>
+        /// <param name="tempTableAction">The action execute on temp table (modify data in temp table).
+        /// <list type="bullet">
+        /// <item>
+        /// <c>IDbConnection</c> - the temp table connection.
+        /// </item>
+        /// <item>
+        /// <c>IDbTransaction</c> - the temp table transaction.
+        /// </item>
+        /// <item>
+        /// <c>string</c> - the temp table name.
+        /// </item>
+        /// </list></param>
+        /// <returns>
+        /// A task that represents the asynchronous bulk update operation.
+        /// </returns>
+        Task BulkUpdateAsync(Action<IDbConnection, IDbTransaction, string> tempTableAction);
+
+        /// <summary>
+        /// Bulk updates <paramref name="items"/> with specific action.
         /// </summary>
         /// <param name="items">The items to update.</param>
         /// <param name="tempTableAction">The action execute on temp table (modify data in temp table).
@@ -146,5 +200,25 @@ namespace Kros.KORM.Query
         /// </list></param>
         void BulkUpdate(IEnumerable<T> items, Action<IDbConnection, IDbTransaction, string> tempTableAction);
 
+        /// <summary>
+        /// Asynchronously bulk updates <paramref name="items"/> with specific action.
+        /// </summary>
+        /// <param name="items">The items to update.</param>
+        /// <param name="tempTableAction">The action execute on temp table (modify data in temp table).
+        /// <list type="bullet">
+        /// <item>
+        /// <c>IDbConnection</c> - the temp table connection.
+        /// </item>
+        /// <item>
+        /// <c>IDbTransaction</c> - the temp table transaction.
+        /// </item>
+        /// <item>
+        /// <c>string</c> - the temp table name.
+        /// </item>
+        /// </list></param>
+        /// <returns>
+        /// A task that represents the asynchronous bulk update operation.
+        /// </returns>
+        Task BulkUpdateAsync(IEnumerable<T> items, Action<IDbConnection, IDbTransaction, string> tempTableAction);
     }
 }

@@ -117,11 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MsAccessSchemaLoader_UnsupportedConnectionType" xml:space="preserve">
-    <value>Nepodporovaný typ spojenia na databázu. Spojenie musí byť typu OleDbConnection a musí mať nastaveného správneho providera.</value>
+  <data name="ConnectionStringIsNotMsAccess" xml:space="preserve">
+    <value>Provided connection string is not a connection string for Microsoft Access database. Supported providers are Microsoft.ACE.OLEDB and Microsoft.Jet.OLEDB.</value>
+  </data>
+  <data name="CsvFileDoesNotExist" xml:space="preserve">
+    <value>Data cannot be inserted. Data file does not exist: {0}</value>
+  </data>
+  <data name="ProviderNotInstaller" xml:space="preserve">
+    <value>MS Access provider "{0}" is not installed.</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="SqlIdGeneratorTableScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SqlIdGeneratorTableScript.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UnknownDataTypeForCsv" xml:space="preserve">
+    <value>Unknown data type for CSV file. Data type: {0}, value: {1}</value>
+  </data>
+  <data name="UnsupportedBulkInsertDataType" xml:space="preserve">
+    <value>Unsupported data type for Microsoft Access bulk insert: OleDbType.{0}</value>
+  </data>
+  <data name="UnsupportedConnectionType" xml:space="preserve">
+    <value>Connection type is not supported. The connection must be of type OleDbConnection and must have correct provider, Microsoft.ACE.OLEDB or Microsoft.Jet.OLEDB.</value>
   </data>
 </root>

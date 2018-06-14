@@ -17,7 +17,6 @@ namespace Kros.Data.SqlServer
     public class SqlServerIdGenerator
         : IdGeneratorBase
     {
-
         private const string GetNewIdSpName = "spGetNewId";
 
         /// <summary>

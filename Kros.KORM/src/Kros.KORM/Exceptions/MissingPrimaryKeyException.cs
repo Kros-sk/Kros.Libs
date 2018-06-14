@@ -7,7 +7,6 @@ namespace Kros.KORM.Exceptions
     /// </summary>
     public class MissingPrimaryKeyException : Exception
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MissingPrimaryKeyException" /> class.
         /// </summary>
@@ -18,11 +17,9 @@ namespace Kros.KORM.Exceptions
             this.TableName = tableName;
         }
 
-
         /// <summary>
         /// Table name whitch doesn't have primary key.
         /// </summary>
         public string TableName { get; private set; }
-
     }
 }

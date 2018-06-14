@@ -19,7 +19,6 @@ namespace Kros.KORM.Query
     /// <typeparam name="T">The type that defines the set.</typeparam>
     public class DbSet<T> : IDbSet<T>
     {
-
         #region Private fields
 
         private ICommandGenerator<T> _commandGenerator;
@@ -31,7 +30,6 @@ namespace Kros.KORM.Query
         private readonly TableInfo _tableInfo;
 
         #endregion
-
 
         #region Constructor
 
@@ -52,7 +50,6 @@ namespace Kros.KORM.Query
 
         #endregion
 
-
         #region IDbSet Members
 
         /// <summary>
@@ -69,7 +66,6 @@ namespace Kros.KORM.Query
             _addedItems.Add(entity);
         }
 
-
         /// <summary>
         /// Adds the item to the context underlying the set in the Edited state such that it will be updated
         /// in the database when CommitChanges is called.
@@ -83,7 +79,6 @@ namespace Kros.KORM.Query
 
             _editedItems.Add(entity);
         }
-
 
         /// <summary>
         /// Adds the item to the context underlying the set in the Deleted state such that it will be deleted
@@ -146,94 +141,95 @@ namespace Kros.KORM.Query
             _deletedItems.Clear();
         }
 
-        /// <summary>
-        /// Executes bulk insert over pending added items.
-        /// </summary>
-        /// <example>
-        ///   <code source="..\Examples\Kros.KORM.Examples\WelcomeExample.cs" title="Bulk insert" region="BulkInsert" lang="C#" />
-        /// </example>
-        /// <remarks>Clears added items.</remarks>
+        /// <inheritdoc />
         public void BulkInsert()
         {
-            BulkInsertCore(_addedItems);
+            BulkInsertCoreAsync(_addedItems, false).GetAwaiter().GetResult();
             _addedItems?.Clear();
         }
 
-        /// <summary>
-        /// Executes bulk insert over <paramref name="items"/>.
-        /// </summary>
-        /// <param name="items">The items to insert.</param>
+        /// <inheritdoc />
         public void BulkInsert(IEnumerable<T> items)
         {
             Check.NotNull(items, nameof(items));
-            BulkInsertCore(items);
+
+            BulkInsertCoreAsync(items, false).GetAwaiter().GetResult();
         }
 
-        /// <summary>
-        /// Executes bulk update over pending edited items.
-        /// </summary>
-        /// <example>
-        ///   <code source="..\Examples\Kros.KORM.Examples\WelcomeExample.cs" title="Bulk update" region="BulkUpdate" lang="C#" />
-        /// </example>
-        /// <remarks>Clears edited items.</remarks>
+        /// <inheritdoc />
+        public async Task BulkInsertAsync()
+        {
+            await BulkInsertCoreAsync(_addedItems, true);
+
+            _addedItems?.Clear();
+        }
+
+        /// <inheritdoc />
+        public Task BulkInsertAsync(IEnumerable<T> items)
+        {
+            Check.NotNull(items, nameof(items));
+
+            return BulkInsertCoreAsync(items, true);
+        }
+
+        /// <inheritdoc />
         public void BulkUpdate()
         {
-            BulkUpdateCore(_editedItems, null);
+            BulkUpdateCoreAsync(_editedItems, null, false).GetAwaiter().GetResult();
             _editedItems?.Clear();
         }
 
-        /// <summary>
-        /// Executes bulk update over <paramref name="items"/>.
-        /// </summary>
-        /// <param name="items">The items to update.</param>
+        /// <inheritdoc />
         public void BulkUpdate(IEnumerable<T> items)
         {
             Check.NotNull(items, nameof(items));
-            BulkUpdateCore(items, null);
+
+            BulkUpdateCoreAsync(items, null, false).GetAwaiter().GetResult();
         }
 
-        /// <summary>
-        /// Executes bulk update over pending edited items with specific action.
-        /// </summary>
-        /// <param name="tempTableAction">The action execute on temp table (modify data in temp table).
-        /// <list type="bullet">
-        /// <item>
-        /// <c>IDbConnection</c> - the temp table connection.
-        /// </item>
-        /// <item>
-        /// <c>IDbTransaction</c> - the temp table transaction.
-        /// </item>
-        /// <item>
-        /// <c>string</c> - the temp table name.
-        /// </item>
-        /// </list></param>
-        /// <remarks>Clears edited items.</remarks>
+        /// <inheritdoc />
         public void BulkUpdate(Action<IDbConnection, IDbTransaction, string> tempTableAction)
         {
-            BulkUpdateCore(_editedItems, tempTableAction);
+            BulkUpdateCoreAsync(_editedItems, tempTableAction, false).GetAwaiter().GetResult();
             _editedItems?.Clear();
         }
 
-        /// <summary>
-        /// Executes bulk update over <paramref name="items"/> with specific action.
-        /// </summary>
-        /// <param name="items">The items to update.</param>
-        /// <param name="tempTableAction">The action execute on temp table (modify data in temp table).
-        /// <list type="bullet">
-        /// <item>
-        /// <c>IDbConnection</c> - the temp table connection.
-        /// </item>
-        /// <item>
-        /// <c>IDbTransaction</c> - the temp table transaction.
-        /// </item>
-        /// <item>
-        /// <c>string</c> - the temp table name.
-        /// </item>
-        /// </list></param>
+        /// <inheritdoc />
         public void BulkUpdate(IEnumerable<T> items, Action<IDbConnection, IDbTransaction, string> tempTableAction)
         {
             Check.NotNull(items, nameof(items));
-            BulkUpdateCore(items, tempTableAction);
+
+            BulkUpdateCoreAsync(items, tempTableAction, false).GetAwaiter().GetResult();
+        }
+
+        /// <inheritdoc />
+        public async Task BulkUpdateAsync()
+        {
+            await BulkUpdateCoreAsync(_editedItems, null, true);
+            _editedItems?.Clear();
+        }
+
+        /// <inheritdoc />
+        public Task BulkUpdateAsync(IEnumerable<T> items)
+        {
+            Check.NotNull(items, nameof(items));
+
+            return BulkUpdateCoreAsync(items, null, true);
+        }
+
+        /// <inheritdoc />
+        public async Task BulkUpdateAsync(Action<IDbConnection, IDbTransaction, string> tempTableAction)
+        {
+            await BulkUpdateCoreAsync(_editedItems, tempTableAction, true);
+            _editedItems?.Clear();
+        }
+
+        /// <inheritdoc />
+        public Task BulkUpdateAsync(IEnumerable<T> items, Action<IDbConnection, IDbTransaction, string> tempTableAction)
+        {
+            Check.NotNull(items, nameof(items));
+
+            return BulkUpdateCoreAsync(items, tempTableAction, true);
         }
 
         /// <summary>
@@ -256,18 +252,15 @@ namespace Kros.KORM.Query
             });
         }
 
-
         /// <summary>
         /// List of items in Added state.
         /// </summary>
         public IEnumerable<T> AddedItems { get { return _addedItems; } }
 
-
         /// <summary>
         /// List of items in Edited state.
         /// </summary>
         public IEnumerable<T> EditedItems { get { return _editedItems; } }
-
 
         /// <summary>
         /// List of items in Deleted state.
@@ -275,7 +268,6 @@ namespace Kros.KORM.Query
         public IEnumerable<T> DeletedItems { get { return _deletedItems; } }
 
         #endregion
-
 
         #region Private Helpers
 
@@ -371,7 +363,7 @@ namespace Kros.KORM.Query
             }
         }
 
-        private void BulkInsertCore(IEnumerable<T> items)
+        private async Task BulkInsertCoreAsync(IEnumerable<T> items, bool useAsync)
         {
             if (items != null)
             {
@@ -388,13 +380,24 @@ namespace Kros.KORM.Query
 
                     using (var reader = new KormBulkInsertDataReader<T>(items, _commandGenerator, idGenerator, _tableInfo))
                     {
-                        bulkInsert.Insert(reader);
+                        if (useAsync)
+                        {
+                            await bulkInsert.InsertAsync(reader);
+                        }
+                        else
+                        {
+                            bulkInsert.Insert(reader);
+                        }
                     }
                 }
             }
         }
 
-        private void BulkUpdateCore(IEnumerable<T> items, Action<IDbConnection, IDbTransaction, string> tempTableAction)
+        private async Task BulkUpdateCoreAsync(
+            IEnumerable<T> items,
+            Action<IDbConnection, IDbTransaction, string>
+            tempTableAction,
+            bool useAsync)
         {
             if (_tableInfo.PrimaryKey.Count() != 1)
             {
@@ -412,14 +415,20 @@ namespace Kros.KORM.Query
 
                     using (var reader = new KormDataReader<T>(items, _commandGenerator))
                     {
-                        bulkUpdate.Update(reader);
+                        if (useAsync)
+                        {
+                            await bulkUpdate.UpdateAsync(reader);
+                        }
+                        else
+                        {
+                            bulkUpdate.Update(reader);
+                        }
                     }
                 }
             }
         }
 
         #endregion
-
 
         #region IEnumerator
 
@@ -434,13 +443,11 @@ namespace Kros.KORM.Query
             return _query.GetEnumerator();
         }
 
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
         #endregion
-
     }
 }

@@ -17,6 +17,7 @@ namespace Kros.KORM.UnitTests.Materializer
 {
     public class MethodModelFactoryShould
     {
+        #region Tests
 
         [Fact]
         public void CreateFactoryWhichKnowFillingObjectsWithPrimitiveTypes()
@@ -267,7 +268,7 @@ namespace Kros.KORM.UnitTests.Materializer
 
             Action act = () => bar = fact(data);
 
-            act.ShouldThrow<InvalidCastException>();
+            act.Should().Throw<InvalidCastException>();
         }
 
         [Fact]
@@ -293,8 +294,9 @@ namespace Kros.KORM.UnitTests.Materializer
             foo.Service.Should().Be(service);
         }
 
+        #endregion
 
-        #region "Helpers"
+        #region Helpers
 
         private IModelMapper CreateModelMapperWithInjection(TestService service)
         {
@@ -413,7 +415,6 @@ namespace Kros.KORM.UnitTests.Materializer
 
         #endregion
 
-
         #region Test classes
 
         private class Foo
@@ -454,7 +455,6 @@ namespace Kros.KORM.UnitTests.Materializer
 
         public class TestService
         {
-
         }
 
         private enum TestEnum
@@ -631,6 +631,5 @@ namespace Kros.KORM.UnitTests.Materializer
         }
 
         #endregion
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.MsAccess.Properties;
+using Kros.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -285,9 +286,8 @@ namespace Kros.Data.BulkActions.MsAccess
                             break;
 
                         default:
-                            // RES:
-                            throw new ArgumentException(string.Format("Neznámy typ dát pre zápis. Typ dát: {0}, hodnota: {1}.",
-                                                                      value.GetType().FullName, value.ToString()));
+                            throw new ArgumentException(
+                                string.Format(Resources.UnknownDataTypeForCsv, value.GetType().FullName, value.ToString()));
                     }
                 }
             }

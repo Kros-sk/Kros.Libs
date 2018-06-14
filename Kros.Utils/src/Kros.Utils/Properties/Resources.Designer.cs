@@ -61,7 +61,16 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hodnota parametra musí byť {0}, ale skutočná hodnota je {1}..
+        ///   Looks up a localized string similar to It is not possible to change index name if it already belongs to some table. The index &quot;{0}&quot; belong to table &quot;{1}&quot;..
+        /// </summary>
+        internal static string CannotChangeIndexNameWhenIndexBelongsToTable {
+            get {
+                return ResourceManager.GetString("CannotChangeIndexNameWhenIndexBelongsToTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Argument value must be {0}. Current value is {1}..
         /// </summary>
         internal static string Check_Equal {
             get {
@@ -70,7 +79,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hodnota parametra musí byť väčšia alebo rovná {0}, ale skutočná hodnota je {1}..
+        ///   Looks up a localized string similar to Argument value must be greater or equal than {0}. Current value is {1}..
         /// </summary>
         internal static string Check_GreaterOrEqualThan {
             get {
@@ -79,7 +88,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hodnota parametra musí byť väčšia ako {0}, ale skutočná hodnota je {1}..
+        ///   Looks up a localized string similar to Argument value must be greater than {0}. Current value is {1}..
         /// </summary>
         internal static string Check_GreaterThan {
             get {
@@ -88,7 +97,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hodnota &quot;{0}&quot; musí byť zo zoznamu hodnôt &quot;{1}&quot;..
+        ///   Looks up a localized string similar to The value &quot;{0}&quot; is invalid. It must be one of the allowed values: {1}.
         /// </summary>
         internal static string Check_IsInListDefaultMessage {
             get {
@@ -97,7 +106,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hodnota &quot;{0}&quot; nesmie byť zo zoznamu hodnôt &quot;{1}&quot;..
+        ///   Looks up a localized string similar to The value &quot;{0}&quot; is invalid. It cannot be one of disallowed values: {1}.
         /// </summary>
         internal static string Check_IsNotInListDefaultMessage {
             get {
@@ -106,7 +115,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parameter nemôže byť typu {0}..
+        ///   Looks up a localized string similar to Argument cannot be of type {0}..
         /// </summary>
         internal static string Check_IsNotOfType {
             get {
@@ -115,7 +124,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parameter nie je požadovaného typu. Požadovaný typ: {0}. Typ parametra: {1}..
+        ///   Looks up a localized string similar to Argument is not of required type {0}. Argument&apos;s type is {1}..
         /// </summary>
         internal static string Check_IsOfType {
             get {
@@ -124,7 +133,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hodnota parametra musí byť menšia alebo rovná {0}, ale skutočná hodnota je {1}..
+        ///   Looks up a localized string similar to Argument value must be less or equal than {0}. Current value is {1}..
         /// </summary>
         internal static string Check_LessOrEqualThan {
             get {
@@ -133,7 +142,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hodnota parametra musí byť menšia ako {0}, ale skutočná hodnota je {1}..
+        ///   Looks up a localized string similar to Argument value must be less than {0}. Current value is {1}..
         /// </summary>
         internal static string Check_LessThan {
             get {
@@ -142,7 +151,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Prázdny GUID nie je povolený..
+        ///   Looks up a localized string similar to Empty GUID is not allowed..
         /// </summary>
         internal static string Check_NotEmptyGuid {
             get {
@@ -151,7 +160,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hodnota parametrov nesmie byť rovnaká {0}..
+        ///   Looks up a localized string similar to Argument value {0} is not allowed..
         /// </summary>
         internal static string Check_NotEqual {
             get {
@@ -160,7 +169,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hodnota nemôže byť null..
+        ///   Looks up a localized string similar to The value cannot be null..
         /// </summary>
         internal static string Check_NotNull {
             get {
@@ -169,7 +178,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reťazec nemôže byť null, alebo prázdny..
+        ///   Looks up a localized string similar to The value cannot be null, neither empty string..
         /// </summary>
         internal static string Check_StringNotNullOrEmpty {
             get {
@@ -178,7 +187,7 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reťazec nemôže byť null, prázdny, ani zložený iba z bielych znakov..
+        ///   Looks up a localized string similar to The value cannot be null, neither empty string, nor string containing only whitespace characters..
         /// </summary>
         internal static string Check_StringNotNullOrWhiteSpace {
             get {
@@ -187,101 +196,119 @@ namespace Kros.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nepodporovaný typ pripojenia na databázu: {0}.
+        ///   Looks up a localized string similar to Column &quot;{0}&quot; cannot be added to index &quot;{1}&quot; because it already belongs to index &quot;{2}&quot;..
         /// </summary>
-        internal static string DatabaseSchemaCache_UnsupportedDatabaseType {
+        internal static string ColumnBelongsToAnotherIndex {
             get {
-                return ResourceManager.GetString("DatabaseSchemaCache_UnsupportedDatabaseType", resourceCulture);
+                return ResourceManager.GetString("ColumnBelongsToAnotherIndex", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nepodporovaný typ spojenia na databázu..
+        ///   Looks up a localized string similar to Column &quot;{0}&quot; cannot be added to table &quot;{1}&quot; because it already belongs to table &quot;{2}&quot;..
         /// </summary>
-        internal static string DatabaseSchemaLoader_UnsupportedConnectionType {
+        internal static string ColumnBelongsToAnotherTable {
             get {
-                return ResourceManager.GetString("DatabaseSchemaLoader_UnsupportedConnectionType", resourceCulture);
+                return ResourceManager.GetString("ColumnBelongsToAnotherTable", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nie je možné zmeniť názov indexu, ak je v zozname indexov tabuľky. Tento index patrí tabuľke &quot;{0}&quot;..
+        ///   Looks up a localized string similar to Destination table &quot;{0}&quot; does not have column &quot;{1}&quot;..
         /// </summary>
-        internal static string IndexSchema_CannotChangeIndexNameWhenBelongsToTable {
+        internal static string ColumnMissingInBulkInsertDestinationTable {
             get {
-                return ResourceManager.GetString("IndexSchema_CannotChangeIndexNameWhenBelongsToTable", resourceCulture);
+                return ResourceManager.GetString("ColumnMissingInBulkInsertDestinationTable", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stĺpec &quot;{0}&quot; nie je možné pridať indexu &quot;{1}&quot;, pretože už patrí indexu &quot;{2}&quot;..
+        ///   Looks up a localized string similar to &quot;{0}&quot; for ADO client &quot;{1}&quot; is not registered..
         /// </summary>
-        internal static string Schema_ColumnBelongsToAnotherIndex {
+        internal static string FactoryNotRegisteredForClient {
             get {
-                return ResourceManager.GetString("Schema_ColumnBelongsToAnotherIndex", resourceCulture);
+                return ResourceManager.GetString("FactoryNotRegisteredForClient", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stĺpec &quot;{0}&quot; nie je možné pridať tabuľke &quot;{1}&quot;, pretože už patrí tabuľke &quot;{2}&quot;..
+        ///   Looks up a localized string similar to &quot;{0}&quot; for connection type &quot;{1}&quot; is not registered..
         /// </summary>
-        internal static string Schema_ColumnBelongsToAnotherTable {
+        internal static string FactoryNotRegisteredForConnection {
             get {
-                return ResourceManager.GetString("Schema_ColumnBelongsToAnotherTable", resourceCulture);
+                return ResourceManager.GetString("FactoryNotRegisteredForConnection", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cudzí kľúč &quot;{0}&quot; nie je možné pridať tabuľke &quot;{1}&quot;, pretože už patrí tabuľke &quot;{2}&quot;..
+        ///   Looks up a localized string similar to Foreign key &quot;{0}&quot; cannot be added to table &quot;{1}&quot; because it already belongs to table &quot;{2}&quot;..
         /// </summary>
-        internal static string Schema_ForeignKeyBelongsToAnotherTable {
+        internal static string ForeignKeyBelongsToAnotherTable {
             get {
-                return ResourceManager.GetString("Schema_ForeignKeyBelongsToAnotherTable", resourceCulture);
+                return ResourceManager.GetString("ForeignKeyBelongsToAnotherTable", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Index &quot;{0}&quot; nie je možné pridať tabuľke &quot;{1}&quot;, pretože už patrí tabuľke &quot;{2}&quot;..
+        ///   Looks up a localized string similar to Index &quot;{0}&quot; cannot be added to table &quot;{1}&quot; because it already belongs to table &quot;{2}&quot;..
         /// </summary>
-        internal static string Schema_IndexBelongsToAnotherTable {
+        internal static string IndexBelongsToAnotherTable {
             get {
-                return ResourceManager.GetString("Schema_IndexBelongsToAnotherTable", resourceCulture);
+                return ResourceManager.GetString("IndexBelongsToAnotherTable", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tabuľku &quot;{0}&quot; nie je možné pridať databáze &quot;{1}&quot;, pretože už patrí databáze &quot;{2}&quot;..
+        ///   Looks up a localized string similar to Type &quot;{0}&quot; does not have property &quot;{1}&quot; which is in column names list..
         /// </summary>
-        internal static string Schema_TableBelongsToAnotherDatabase {
+        internal static string MissingPropertyInType {
             get {
-                return ResourceManager.GetString("Schema_TableBelongsToAnotherDatabase", resourceCulture);
+                return ResourceManager.GetString("MissingPropertyInType", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nepodporovaný typ pripojenia na databázu. Podporované pripojenia na databázy sú: {0}.
+        ///   Looks up a localized string similar to One of the path parts contains invalid characters. Erroneous part is at index {0}: &quot;{1}&quot;.
         /// </summary>
-        internal static string SchemaCacheKeyGenerator_UnsupportedConnectionType {
+        internal static string PathContainsInvalidCharacters {
             get {
-                return ResourceManager.GetString("SchemaCacheKeyGenerator_UnsupportedConnectionType", resourceCulture);
+                return ResourceManager.GetString("PathContainsInvalidCharacters", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pre načítanie schémy je nutné, aby spojenie na databázu malo špecifikovanú konkrétnu databázu (Initial Catalog)..
+        ///   Looks up a localized string similar to For loading the database schema, the database name (Initial Catalog) must be specified in the connection..
         /// </summary>
-        internal static string SqlServerSchemaLoader_NoInitialCatalog {
+        internal static string SqlServerNoInitialCatalog {
             get {
-                return ResourceManager.GetString("SqlServerSchemaLoader_NoInitialCatalog", resourceCulture);
+                return ResourceManager.GetString("SqlServerNoInitialCatalog", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nepodporovaný typ spojenia na databázu. Spojenie musí byť typu SqlConnection..
+        ///   Looks up a localized string similar to Unsupported connection type. The connection must be of type SqlConnection..
         /// </summary>
-        internal static string SqlServerSchemaLoader_UnsupportedConnectionType {
+        internal static string SqlServerUnsupportedConnectionType {
             get {
-                return ResourceManager.GetString("SqlServerSchemaLoader_UnsupportedConnectionType", resourceCulture);
+                return ResourceManager.GetString("SqlServerUnsupportedConnectionType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table &quot;{0}&quot; cannot be added to database &quot;{1}&quot; because it already belongs to database &quot;{2}&quot;..
+        /// </summary>
+        internal static string TableBelongsToAnotherDatabase {
+            get {
+                return ResourceManager.GetString("TableBelongsToAnotherDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsupported database connection type: {0}.
+        /// </summary>
+        internal static string UnsupportedConnectionType {
+            get {
+                return ResourceManager.GetString("UnsupportedConnectionType", resourceCulture);
             }
         }
     }

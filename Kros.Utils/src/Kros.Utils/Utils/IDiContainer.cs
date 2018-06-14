@@ -7,7 +7,6 @@ namespace Kros.Utils
     /// </summary>
     public interface IDiContainer : IDisposable
     {
-
         /// <summary>
         /// Registers a class type.
         /// </summary>

@@ -8,7 +8,6 @@ namespace Kros.Data.Schema.SqlServer
     public class SqlServerParseDefaultValueEventArgs
         : System.EventArgs
     {
-
         /// <summary>
         /// Creates and initializes instance of arguments.
         /// </summary>
@@ -62,6 +61,5 @@ namespace Kros.Data.Schema.SqlServer
         /// if you set your own default value in <see cref="DefaultValue"/>.
         /// </summary>
         public bool Handled { get; set; } = false;
-
     }
 }

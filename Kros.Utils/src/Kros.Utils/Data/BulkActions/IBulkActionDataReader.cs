@@ -7,7 +7,6 @@ namespace Kros.Data.BulkActions
     /// </summary>
     public interface IBulkActionDataReader : IDisposable
     {
-
         /// <summary>
         /// Columns count of the data row.
         /// </summary>
@@ -46,6 +45,5 @@ namespace Kros.Data.BulkActions
         /// <see langword="false"/> if next record does not exist.
         /// </returns>
         bool Read();
-
     }
 }

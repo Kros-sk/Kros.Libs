@@ -7,7 +7,6 @@ namespace Kros.KORM.UnitTests.Query.Sql
 {
     public class LinqBinaryOperatorTranslatorShould : LinqTranslatorTestBase
     {
-
         [Fact]
         public void TranslateAndAlsoOperator()
         {
@@ -134,7 +133,6 @@ namespace Kros.KORM.UnitTests.Query.Sql
                            " WHERE (((Id / @1) >= @2))", 1, 5);
         }
 
-
         [Fact]
         public void TranslateIsNullOperator()
         {
@@ -152,7 +150,6 @@ namespace Kros.KORM.UnitTests.Query.Sql
             AreSame(query, "SELECT Id, FirstName, LastName, PaymentId FROM People" +
                            " WHERE ((PaymentId IS NOT NULL))");
         }
-
 
         [Alias("People")]
         public class Person

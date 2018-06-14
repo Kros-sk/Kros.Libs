@@ -27,7 +27,6 @@ namespace Kros.KORM
     /// <seealso cref="Kros.KORM.Materializer.IModelBuilder" />
     public class Database : IDatabase
     {
-
         #region Static
 
         /// <summary>
@@ -58,7 +57,6 @@ namespace Kros.KORM
 
         #endregion
 
-
         #region Private fields
 
         private IModelBuilder _modelBuilder;
@@ -66,7 +64,6 @@ namespace Kros.KORM
         private IDatabaseMapper _databaseMapper;
 
         #endregion
-
 
         #region Constructors
 
@@ -115,7 +112,6 @@ namespace Kros.KORM
             _modelBuilder = new ModelBuilder(Database.DefaultModelFactory);
             _queryProvider = queryProviderFactory.Create(connectionString, _modelBuilder, Database.DatabaseMapper);
         }
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Database"/> class.
@@ -167,7 +163,6 @@ namespace Kros.KORM
         }
 
         #endregion
-
 
         #region Database
 
@@ -290,7 +285,6 @@ namespace Kros.KORM
 
         #endregion
 
-
         #region IDisposable
 
         private bool _disposedValue = false;
@@ -316,6 +310,5 @@ namespace Kros.KORM
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }

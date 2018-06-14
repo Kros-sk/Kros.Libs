@@ -11,14 +11,14 @@ namespace Kros.KORM.Metadata
     /// <seealso cref="Kros.KORM.Metadata.IDatabaseMapper" />
     public class DatabaseMapper : IDatabaseMapper
     {
-        #region "Private fields"
+        #region Private fields
 
         private ICache<Type, TableInfo> _tablesInfoCache = new Cache<Type, TableInfo>();
         private IModelMapper _modelMapper;
 
         #endregion
 
-        #region "Constructor"
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseMapper"/> class.

@@ -18,11 +18,11 @@ namespace Kros.KORM.UnitTests.Helper
             MethodName<Foo>.GetName(p => p.TestMethod("lorem ipsum")).Should().Be("TestMethod");
         }
 
-
         public class Foo
         {
             public void TestMethod()
-            { }
+            {
+            }
 
             public void TestMethod(string param)
             {
@@ -30,5 +30,4 @@ namespace Kros.KORM.UnitTests.Helper
             }
         }
     }
-
 }

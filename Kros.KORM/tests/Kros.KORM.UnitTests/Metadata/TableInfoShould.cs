@@ -27,7 +27,7 @@ namespace Kros.KORM.UnitTests.Metadata
             var actual = tableInfo.Columns;
             var expected = columns;
 
-            actual.ShouldBeEquivalentTo(expected);            
+            actual.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace Kros.KORM.UnitTests.Metadata
             var actual = tableInfo.PrimaryKey;
             var expected = columns.Where(x => x.IsPrimaryKey).ToList();
 
-            actual.ShouldBeEquivalentTo(expected);
+            actual.Should().BeEquivalentTo(expected);
         }
 
         [Fact]

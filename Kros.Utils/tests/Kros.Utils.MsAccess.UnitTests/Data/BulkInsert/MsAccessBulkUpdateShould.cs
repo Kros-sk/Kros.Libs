@@ -17,7 +17,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 {
     public class MsAccessBulkUpdateShould
     {
-
         #region Nested types
 
         private class BulkUpdateItem
@@ -31,11 +30,9 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             public string ColShortText { get; set; }
 
             public BulkUpdateItem Clone() => (BulkUpdateItem)MemberwiseClone();
-
         }
 
         #endregion
-
 
         #region Constants
 
@@ -48,7 +45,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         private const double DoubleMaximum = 999999999999999999999.999999999999;
 
         #endregion
-
 
         #region Tests
 
@@ -196,7 +192,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         #endregion
-
 
         #region Helpers
 
@@ -348,7 +343,5 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         #endregion
-
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.Properties;
+using Kros.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace Kros.Data.BulkActions
         /// <param name="columnNames">List of columns with which reader works.
         /// For every column must exists property with the same name in object <c>T</c>.</param>
         /// <exception cref="ArgumentNullException">
-        /// Value of <paramref name="data"/>, or <paramref name="columnNames"/> is <c>null</c>.
+        /// Value of <paramref name="data"/>, or <paramref name="columnNames"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// List <paramref name="columnNames"/> is empty, i.e. does not contain any value.
@@ -129,7 +130,8 @@ namespace Kros.Data.BulkActions
                 properties[columnName] = typeof(T).GetProperty(columnName);
                 if (properties[columnName] == null)
                 {
-                    throw new InvalidOperationException($"Type {typeof(T).FullName} does not have property \"{columnName}\".");
+                    throw new InvalidOperationException(
+                        string.Format(Resources.MissingPropertyInType, typeof(T).FullName, columnName));
                 }
             }
 
