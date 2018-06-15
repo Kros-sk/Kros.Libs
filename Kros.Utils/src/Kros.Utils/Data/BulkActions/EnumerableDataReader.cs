@@ -49,7 +49,6 @@ namespace Kros.Data.BulkActions
             Check.NotNull(columnNames, nameof(columnNames));
 
             _columnNames = columnNames.ToList();
-            Check.GreaterOrEqualThan(_columnNames.Count, 1, nameof(columnNames));
             _isPrimitiveType = (typeof(T).IsPrimitive || typeof(T) == typeof(String));
 
             if (_isPrimitiveType)
