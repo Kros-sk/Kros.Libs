@@ -20,7 +20,7 @@ namespace Kros.KORM.Query.Expressions
         {
             Check.NotNullOrWhiteSpace(sqlQuery.Format, nameof(sqlQuery));
 
-            Sql = sqlQuery.Format.TrimStart().TrimEnd();
+            Sql = sqlQuery.Format.Trim();
             Parameters = args.ToList();
         }
 
