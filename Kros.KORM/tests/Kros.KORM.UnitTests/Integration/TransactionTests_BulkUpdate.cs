@@ -190,31 +190,52 @@ namespace Kros.KORM.UnitTests.Integration
 
                 transaction.Rollback();
 
-                database.Connection.State.Should().Be(ConnectionState.Open);
                 korm.Query<Invoice>().Should().BeEquivalentTo(CreateOriginalTestData());
                 DatabaseShouldContainInvoices(database.ConnectionString, CreateOriginalTestData());
             }
         }
 
         [Fact]
-        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenCommitWasCallAfterBulkUpdate()
+        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenCommitWasCalledAfterBulkUpdate()
         {
-            NotCloseMasterConnectionWhenCommitWasCallAfterBulkUpdateCore(CreateTestData(), null, BulkUpdateEditItems);
+            DoTestOnOpenedConnection(ExplicitTransactionCommitAfterBulkUpdate, CreateDatabaseWithData);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenCommitWasCallAfterBulkUpdateAction()
+        public void ExplicitTransactionShould_CloseMasterConnectionWhenCommitWasCalledAfterBulkUpdate()
         {
-            NotCloseMasterConnectionWhenCommitWasCallAfterBulkUpdateCore(
-                CreateActionTestData(), ExecuteInTempTable, BulkUpdateEditItems);
+            DoTestOnClosedConnection(ExplicitTransactionCommitAfterBulkUpdate, CreateDatabaseWithData);
         }
 
-        private void NotCloseMasterConnectionWhenCommitWasCallAfterBulkUpdateCore(
+        private void ExplicitTransactionCommitAfterBulkUpdate(TestDatabase database)
+        {
+            ExplicitTransactionCommitAfterBulkUpdateActionCore(CreateTestData(), null, BulkUpdateEditItems, database);
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenCommitWasCalledAfterBulkUpdateAction()
+        {
+            DoTestOnOpenedConnection(ExplicitTransactionCommitAfterBulkUpdateAction, CreateDatabaseWithData);
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_CloseMasterConnectionWhenCommitWasCalledAfterBulkUpdateAction()
+        {
+            DoTestOnClosedConnection(ExplicitTransactionCommitAfterBulkUpdateAction, CreateDatabaseWithData);
+        }
+
+        private void ExplicitTransactionCommitAfterBulkUpdateAction(TestDatabase database)
+        {
+            ExplicitTransactionCommitAfterBulkUpdateActionCore(
+                CreateActionTestData(), ExecuteInTempTable, BulkUpdateEditItems, database);
+        }
+
+        private void ExplicitTransactionCommitAfterBulkUpdateActionCore(
             IEnumerable<Invoice> expectedData,
             Action<IDbConnection, IDbTransaction, string> action,
-            Action<IDbSet<Invoice>, Action<IDbConnection, IDbTransaction, string>> dbSetAction)
+            Action<IDbSet<Invoice>, Action<IDbConnection, IDbTransaction, string>> dbSetAction,
+            TestDatabase database)
         {
-            using (var database = CreateDatabaseWithData())
             using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
@@ -224,7 +245,6 @@ namespace Kros.KORM.UnitTests.Integration
 
                 transaction.Commit();
 
-                database.Connection.State.Should().Be(ConnectionState.Open);
                 DatabaseShouldContainInvoices(database.ConnectionString, expectedData);
             }
         }

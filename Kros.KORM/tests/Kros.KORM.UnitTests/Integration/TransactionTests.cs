@@ -39,59 +39,99 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         #region Tests
 
         [Fact]
-        public void ImplicitTransactionShould_CommitData()
+        public void ImplicitTransactionShould_CommitDataOnClosedConnection()
         {
-            using (var korm = CreateDatabase())
-            {
-                var dbSet = korm.Query<Invoice>().AsDbSet();
-
-                dbSet.Add(CreateTestData());
-                dbSet.CommitChanges();
-
-                DatabaseShouldContainInvoices(korm.ConnectionString, CreateTestData());
-            }
+            DoTestOnClosedConnection(ImplicitTransactionCommitData, CreateDatabase);
         }
 
         [Fact]
-        public void ImplicitTransactionShould_CommitDataWhenBulkInsertWasCalled()
+        public void ImplicitTransactionShould_CommitDataOnOpenedConnection()
         {
-            ImplicitTransactionShould_CommitDataWhenBulkInsertWasCalledCore(BulkInsertAddItems);
+            DoTestOnOpenedConnection(ImplicitTransactionCommitData, CreateDatabase);
+        }
+
+        private void ImplicitTransactionCommitData(TestDatabase korm)
+        {
+            var dbSet = korm.Query<Invoice>().AsDbSet();
+
+            dbSet.Add(CreateTestData());
+            dbSet.CommitChanges();
+
+            DatabaseShouldContainInvoices(korm.ConnectionString, CreateTestData());
         }
 
         [Fact]
-        public void ImplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalled()
+        public void ImplicitTransactionShould_CommitDataWhenBulkInsertWasCalledOnOpenedConnection()
         {
-            ImplicitTransactionShould_CommitDataWhenBulkInsertWasCalledCore(BulkInsertEnumerableItems);
-        }
-
-        private void ImplicitTransactionShould_CommitDataWhenBulkInsertWasCalledCore(Action<IDbSet<Invoice>> action)
-        {
-            using (var korm = CreateDatabase())
-            {
-                var dbSet = korm.Query<Invoice>().AsDbSet();
-
-                action.Invoke(dbSet);
-
-                DatabaseShouldContainInvoices(korm.ConnectionString, CreateTestData());
-            }
+            DoTestOnOpenedConnection(ImplicitTransactionBulkInsert, CreateDatabase);
         }
 
         [Fact]
-        public void ImplicitTransactionShould_BulkInsertThrowsException()
+        public void ImplicitTransactionShould_CommitDataWhenBulkInsertWasCalledOnClosedConnection()
         {
-            using (var korm = CreateDatabase())
-            {
-                var dbSet = korm.Query<Invoice>().AsDbSet();
+            DoTestOnClosedConnection(ImplicitTransactionBulkInsert, CreateDatabase);
+        }
 
-                Action bulkInsertAction = () => dbSet.BulkInsert(null);
-                bulkInsertAction.Should().Throw<ArgumentNullException>();
-            }
+        private void ImplicitTransactionBulkInsert(TestDatabase database)
+        {
+            ImplicitTransactionBulkInsertCommit(database, BulkInsertAddItems);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CommitData()
+        public void ImplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalledOnOpenedConnection()
         {
-            using (var korm = CreateDatabase())
+            DoTestOnOpenedConnection((db) => ImplicitTransactionBulkInsertCommit(db, BulkInsertEnumerableItems), CreateDatabase);
+        }
+
+        [Fact]
+        public void ImplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalledOnClosedConnection()
+        {
+            DoTestOnClosedConnection((db) => ImplicitTransactionBulkInsertCommit(db, BulkInsertEnumerableItems), CreateDatabase);
+        }
+
+        private void ImplicitTransactionBulkInsertCommit(TestDatabase korm, Action<IDbSet<Invoice>> action)
+        {
+            var dbSet = korm.Query<Invoice>().AsDbSet();
+
+            action.Invoke(dbSet);
+
+            DatabaseShouldContainInvoices(korm.ConnectionString, CreateTestData());
+        }
+
+        [Fact]
+        public void ImplicitTransactionShould_BulkInsertThrowsExceptionOnOpenedConnection()
+        {
+            DoTestOnOpenedConnection(ImplicitTransactionBulkInsertThrowsException, CreateDatabase);
+        }
+
+        [Fact]
+        public void ImplicitTransactionShould_BulkInsertThrowsExceptionOnClosedConnection()
+        {
+            DoTestOnClosedConnection(ImplicitTransactionBulkInsertThrowsException, CreateDatabase);
+        }
+
+        private void ImplicitTransactionBulkInsertThrowsException(TestDatabase korm)
+        {
+            var dbSet = korm.Query<Invoice>().AsDbSet();
+
+            Action bulkInsertAction = () => dbSet.BulkInsert(null);
+            bulkInsertAction.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_CommitDataOnOpenedConnection()
+        {
+            DoTestOnOpenedConnection(ExplicitTransactionShould_CommitData, CreateDatabase);
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_CommitDataOnClosedConnection()
+        {
+            DoTestOnClosedConnection(ExplicitTransactionShould_CommitData, CreateDatabase);
+        }
+
+        private void ExplicitTransactionShould_CommitData(TestDatabase korm)
+        {
             using (var transaction = korm.BeginTransaction())
             {
                 var dbSet = korm.Query<Invoice>().AsDbSet();
@@ -106,20 +146,35 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CommitDataWhenBulkInsertWasCalled()
+        public void ExplicitTransactionShould_CommitDataWhenBulkInsertWasCalledOnOpenedConnection()
         {
-            ExplicitTransactionShould_CommitDataWhenBulkInsertWasCalledCore(BulkInsertAddItems);
+            DoTestOnClosedConnection((db) => ExplicitTransactionBulkInsertCommit(db, BulkInsertAddItems),
+                                     CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalled()
+        public void ExplicitTransactionShould_CommitDataWhenBulkInsertWasCalledOnClosedConnection()
         {
-            ExplicitTransactionShould_CommitDataWhenBulkInsertWasCalledCore(BulkInsertEnumerableItems);
+            DoTestOnClosedConnection((db) => ExplicitTransactionBulkInsertCommit(db, BulkInsertAddItems),
+                                     CreateDatabase);
         }
 
-        private void ExplicitTransactionShould_CommitDataWhenBulkInsertWasCalledCore(Action<IDbSet<Invoice>> action)
+        [Fact]
+        public void ExplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalledOnOpenedConnection()
         {
-            using (var korm = CreateDatabase())
+            DoTestOnOpenedConnection((db) => ExplicitTransactionBulkInsertCommit(db, BulkInsertEnumerableItems),
+                                     CreateDatabase);
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalledOnClosedConnection()
+        {
+            DoTestOnClosedConnection((db) => ExplicitTransactionBulkInsertCommit(db, BulkInsertEnumerableItems),
+                                     CreateDatabase);
+        }
+
+        private void ExplicitTransactionBulkInsertCommit(TestDatabase korm, Action<IDbSet<Invoice>> action)
+        {
             using (var transaction = korm.BeginTransaction())
             {
                 var dbSet = korm.Query<Invoice>().AsDbSet();
@@ -133,9 +188,19 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_RollbackData()
+        public void ExplicitTransactionShould_RollbackDataOnOpenedConnection()
         {
-            using (var korm = CreateDatabase())
+            DoTestOnOpenedConnection(ExplicitTransactionShould_RollbackData, CreateDatabase);
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_RollbackDataOnClosedConnection()
+        {
+            DoTestOnClosedConnection(ExplicitTransactionShould_RollbackData, CreateDatabase);
+        }
+
+        private void ExplicitTransactionShould_RollbackData(TestDatabase korm)
+        {
             using (var transaction = korm.BeginTransaction())
             {
                 var dbSet = korm.Query<Invoice>().AsDbSet();
@@ -150,20 +215,35 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertWasCalled()
+        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertWasCalledOnOpenedConnection()
         {
-            ExplicitTransactionShould_RollbackDataWhenBulkInsertWasCalledCore(BulkInsertAddItems);
+            DoTestOnOpenedConnection((db) => ExplicitTransactionRollbackBulkInsertCore(db, BulkInsertAddItems),
+                                     CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertEnumerableWasCalled()
+        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertWasCalledOnClosedConnection()
         {
-            ExplicitTransactionShould_RollbackDataWhenBulkInsertWasCalledCore(BulkInsertEnumerableItems);
+            DoTestOnClosedConnection((db) => ExplicitTransactionRollbackBulkInsertCore(db, BulkInsertAddItems),
+                                     CreateDatabase);
         }
 
-        private void ExplicitTransactionShould_RollbackDataWhenBulkInsertWasCalledCore(Action<IDbSet<Invoice>> action)
+        [Fact]
+        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertEnumerableWasCalledOnOpenedConnection()
         {
-            using (var korm = CreateDatabase())
+            DoTestOnOpenedConnection((db) => ExplicitTransactionRollbackBulkInsertCore(db, BulkInsertEnumerableItems),
+                                     CreateDatabase);
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertEnumerableWasCalledOnClosedConnection()
+        {
+            DoTestOnClosedConnection((db) => ExplicitTransactionRollbackBulkInsertCore(db, BulkInsertEnumerableItems),
+                                     CreateDatabase);
+        }
+
+        private void ExplicitTransactionRollbackBulkInsertCore(TestDatabase korm, Action<IDbSet<Invoice>> action)
+        {
             using (var transaction = korm.BeginTransaction())
             {
                 var dbSet = korm.Query<Invoice>().AsDbSet();
@@ -177,19 +257,34 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertCommitWasNotCalled()
+        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertCommitWasNotCalledOnOpenedConnection()
         {
-            ExplicitTransactionShould_NotChangeDataWhenBulkInsertCommitWasNotCalledCore(BulkInsertAddItems);
+            DoTestOnOpenedConnection((db) => ExplicitTransactionBulkInsertCommitNotCalled(db, BulkInsertAddItems),
+                                     CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertEnumerableCommitWasNotCalled()
+        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertCommitWasNotCalledOnClosedConnection()
         {
-            ExplicitTransactionShould_NotChangeDataWhenBulkInsertCommitWasNotCalledCore(BulkInsertEnumerableItems);
+            DoTestOnClosedConnection((db) => ExplicitTransactionBulkInsertCommitNotCalled(db, BulkInsertAddItems),
+                                     CreateDatabase);
         }
 
-        private void ExplicitTransactionShould_NotChangeDataWhenBulkInsertCommitWasNotCalledCore(
-            Action<IDbSet<Invoice>> action)
+        [Fact]
+        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertEnumerableCommitWasNotCalledOnOpenedConnection()
+        {
+            DoTestOnOpenedConnection((db) => ExplicitTransactionBulkInsertCommitNotCalled(db, BulkInsertEnumerableItems),
+                                     CreateDatabase);
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertEnumerableCommitWasNotCalledOnClosedConnection()
+        {
+            DoTestOnClosedConnection((db) => ExplicitTransactionBulkInsertCommitNotCalled(db, BulkInsertEnumerableItems),
+                                     CreateDatabase);
+        }
+
+        private void ExplicitTransactionBulkInsertCommitNotCalled(TestDatabase database, Action<IDbSet<Invoice>> action)
         {
             using (var korm = CreateDatabase())
             {
@@ -204,9 +299,19 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void DataShould_BeAccessibleFromTransaction()
+        public void DataShould_BeAccessibleFromTransactionOnOpenedConnection()
         {
-            using (var korm = CreateDatabase())
+            DoTestOnOpenedConnection(DataAccessibleFromTransaction, CreateDatabase);
+        }
+
+        [Fact]
+        public void DataShould_BeAccessibleFromTransactionOnClosedConnection()
+        {
+            DoTestOnClosedConnection(DataAccessibleFromTransaction, CreateDatabase);
+        }
+
+        private void DataAccessibleFromTransaction(TestDatabase korm)
+        {
             using (var transaction = korm.BeginTransaction())
             {
                 var dbSet = korm.Query<Invoice>().AsDbSet();
@@ -224,9 +329,19 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_RollbackMultipleCommit()
+        public void ExplicitTransactionShould_RollbackMultipleCommitOnOpenedConnection()
         {
-            using (var korm = CreateDatabase())
+            DoTestOnOpenedConnection(ExplicitTransactionRollbackMultipleCommits, CreateDatabase);
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_RollbackMultipleCommitOnClosedConnection()
+        {
+            DoTestOnClosedConnection(ExplicitTransactionRollbackMultipleCommits, CreateDatabase);
+        }
+
+        private void ExplicitTransactionRollbackMultipleCommits(TestDatabase korm)
+        {
             using (var transaction = korm.BeginTransaction())
             {
                 var dbSet = korm.Query<Invoice>().AsDbSet();
@@ -247,9 +362,20 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenCommitWasCall()
+        public void ExplicitTransactionShould_CloseMasterConnectionWhenCommitWasCalled()
         {
-            using (var database = CreateDatabase())
+            DoTestOnClosedConnection(ExplicitTransactionCommit, CreateDatabase);
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenCommitWasCalled()
+        {
+            DoTestOnOpenedConnection(ExplicitTransactionCommit, CreateDatabase);
+        }
+
+
+        private void ExplicitTransactionCommit(TestDatabase database)
+        {
             using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
@@ -260,15 +386,24 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
 
                 transaction.Commit();
 
-                database.Connection.State.Should().Be(ConnectionState.Open);
                 DatabaseShouldContainInvoices(database.ConnectionString, CreateTestData());
             }
         }
 
         [Fact]
-        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenRollbackWasCall()
+        public void ExplicitTransactionShould_CloseMasterConnectionWhenRollbackWasCalled()
         {
-            using (var database = CreateDatabase())
+            DoTestOnClosedConnection(ExplicitTransactionRollback, CreateDatabase);
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenRollbackWasCalled()
+        {
+            DoTestOnOpenedConnection(ExplicitTransactionRollback, CreateDatabase);
+        }
+
+        private void ExplicitTransactionRollback(TestDatabase database)
+        {
             using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
@@ -279,7 +414,6 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
 
                 transaction.Rollback();
 
-                database.Connection.State.Should().Be(ConnectionState.Open);
                 korm.Query<Invoice>().Should().BeEmpty();
                 DatabaseShouldBeEmpty(database);
             }
@@ -288,7 +422,17 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         [Fact]
         public void ExplicitTransactionShould_NotCloseMasterConnectionWhenRollbackWasCalledAfterBulkInsert()
         {
-            using (var database = CreateDatabase())
+            DoTestOnOpenedConnection(ExplicitTransactionRollbackAfterBulkInsert, CreateDatabase);
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_CloseMasterConnectionWhenRollbackWasCalledAfterBulkInsert()
+        {
+            DoTestOnClosedConnection(ExplicitTransactionRollbackAfterBulkInsert, CreateDatabase);
+        }
+
+        private void ExplicitTransactionRollbackAfterBulkInsert(TestDatabase database)
+        {
             using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
@@ -299,16 +443,25 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
 
                 transaction.Rollback();
 
-                database.Connection.State.Should().Be(ConnectionState.Open);
                 korm.Query<Invoice>().Should().BeEmpty();
                 DatabaseShouldBeEmpty(database);
             }
         }
 
         [Fact]
+        public void ExplicitTransactionShould_CloseMasterConnectionWhenCommitWasCalledAfterBulkInsert()
+        {
+            DoTestOnClosedConnection(ExplicitTransactionCommitAfterBulkInsert, CreateDatabase);
+        }
+
+        [Fact]
         public void ExplicitTransactionShould_NotCloseMasterConnectionWhenCommitWasCalledAfterBulkInsert()
         {
-            using (var database = CreateDatabase())
+            DoTestOnOpenedConnection(ExplicitTransactionCommitAfterBulkInsert, CreateDatabase);
+        }
+
+        private void ExplicitTransactionCommitAfterBulkInsert(TestDatabase database)
+        {
             using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
@@ -319,7 +472,6 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
 
                 transaction.Commit();
 
-                database.Connection.State.Should().Be(ConnectionState.Open);
                 DatabaseShouldContainInvoices(database.ConnectionString, CreateTestData());
             }
         }
@@ -374,6 +526,25 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         #endregion
 
         #region Helpers
+
+        private void DoTestOnClosedConnection(Action<TestDatabase> testAction, Func<TestDatabase> createDatabaseAction)
+        {
+            using (var database = createDatabaseAction())
+            {
+                testAction(database);
+                database.Connection.State.Should().Be(ConnectionState.Closed);
+            }
+        }
+
+        private void DoTestOnOpenedConnection(Action<TestDatabase> testAction, Func<TestDatabase> createDatabaseAction)
+        {
+            using (var database = createDatabaseAction())
+            {
+                database.Connection.Open();
+                testAction(database);
+                database.Connection.State.Should().Be(ConnectionState.Open);
+            }
+        }
 
         private void DatabaseShouldContainInvoices(Database korm, IEnumerable<Invoice> expected)
         {
