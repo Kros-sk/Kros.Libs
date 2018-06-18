@@ -17,7 +17,7 @@ namespace Kros.KORM.Query.Expressions
         /// <summary>
         /// The select statement
         /// </summary>
-        public const string SelectStatement = "SELECT";
+        private const string SelectStatement = "SELECT";
 
         #region Constructors
 
@@ -30,12 +30,9 @@ namespace Kros.KORM.Query.Expressions
         /// </remarks>
         public ColumnsExpression(string columns)
         {
-            Check.NotNullOrWhiteSpace(columns, "columns");
+            Check.NotNullOrWhiteSpace(columns, nameof(columns));
 
-            this.ColumnsPart = Regex.Replace(columns,
-                SelectStatement,
-                string.Empty,
-                RegexOptions.IgnoreCase).TrimStart().TrimEnd();
+            ColumnsPart = Regex.Replace(columns, SelectStatement, string.Empty, RegexOptions.IgnoreCase).Trim();
         }
 
         /// <summary>
@@ -44,9 +41,9 @@ namespace Kros.KORM.Query.Expressions
         /// <param name="columns">The columns.</param>
         public ColumnsExpression(params string[] columns)
         {
-            Check.NotNull(columns, "columns");
+            Check.NotNull(columns, nameof(columns));
 
-            this.ColumnsPart = string.Join(", ", columns);
+            ColumnsPart = string.Join(", ", columns);
         }
 
         /// <summary>
@@ -61,10 +58,9 @@ namespace Kros.KORM.Query.Expressions
         /// </returns>
         public static ColumnsExpression Create<T, TResult>(Func<T, TResult> selector, TableInfo tableInfo)
         {
-            Check.NotNull(selector, "selector");
+            Check.NotNull(selector, nameof(selector));
 
             var select = selector((T)Activator.CreateInstance(typeof(T)));
-
             var columns = select.GetType().GetProperties().Select(p => tableInfo.GetColumnInfo(p).Name).ToArray();
 
             return new ColumnsExpression(columns);
@@ -80,7 +76,9 @@ namespace Kros.KORM.Query.Expressions
         #region Visitor
 
         /// <summary>
-        /// Dispatches to the specific visit method for this node type. For example, <see cref="T:System.Linq.Expressions.MethodCallExpression" /> calls the <see cref="M:System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)" />.
+        /// Dispatches to the specific visit method for this node type. For example,
+        /// <see cref="T:System.Linq.Expressions.MethodCallExpression"/> calls the
+        /// <see cref="M:System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)"/>.
         /// </summary>
         /// <param name="visitor">The visitor to visit this node with.</param>
         /// <returns>
@@ -88,13 +86,13 @@ namespace Kros.KORM.Query.Expressions
         /// </returns>
         protected override Expression Accept(ExpressionVisitor visitor)
         {
-            Check.NotNull(visitor, "visitor");
+            Check.NotNull(visitor, nameof(visitor));
 
             var specificVisitor = visitor as ISqlExpressionVisitor;
 
             return specificVisitor != null
                 ? specificVisitor.VisitColumns(this)
-                : this.CanReduce ? base.Accept(visitor) : this;
+                : CanReduce ? base.Accept(visitor) : this;
         }
 
         #endregion

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Kros.KORM.Properties;
+using Kros.Utils;
+using System;
 
 namespace Kros.KORM.Converter
 {
@@ -11,23 +10,20 @@ namespace Kros.KORM.Converter
     /// <seealso cref="Kros.KORM.Converter.IConverter" />
     internal class IntToEnumConverter : IConverter
     {
-        private Type _enumType;
+        private readonly Type _enumType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IntToEnumConverter"/> class.
         /// </summary>
         /// <param name="enumType">Type of the enum.</param>
-        /// <exception cref="System.ArgumentNullException">enumType;Argument 'enumType' is required.</exception>
-        /// <exception cref="System.ArgumentException">Type must be enum.;enumType</exception>
+        /// <exception cref="ArgumentNullException">The value of <paramref name="enumType"/> is null.</exception>
+        /// <exception cref="ArgumentException">The <paramref name="enumType"/> is not an <c>Enum</c> type.</exception>
         public IntToEnumConverter(Type enumType)
         {
-            if (enumType == null)
-            {
-                throw new ArgumentNullException("enumType","Argument 'enumType' is required.");
-            }
+            Check.NotNull(enumType, nameof(enumType));
             if (!enumType.IsEnum)
             {
-                throw new ArgumentException("Type must be enum.", "enumType");
+                throw new ArgumentException(Resources.TypeMustBeEnumType, nameof(enumType));
             }
 
             _enumType = enumType;
