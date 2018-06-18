@@ -1,5 +1,7 @@
 ﻿using Kros.Caching;
 using Kros.KORM.Converter;
+using Kros.KORM.Properties;
+using Kros.Utils;
 using System;
 
 namespace Kros.KORM.Metadata.Attribute
@@ -11,22 +13,20 @@ namespace Kros.KORM.Metadata.Attribute
     public class ConverterAttribute : System.Attribute
     {
         private static ICache<Type, IConverter> _converters = new Cache<Type, IConverter>();
-        private Type _converterType;
+        private readonly Type _converterType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConverterAttribute"/> class.
         /// </summary>
         /// <param name="converterType">Type of the converter.</param>
-        /// <exception cref="System.ArgumentNullException">converterType;Argument 'converterType' is required.</exception>
+        /// <exception cref="ArgumentNullException">The value of <paramref name="converterType"/> is <see langword="null"/>.
+        /// </exception>
         public ConverterAttribute(Type converterType)
         {
-            if (converterType == null)
-            {
-                throw new ArgumentNullException("converterType", "Argument 'converterType' is required.");
-            }
+            Check.NotNull(converterType, nameof(converterType));
             if (!typeof(IConverter).IsAssignableFrom(converterType))
             {
-                throw new ArgumentException("Argument 'converterType' must implement IConverter.", "converterType");
+                throw new ArgumentException(Resources.ConverterTypeIsNotIConverter, nameof(converterType));
             }
 
             _converterType = converterType;

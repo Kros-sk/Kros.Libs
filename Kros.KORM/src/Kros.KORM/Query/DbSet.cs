@@ -2,6 +2,7 @@
 using Kros.KORM.Data;
 using Kros.KORM.Exceptions;
 using Kros.KORM.Metadata;
+using Kros.KORM.Properties;
 using Kros.Utils;
 using System;
 using System.Collections;
@@ -57,11 +58,11 @@ namespace Kros.KORM.Query
         /// into the database when CommitChanges is called.
         /// </summary>
         /// <param name="entity">Item to add.</param>
-        /// <exception cref="Exceptions.AlreadyInCollectionException">Adding item already exists in list of items.</exception>
+        /// <exception cref="AlreadyInCollectionException">Adding item already exists in list of items.</exception>
         public void Add(T entity)
         {
-            CheckItemInCollection(entity, _editedItems, "Adding item ({0}) already exists in EditedItems.");
-            CheckItemInCollection(entity, _deletedItems, "Adding item ({0}) already exists in DeletedItems.");
+            CheckItemInCollection(entity, _editedItems, Resources.ExistingItemCannotBeAdded, nameof(EditedItems));
+            CheckItemInCollection(entity, _deletedItems, Resources.ExistingItemCannotBeAdded, nameof(DeletedItems));
 
             _addedItems.Add(entity);
         }
@@ -71,11 +72,11 @@ namespace Kros.KORM.Query
         /// in the database when CommitChanges is called.
         /// </summary>
         /// <param name="entity">Item to add.</param>
-        /// <exception cref="Exceptions.AlreadyInCollectionException">Adding item already exists in list of items.</exception>
+        /// <exception cref="AlreadyInCollectionException">Adding item already exists in list of items.</exception>
         public void Edit(T entity)
         {
-            CheckItemInCollection(entity, _addedItems, "Editing item ({0}) already exists in AddedItems.");
-            CheckItemInCollection(entity, _deletedItems, "Editing item ({0}) already exists in DeletedItems.");
+            CheckItemInCollection(entity, _addedItems, Resources.ExistingItemCannotBeEdited, nameof(AddedItems));
+            CheckItemInCollection(entity, _deletedItems, Resources.ExistingItemCannotBeEdited, nameof(DeletedItems));
 
             _editedItems.Add(entity);
         }
@@ -85,11 +86,11 @@ namespace Kros.KORM.Query
         /// from the database when CommitChanges is called.
         /// </summary>
         /// <param name="entity">Item to add.</param>
-        /// <exception cref="Exceptions.AlreadyInCollectionException">Adding item already exists in list of items.</exception>
+        /// <exception cref="AlreadyInCollectionException">Adding item already exists in list of items.</exception>
         public void Delete(T entity)
         {
-            CheckItemInCollection(entity, _addedItems, "Deleting item ({0}) already exists in AddedItems.");
-            CheckItemInCollection(entity, _editedItems, "Deleting item ({0}) already exists in EditedItems.");
+            CheckItemInCollection(entity, _addedItems, Resources.ExistingItemCannotBeDeleted, nameof(AddedItems));
+            CheckItemInCollection(entity, _editedItems, Resources.ExistingItemCannotBeDeleted, nameof(EditedItems));
 
             _deletedItems.Add(entity);
         }
@@ -355,11 +356,11 @@ namespace Kros.KORM.Query
             }
         }
 
-        private void CheckItemInCollection(T entity, HashSet<T> collection, string message)
+        private void CheckItemInCollection(T entity, HashSet<T> collection, string message, string collectionName)
         {
             if (collection.Contains(entity))
             {
-                throw new AlreadyInCollectionException(string.Format(message, $"HashCode={entity.GetHashCode()}"));
+                throw new AlreadyInCollectionException(string.Format(message, entity.GetHashCode(), collectionName));
             }
         }
 
@@ -401,8 +402,7 @@ namespace Kros.KORM.Query
         {
             if (_tableInfo.PrimaryKey.Count() != 1)
             {
-                throw new InvalidOperationException(
-                    $"Table {_tableInfo.Name} has none, or composite primary key. Primary key must be one column only.");
+                throw new InvalidOperationException(string.Format(Resources.InvalidPrimaryKeyForBulkUpdate, _tableInfo.Name));
             }
 
             if (items != null)

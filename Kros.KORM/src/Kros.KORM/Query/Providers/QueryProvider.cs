@@ -5,6 +5,7 @@ using Kros.Data.Schema;
 using Kros.KORM.Data;
 using Kros.KORM.Helper;
 using Kros.KORM.Materializer;
+using Kros.KORM.Properties;
 using Kros.KORM.Query.Sql;
 using Kros.Utils;
 using System;
@@ -160,9 +161,8 @@ namespace Kros.KORM.Query
             TableSchema table = _tableSchemas.Get(tableName, () => LoadTableSchema(tableName));
             if (!table.Columns.Contains(columnName))
             {
-                throw new InvalidOperationException(string.Format(
-                    "Could not get data type for column [{0}].[{1}]. Column [{1}] does not exist in table [{0}].",
-                    tableName, columnName));
+                throw new InvalidOperationException(
+                    string.Format(Resources.QueryProviderCouldNotGetDataTypeForColumn, tableName, columnName));
             }
             table.Columns[columnName].SetParameterDbType(parameter);
             parameter.Size = table.Columns[columnName].Size;
@@ -173,7 +173,7 @@ namespace Kros.KORM.Query
             IDatabaseSchemaLoader schemaLoader = GetSchemaLoader();
             TableSchema tableSchema = schemaLoader.LoadTableSchema(Connection, tableName);
             return tableSchema
-                ?? throw new InvalidOperationException($"Could not get schema for table [{tableName}]. Table does not exists.");
+                ?? throw new InvalidOperationException(string.Format(Resources.QueryProviderCouldNotGetTableSchema, tableName));
         }
 
         /// <summary>
@@ -399,7 +399,7 @@ namespace Kros.KORM.Query
             Type tresult = typeof(TResult);
             if (!tresult.IsGenericType)
             {
-                throw new InvalidOperationException("Result type must be generic: IEnumerable<T>");
+                throw new InvalidOperationException(Resources.ResultMustBeGenericIEnumerable);
             }
             if (_nonGenericMaterializeMethod == null)
             {
@@ -408,9 +408,10 @@ namespace Kros.KORM.Query
                 if (_nonGenericMaterializeMethod == null)
                 {
                     string modelBuilderType = _modelBuilder.GetType().FullName;
-                    string methodName = nameof(IModelBuilder.Materialize);
+                    const string methodName = nameof(IModelBuilder.Materialize);
+                    const string methodArg = nameof(IDataReader);
                     throw new InvalidOperationException(
-                        $"ModelBuilder instance ({modelBuilderType}) does not have method {methodName}(IDataReader).");
+                        string.Format(Resources.MissongMethodInModelBuilder, modelBuilderType, methodName, methodArg));
                 }
             }
             MethodInfo materializeMethod = _nonGenericMaterializeMethod.MakeGenericMethod(tresult.GenericTypeArguments[0]);
@@ -451,12 +452,10 @@ namespace Kros.KORM.Query
             }
             catch (SqlException ex)
             {
-                throw new InvalidOperationException(@"There was a failure to open the database connection at the time " +
-                    "the primary keys are generated. Try add 'Persist Security Info = TRUE' to connection string.", ex);
+                throw new InvalidOperationException(Resources.CannotOpenConnectionWhenGeneratingPrimaryKeys, ex);
             }
 
             var factory = IdGeneratorFactories.GetFactory(connection);
-
             return new IdGeneratorHelper(factory.GetGenerator(tableName, batchSize), connection);
         }
 
@@ -471,7 +470,7 @@ namespace Kros.KORM.Query
         /// <exception cref="NotImplementedException"></exception>
         public IQueryable CreateQuery(Expression expression)
         {
-            throw new NotImplementedException($"Creating non generic query is actualy not supported.");
+            throw new NotSupportedException(Resources.NonGenericQueryNotSupported);
         }
 
         /// <summary>
@@ -491,7 +490,7 @@ namespace Kros.KORM.Query
         /// <exception cref="NotImplementedException"></exception>
         public object Execute(Expression expression)
         {
-            throw new NotImplementedException("Executing non generic result is not actualy supported.");
+            throw new NotSupportedException(Resources.NonGenericExecuteNotSupported);
         }
 
         /// <summary>
@@ -627,9 +626,7 @@ namespace Kros.KORM.Query
                 {
                     if ((!parameter.DataType.HasValue) && ((parameter.Value == null) || (parameter.Value == DBNull.Value)))
                     {
-                        throw new ArgumentException(
-                            string.Format("Data type of the parameter must be set, when its value is NULL. Parameter name: {0}.",
-                            parameter.ParameterName));
+                        throw new ArgumentException(string.Format(Resources.ParameterDataTypeNotSet, parameter.ParameterName));
                     }
                 }
             }
