@@ -83,10 +83,10 @@ namespace Kros.Data.BulkActions
 
         private async Task UpdateCoreAsync(IDataReader reader, bool useAsync)
         {
-            var tempTableName = CreateTempTable(reader);
-
             using (ConnectionHelper.OpenConnection(_connection))
             {
+                var tempTableName = CreateTempTable(reader);
+
                 await InsertIntoTempTableAsync(reader, tempTableName, useAsync);
                 InvokeAction(tempTableName);
                 await UpdateDestinationTableAsync(reader, tempTableName, useAsync);
