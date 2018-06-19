@@ -13,7 +13,6 @@ namespace Kros.KORM.Metadata
     /// </summary>
     public class ColumnInfo
     {
-
         #region Public Property
 
         /// <summary>
@@ -43,7 +42,6 @@ namespace Kros.KORM.Metadata
 
         #endregion
 
-
         #region Public Methods
 
         /// <summary>
@@ -69,6 +67,5 @@ namespace Kros.KORM.Metadata
         }
 
         #endregion
-
     }
 }

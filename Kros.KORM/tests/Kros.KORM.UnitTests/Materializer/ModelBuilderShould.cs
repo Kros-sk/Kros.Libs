@@ -14,7 +14,6 @@ namespace Kros.KORM.UnitTests.Materializer
 {
     public class ModelBuilderShould
     {
-
         #region Tests
 
         [Fact]
@@ -109,12 +108,10 @@ namespace Kros.KORM.UnitTests.Materializer
 
         #endregion
 
-
         private static ModelBuilder CreateBuilder()
         {
             return new ModelBuilder(new DynamicMethodModelFactory(new DatabaseMapper(new ConventionModelMapper())));
         }
-
 
         #region Creating reader data
 
@@ -153,7 +150,6 @@ namespace Kros.KORM.UnitTests.Materializer
 
         #endregion
 
-
         #region Creating test datatable
 
         private DataTable CreateDataTable()
@@ -186,7 +182,6 @@ namespace Kros.KORM.UnitTests.Materializer
 
         #endregion
 
-
         #region Test classes
 
         private class Foo
@@ -213,7 +208,6 @@ namespace Kros.KORM.UnitTests.Materializer
             public Guid PropertyGuid { get; set; }
 
             public TestEnum PropertyEnum { get; set; }
-
         }
 
         private enum TestEnum
@@ -224,6 +218,5 @@ namespace Kros.KORM.UnitTests.Materializer
         }
 
         #endregion
-
     }
 }

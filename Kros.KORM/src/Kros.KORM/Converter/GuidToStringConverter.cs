@@ -10,7 +10,6 @@ namespace Kros.KORM.Converter
     /// </summary>
     internal class GuidToStringConverter : IConverter
     {
-
         /// <summary>
         /// Converts the specified guid value from Db to Clr string value.
         /// </summary>
@@ -32,6 +31,5 @@ namespace Kros.KORM.Converter
         {
             return Guid.Parse((string)value);
         }
-
     }
 }

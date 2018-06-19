@@ -7,7 +7,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 {
     public class MsAccessBulkHelper
     {
-
         #region DataTable compare
 
         public static void CompareTables(DataTable actualTable, DataTable expectedTable)
@@ -100,6 +99,5 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         #endregion
-
     }
 }

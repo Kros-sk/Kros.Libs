@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.Properties;
+using Kros.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -114,8 +115,7 @@ namespace Kros.IO
 
                 if (part.IndexOfAny(invalidChars) >= 0)
                 {
-                    throw new ArgumentException(
-                        $"Časť cesty obsahuje nepovolené znaky. Chybná časť je na indexe {partIndex}: {part}");
+                    throw new ArgumentException(string.Format(Resources.PathContainsInvalidCharacters, partIndex, part));
                 }
 
                 capacity += part.Length;

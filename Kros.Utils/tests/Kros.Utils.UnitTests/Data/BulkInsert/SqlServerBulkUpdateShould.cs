@@ -13,7 +13,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 {
     public class SqlServerBulkUpdateShould : DatabaseTestBase
     {
-
         #region Nested types
 
         private class BulkUpdateItem
@@ -27,11 +26,9 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             public string ColShortText { get; set; }
 
             public BulkUpdateItem Clone() => (BulkUpdateItem)MemberwiseClone();
-
         }
 
         #endregion
-
 
         #region Constants
 
@@ -66,7 +63,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
         #endregion
 
-
         #region DatabaseTestBase Overrides
 
         protected override string BaseDatabaseName => DATABASE_NAME;
@@ -75,7 +71,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             new string[] { CreateTable_BulkUpdateTest, Insert_BulkUpdateTest };
 
         #endregion
-
 
         #region Tests
 
@@ -216,7 +211,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
         #endregion
 
-
         #region Helpers
 
         private static List<BulkUpdateItem> _rawData = new List<BulkUpdateItem>
@@ -356,6 +350,5 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         #endregion
-
     }
 }

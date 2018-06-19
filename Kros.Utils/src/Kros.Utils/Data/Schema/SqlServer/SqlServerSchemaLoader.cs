@@ -56,7 +56,7 @@ namespace Kros.Data.Schema.SqlServer
         /// <summary>
         /// Event raised while parsing default value of a column. It is possible to use custom parsing logic in the event handler.
         /// </summary>
-        /// <remarks>When custom logic for parsing column's default value is used, the parsed value is set in 
+        /// <remarks>When custom logic for parsing column's default value is used, the parsed value is set in
         /// <see cref="SqlServerParseDefaultValueEventArgs.DefaultValue"/> property and
         /// <see cref="SqlServerParseDefaultValueEventArgs.Handled"/> flag must be set to <see langword="true"/>.</remarks>
         public event EventHandler<SqlServerParseDefaultValueEventArgs> ParseDefaultValue;
@@ -711,11 +711,11 @@ ORDER BY foreign_key_columns.constraint_object_id
             Check.NotNull(connection, nameof(connection));
             if (!(this as IDatabaseSchemaLoader).SupportsConnectionType(connection))
             {
-                throw new ArgumentException(Resources.SqlServerSchemaLoader_UnsupportedConnectionType, nameof(connection));
+                throw new ArgumentException(Resources.SqlServerUnsupportedConnectionType, nameof(connection));
             }
             SqlConnectionStringBuilder cnBuilder = new SqlConnectionStringBuilder((connection as SqlConnection).ConnectionString);
             Check.NotNullOrWhiteSpace(
-                cnBuilder.InitialCatalog, nameof(connection), Resources.SqlServerSchemaLoader_NoInitialCatalog);
+                cnBuilder.InitialCatalog, nameof(connection), Resources.SqlServerNoInitialCatalog);
         }
 
         private DataTable GetSchemaTables(SqlConnection connection)

@@ -77,7 +77,6 @@ namespace Kros.KORM.UnitTests.Base
                 _sqlServerTestHelper?.Dispose();
                 _sqlServerTestHelper = null;
             }
-
         }
     }
 }

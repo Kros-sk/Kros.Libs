@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Kros.Data.BulkActions;
 using Kros.Data.Schema;
+using Kros.Data.SqlServer;
 using Kros.KORM.Helper;
 using Kros.KORM.Materializer;
 using Kros.KORM.Query;
@@ -19,15 +20,12 @@ using Xunit;
 
 namespace Kros.KORM.UnitTests.Query.Providers
 {
-
     public class QueryProviderShould : DatabaseTestBase
     {
-
         #region Nested classes
 
         private class TestDbProviderFactory : DbProviderFactory
         {
-
             private readonly DbConnection _connection;
 
             public TestDbProviderFactory(DbConnection connection)
@@ -71,7 +69,6 @@ namespace Kros.KORM.UnitTests.Query.Providers
             {
                 _dbProviderFactory = new TestDbProviderFactory(null);
             }
-
 
             DbProviderFactory _dbProviderFactory;
 
@@ -208,7 +205,6 @@ END";
 
         #endregion
 
-
         #region Tests
 
         [Fact]
@@ -224,7 +220,7 @@ END";
             {
                 QueryProvider provider = CreateQueryProvider(helper.Connection);
                 Action executeNonQuery = () => provider.ExecuteNonQuery("NO QUERY", parameters);
-                executeNonQuery.ShouldThrow<ArgumentException>().WithMessage("*@Param2*");
+                executeNonQuery.Should().Throw<ArgumentException>().WithMessage("*@Param2*");
             }
         }
 
@@ -291,7 +287,7 @@ END";
             {
                 QueryProvider provider = CreateQueryProvider(helper.Connection);
                 Action executeStoredProcedure = () => provider.ExecuteStoredProcedure<int>("NoProcedure", parameters);
-                executeStoredProcedure.ShouldThrow<ArgumentException>().WithMessage("*@Param2*");
+                executeStoredProcedure.Should().Throw<ArgumentException>().WithMessage("*@Param2*");
             }
         }
 
@@ -382,7 +378,7 @@ END";
                 QueryProvider provider = CreateQueryProvider(helper.Connection);
                 List<TestItem> result = provider.ExecuteStoredProcedure<IEnumerable<TestItem>>(Procedure_TableResult).ToList();
 
-                result.ShouldBeEquivalentTo(new TestItem[] {
+                result.Should().BeEquivalentTo(new TestItem[] {
                     new TestItem(1, 10, "Lorem ipsum"),
                     new TestItem(2, 20, null),
                     new TestItem(3, 30, "Hello world"),
@@ -399,7 +395,7 @@ END";
                 QueryProvider provider = CreateQueryProvider(helper.Connection.ConnectionString);
                 List<TestItem> result = provider.ExecuteStoredProcedure<IEnumerable<TestItem>>(Procedure_TableResult).ToList();
 
-                result.ShouldBeEquivalentTo(new TestItem[] {
+                result.Should().BeEquivalentTo(new TestItem[] {
                     new TestItem(1, 10, "Lorem ipsum"),
                     new TestItem(2, 20, null),
                     new TestItem(3, 30, "Hello world"),
@@ -420,7 +416,6 @@ END";
                     .Should().BeTrue();
             }
         }
-
 
         [Fact]
         public void DisposeOfInternalConnection()
@@ -450,7 +445,6 @@ END";
 
         #endregion
 
-
         #region Helpers
 
         private SqlServerTestHelper CreateHelper(string initScript)
@@ -472,12 +466,11 @@ END";
 
         private static SqlServerQueryProvider CreateQueryProvider(string connectionString)
             => new SqlServerQueryProvider(
-                new ConnectionStringSettings("Default", connectionString, "System.Data.SqlClient"),
+                new ConnectionStringSettings("Default", connectionString, SqlServerDataHelper.ClientId),
                 Substitute.For<ISqlExpressionVisitor>(),
                 new ModelBuilder(Database.DefaultModelFactory),
                 Substitute.For<ILogger>());
 
         #endregion
-
     }
 }

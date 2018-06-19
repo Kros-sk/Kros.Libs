@@ -40,7 +40,7 @@ namespace Kros.KORM.UnitTests.Query.Providers
 
             Action action = () => QueryProviderFactories.GetFactory(new CustomConnection());
 
-            action.ShouldThrow<InvalidOperationException>();
+            action.Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace Kros.KORM.UnitTests.Query.Providers
 
             Action action = () => QueryProviderFactories.GetFactory("System.Odbc");
 
-            action.ShouldThrow<InvalidOperationException>();
+            action.Should().Throw<InvalidOperationException>();
         }
 
         public void Dispose()
@@ -91,7 +91,6 @@ namespace Kros.KORM.UnitTests.Query.Providers
 
         public class CustomQueryProviderFactory : IQueryProviderFactory
         {
-
             public CustomQueryProviderFactory()
             {
             }
@@ -127,6 +126,5 @@ namespace Kros.KORM.UnitTests.Query.Providers
 
             protected override DbCommand CreateDbCommand() => throw new NotImplementedException();
         }
-
     }
 }

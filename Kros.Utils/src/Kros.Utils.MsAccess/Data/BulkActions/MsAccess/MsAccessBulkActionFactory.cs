@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.Data.MsAccess;
+using Kros.Utils;
 using System.Data.Common;
 using System.Data.OleDb;
 
@@ -10,7 +11,6 @@ namespace Kros.Data.BulkActions.MsAccess
     /// <seealso cref="Kros.Data.BulkActions.IBulkActionFactory" />
     public class MsAccessBulkActionFactory : IBulkActionFactory
     {
-
         private readonly OleDbConnection _connection;
         private readonly string _connectionString;
 
@@ -87,7 +87,7 @@ namespace Kros.Data.BulkActions.MsAccess
         /// Registers factory methods for creation instances to <see cref="BulkActionFactories"/>.
         /// </summary>
         public static void Register() =>
-            BulkActionFactories.Register<OleDbConnection>("System.Data.OleDb",
+            BulkActionFactories.Register<OleDbConnection>(MsAccessDataHelper.ClientId,
                 (conn) => new MsAccessBulkActionFactory(conn as OleDbConnection),
                 (connString) => new MsAccessBulkActionFactory(connString));
     }

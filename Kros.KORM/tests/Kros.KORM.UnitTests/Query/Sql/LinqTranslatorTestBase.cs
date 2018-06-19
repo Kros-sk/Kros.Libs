@@ -74,7 +74,6 @@ namespace Kros.KORM.UnitTests.Query.Sql
             AreSame(expectedSql, parameters, provider.LastExpression.Expression);
         }
 
-
         private class ParameterExtractor : ExpressionVisitor
         {
             private List<object> _parameters;
@@ -121,7 +120,6 @@ namespace Kros.KORM.UnitTests.Query.Sql
 
         public class FakeQueryProvider : KORM.Query.IQueryProvider
         {
-
             /// <summary>
             /// Gets the last generated SQL.
             /// </summary>
@@ -246,7 +244,6 @@ namespace Kros.KORM.UnitTests.Query.Sql
 
         public class FakeQueryProviderFactory : IQueryProviderFactory
         {
-
             public KORM.Query.IQueryProvider Create(DbConnection connection, IModelBuilder modelBuilder, IDatabaseMapper databaseMapper)
                 => new FakeQueryProvider();
 

@@ -23,7 +23,6 @@ namespace Kros.KORM.Metadata.Attribute
         public KeyAttribute(string name)
             : this(name, AutoIncrementMethodType.None)
         {
-
         }
 
         /// <summary>
@@ -33,7 +32,6 @@ namespace Kros.KORM.Metadata.Attribute
         public KeyAttribute(AutoIncrementMethodType autoIncrementMethodType)
             : this(null, autoIncrementMethodType)
         {
-
         }
 
         /// <summary>

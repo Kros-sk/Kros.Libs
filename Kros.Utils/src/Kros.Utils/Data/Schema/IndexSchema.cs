@@ -71,14 +71,16 @@ namespace Kros.Data.Schema
         /// </exception>
         public string Name
         {
-            get {
+            get
+            {
                 return _name;
             }
-            set {
+            set
+            {
                 if (Table != null)
                 {
                     throw new InvalidOperationException(string.Format(
-                        Resources.IndexSchema_CannotChangeIndexNameWhenBelongsToTable, Table.Name));
+                        Resources.CannotChangeIndexNameWhenIndexBelongsToTable, _name, Table.Name));
                 }
                 _name = Check.NotNullOrWhiteSpace(value, nameof(value));
             }

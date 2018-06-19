@@ -1,8 +1,7 @@
 ﻿using FluentAssertions;
 using Kros.Data;
+using Kros.Data.SqlServer;
 using System;
-using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
 using Xunit;
 
@@ -24,7 +23,7 @@ namespace Kros.Utils.UnitTests.Data
         [Fact]
         public void GetFactoryByAdoClientName()
         {
-            var factory = IdGeneratorFactories.GetFactory("connectionstring", "System.Data.SqlClient");
+            var factory = IdGeneratorFactories.GetFactory("connectionstring", SqlServerDataHelper.ClientId);
 
             factory.Should().NotBeNull();
         }
@@ -36,8 +35,8 @@ namespace Kros.Utils.UnitTests.Data
             {
                 Action action = () => { var factory = IdGeneratorFactories.GetFactory(conn); };
 
-                action.ShouldThrow<InvalidOperationException>()
-                    .WithMessage("IIdGeneratorFactory for connection type 'CustomConnection' is not registered.");
+                action.Should().Throw<InvalidOperationException>()
+                    .WithMessage("*CustomConnection*");
             }
         }
 
@@ -46,8 +45,8 @@ namespace Kros.Utils.UnitTests.Data
         {
             Action action = () => { var factory = IdGeneratorFactories.GetFactory("constring", "System.Data.CustomClient"); };
 
-            action.ShouldThrow<InvalidOperationException>()
-                .WithMessage("IIdGeneratorFactory for ADO client 'System.Data.CustomClient' is not registered.");
+            action.Should().Throw<InvalidOperationException>()
+                .WithMessage("*System.Data.CustomClient*");
         }
     }
 }

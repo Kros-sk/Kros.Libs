@@ -1,4 +1,5 @@
 ﻿using Kros.Data.Schema;
+using Kros.Properties;
 using Kros.Utils;
 using System;
 using System.Data;
@@ -12,7 +13,6 @@ namespace Kros.Data.BulkActions.SqlServer
     /// </summary>
     public class SqlServerBulkInsert : IBulkInsert
     {
-
         /// <summary>
         /// Default <see cref="SqlBulkCopyOptions"/> for internal instance of <see cref="SqlBulkCopy"/>,
         /// if external transaction is not used.
@@ -34,7 +34,6 @@ namespace Kros.Data.BulkActions.SqlServer
         private readonly bool _disposeOfConnection = false;
 
         #endregion
-
 
         #region Constructors
 
@@ -113,7 +112,6 @@ namespace Kros.Data.BulkActions.SqlServer
 
         #endregion
 
-
         #region Common
 
         /// <summary>
@@ -127,7 +125,6 @@ namespace Kros.Data.BulkActions.SqlServer
         public SqlBulkCopyOptions BulkCopyOptions { get; }
 
         #endregion
-
 
         #region IBulkInsert
 
@@ -148,7 +145,6 @@ namespace Kros.Data.BulkActions.SqlServer
                 _batchSize = Check.GreaterOrEqualThan(value, 0, nameof(value));
             }
         }
-
 
         private int _bulkInsertTimeout = 0;
 
@@ -234,8 +230,8 @@ namespace Kros.Data.BulkActions.SqlServer
                     }
                     else
                     {
-                        throw new InvalidOperationException(
-                            $"Destination table \"{bulkCopy.DestinationTableName}\" does not have column \"{sourceColumn}\".");
+                        throw new InvalidOperationException(string.Format(Resources.ColumnMissingInBulkInsertDestinationTable,
+                            bulkCopy.DestinationTableName, sourceColumn));
                     }
                 }
                 bulkCopy.ColumnMappings.Add(sourceColumn, destinationColumn);
@@ -261,7 +257,6 @@ namespace Kros.Data.BulkActions.SqlServer
         }
 
         #endregion
-
 
         #region IDisposable
 
@@ -292,6 +287,5 @@ namespace Kros.Data.BulkActions.SqlServer
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
     }
 }

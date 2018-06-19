@@ -9,6 +9,5 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("c6860b22-22ce-4d4c-a0fa-f6e040f54737")]
 
-
 [assembly: InternalsVisibleTo("Kros.KORM.UnitTests")]
 [assembly: InternalsVisibleTo("Kros.KORM.MsAccess.UnitTests")]

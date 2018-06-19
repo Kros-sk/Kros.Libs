@@ -6,7 +6,6 @@ namespace Kros.Utils.UnitTests.Utils
 {
     public class CheckShould
     {
-
         #region Nested types
 
         private enum DummyEnum
@@ -58,7 +57,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             int? value = null;
             Action action = () => Check.NotNull(value, nameof(value));
-            action.ShouldThrow<ArgumentNullException>();
+            action.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -66,7 +65,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             int? value = 123;
             Action action = () => Check.NotNull(value, nameof(value));
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -74,7 +73,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             int? value = default(int);
             Action action = () => Check.NotNull(value, nameof(value));
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -82,7 +81,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             int value = default(int);
             Action action = () => Check.NotNull(value, nameof(value));
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -90,7 +89,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             int value = 123;
             Action action = () => Check.NotNull(value, nameof(value));
-            action.ShouldNotThrow();
+            action.Should().NotThrow();
         }
 
         [Fact]
@@ -98,7 +97,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             string value = null;
             Action action = () => Check.NotNull(value, nameof(value));
-            action.ShouldThrow<ArgumentNullException>();
+            action.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -106,7 +105,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             const string paramName = "arg";
             Action action = () => Check.NotNull((object)null, paramName);
-            action.ShouldThrow<ArgumentNullException>()
+            action.Should().Throw<ArgumentNullException>()
                 .And.ParamName.Should().Be(paramName);
         }
 
@@ -116,7 +115,7 @@ namespace Kros.Utils.UnitTests.Utils
             const string paramName = "arg";
             const string message = "Exception message.*";
             Action action = () => Check.NotNull((object)null, paramName, message);
-            action.ShouldThrow<ArgumentNullException>()
+            action.Should().Throw<ArgumentNullException>()
                 .WithMessage(message)
                 .And.ParamName.Should().Be(paramName);
         }
@@ -131,7 +130,7 @@ namespace Kros.Utils.UnitTests.Utils
             const string paramName = "arg";
             DummyClass param = new DummyClass();
             Action action = () => Check.IsOfType<DummyClass2>(param, paramName);
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("*" + typeof(DummyClass2).FullName + "*" + param.GetType().FullName + "*")
                 .And.ParamName.Should().Be(paramName);
         }
@@ -143,7 +142,7 @@ namespace Kros.Utils.UnitTests.Utils
             const string message = "Exception message.*";
             DummyClass param = new DummyClass();
             Action action = () => Check.IsOfType<DummyClass2>(param, paramName, message);
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage(message)
                 .And.ParamName.Should().Be(paramName);
         }
@@ -156,7 +155,7 @@ namespace Kros.Utils.UnitTests.Utils
             string expectedTypeName = typeof(DummyClass2).FullName;
             string argTypeName = param.GetType().FullName;
             Action action = () => Check.IsOfType(param, typeof(DummyClass2), paramName);
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("*" + typeof(DummyClass2).FullName + "*" + param.GetType().FullName + "*")
                 .And.ParamName.Should().Be(paramName);
         }
@@ -168,7 +167,7 @@ namespace Kros.Utils.UnitTests.Utils
             const string message = "Exception message.*";
             DummyClass param = new DummyClass();
             Action action = () => Check.IsOfType(param, typeof(DummyClass2), paramName, message);
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage(message)
                 .And.ParamName.Should().Be(paramName);
         }
@@ -179,7 +178,7 @@ namespace Kros.Utils.UnitTests.Utils
             const string paramName = "arg";
             DummyClass param = new DummyClass();
             Action action = () => Check.IsNotOfType<DummyClass>(param, paramName);
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("*" + typeof(DummyClass).FullName + "*")
                 .And.ParamName.Should().Be(paramName);
         }
@@ -191,7 +190,7 @@ namespace Kros.Utils.UnitTests.Utils
             const string message = "Exception message.*";
             DummyClass param = new DummyClass();
             Action action = () => Check.IsNotOfType<DummyClass>(param, paramName, message);
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage(message)
                 .And.ParamName.Should().Be(paramName);
         }
@@ -202,7 +201,7 @@ namespace Kros.Utils.UnitTests.Utils
             const string paramName = "arg";
             DummyClass param = new DummyClass();
             Action action = () => Check.IsNotOfType(param, typeof(DummyClass), paramName);
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("*" + typeof(DummyClass).FullName + "*")
                 .And.ParamName.Should().Be(paramName);
         }
@@ -214,7 +213,7 @@ namespace Kros.Utils.UnitTests.Utils
             const string message = "Exception message.*";
             DummyClass param = new DummyClass();
             Action action = () => Check.IsNotOfType(param, typeof(DummyClass), paramName, message);
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage(message)
                 .And.ParamName.Should().Be(paramName);
         }
@@ -227,7 +226,7 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentNullExceptionWithParamNameWhenNullString()
         {
             Action action = () => Check.NotNullOrEmpty(null, "arg");
-            action.ShouldThrow<ArgumentNullException>()
+            action.Should().Throw<ArgumentNullException>()
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -235,7 +234,7 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameWhenEmptyString()
         {
             Action action = () => Check.NotNullOrEmpty(string.Empty, "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -243,7 +242,7 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentNullExceptionWithParamNameAndMessageWhenNullString()
         {
             Action action = () => Check.NotNullOrEmpty(null, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentNullException>()
+            action.Should().Throw<ArgumentNullException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -252,7 +251,7 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameAndMessageWhenEmptyString()
         {
             Action action = () => Check.NotNullOrEmpty(string.Empty, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -261,7 +260,7 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentNullExceptionWithParamNameWhenWhiteSpaceString()
         {
             Action action = () => Check.NotNullOrWhiteSpace(" \t \r \n ", "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -269,7 +268,7 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameAndMessageWhenWhiteSpaceString()
         {
             Action action = () => Check.NotNullOrWhiteSpace(" \t \r \n ", "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -284,7 +283,7 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameWhenPrimitiveValueNotEqual()
         {
             Action action = () => Check.Equal(1, 2, "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -292,7 +291,7 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameAndMessageWhenPrimitiveValueNotEqual()
         {
             Action action = () => Check.Equal(1, 2, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -304,7 +303,7 @@ namespace Kros.Utils.UnitTests.Utils
             DummyClass value2 = new DummyClass() { Id = 2 };
 
             Action action = () => Check.Equal(value1, value2, "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -315,7 +314,7 @@ namespace Kros.Utils.UnitTests.Utils
             DummyClass value2 = new DummyClass() { Id = 2 };
 
             Action action = () => Check.Equal(value1, value2, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -328,7 +327,7 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameWhenPrimitiveValueEquals()
         {
             Action action = () => Check.NotEqual(2, 2, "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -336,7 +335,7 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameAndMessageWhenPrimitiveValueEquals()
         {
             Action action = () => Check.NotEqual(2, 2, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -348,7 +347,7 @@ namespace Kros.Utils.UnitTests.Utils
             DummyClass value2 = new DummyClass() { Id = 2 };
 
             Action action = () => Check.NotEqual(value1, value2, "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -359,7 +358,7 @@ namespace Kros.Utils.UnitTests.Utils
             DummyClass value2 = new DummyClass() { Id = 2 };
 
             Action action = () => Check.NotEqual(value1, value2, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -372,11 +371,11 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameWhenPrimitiveValueNotLessThanExpected()
         {
             Action action = () => Check.LessThan(1, 1, "arg");
-            action.ShouldThrow<ArgumentException>("LessThan: 1, 1")
+            action.Should().Throw<ArgumentException>("LessThan: 1, 1")
                 .And.ParamName.Should().Be("arg");
 
             action = () => Check.LessThan(2, 1, "arg");
-            action.ShouldThrow<ArgumentException>("LessThan: 2, 1")
+            action.Should().Throw<ArgumentException>("LessThan: 2, 1")
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -384,12 +383,12 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameAndMessageWhenPrimitiveValueNotLessThanExpected()
         {
             Action action = () => Check.LessThan(1, 1, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>("LessThan: 1, 1")
+            action.Should().Throw<ArgumentException>("LessThan: 1, 1")
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
 
             action = () => Check.LessThan(2, 1, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>("LessThan: 2, 1")
+            action.Should().Throw<ArgumentException>("LessThan: 2, 1")
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -402,11 +401,11 @@ namespace Kros.Utils.UnitTests.Utils
             DummyClass value2 = new DummyClass() { Id = 2 };
 
             Action action = () => Check.LessThan(value1a, value1b, "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
 
             action = () => Check.LessThan(value2, value1a, "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -418,12 +417,12 @@ namespace Kros.Utils.UnitTests.Utils
             DummyClass value2 = new DummyClass() { Id = 2 };
 
             Action action = () => Check.LessThan(value1a, value1b, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
 
             action = () => Check.LessThan(value2, value1a, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -436,10 +435,10 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameWhenPrimitiveValueNotLessOrEqualThanExpected()
         {
             Action action = () => Check.LessOrEqualThan(1, 1, "arg");
-            action.ShouldNotThrow("LessOrEqualThan: 1, 1");
+            action.Should().NotThrow("LessOrEqualThan: 1, 1");
 
             action = () => Check.LessOrEqualThan(2, 1, "arg");
-            action.ShouldThrow<ArgumentException>("LessOrEqualThan: 2, 1")
+            action.Should().Throw<ArgumentException>("LessOrEqualThan: 2, 1")
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -447,10 +446,10 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameAndMessageWhenPrimitiveValueNotLessOrEqualThanExpected()
         {
             Action action = () => Check.LessOrEqualThan(1, 1, "arg", "Exception message.");
-            action.ShouldNotThrow("LessOrEqualThan: 1, 1");
+            action.Should().NotThrow("LessOrEqualThan: 1, 1");
 
             action = () => Check.LessOrEqualThan(2, 1, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>("LessOrEqualThan: 2, 1")
+            action.Should().Throw<ArgumentException>("LessOrEqualThan: 2, 1")
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -463,10 +462,10 @@ namespace Kros.Utils.UnitTests.Utils
             DummyClass value2 = new DummyClass() { Id = 2 };
 
             Action action = () => Check.LessOrEqualThan(value1a, value1b, "arg");
-            action.ShouldNotThrow<ArgumentException>();
+            action.Should().NotThrow<ArgumentException>();
 
             action = () => Check.LessOrEqualThan(value2, value1a, "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -478,10 +477,10 @@ namespace Kros.Utils.UnitTests.Utils
             DummyClass value2 = new DummyClass() { Id = 2 };
 
             Action action = () => Check.LessOrEqualThan(value1a, value1b, "arg", "Exception message.");
-            action.ShouldNotThrow<ArgumentException>();
+            action.Should().NotThrow<ArgumentException>();
 
             action = () => Check.LessOrEqualThan(value2, value1a, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -494,11 +493,11 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameWhenPrimitiveValueNotGreaterThanExpected()
         {
             Action action = () => Check.GreaterThan(1, 1, "arg");
-            action.ShouldThrow<ArgumentException>("GreaterThan: 1, 1")
+            action.Should().Throw<ArgumentException>("GreaterThan: 1, 1")
                 .And.ParamName.Should().Be("arg");
 
             action = () => Check.GreaterThan(1, 2, "arg");
-            action.ShouldThrow<ArgumentException>("GreaterThan: 2, 1")
+            action.Should().Throw<ArgumentException>("GreaterThan: 2, 1")
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -506,12 +505,12 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameAndMessageWhenPrimitiveValueNotGreaterThanExpected()
         {
             Action action = () => Check.GreaterThan(1, 1, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>("GreaterThan: 1, 1")
+            action.Should().Throw<ArgumentException>("GreaterThan: 1, 1")
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
 
             action = () => Check.GreaterThan(1, 2, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>("GreaterThan: 2, 1")
+            action.Should().Throw<ArgumentException>("GreaterThan: 2, 1")
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -524,11 +523,11 @@ namespace Kros.Utils.UnitTests.Utils
             DummyClass value2 = new DummyClass() { Id = 2 };
 
             Action action = () => Check.GreaterThan(value1a, value1b, "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
 
             action = () => Check.GreaterThan(value1a, value2, "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -540,12 +539,12 @@ namespace Kros.Utils.UnitTests.Utils
             DummyClass value2 = new DummyClass() { Id = 2 };
 
             Action action = () => Check.GreaterThan(value1a, value1b, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
 
             action = () => Check.GreaterThan(value1a, value2, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -558,10 +557,10 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameWhenPrimitiveValueNotGreaterOrEqualThanExpected()
         {
             Action action = () => Check.GreaterOrEqualThan(1, 1, "arg");
-            action.ShouldNotThrow("GreaterOrEqualThan: 1, 1");
+            action.Should().NotThrow("GreaterOrEqualThan: 1, 1");
 
             action = () => Check.GreaterOrEqualThan(1, 2, "arg");
-            action.ShouldThrow<ArgumentException>("GreaterOrEqualThan: 2, 1")
+            action.Should().Throw<ArgumentException>("GreaterOrEqualThan: 2, 1")
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -569,10 +568,10 @@ namespace Kros.Utils.UnitTests.Utils
         public void ThrowArgumentExceptionWithParamNameAndMessageWhenPrimitiveValueNotGreaterOrEqualThanExpected()
         {
             Action action = () => Check.GreaterOrEqualThan(1, 1, "arg", "Exception message.");
-            action.ShouldNotThrow("GreaterOrEqualThan: 1, 1");
+            action.Should().NotThrow("GreaterOrEqualThan: 1, 1");
 
             action = () => Check.GreaterOrEqualThan(1, 2, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>("GreaterOrEqualThan: 2, 1")
+            action.Should().Throw<ArgumentException>("GreaterOrEqualThan: 2, 1")
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -585,10 +584,10 @@ namespace Kros.Utils.UnitTests.Utils
             DummyClass value2 = new DummyClass() { Id = 2 };
 
             Action action = () => Check.GreaterOrEqualThan(value1a, value1b, "arg");
-            action.ShouldNotThrow<ArgumentException>();
+            action.Should().NotThrow<ArgumentException>();
 
             action = () => Check.GreaterOrEqualThan(value1a, value2, "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -600,10 +599,10 @@ namespace Kros.Utils.UnitTests.Utils
             DummyClass value2 = new DummyClass() { Id = 2 };
 
             Action action = () => Check.GreaterOrEqualThan(value1a, value1b, "arg", "Exception message.");
-            action.ShouldNotThrow<ArgumentException>();
+            action.Should().NotThrow<ArgumentException>();
 
             action = () => Check.GreaterOrEqualThan(value1a, value2, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -617,8 +616,8 @@ namespace Kros.Utils.UnitTests.Utils
         {
             DummyEnum value = DummyEnum.Value1;
             Action action = () => Check.IsInList(value, new DummyEnum[] { DummyEnum.Value2, DummyEnum.Value3 }, "arg");
-            action.ShouldThrow<ArgumentException>()
-                .WithMessage($"*\"Value1\"*\"Value2, Value3\"*")
+            action.Should().Throw<ArgumentException>()
+                .WithMessage($"*Value1*Value2, Value3*")
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -627,7 +626,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             DummyEnum value = DummyEnum.Value1;
             Action action = () => Check.IsInList(value, new DummyEnum[] { DummyEnum.Value2, DummyEnum.Value3 }, "arg", "msg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("msg*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -637,7 +636,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             DummyEnum value = DummyEnum.Value3;
             Action action = () => Check.IsInList(value, new DummyEnum[] { DummyEnum.Value2, DummyEnum.Value3 }, "arg");
-            action.ShouldNotThrow<ArgumentException>();
+            action.Should().NotThrow<ArgumentException>();
         }
 
         [Fact]
@@ -645,7 +644,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             DummyEnum value = DummyEnum.Value3;
             Action action = () => Check.IsInList(value, new DummyEnum[] { DummyEnum.Value2, DummyEnum.Value3 }, "arg", "msg");
-            action.ShouldNotThrow<ArgumentException>();
+            action.Should().NotThrow<ArgumentException>();
         }
 
         [Fact]
@@ -653,8 +652,8 @@ namespace Kros.Utils.UnitTests.Utils
         {
             string value = "a";
             Action action = () => Check.IsInList(value, new string[] { "b", "c", "d" }, "arg");
-            action.ShouldThrow<ArgumentException>()
-                .WithMessage($"*\"a\"*\"b, c, d\"*")
+            action.Should().Throw<ArgumentException>()
+                .WithMessage($"*a*b, c, d*")
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -663,7 +662,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             string value = "a";
             Action action = () => Check.IsInList(value, new string[] { "b", "c", "d" }, "arg", "msg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("msg*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -673,7 +672,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             string value = "d";
             Action action = () => Check.IsInList(value, new string[] { "b", "c", "d" }, "arg");
-            action.ShouldNotThrow<ArgumentException>();
+            action.Should().NotThrow<ArgumentException>();
         }
 
         [Fact]
@@ -681,7 +680,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             string value = "d";
             Action action = () => Check.IsInList(value, new string[] { "b", "c", "d" }, "arg", "msg");
-            action.ShouldNotThrow<ArgumentException>();
+            action.Should().NotThrow<ArgumentException>();
         }
 
         #endregion
@@ -693,8 +692,8 @@ namespace Kros.Utils.UnitTests.Utils
         {
             DummyEnum value = DummyEnum.Value1;
             Action action = () => Check.IsNotInList(value, new DummyEnum[] { DummyEnum.Value1, DummyEnum.Value2 }, "arg");
-            action.ShouldThrow<ArgumentException>()
-                .WithMessage($"*\"Value1\"*\"Value1, Value2\"*")
+            action.Should().Throw<ArgumentException>()
+                .WithMessage($"*Value1*Value1, Value2*")
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -703,7 +702,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             DummyEnum value = DummyEnum.Value1;
             Action action = () => Check.IsNotInList(value, new DummyEnum[] { DummyEnum.Value1, DummyEnum.Value2 }, "arg", "msg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("msg*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -713,7 +712,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             DummyEnum value = DummyEnum.Value3;
             Action action = () => Check.IsNotInList(value, new DummyEnum[] { DummyEnum.Value1, DummyEnum.Value2 }, "arg");
-            action.ShouldNotThrow<ArgumentException>();
+            action.Should().NotThrow<ArgumentException>();
         }
 
         [Fact]
@@ -721,7 +720,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             DummyEnum value = DummyEnum.Value3;
             Action action = () => Check.IsNotInList(value, new DummyEnum[] { DummyEnum.Value1, DummyEnum.Value2 }, "arg", "msg");
-            action.ShouldNotThrow<ArgumentException>();
+            action.Should().NotThrow<ArgumentException>();
         }
 
         [Fact]
@@ -729,8 +728,8 @@ namespace Kros.Utils.UnitTests.Utils
         {
             string value = "a";
             Action action = () => Check.IsNotInList(value, new string[] { "a", "b", "c" }, "arg");
-            action.ShouldThrow<ArgumentException>()
-                .WithMessage($"*\"a\"*\"a, b, c\"*")
+            action.Should().Throw<ArgumentException>()
+                .WithMessage($"*a*a, b, c*")
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -739,7 +738,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             string value = "a";
             Action action = () => Check.IsNotInList(value, new string[] { "a", "b", "c" }, "arg", "msg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("msg*")
                 .And.ParamName.Should().Be("arg");
         }
@@ -749,7 +748,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             string value = "d";
             Action action = () => Check.IsNotInList(value, new string[] { "a", "b", "c" }, "arg");
-            action.ShouldNotThrow<ArgumentException>();
+            action.Should().NotThrow<ArgumentException>();
         }
 
         [Fact]
@@ -757,7 +756,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             string value = "d";
             Action action = () => Check.IsNotInList(value, new string[] { "a", "b", "c" }, "arg", "msg");
-            action.ShouldNotThrow<ArgumentException>();
+            action.Should().NotThrow<ArgumentException>();
         }
 
         #endregion
@@ -771,7 +770,7 @@ namespace Kros.Utils.UnitTests.Utils
         {
             Guid value = Guid.Empty;
             Action action = () => Check.NotEmptyGuid(value, "arg");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("arg");
         }
 
@@ -780,12 +779,11 @@ namespace Kros.Utils.UnitTests.Utils
         {
             Guid value = Guid.Empty;
             Action action = () => Check.NotEmptyGuid(value, "arg", "Exception message.");
-            action.ShouldThrow<ArgumentException>()
+            action.Should().Throw<ArgumentException>()
                 .WithMessage("Exception message.*")
                 .And.ParamName.Should().Be("arg");
         }
 
         #endregion
-
     }
 }

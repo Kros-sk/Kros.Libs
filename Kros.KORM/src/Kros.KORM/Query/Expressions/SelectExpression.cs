@@ -1,4 +1,5 @@
 ﻿using Kros.KORM.Metadata;
+using Kros.KORM.Properties;
 using Kros.KORM.Query.Sql;
 using Kros.Utils;
 using System;
@@ -22,12 +23,10 @@ namespace Kros.KORM.Query.Expressions
 
         #endregion
 
-
         /// <summary>
         /// The select statement
         /// </summary>
         public const string SelectStatement = "SELECT";
-
 
         #region Constructor
 
@@ -37,13 +36,12 @@ namespace Kros.KORM.Query.Expressions
         /// <param name="tableInfo">The table info.</param>
         public SelectExpression(TableInfo tableInfo)
         {
-            Check.NotNull(tableInfo, "tableInfo");
+            Check.NotNull(tableInfo, nameof(tableInfo));
 
             _tableInfo = tableInfo;
         }
 
         #endregion
-
 
         #region Select parts
 
@@ -96,7 +94,6 @@ namespace Kros.KORM.Query.Expressions
 
         #endregion
 
-
         #region Adding select query parts
 
         /// <summary>
@@ -120,7 +117,8 @@ namespace Kros.KORM.Query.Expressions
             Check.NotNull(tableExpression, nameof(tableExpression));
             if (_tableExpression != null)
             {
-                throw new ArgumentException("'tableExpression' can be applied only once.", "tableExpression");
+                throw new ArgumentException(
+                    string.Format(Resources.ExpressionCanBeAppliedOnlyOnce, nameof(TableExpression)), nameof(tableExpression));
             }
             _tableExpression = tableExpression;
         }
@@ -133,11 +131,12 @@ namespace Kros.KORM.Query.Expressions
         public void SetWhereExpression(WhereExpression whereExpression)
         {
             Check.NotNull(whereExpression, nameof(whereExpression));
-            if (this.WhereExpression != null)
+            if (WhereExpression != null)
             {
-                throw new ArgumentException("'whereExpression' can be applied only once.", "whereExpression");
+                throw new ArgumentException(
+                    string.Format(Resources.ExpressionCanBeAppliedOnlyOnce, nameof(WhereExpression)), nameof(whereExpression));
             }
-            this.WhereExpression = whereExpression;
+            WhereExpression = whereExpression;
         }
 
         /// <summary>
@@ -148,11 +147,12 @@ namespace Kros.KORM.Query.Expressions
         public void SetGroupByExpression(GroupByExpression groupByExpression)
         {
             Check.NotNull(groupByExpression, nameof(groupByExpression));
-            if (this.GroupByExpression != null)
+            if (GroupByExpression != null)
             {
-                throw new ArgumentException("'groupByExpression' can be applied only once.", "groupByExpression");
+                throw new ArgumentException(string.Format(Resources.ExpressionCanBeAppliedOnlyOnce, nameof(GroupByExpression)),
+                    nameof(groupByExpression));
             }
-            this.GroupByExpression = groupByExpression;
+            GroupByExpression = groupByExpression;
         }
 
         /// <summary>
@@ -163,15 +163,15 @@ namespace Kros.KORM.Query.Expressions
         public void SetOrderByExpression(OrderByExpression orderByExpression)
         {
             Check.NotNull(orderByExpression, nameof(orderByExpression));
-            if (this.OrderByExpression != null)
+            if (OrderByExpression != null)
             {
-                throw new ArgumentException("'orderByExpression' can be applied only once.", "orderByExpression");
+                throw new ArgumentException(string.Format(Resources.ExpressionCanBeAppliedOnlyOnce, nameof(OrderByExpression)),
+                    nameof(orderByExpression));
             }
-            this.OrderByExpression = orderByExpression;
+            OrderByExpression = orderByExpression;
         }
 
         #endregion
-
 
         #region Visitor
 
@@ -202,29 +202,28 @@ namespace Kros.KORM.Query.Expressions
         /// </returns>
         protected override Expression VisitChildren(ExpressionVisitor visitor)
         {
-            visitor.Visit(this.ColumnsExpression.Reduce());
+            visitor.Visit(ColumnsExpression.Reduce());
 
-            visitor.Visit(this.TableExpression);
+            visitor.Visit(TableExpression);
 
-            if (this.WhereExpression != null)
+            if (WhereExpression != null)
             {
-                visitor.Visit(this.WhereExpression);
+                visitor.Visit(WhereExpression);
             }
 
-            if (this.GroupByExpression != null)
+            if (GroupByExpression != null)
             {
-                visitor.Visit(this.GroupByExpression);
+                visitor.Visit(GroupByExpression);
             }
 
-            if (this.OrderByExpression != null)
+            if (OrderByExpression != null)
             {
-                visitor.Visit(this.OrderByExpression);
+                visitor.Visit(OrderByExpression);
             }
 
             return this;
         }
         #endregion
-
 
         #region Linq
 

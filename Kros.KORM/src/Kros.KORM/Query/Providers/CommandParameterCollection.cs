@@ -16,7 +16,6 @@ namespace Kros.KORM.Query
         /// </summary>
         public CommandParameterCollection() : base(StringComparer.OrdinalIgnoreCase) { }
 
-
         /// <summary>
         /// Pridá do zoznamu nový parameter so zadanými hodnotami.
         /// </summary>
@@ -82,6 +81,5 @@ namespace Kros.KORM.Query
         {
             return item.ParameterName;
         }
-
     }
 }

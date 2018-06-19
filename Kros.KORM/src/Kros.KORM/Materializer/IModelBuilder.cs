@@ -3,7 +3,6 @@ using System.Data;
 
 namespace Kros.KORM.Materializer
 {
-
     /// <summary>
     /// Interface for ModelBuilder, which know materialize data from Ado to objects.
     /// </summary>

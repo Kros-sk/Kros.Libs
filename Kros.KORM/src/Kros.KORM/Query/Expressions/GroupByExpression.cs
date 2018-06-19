@@ -19,10 +19,9 @@ namespace Kros.KORM.Query.Expressions
         /// The group by statement
         /// </summary>
         public const string GroupByStatement = "GROUP BY";
-        private const string GroupByRegexPattern = "GROUP *BY";
+        private const string GroupByRegexPattern = @"GROUP\s+BY";
 
         #endregion
-
 
         #region Constructors
 
@@ -35,12 +34,9 @@ namespace Kros.KORM.Query.Expressions
         /// </remarks>
         public GroupByExpression(string groupBy)
         {
-            Check.NotNullOrWhiteSpace(groupBy, "groupBy");
+            Check.NotNullOrWhiteSpace(groupBy, nameof(groupBy));
 
-            this.GroupByPart = Regex.Replace(groupBy,
-                GroupByRegexPattern,
-                string.Empty,
-                RegexOptions.IgnoreCase).TrimStart().TrimEnd();
+            GroupByPart = Regex.Replace(groupBy, GroupByRegexPattern, string.Empty, RegexOptions.IgnoreCase).Trim();
         }
 
         /// <summary>
@@ -49,9 +45,9 @@ namespace Kros.KORM.Query.Expressions
         /// <param name="groupBy">The groupBy.</param>
         public GroupByExpression(params string[] groupBy)
         {
-            Check.NotNull(groupBy, "groupBy");
+            Check.NotNull(groupBy, nameof(groupBy));
 
-            this.GroupByPart = string.Join(", ", groupBy);
+            GroupByPart = string.Join(", ", groupBy);
         }
 
         /// <summary>
@@ -63,9 +59,9 @@ namespace Kros.KORM.Query.Expressions
         /// <returns>
         /// GroupByExpression
         /// </returns>
-        public static GroupByExpression Create<T, TResult>(Func<T, TResult> selector) where T: new()
+        public static GroupByExpression Create<T, TResult>(Func<T, TResult> selector) where T : new()
         {
-            Check.NotNull(selector, "selector");
+            Check.NotNull(selector, nameof(selector));
 
             var select = selector(new T());
 
@@ -76,12 +72,10 @@ namespace Kros.KORM.Query.Expressions
 
         #endregion
 
-
         /// <summary>
         /// Gets or sets the group by part.
         /// </summary>
         public string GroupByPart { get; private set; }
-
 
         #region Visitor
 
@@ -94,13 +88,13 @@ namespace Kros.KORM.Query.Expressions
         /// </returns>
         protected override Expression Accept(ExpressionVisitor visitor)
         {
-            Check.NotNull(visitor, "visitor");
+            Check.NotNull(visitor, nameof(visitor));
 
             var specificVisitor = visitor as ISqlExpressionVisitor;
 
             return specificVisitor != null
                 ? specificVisitor.VisitGroupBy(this)
-                : this.CanReduce ? base.Accept(visitor) : this;
+                : CanReduce ? base.Accept(visitor) : this;
         }
 
         #endregion

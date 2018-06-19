@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.KORM.Properties;
+using Kros.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -29,7 +30,6 @@ namespace Kros.KORM.Data
             private Lazy<DbTransaction> _transaction;
             private bool _wasCommitOrRollback = false;
             private TransactionHelper _transactionHelper;
-
 
             public Transaction(TransactionHelper transactionHelper, ConnectionHelper connectionHelper, IsolationLevel isolationLevel)
             {
@@ -108,9 +108,8 @@ namespace Kros.KORM.Data
             public int CommandTimeout
             {
                 get { return TIMEOUT_DEFAULT; }
-                set { throw new InvalidOperationException($"Set CommandTimeout is not allowed for {nameof(NestedTransaction)}."); }
+                set { throw new InvalidOperationException(Resources.NestedTransactionCommandTimeoutIsReadonly); }
             }
-
         }
 
         #endregion

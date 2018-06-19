@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Kros.Data.SqlServer;
 using Kros.KORM.Metadata.Attribute;
 using Kros.KORM.Query;
 using Kros.KORM.UnitTests.Base;
@@ -34,7 +35,6 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
     END";
 
         #endregion
-
 
         #region Tests
 
@@ -84,7 +84,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
                 var dbSet = korm.Query<Invoice>().AsDbSet();
 
                 Action bulkInsertAction = () => dbSet.BulkInsert(null);
-                bulkInsertAction.ShouldThrow<ArgumentNullException>();
+                bulkInsertAction.Should().Throw<ArgumentNullException>();
             }
         }
 
@@ -250,7 +250,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         public void ExplicitTransactionShould_NotCloseMasterConnectionWhenCommitWasCall()
         {
             using (var database = CreateDatabase())
-            using (var korm = new Database(database.ConnectionString, "System.Data.SqlClient"))
+            using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
                 var dbSet = korm.Query<Invoice>().AsDbSet();
@@ -269,7 +269,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         public void ExplicitTransactionShould_NotCloseMasterConnectionWhenRollbackWasCall()
         {
             using (var database = CreateDatabase())
-            using (var korm = new Database(database.ConnectionString, "System.Data.SqlClient"))
+            using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
                 var dbSet = korm.Query<Invoice>().AsDbSet();
@@ -289,7 +289,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         public void ExplicitTransactionShould_NotCloseMasterConnectionWhenRollbackWasCalledAfterBulkInsert()
         {
             using (var database = CreateDatabase())
-            using (var korm = new Database(database.ConnectionString, "System.Data.SqlClient"))
+            using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
                 var dbSet = korm.Query<Invoice>().AsDbSet();
@@ -309,7 +309,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         public void ExplicitTransactionShould_NotCloseMasterConnectionWhenCommitWasCalledAfterBulkInsert()
         {
             using (var database = CreateDatabase())
-            using (var korm = new Database(database.ConnectionString, "System.Data.SqlClient"))
+            using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
                 var dbSet = korm.Query<Invoice>().AsDbSet();
@@ -328,7 +328,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         public void ExplicitTransactionShould_ThrowCommandTimeoutExceptionWhenIsSetTooSmall()
         {
             using (var database = CreateAndInitDatabase(CreateProcedure_WaitForTwoSeconds))
-            using (var korm = new Database(database.ConnectionString, "System.Data.SqlClient"))
+            using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
                 transaction.CommandTimeout = 1;
@@ -336,7 +336,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
                 string sql = @"EXEC WaitForTwoSeconds";
                 Action commit = () => { korm.ExecuteScalar(sql); };
 
-                commit.ShouldThrow<SqlException>().Which.Message.Contains("Timeout");
+                commit.Should().Throw<SqlException>().Which.Message.Contains("Timeout");
             }
         }
 
@@ -344,7 +344,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         public void ExplicitTransactionShould_ThrowInvalidOperationExceptionWhenCommandTimeoutSetForNestedTransaction()
         {
             using (var database = CreateAndInitDatabase(CreateProcedure_WaitForTwoSeconds))
-            using (var korm = new Database(database.ConnectionString, "System.Data.SqlClient"))
+            using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var mainTransaction = korm.BeginTransaction())
             {
                 using (var nestedTransaction = korm.BeginTransaction())
@@ -352,7 +352,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
                     mainTransaction.CommandTimeout = 1;
                     Action setCommandTimeout = () => { nestedTransaction.CommandTimeout = 3; };
 
-                    setCommandTimeout.ShouldThrow<InvalidOperationException>();
+                    setCommandTimeout.Should().Throw<InvalidOperationException>();
                 }
             }
         }
@@ -361,24 +361,23 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         public void ExplicitTransactionShould_NotThrowCommandTimeoutExceptionWhenIsSetSufficient()
         {
             using (var database = CreateAndInitDatabase(CreateProcedure_WaitForTwoSeconds))
-            using (var korm = new Database(database.ConnectionString, "System.Data.SqlClient"))
+            using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
                 transaction.CommandTimeout = 3;
                 Action commit = () => { korm.ExecuteStoredProcedure<Object>("WaitForTwoSeconds"); };
 
-                commit.ShouldNotThrow<SqlException>();
+                commit.Should().NotThrow<SqlException>();
             }
         }
 
         #endregion
 
-
         #region Helpers
 
         private void DatabaseShouldContainInvoices(Database korm, IEnumerable<Invoice> expected)
         {
-            korm.Query<Invoice>().ShouldAllBeEquivalentTo(expected);
+            korm.Query<Invoice>().Should().BeEquivalentTo(expected);
         }
 
         private void DatabaseShouldBeEmpty(TestDatabase korm)
@@ -388,7 +387,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
 
         private void DatabaseShouldContainInvoices(string connectionString, IEnumerable<Invoice> expected)
         {
-            using (var korm = new Database(connectionString, "System.Data.SqlClient"))
+            using (var korm = new Database(connectionString, SqlServerDataHelper.ClientId))
             {
                 DatabaseShouldContainInvoices(korm, expected);
             }
@@ -426,6 +425,5 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         #endregion
-
     }
 }

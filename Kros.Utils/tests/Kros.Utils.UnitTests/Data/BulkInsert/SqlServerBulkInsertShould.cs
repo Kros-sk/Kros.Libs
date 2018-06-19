@@ -13,7 +13,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 {
     public class SqlServerBulkInsertShould : DatabaseTestBase
     {
-
         #region Nested types
 
         public class DataItem
@@ -255,7 +254,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 {
                     bulkInsert.DestinationTableName = TableName_IgnoreCaseInColumnNames;
                     Action action = () => bulkInsert.Insert(reader);
-                    action.ShouldThrow<InvalidOperationException>()
+                    action.Should().Throw<InvalidOperationException>()
                         .WithMessage($"*{TableName_IgnoreCaseInColumnNames}*{nameof(NonExistingColumnDataItem.NonExistingColumn)}*");
                 }
             }
@@ -499,6 +498,5 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         #endregion
-
     }
 }

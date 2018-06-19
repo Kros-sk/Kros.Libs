@@ -19,7 +19,6 @@ namespace Kros.KORM.Metadata
 
         #endregion
 
-
         #region Constructor
 
         /// <summary>
@@ -50,7 +49,6 @@ namespace Kros.KORM.Metadata
         }
 
         #endregion
-
 
         #region Public Property
 
@@ -97,7 +95,6 @@ namespace Kros.KORM.Metadata
 
         #endregion
 
-
         #region Public Methods
 
         /// <summary>
@@ -136,6 +133,5 @@ namespace Kros.KORM.Metadata
             (!_properties.Value.TryGetValue(propertyName, out ColumnInfo column) ? null : column);
 
         #endregion
-
     }
 }

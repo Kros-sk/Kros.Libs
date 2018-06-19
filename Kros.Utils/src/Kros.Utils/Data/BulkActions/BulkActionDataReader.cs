@@ -10,13 +10,11 @@ namespace Kros.Data.BulkActions
     /// </summary>
     public class BulkActionDataReader : System.Data.Common.DbDataReader
     {
-
         #region Fields
 
         private readonly IBulkActionDataReader _reader;
 
         #endregion
-
 
         #region Constructors
 
@@ -24,7 +22,7 @@ namespace Kros.Data.BulkActions
         /// Creates <see cref="IDataReader"/> over defined <paramref name="reader"/>.
         /// </summary>
         /// <param name="reader">Input reader.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="reader"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="reader"/> is <see langword="null"/>.</exception>
         public BulkActionDataReader(IBulkActionDataReader reader)
         {
             Check.NotNull(reader, nameof(reader));
@@ -32,7 +30,6 @@ namespace Kros.Data.BulkActions
         }
 
         #endregion
-
 
         #region IDataReader
 
@@ -75,7 +72,6 @@ namespace Kros.Data.BulkActions
         /// </returns>
         public override bool Read() => _reader.Read();
 
-
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         // Close is implemented just because this class inherits from DbDataReader and in .NET Core is bug
         // in SqlBulkCopy implementation. If reader does not inherit from DbDataReader, it breaks on NullReferenceException
@@ -86,7 +82,6 @@ namespace Kros.Data.BulkActions
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
-
 
         #region NotImplemented
 

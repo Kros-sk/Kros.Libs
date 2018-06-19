@@ -8,7 +8,6 @@ namespace Kros.KORM.UnitTests
 {
     public class DatabaseShould
     {
-
         [Fact]
         public void ThrowExceptionWhenActiveConnectionIsNull()
         {
@@ -18,7 +17,7 @@ namespace Kros.KORM.UnitTests
                 IDatabase database = new Database(connection);
             };
 
-            action.ShouldThrow<ArgumentNullException>();
+            action.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -55,7 +54,7 @@ namespace Kros.KORM.UnitTests
         }
 
         private class Person
-        { }
-
+        {
+        }
     }
 }

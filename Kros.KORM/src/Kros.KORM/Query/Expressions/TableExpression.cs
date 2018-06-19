@@ -22,12 +22,9 @@ namespace Kros.KORM.Query.Expressions
         /// <param name="table">The table (or join).</param>
         public TableExpression(string table)
         {
-            Check.NotNullOrWhiteSpace(table, "table");
+            Check.NotNullOrWhiteSpace(table, nameof(table));
 
-            this.TablePart = Regex.Replace(table,
-                FromStatement,
-                string.Empty,
-                RegexOptions.IgnoreCase).TrimStart().TrimEnd();
+            TablePart = Regex.Replace(table, FromStatement, string.Empty, RegexOptions.IgnoreCase).Trim();
         }
 
         /// <summary>
@@ -38,7 +35,9 @@ namespace Kros.KORM.Query.Expressions
         #region Visitor
 
         /// <summary>
-        /// Dispatches to the specific visit method for this node type. For example, <see cref="T:System.Linq.Expressions.MethodCallExpression" /> calls the <see cref="M:System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)" />.
+        /// Dispatches to the specific visit method for this node type. For example,
+        /// <see cref="T:System.Linq.Expressions.MethodCallExpression"/> calls the
+        /// <see cref="M:System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)"/>.
         /// </summary>
         /// <param name="visitor">The visitor to visit this node with.</param>
         /// <returns>
@@ -46,16 +45,15 @@ namespace Kros.KORM.Query.Expressions
         /// </returns>
         protected override Expression Accept(ExpressionVisitor visitor)
         {
-            Check.NotNull(visitor, "visitor");
+            Check.NotNull(visitor, nameof(visitor));
 
             var specificVisitor = visitor as ISqlExpressionVisitor;
 
             return specificVisitor != null
                 ? specificVisitor.VisitTable(this)
-                : this.CanReduce ? base.Accept(visitor) : this;
+                : CanReduce ? base.Accept(visitor) : this;
         }
 
         #endregion
-
     }
 }

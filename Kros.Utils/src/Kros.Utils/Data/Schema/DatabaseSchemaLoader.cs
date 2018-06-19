@@ -95,7 +95,8 @@ namespace Kros.Data.Schema
             IDatabaseSchemaLoader loader = GetLoader(connection);
             if (loader == null)
             {
-                throw new ArgumentException(Resources.DatabaseSchemaLoader_UnsupportedConnectionType, nameof(connection));
+                throw new ArgumentException(
+                    string.Format(Resources.UnsupportedConnectionType, connection.GetType().FullName), nameof(connection));
             }
 
             return loader;
