@@ -368,7 +368,6 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
             DoTestOnOpenedConnection(ExplicitTransactionCommit, CreateDatabase);
         }
 
-
         private void ExplicitTransactionCommit(TestDatabase database)
         {
             using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
