@@ -159,13 +159,10 @@ namespace Kros.KORM
             IDatabaseMapper databaseMapper,
             IModelFactory defaultModelFactory)
         {
-            _connection = activeConnection;
             _databaseMapper = databaseMapper;
             _modelBuilder = new ModelBuilder(defaultModelFactory);
             _queryProvider = queryProviderFactory.Create(activeConnection, _modelBuilder, databaseMapper);
         }
-
-        DbConnection _connection = null;
 
         #endregion
 
@@ -291,10 +288,10 @@ namespace Kros.KORM
         /// <inheritdoc/>
         public void InitDatabaseForIdGenerator()
         {
-            var factory = IdGeneratorFactories.GetFactory(_connection);
-            var generator = factory.GetGenerator("DummyTableName");
-
-            generator.InitDatabaseForIdGenerator();
+            using (var idGenerator = _queryProvider.CreateIdGenerator("DummyTableName", 1))
+            {
+                idGenerator.InitDatabaseForIdGenerator();
+            }
         }
 
         #endregion
