@@ -39,13 +39,13 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         #region Tests
 
         [Fact]
-        public void ImplicitTransactionShould_CommitDataOnClosedConnection()
+        public void ImplicitTransactionShould_CommitData_OnClosedConnection()
         {
             DoTestOnClosedConnection(ImplicitTransactionCommitData, CreateDatabase);
         }
 
         [Fact]
-        public void ImplicitTransactionShould_CommitDataOnOpenedConnection()
+        public void ImplicitTransactionShould_CommitData_OnOpenedConnection()
         {
             DoTestOnOpenedConnection(ImplicitTransactionCommitData, CreateDatabase);
         }
@@ -61,30 +61,25 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ImplicitTransactionShould_CommitDataWhenBulkInsertWasCalledOnOpenedConnection()
+        public void ImplicitTransactionShould_CommitDataWhenBulkInsertWasCalled_OnOpenedConnection()
         {
-            DoTestOnOpenedConnection(ImplicitTransactionBulkInsert, CreateDatabase);
+            DoTestOnOpenedConnection((db) => ImplicitTransactionBulkInsertCommit(db, BulkInsertAddItems), CreateDatabase);
         }
 
         [Fact]
-        public void ImplicitTransactionShould_CommitDataWhenBulkInsertWasCalledOnClosedConnection()
+        public void ImplicitTransactionShould_CommitDataWhenBulkInsertWasCalled_OnClosedConnection()
         {
-            DoTestOnClosedConnection(ImplicitTransactionBulkInsert, CreateDatabase);
-        }
-
-        private void ImplicitTransactionBulkInsert(TestDatabase database)
-        {
-            ImplicitTransactionBulkInsertCommit(database, BulkInsertAddItems);
+            DoTestOnClosedConnection((db) => ImplicitTransactionBulkInsertCommit(db, BulkInsertAddItems), CreateDatabase);
         }
 
         [Fact]
-        public void ImplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalledOnOpenedConnection()
+        public void ImplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalled_OnOpenedConnection()
         {
             DoTestOnOpenedConnection((db) => ImplicitTransactionBulkInsertCommit(db, BulkInsertEnumerableItems), CreateDatabase);
         }
 
         [Fact]
-        public void ImplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalledOnClosedConnection()
+        public void ImplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalled_OnClosedConnection()
         {
             DoTestOnClosedConnection((db) => ImplicitTransactionBulkInsertCommit(db, BulkInsertEnumerableItems), CreateDatabase);
         }
@@ -99,13 +94,13 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ImplicitTransactionShould_BulkInsertThrowsExceptionOnOpenedConnection()
+        public void ImplicitTransactionShould_BulkInsertThrowsException_OnOpenedConnection()
         {
             DoTestOnOpenedConnection(ImplicitTransactionBulkInsertThrowsException, CreateDatabase);
         }
 
         [Fact]
-        public void ImplicitTransactionShould_BulkInsertThrowsExceptionOnClosedConnection()
+        public void ImplicitTransactionShould_BulkInsertThrowsException_OnClosedConnection()
         {
             DoTestOnClosedConnection(ImplicitTransactionBulkInsertThrowsException, CreateDatabase);
         }
@@ -119,18 +114,18 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CommitDataOnOpenedConnection()
+        public void ExplicitTransactionShould_CommitData_OnOpenedConnection()
         {
-            DoTestOnOpenedConnection(ExplicitTransactionShould_CommitData, CreateDatabase);
+            DoTestOnOpenedConnection(ExplicitTransactionCommitData, CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CommitDataOnClosedConnection()
+        public void ExplicitTransactionShould_CommitData_OnClosedConnection()
         {
-            DoTestOnClosedConnection(ExplicitTransactionShould_CommitData, CreateDatabase);
+            DoTestOnClosedConnection(ExplicitTransactionCommitData, CreateDatabase);
         }
 
-        private void ExplicitTransactionShould_CommitData(TestDatabase korm)
+        private void ExplicitTransactionCommitData(TestDatabase korm)
         {
             using (var transaction = korm.BeginTransaction())
             {
@@ -146,28 +141,28 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CommitDataWhenBulkInsertWasCalledOnOpenedConnection()
+        public void ExplicitTransactionShould_CommitDataWhenBulkInsertWasCalled_OnOpenedConnection()
         {
             DoTestOnClosedConnection((db) => ExplicitTransactionBulkInsertCommit(db, BulkInsertAddItems),
                                      CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CommitDataWhenBulkInsertWasCalledOnClosedConnection()
+        public void ExplicitTransactionShould_CommitDataWhenBulkInsertWasCalled_OnClosedConnection()
         {
             DoTestOnClosedConnection((db) => ExplicitTransactionBulkInsertCommit(db, BulkInsertAddItems),
                                      CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalledOnOpenedConnection()
+        public void ExplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalled_OnOpenedConnection()
         {
             DoTestOnOpenedConnection((db) => ExplicitTransactionBulkInsertCommit(db, BulkInsertEnumerableItems),
                                      CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalledOnClosedConnection()
+        public void ExplicitTransactionShould_CommitDataWhenBulkInsertEnumerableWasCalled_OnClosedConnection()
         {
             DoTestOnClosedConnection((db) => ExplicitTransactionBulkInsertCommit(db, BulkInsertEnumerableItems),
                                      CreateDatabase);
@@ -188,18 +183,18 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_RollbackDataOnOpenedConnection()
+        public void ExplicitTransactionShould_RollbackData_OnOpenedConnection()
         {
-            DoTestOnOpenedConnection(ExplicitTransactionShould_RollbackData, CreateDatabase);
+            DoTestOnOpenedConnection(ExplicitTransactionRollbackData, CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_RollbackDataOnClosedConnection()
+        public void ExplicitTransactionShould_RollbackData_OnClosedConnection()
         {
-            DoTestOnClosedConnection(ExplicitTransactionShould_RollbackData, CreateDatabase);
+            DoTestOnClosedConnection(ExplicitTransactionRollbackData, CreateDatabase);
         }
 
-        private void ExplicitTransactionShould_RollbackData(TestDatabase korm)
+        private void ExplicitTransactionRollbackData(TestDatabase korm)
         {
             using (var transaction = korm.BeginTransaction())
             {
@@ -215,34 +210,34 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertWasCalledOnOpenedConnection()
+        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertWasCalled_OnOpenedConnection()
         {
-            DoTestOnOpenedConnection((db) => ExplicitTransactionRollbackBulkInsertCore(db, BulkInsertAddItems),
+            DoTestOnOpenedConnection((db) => ExplicitTransactionRollbackBulkInsert(db, BulkInsertAddItems),
                                      CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertWasCalledOnClosedConnection()
+        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertWasCalled_OnClosedConnection()
         {
-            DoTestOnClosedConnection((db) => ExplicitTransactionRollbackBulkInsertCore(db, BulkInsertAddItems),
+            DoTestOnClosedConnection((db) => ExplicitTransactionRollbackBulkInsert(db, BulkInsertAddItems),
                                      CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertEnumerableWasCalledOnOpenedConnection()
+        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertEnumerableWasCalled_OnOpenedConnection()
         {
-            DoTestOnOpenedConnection((db) => ExplicitTransactionRollbackBulkInsertCore(db, BulkInsertEnumerableItems),
+            DoTestOnOpenedConnection((db) => ExplicitTransactionRollbackBulkInsert(db, BulkInsertEnumerableItems),
                                      CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertEnumerableWasCalledOnClosedConnection()
+        public void ExplicitTransactionShould_RollbackDataWhenBulkInsertEnumerableWasCalled_OnClosedConnection()
         {
-            DoTestOnClosedConnection((db) => ExplicitTransactionRollbackBulkInsertCore(db, BulkInsertEnumerableItems),
+            DoTestOnClosedConnection((db) => ExplicitTransactionRollbackBulkInsert(db, BulkInsertEnumerableItems),
                                      CreateDatabase);
         }
 
-        private void ExplicitTransactionRollbackBulkInsertCore(TestDatabase korm, Action<IDbSet<Invoice>> action)
+        private void ExplicitTransactionRollbackBulkInsert(TestDatabase korm, Action<IDbSet<Invoice>> action)
         {
             using (var transaction = korm.BeginTransaction())
             {
@@ -257,28 +252,28 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertCommitWasNotCalledOnOpenedConnection()
+        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertCommitWasNotCalled_OnOpenedConnection()
         {
             DoTestOnOpenedConnection((db) => ExplicitTransactionBulkInsertCommitNotCalled(db, BulkInsertAddItems),
                                      CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertCommitWasNotCalledOnClosedConnection()
+        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertCommitWasNotCalled_OnClosedConnection()
         {
             DoTestOnClosedConnection((db) => ExplicitTransactionBulkInsertCommitNotCalled(db, BulkInsertAddItems),
                                      CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertEnumerableCommitWasNotCalledOnOpenedConnection()
+        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertEnumerableCommitWasNotCalled_OnOpenedConnection()
         {
             DoTestOnOpenedConnection((db) => ExplicitTransactionBulkInsertCommitNotCalled(db, BulkInsertEnumerableItems),
                                      CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertEnumerableCommitWasNotCalledOnClosedConnection()
+        public void ExplicitTransactionShould_NotChangeDataWhenBulkInsertEnumerableCommitWasNotCalled_OnClosedConnection()
         {
             DoTestOnClosedConnection((db) => ExplicitTransactionBulkInsertCommitNotCalled(db, BulkInsertEnumerableItems),
                                      CreateDatabase);
@@ -299,13 +294,13 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void DataShould_BeAccessibleFromTransactionOnOpenedConnection()
+        public void DataShould_BeAccessibleFromTransaction_OnOpenedConnection()
         {
             DoTestOnOpenedConnection(DataAccessibleFromTransaction, CreateDatabase);
         }
 
         [Fact]
-        public void DataShould_BeAccessibleFromTransactionOnClosedConnection()
+        public void DataShould_BeAccessibleFromTransaction_OnClosedConnection()
         {
             DoTestOnClosedConnection(DataAccessibleFromTransaction, CreateDatabase);
         }
@@ -329,13 +324,13 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_RollbackMultipleCommitOnOpenedConnection()
+        public void ExplicitTransactionShould_RollbackMultipleCommit_OnOpenedConnection()
         {
             DoTestOnOpenedConnection(ExplicitTransactionRollbackMultipleCommits, CreateDatabase);
         }
 
         [Fact]
-        public void ExplicitTransactionShould_RollbackMultipleCommitOnClosedConnection()
+        public void ExplicitTransactionShould_RollbackMultipleCommit_OnClosedConnection()
         {
             DoTestOnClosedConnection(ExplicitTransactionRollbackMultipleCommits, CreateDatabase);
         }
@@ -362,7 +357,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CloseMasterConnectionWhenCommitWasCalled()
+        public void ExplicitTransactionShould_KeepClosedMasterConnectionWhenCommitWasCalled()
         {
             DoTestOnClosedConnection(ExplicitTransactionCommit, CreateDatabase);
         }
@@ -391,7 +386,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CloseMasterConnectionWhenRollbackWasCalled()
+        public void ExplicitTransactionShould_KeepClosedMasterConnectionWhenRollbackWasCalled()
         {
             DoTestOnClosedConnection(ExplicitTransactionRollback, CreateDatabase);
         }
@@ -426,7 +421,7 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CloseMasterConnectionWhenRollbackWasCalledAfterBulkInsert()
+        public void ExplicitTransactionShould_KeepClosedMasterConnectionWhenRollbackWasCalledAfterBulkInsert()
         {
             DoTestOnClosedConnection(ExplicitTransactionRollbackAfterBulkInsert, CreateDatabase);
         }
@@ -449,15 +444,15 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         }
 
         [Fact]
-        public void ExplicitTransactionShould_CloseMasterConnectionWhenCommitWasCalledAfterBulkInsert()
-        {
-            DoTestOnClosedConnection(ExplicitTransactionCommitAfterBulkInsert, CreateDatabase);
-        }
-
-        [Fact]
         public void ExplicitTransactionShould_NotCloseMasterConnectionWhenCommitWasCalledAfterBulkInsert()
         {
             DoTestOnOpenedConnection(ExplicitTransactionCommitAfterBulkInsert, CreateDatabase);
+        }
+
+        [Fact]
+        public void ExplicitTransactionShould_KeepClosedMasterConnectionWhenCommitWasCalledAfterBulkInsert()
+        {
+            DoTestOnClosedConnection(ExplicitTransactionCommitAfterBulkInsert, CreateDatabase);
         }
 
         private void ExplicitTransactionCommitAfterBulkInsert(TestDatabase database)
