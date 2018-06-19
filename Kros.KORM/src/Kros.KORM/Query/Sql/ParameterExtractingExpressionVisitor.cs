@@ -28,8 +28,8 @@ namespace Kros.KORM.Query.Sql
         /// <param name="expression">The expression.</param>
         public static void ExtractParametersToCommand(DbCommand command, Expression expression)
         {
-            Check.NotNull(command, "command");
-            Check.NotNull(expression, "expression");
+            Check.NotNull(command, nameof(command));
+            Check.NotNull(expression, nameof(expression));
 
             (new ParameterExtractingExpressionVisitor(command)).Visit(expression);
         }
@@ -85,31 +85,25 @@ namespace Kros.KORM.Query.Sql
         private class ParamEnumerator : IEnumerator<string>
         {
             private string _sql;
-            private string _actualParam;
+            private string _current;
             private int _position = 0;
             private const string ParamPrefix = "@";
 
             public ParamEnumerator(string sql)
             {
-                Check.NotNullOrWhiteSpace(sql, "sql");
+                Check.NotNullOrWhiteSpace(sql, nameof(sql));
                 _sql = sql.Replace(Environment.NewLine, " ");
                 _sql = _sql.Replace("(", " ");
                 _sql = _sql.Replace(")", " ");
             }
 
-            public string Current
-            {
-                get { return _actualParam; }
-            }
+            public string Current => _current;
 
             public void Dispose()
             {
             }
 
-            object System.Collections.IEnumerator.Current
-            {
-                get { return this.Current; }
-            }
+            object System.Collections.IEnumerator.Current => Current;
 
             public bool MoveNext()
             {
@@ -130,7 +124,7 @@ namespace Kros.KORM.Query.Sql
                             end = ends.Min();
                         }
 
-                        _actualParam = _sql.Substring(start, end - start).TrimStart().TrimEnd();
+                        _current = _sql.Substring(start, end - start).TrimStart().TrimEnd();
                         _position = end;
 
                         return true;

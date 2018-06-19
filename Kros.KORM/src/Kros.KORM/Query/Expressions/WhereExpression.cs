@@ -24,7 +24,7 @@ namespace Kros.KORM.Query.Expressions
         /// <param name="args">Where args.</param>
         public WhereExpression(RawSqlString whereCondition, params object[] args)
         {
-            Check.NotNullOrWhiteSpace(whereCondition.Format, "whereCondition");
+            Check.NotNullOrWhiteSpace(whereCondition.Format, nameof(whereCondition));
 
             whereCondition = whereCondition.Format.Trim();
             if (whereCondition.Format.StartsWith(WhereStatement, StringComparison.InvariantCultureIgnoreCase))
@@ -32,15 +32,17 @@ namespace Kros.KORM.Query.Expressions
                 whereCondition = whereCondition.Format.Substring(WhereStatement.Length).TrimStart();
             }
 
-            this.Sql = whereCondition.Format;
+            Sql = whereCondition.Format;
 
-            this.Parameters = args.ToList();
+            Parameters = args.ToList();
         }
 
         #region Visitor
 
         /// <summary>
-        /// Dispatches to the specific visit method for this node type. For example, <see cref="T:System.Linq.Expressions.MethodCallExpression" /> calls the <see cref="M:System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)" />.
+        /// Dispatches to the specific visit method for this node type. For example,
+        /// <see cref="T:System.Linq.Expressions.MethodCallExpression"/> calls the
+        /// <see cref="M:System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)"/>.
         /// </summary>
         /// <param name="visitor">The visitor to visit this node with.</param>
         /// <returns>
@@ -48,13 +50,13 @@ namespace Kros.KORM.Query.Expressions
         /// </returns>
         protected override Expression Accept(ExpressionVisitor visitor)
         {
-            Check.NotNull(visitor, "visitor");
+            Check.NotNull(visitor, nameof(visitor));
 
             var specificVisitor = visitor as ISqlExpressionVisitor;
 
             return specificVisitor != null
                 ? specificVisitor.VisitWhere(this)
-                : this.CanReduce ? base.Accept(visitor) : this;
+                : CanReduce ? base.Accept(visitor) : this;
         }
 
         #endregion

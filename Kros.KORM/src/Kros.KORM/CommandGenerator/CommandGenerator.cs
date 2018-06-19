@@ -1,5 +1,6 @@
 ﻿using Kros.KORM.Converter;
 using Kros.KORM.Metadata;
+using Kros.KORM.Properties;
 using Kros.KORM.Query;
 using Kros.KORM.Query.Expressions;
 using Kros.Utils;
@@ -94,11 +95,11 @@ namespace Kros.KORM.CommandGenerator
         /// <summary>
         /// Gets the automatically generated DbCommand object required to perform updates on the database
         /// </summary>
-        /// <exception cref="Exceptions.MissingPrimaryKeyException">GetUpdateCommand doesn't supported when entity doesn't have primary key.</exception>
+        /// <exception cref="Exceptions.MissingPrimaryKeyException">Table does not have primary key.</exception>
         /// <returns>Update command.</returns>
         public DbCommand GetUpdateCommand()
         {
-            CheckPrimaryKeyExist("GetUpdateCommand doesn't supported when entity doesn't have primary key.");
+            CheckPrimaryKeyExist(string.Format(Resources.MethodNotSupportedWhenNoPrimaryKey, nameof(GetUpdateCommand)));
 
             var columns = GetQueryColumns();
             var cmd = _provider.GetCommandForCurrentTransaction();
@@ -111,11 +112,11 @@ namespace Kros.KORM.CommandGenerator
         /// <summary>
         /// Gets the automatically generated DbCommand object required to perform deletions on the database.
         /// </summary>
-        /// <exception cref="Exceptions.MissingPrimaryKeyException">GetDeleteCommand doesn't supported when entity doesn't have primary key.</exception>
+        /// <exception cref="Exceptions.MissingPrimaryKeyException">Table does not have primary key.</exception>
         /// <returns>Delete command.</returns>
         public DbCommand GetDeleteCommand()
         {
-            CheckPrimaryKeyExist("GetDeleteCommand doesn't supported when entity doesn't have primary key.");
+            CheckPrimaryKeyExist(string.Format(Resources.MethodNotSupportedWhenNoPrimaryKey, nameof(GetDeleteCommand)));
 
             var columns = _tableInfo.PrimaryKey;
             var cmd = _provider.GetCommandForCurrentTransaction();
@@ -128,16 +129,18 @@ namespace Kros.KORM.CommandGenerator
         /// Gets the automatically generated DbCommands object required to perform deletions on the database.
         /// </summary>
         /// <param name="items">Type class of model collection.</param>
-        /// <exception cref="Exceptions.MissingPrimaryKeyException">GetDeleteCommands doesn't supported when entity doesn't have primary key.</exception>
-        /// <exception cref="Exceptions.CompositePrimaryKeyException">GetDeleteCommands doesn't supported for composite primary key.</exception>
+        /// <exception cref="Exceptions.MissingPrimaryKeyException">Table does not have primary key.</exception>
+        /// <exception cref="Exceptions.CompositePrimaryKeyException">Table has composite primary key.</exception>
         /// <returns>Delete command collection.</returns>
         public IEnumerable<DbCommand> GetDeleteCommands(IEnumerable<T> items)
         {
-            CheckPrimaryKeyExist("GetDeleteCommands is not supported when entity does not have primary key.");
+            CheckPrimaryKeyExist(string.Format(Resources.MethodNotSupportedWhenNoPrimaryKey, nameof(GetDeleteCommands)));
 
             if (_tableInfo.PrimaryKey.Count() > 1)
             {
-                throw new Exceptions.CompositePrimaryKeyException("GetDeleteCommands is not supported for composite primary key.");
+                throw new Exceptions.CompositePrimaryKeyException(
+                    string.Format(Resources.MethodNotSupportedForCompositePrimaryKey, nameof(GetDeleteCommands)),
+                    _tableInfo.Name);
             }
 
             List<DbCommand> retVal = new List<DbCommand>();

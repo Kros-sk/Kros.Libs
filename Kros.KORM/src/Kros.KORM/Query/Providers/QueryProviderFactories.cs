@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.KORM.Properties;
+using Kros.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -22,7 +23,8 @@ namespace Kros.KORM.Query
         /// <returns>
         /// Instance of <seealso cref="IQueryProviderFactory"/>.
         /// </returns>
-        /// <exception cref="InvalidOperationException">When factory for specific <paramref name="providerName"/> is not registered.</exception>
+        /// <exception cref="InvalidOperationException">When factory for specific <paramref name="providerName"/>
+        /// is not registered.</exception>
         public static IQueryProviderFactory GetFactory(string providerName)
         {
             Check.NotNullOrWhiteSpace(providerName, nameof(providerName));
@@ -33,7 +35,8 @@ namespace Kros.KORM.Query
             }
             else
             {
-                throw new InvalidOperationException($"QueryProviderFactory for '{providerName}' is not registered.");
+                throw new InvalidOperationException(
+                    string.Format(Resources.QueryProviderFactoryNotRegisteredForProvider, providerName));
             }
         }
 
@@ -44,7 +47,8 @@ namespace Kros.KORM.Query
         /// <returns>
         /// Instance of <seealso cref="IQueryProviderFactory" />.
         /// </returns>
-        /// <exception cref="InvalidOperationException">When factory for specific <paramref name="connection" /> is not registered.</exception>
+        /// <exception cref="InvalidOperationException">When factory for specific <paramref name="connection"/>
+        /// is not registered.</exception>
         public static IQueryProviderFactory GetFactory(DbConnection connection)
         {
             Check.NotNull(connection, nameof(connection));
@@ -55,7 +59,8 @@ namespace Kros.KORM.Query
             }
             else
             {
-                throw new InvalidOperationException($"QueryProviderFactory for connection type '{connection.GetType()}' is not registered.");
+                throw new InvalidOperationException(
+                    string.Format(Resources.QueryProviderFactoryNotRegisteredForConnection, connection.GetType().FullName));
             }
         }
 
@@ -65,7 +70,9 @@ namespace Kros.KORM.Query
         /// <typeparam name="TConnection">The type of the connection.</typeparam>
         /// <param name="providerName">Name of the provider.</param>
         /// <param name="queryProviderFactory">The query provider factory.</param>
-        public static void Register<TConnection>(string providerName, IQueryProviderFactory queryProviderFactory) where TConnection : DbConnection
+        public static void Register<TConnection>(
+            string providerName,
+            IQueryProviderFactory queryProviderFactory) where TConnection : DbConnection
         {
             Check.NotNullOrWhiteSpace(providerName, nameof(providerName));
             Check.NotNull(queryProviderFactory, nameof(queryProviderFactory));
