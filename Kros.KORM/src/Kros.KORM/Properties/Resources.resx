@@ -144,6 +144,9 @@
   <data name="InvalidPrimaryKeyForBulkUpdate" xml:space="preserve">
     <value>Table {0} has none, or composite primary key. Primary key must be one column only.</value>
   </data>
+  <data name="LimitOffsetDataReaderInnerReaderAlreadySet" xml:space="preserve">
+    <value>Inner reader is already set. It can be set only once.</value>
+  </data>
   <data name="MemberIsNotSupported" xml:space="preserve">
     <value>The member '{0}' is not supported.</value>
   </data>

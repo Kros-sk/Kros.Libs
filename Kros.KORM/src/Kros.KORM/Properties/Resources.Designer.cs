@@ -142,6 +142,15 @@ namespace Kros.KORM.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inner reader is already set. It can be set only once..
+        /// </summary>
+        internal static string LimitOffsetDataReaderInnerReaderAlreadySet {
+            get {
+                return ResourceManager.GetString("LimitOffsetDataReaderInnerReaderAlreadySet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The member &apos;{0}&apos; is not supported..
         /// </summary>
         internal static string MemberIsNotSupported {
