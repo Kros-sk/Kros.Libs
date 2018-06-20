@@ -5,6 +5,7 @@ using Kros.KORM.Helper;
 using Kros.KORM.Materializer;
 using Kros.KORM.Metadata;
 using Kros.KORM.Query;
+using Kros.KORM.Query.Providers;
 using Kros.KORM.Query.Sql;
 using System;
 using System.Configuration;
@@ -62,18 +63,18 @@ namespace Kros.KORM.UnitTests.Query.Providers
         public class CustomQueryProvider : QueryProvider
         {
             public CustomQueryProvider(ConnectionStringSettings connectionString,
-               ISqlExpressionVisitor sqlGenerator,
-               IModelBuilder modelBuilder,
-               ILogger logger)
-                : base(connectionString, sqlGenerator, modelBuilder, logger)
+                ISqlExpressionVisitorFactory sqlGeneratorFactory,
+                IModelBuilder modelBuilder,
+                ILogger logger)
+                : base(connectionString, sqlGeneratorFactory, modelBuilder, logger)
             {
             }
 
             public CustomQueryProvider(DbConnection connection,
-                ISqlExpressionVisitor sqlGenerator,
+                ISqlExpressionVisitorFactory sqlGeneratorFactory,
                 IModelBuilder modelBuilder,
                 ILogger logger)
-                    : base(connection, sqlGenerator, modelBuilder, logger)
+                : base(connection, sqlGeneratorFactory, modelBuilder, logger)
             {
             }
 
@@ -95,13 +96,19 @@ namespace Kros.KORM.UnitTests.Query.Providers
             {
             }
 
-            public IQueryProvider Create(DbConnection connection, IModelBuilder modelBuilder, IDatabaseMapper databaseMapper) =>
-                new CustomQueryProvider(connection, new DefaultQuerySqlGenerator(databaseMapper), modelBuilder, new Logger());
+            public IQueryProvider Create(DbConnection connection, IModelBuilder modelBuilder, IDatabaseMapper databaseMapper)
+                => new CustomQueryProvider(
+                    connection, new SqlServerSqlExpressionVisitorFactory(databaseMapper), modelBuilder, new Logger());
 
-            public IQueryProvider Create(ConnectionStringSettings connectionString, IModelBuilder modelBuilder, IDatabaseMapper databaseMapper) =>
-                new CustomQueryProvider(connectionString, new DefaultQuerySqlGenerator(databaseMapper), modelBuilder, new Logger());
+            public IQueryProvider Create(
+                ConnectionStringSettings connectionString,
+                IModelBuilder modelBuilder,
+                IDatabaseMapper databaseMapper)
+                => new CustomQueryProvider(
+                    connectionString, new SqlServerSqlExpressionVisitorFactory(databaseMapper), modelBuilder, new Logger());
 
-            internal static void Register() => QueryProviderFactories.Register<SqlConnection>("System.Data.CustomDb", new CustomQueryProviderFactory());
+            internal static void Register()
+                => QueryProviderFactories.Register<SqlConnection>("System.Data.CustomDb", new CustomQueryProviderFactory());
         }
 
         public class CustomConnection : DbConnection

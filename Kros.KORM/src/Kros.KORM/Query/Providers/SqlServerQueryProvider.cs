@@ -21,15 +21,15 @@ namespace Kros.KORM.Query
         /// Initializes a new instance of the <see cref="SqlServerQueryProvider"/> class.
         /// </summary>
         /// <param name="connectionString">The connection string settings.</param>
-        /// <param name="sqlGenerator">The SQL generator.</param>
+        /// <param name="sqlGeneratorFactory">The SQL generator factory.</param>
         /// <param name="modelBuilder">The model builder.</param>
         /// <param name="logger">The logger.</param>
         public SqlServerQueryProvider(
             ConnectionStringSettings connectionString,
-            ISqlExpressionVisitor sqlGenerator,
+            ISqlExpressionVisitorFactory sqlGeneratorFactory,
             IModelBuilder modelBuilder,
             ILogger logger)
-            : base(connectionString, sqlGenerator, modelBuilder, logger)
+            : base(connectionString, sqlGeneratorFactory, modelBuilder, logger)
         {
         }
 
@@ -37,15 +37,15 @@ namespace Kros.KORM.Query
         /// Initializes a new instance of the <see cref="QueryProvider" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        /// <param name="sqlGenerator">The SQL generator.</param>
+        /// <param name="sqlGeneratorFactory">The SQL generator factory.</param>
         /// <param name="modelBuilder">The model builder.</param>
         /// <param name="logger">The logger.</param>
         public SqlServerQueryProvider(
             DbConnection connection,
-            ISqlExpressionVisitor sqlGenerator,
+            ISqlExpressionVisitorFactory sqlGeneratorFactory,
             IModelBuilder modelBuilder,
             ILogger logger)
-            : base(connection, sqlGenerator, modelBuilder, logger)
+            : base(connection, sqlGeneratorFactory, modelBuilder, logger)
         {
         }
 

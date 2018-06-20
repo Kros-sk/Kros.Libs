@@ -40,28 +40,32 @@ namespace Kros.KORM.UnitTests.Query.Sql
            new DefaultQuerySqlGenerator(Database.DatabaseMapper);
 
         /// <summary>
-        /// Query should be equel to <paramref name="expectedSql"/>.
+        /// Query should be equal to <paramref name="expectedSql"/>.
         /// </summary>
         /// <typeparam name="T">Model type.</typeparam>
         /// <param name="value">Testing query.</param>
         /// <param name="expectedSql">Expected sql query.</param>
         protected void AreSame<T>(IQueryable<T> value, string expectedSql, params object[] parameters)
         {
-            var expression = value.Expression;
-            AreSame(expectedSql, parameters, expression);
+            AreSame(value.Expression, new QueryInfo(expectedSql), parameters);
         }
 
-        private void AreSame(string expectedSql, object[] parameters, Expression expression)
+        protected void AreSame<T>(IQueryable<T> value, QueryInfo sql, params object[] parameters)
+        {
+            AreSame(value.Expression, sql, parameters);
+        }
+
+        private void AreSame(Expression expression, QueryInfo expectedQuery, object[] parameters)
         {
             var visitor = CreateVisitor();
-            var sql = visitor.GenerateSql(expression);
+            QueryInfo sql = visitor.GenerateSql(expression);
 
-            sql.Should().BeEquivalentTo(expectedSql);
-            parameters.Should().BeEquivalentTo(ParameterExtractor.ExtractParameters(expression));
+            sql.Should().BeEquivalentTo(expectedQuery);
+            parameters?.Should().BeEquivalentTo(ParameterExtractor.ExtractParameters(expression));
         }
 
         /// <summary>
-        /// Wases the generated same SQL.
+        /// Was generated the same SQL.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value">The value.</param>
@@ -71,7 +75,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var provider = value.Provider as FakeQueryProvider;
 
-            AreSame(expectedSql, parameters, provider.LastExpression.Expression);
+            AreSame(provider.LastExpression.Expression, new QueryInfo(expectedSql), parameters);
         }
 
         private class ParameterExtractor : ExpressionVisitor

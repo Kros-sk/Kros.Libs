@@ -83,7 +83,7 @@ namespace Kros.KORM.Query
         #region Private fields
 
         private readonly ILogger _logger;
-        private readonly ISqlExpressionVisitor _sqlGenerator;
+        private readonly ISqlExpressionVisitorFactory _sqlGeneratorFactory;
         private readonly IModelBuilder _modelBuilder;
         private readonly ConnectionStringSettings _connectionSettings = null;
         private DbConnection _connection = null;
@@ -100,24 +100,24 @@ namespace Kros.KORM.Query
         /// Initializes a new instance of the <see cref="QueryProvider" /> class.
         /// </summary>
         /// <param name="connectionSettings">The connection string settings.</param>
-        /// <param name="sqlGenerator">The SQL generator.</param>
+        /// <param name="sqlGeneratorFactory">The SQL generator factory.</param>
         /// <param name="modelBuilder">The model builder.</param>
         /// <param name="logger">The logger.</param>
         public QueryProvider(
             ConnectionStringSettings connectionSettings,
-            ISqlExpressionVisitor sqlGenerator,
+            ISqlExpressionVisitorFactory sqlGeneratorFactory,
             IModelBuilder modelBuilder,
             ILogger logger)
         {
             Check.NotNull(connectionSettings, nameof(connectionSettings));
-            Check.NotNull(sqlGenerator, nameof(sqlGenerator));
+            Check.NotNull(sqlGeneratorFactory, nameof(sqlGeneratorFactory));
             Check.NotNull(modelBuilder, nameof(modelBuilder));
             Check.NotNull(logger, nameof(logger));
 
             _logger = logger;
             _connectionSettings = connectionSettings;
             IsExternalConnection = false;
-            _sqlGenerator = sqlGenerator;
+            _sqlGeneratorFactory = sqlGeneratorFactory;
             _modelBuilder = modelBuilder;
             _transactionHelper = new Lazy<TransactionHelper>(() => new TransactionHelper(Connection));
         }
@@ -126,24 +126,24 @@ namespace Kros.KORM.Query
         /// Initializes a new instance of the <see cref="QueryProvider" /> class.
         /// </summary>
         /// <param name="externalConnection">The connection.</param>
-        /// <param name="sqlGenerator">The SQL generator.</param>
+        /// <param name="sqlGeneratorFactory">The SQL generator factory.</param>
         /// <param name="modelBuilder">The model builder.</param>
         /// <param name="logger">The logger.</param>
         public QueryProvider(
             DbConnection externalConnection,
-            ISqlExpressionVisitor sqlGenerator,
+            ISqlExpressionVisitorFactory sqlGeneratorFactory,
             IModelBuilder modelBuilder,
             ILogger logger)
         {
             Check.NotNull(externalConnection, nameof(externalConnection));
-            Check.NotNull(sqlGenerator, nameof(sqlGenerator));
+            Check.NotNull(sqlGeneratorFactory, nameof(sqlGeneratorFactory));
             Check.NotNull(modelBuilder, nameof(modelBuilder));
             Check.NotNull(logger, nameof(logger));
 
             _logger = logger;
             _connection = externalConnection;
             IsExternalConnection = true;
-            _sqlGenerator = sqlGenerator;
+            _sqlGeneratorFactory = sqlGeneratorFactory;
             _modelBuilder = modelBuilder;
             _transactionHelper = new Lazy<TransactionHelper>(() => new TransactionHelper(Connection));
         }
@@ -558,7 +558,8 @@ namespace Kros.KORM.Query
         {
             var command = _transactionHelper.Value.CreateCommand();
 
-            command.CommandText = _sqlGenerator.GenerateSql(expression);
+            QueryInfo sql = _sqlGeneratorFactory.CreateVisitor(command.Connection).GenerateSql(expression);
+            command.CommandText = sql.Query;
             ParameterExtractingExpressionVisitor.ExtractParametersToCommand(command, expression);
 
             return command;

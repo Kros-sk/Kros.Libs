@@ -21,8 +21,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Query.Sql
             var query = Query<Person>();
             var item = query.Any();
 
-            WasGeneratedSameSql(query,
-                            @"SELECT TOP 1 IIF(EXISTS(SELECT '' FROM People), 1, 0) FROM People");
+            WasGeneratedSameSql(query, @"SELECT TOP 1 IIF(EXISTS(SELECT '' FROM People), 1, 0) FROM People", 1);
         }
 
         [Fact]

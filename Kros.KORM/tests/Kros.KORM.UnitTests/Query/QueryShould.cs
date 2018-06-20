@@ -5,6 +5,7 @@ using Kros.KORM.Metadata;
 using Kros.KORM.Metadata.Attribute;
 using Kros.KORM.Query;
 using Kros.KORM.Query.Expressions;
+using Kros.KORM.Query.Providers;
 using Kros.KORM.Query.Sql;
 using NSubstitute;
 using System;
@@ -269,7 +270,7 @@ namespace Kros.KORM.UnitTests.Query
             var mapper = new DatabaseMapper(new ConventionModelMapper());
             Query<Person> query = new Query<Person>(mapper,
                 new SqlServerQueryProvider(new SqlConnection(),
-                    new DefaultQuerySqlGenerator(mapper),
+                    new SqlServerSqlExpressionVisitorFactory(mapper),
                     Substitute.For<IModelBuilder>(),
                     new Logger()));
 

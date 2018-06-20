@@ -42,21 +42,47 @@ namespace Kros.KORM.Query.Sql
         /// </summary>
         /// <param name="expression">The expression.</param>
         /// <returns>SQL select command text.</returns>
-        public virtual string GenerateSql(Expression expression)
+        public virtual QueryInfo GenerateSql(Expression expression)
         {
             Check.NotNull(expression, nameof(expression));
             _wasAny = false;
             _sqlBuilder = new StringBuilder();
             _top = 0;
+            _topPosition = 0;
+            _skip = 0;
             LinqParameters = new Parameters();
             _orders = new List<OrderBy>();
 
             Visit(expression);
 
+            CheckSkip();
+
             AddOrderBy();
             AddAnyMethod();
+            AddTop();
 
-            return _sqlBuilder.ToString();
+            return new QueryInfo(_sqlBuilder.ToString(), _top, _skip);
+        }
+
+        private void CheckSkip()
+        {
+            if (_skip > 0)
+            {
+                if (_orders.Count == 0)
+                {
+                    // RES:
+                    throw new InvalidOperationException("When Skip method is used, OrderBy must be specified.");
+                }
+            }
+        }
+
+        protected virtual void AddTop()
+        {
+            if ((_top > 0) && (_skip == 0))
+            {
+                _sqlBuilder.Insert(_topPosition, $"TOP {_top} ");
+                _top = 0;
+            }
         }
 
         private void AddAnyMethod()
@@ -71,7 +97,7 @@ namespace Kros.KORM.Query.Sql
         /// Adds any method to query.
         /// </summary>
         protected virtual string BindAnyCondition(string existsCondition)
-                  => $"SELECT (CASE WHEN EXISTS({existsCondition}) THEN 1 ELSE 0 END)";
+            => $"SELECT (CASE WHEN EXISTS({existsCondition}) THEN 1 ELSE 0 END)";
 
         /// <summary>
         /// Visits the SQL.
@@ -101,7 +127,7 @@ namespace Kros.KORM.Query.Sql
 
             if (_top > 0)
             {
-                _sqlBuilder.Append($"TOP {_top} ");
+                _topPosition = _sqlBuilder.Length;
             }
 
             VisitExtension(selectExpression);
@@ -190,7 +216,9 @@ namespace Kros.KORM.Query.Sql
         /// Gets the linq string builder.
         /// </summary>
         protected StringBuilder LinqStringBuilder { get; private set; }
-        private int _top = 0;
+        private int _top;
+        private int _topPosition;
+        private int _skip;
 
         /// <summary>
         /// Gets the linq query parameters.
@@ -373,6 +401,7 @@ namespace Kros.KORM.Query.Sql
             if (methodName.MatchMethodName(nameof(Enumerable.FirstOrDefault))) return VisitFirst(expression);
             if (methodName.MatchMethodName(nameof(Enumerable.Single))) return VisitFirst(expression);
             if (methodName.MatchMethodName(nameof(Enumerable.SingleOrDefault))) return VisitFirst(expression);
+            if (methodName.MatchMethodName(nameof(Enumerable.Skip))) return VisitSkip(expression);
             if (methodName.MatchMethodName(nameof(Enumerable.Take))) return VisitTake(expression);
             if (methodName.MatchMethodName(nameof(Enumerable.GroupBy))) return VisitGroupBy(expression);
             if (methodName.MatchMethodName(nameof(Enumerable.Select))) return VisitSelect(expression);
@@ -408,6 +437,24 @@ namespace Kros.KORM.Query.Sql
             return expression;
         }
 
+        protected virtual Expression VisitSkip(MethodCallExpression expression)
+        {
+            Visit(StripQuotes(expression.Arguments[1]));
+            LinqStringBuilder.Clear();
+
+            try
+            {
+                _skip = (int)LinqParameters.GetParams().First();
+
+                LinqParameters = new Parameters();
+                return expression;
+            }
+            catch (Exception ex)
+            {
+                throw new NotSupportedException("ThisCallOfSkipMethodIsNotSupported", ex);
+            }
+        }
+
         /// <summary>
         /// Visits the Linq Take method.
         /// </summary>
@@ -438,7 +485,7 @@ namespace Kros.KORM.Query.Sql
         /// <param name="aggregateName">Name of aggreage method.</param>
         protected virtual Expression VisitAggregate(MethodCallExpression expression, string aggregateName)
         {
-            LinqStringBuilder.Append($"{aggregateName}(");
+            LinqStringBuilder.Append($"{aggregateName.ToUpper()}(");
             Visit(StripQuotes(expression.Arguments[1]));
             LinqStringBuilder.Append(")");
 
@@ -539,7 +586,6 @@ namespace Kros.KORM.Query.Sql
             {
                 VisitWhere(expression);
             }
-
             _top = 1;
 
             return expression;

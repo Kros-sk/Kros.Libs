@@ -57,6 +57,7 @@
     <Compile Include="Query\Providers\MsAccessQueryProvider.cs" />
     <Compile Include="Query\Providers\MsAccessQueryProviderFactory.cs" />
     <Compile Include="Query\Sql\MsAccessQuerySqlGenerator.cs" />
+    <Compile Include="Query\Sql\MsAccessSqlExpressionVisitorFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
