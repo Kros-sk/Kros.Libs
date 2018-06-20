@@ -8,8 +8,7 @@ namespace Kros.Data
     /// Base class for simple creation of implementations of <see cref="IIdGenerator"/>.
     /// </summary>
     /// <seealso cref="IIdGenerator" />
-    public abstract class IdGeneratorBase
-        : IIdGenerator
+    public abstract class IdGeneratorBase : IIdGenerator
     {
         private bool _disposeOfConnection = false;
 
@@ -110,9 +109,7 @@ namespace Kros.Data
         /// <returns>Next ID.</returns>
         protected abstract int GetNewIdFromDbCore();
 
-        /// <summary>
-        /// Inits database for using ID generator. Initialization can mean creating necessary table and stored procedure.
-        /// </summary>
+        /// <inheritdoc/>
         public abstract void InitDatabaseForIdGenerator();
 
         #region IDisposable Support

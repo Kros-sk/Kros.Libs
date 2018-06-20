@@ -152,7 +152,8 @@ namespace Kros.KORM
                 databaseMapper, defaultModelFactory);
         }
 
-        private void Init(DbConnection activeConnection,
+        private void Init(
+            DbConnection activeConnection,
             IQueryProviderFactory queryProviderFactory,
             IDatabaseMapper databaseMapper,
             IModelFactory defaultModelFactory)
@@ -213,8 +214,8 @@ namespace Kros.KORM
         /// </returns>
         /// <exception cref="ArgumentException">Value of any of the parameters is NULL and its data type
         /// (<see cref="CommandParameter.DataType"/>) is not set.</exception>
-        public int ExecuteNonQuery(string query, CommandParameterCollection parameters) =>
-            _queryProvider.ExecuteNonQuery(query, parameters);
+        public int ExecuteNonQuery(string query, CommandParameterCollection parameters)
+            => _queryProvider.ExecuteNonQuery(query, parameters);
 
         /// <summary>
         /// Executes the query, and returns the first column of the first row in the result set returned by the query.
@@ -226,8 +227,8 @@ namespace Kros.KORM
         /// The first column of the first row in the result set, or <see langword="null"/> if the result
         /// set is empty. Returns a maximum of 2033 characters.
         /// </returns>
-        public TResult? ExecuteScalar<TResult>(string query) where TResult : struct =>
-            ExecuteScalar<TResult>(query, new List<object>());
+        public TResult? ExecuteScalar<TResult>(string query) where TResult : struct
+            => ExecuteScalar<TResult>(query, new List<object>());
 
         /// <summary>
         /// Executes the query, and returns the first column of the first row in the result set returned by the query.
@@ -240,8 +241,8 @@ namespace Kros.KORM
         /// The first column of the first row in the result set, or <see langword="null"/> if the result
         /// set is empty. Returns a maximum of 2033 characters.
         /// </returns>
-        public TResult? ExecuteScalar<TResult>(string query, params object[] args) where TResult : struct =>
-            Query<object>().Sql(query, args).ExecuteScalar<TResult>();
+        public TResult? ExecuteScalar<TResult>(string query, params object[] args) where TResult : struct
+            => Query<object>().Sql(query, args).ExecuteScalar<TResult>();
 
         /// <summary>
         /// Executes the query, and returns the first column of the first row in the result set returned by the query.
@@ -264,24 +265,33 @@ namespace Kros.KORM
         /// The first column of the first row in the result set, or <see langword="null"/> if the result
         /// set is empty. Returns a maximum of 2033 characters.
         /// </returns>
-        public string ExecuteScalar(string query, params object[] args) =>
-            Query<object>().Sql(query, args).ExecuteStringScalar();
+        public string ExecuteScalar(string query, params object[] args)
+            => Query<object>().Sql(query, args).ExecuteStringScalar();
 
         /// <inheritdoc cref="IQueryProvider.ExecuteStoredProcedure{TResult}(string)"/>
-        public TResult ExecuteStoredProcedure<TResult>(string storedProcedureName) =>
-            _queryProvider.ExecuteStoredProcedure<TResult>(storedProcedureName);
+        public TResult ExecuteStoredProcedure<TResult>(string storedProcedureName)
+            => _queryProvider.ExecuteStoredProcedure<TResult>(storedProcedureName);
 
         /// <inheritdoc cref="IQueryProvider.ExecuteStoredProcedure{TResult}(string, CommandParameterCollection)"/>
-        public TResult ExecuteStoredProcedure<TResult>(string storedProcedureName, CommandParameterCollection parameters) =>
-            _queryProvider.ExecuteStoredProcedure<TResult>(storedProcedureName, parameters);
+        public TResult ExecuteStoredProcedure<TResult>(string storedProcedureName, CommandParameterCollection parameters)
+            => _queryProvider.ExecuteStoredProcedure<TResult>(storedProcedureName, parameters);
 
         /// <inheritdoc/>
-        public ITransaction BeginTransaction() =>
-            _queryProvider.BeginTransaction(TransactionHelper.DefaultIsolationLevel);
+        public ITransaction BeginTransaction()
+            => _queryProvider.BeginTransaction(TransactionHelper.DefaultIsolationLevel);
 
         /// <inheritdoc/>
-        public ITransaction BeginTransaction(IsolationLevel isolationLevel) =>
-            _queryProvider.BeginTransaction(isolationLevel);
+        public ITransaction BeginTransaction(IsolationLevel isolationLevel)
+            => _queryProvider.BeginTransaction(isolationLevel);
+
+        /// <inheritdoc/>
+        public void InitDatabaseForIdGenerator()
+        {
+            using (var idGenerator = _queryProvider.CreateIdGenerator("DummyTableName", 1))
+            {
+                idGenerator.InitDatabaseForIdGenerator();
+            }
+        }
 
         #endregion
 

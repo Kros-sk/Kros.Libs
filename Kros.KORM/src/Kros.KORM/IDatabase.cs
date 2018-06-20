@@ -170,5 +170,10 @@ namespace Kros.KORM
         /// <code source="..\Examples\Kros.KORM.Examples\TransactionExample.cs" title="Transaction" region="TransactionsIsolationLevel" lang="C#"  />
         /// </example>
         ITransaction BeginTransaction(IsolationLevel isolationLevel);
+
+        /// <summary>
+        /// Initializes database for using ID generator. Initialization can mean creating necessary table and stored procedure.
+        /// </summary>
+        void InitDatabaseForIdGenerator();
     }
 }
