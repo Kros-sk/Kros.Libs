@@ -291,7 +291,6 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
             DoTestWithConnection(openConnection, ExplicitTransactionRollbackMultipleCommits, CreateDatabase);
         }
 
-
         private void ExplicitTransactionRollbackMultipleCommits(TestDatabase korm)
         {
             using (var transaction = korm.BeginTransaction())
