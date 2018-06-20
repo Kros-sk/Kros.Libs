@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
-using Kros.Data;
+using Kros.Data.SqlServer;
+using Kros.KORM.UnitTests.Integration;
+using Kros.UnitTests;
 using System;
 using System.Data.SqlClient;
 using Xunit;
@@ -23,35 +25,39 @@ namespace Kros.KORM.UnitTests
         [Fact]
         public void HasActiveConnectionWithDefaultModelBuilder()
         {
-            var connection = new SqlConnection();
-            IDatabase database = new Database(connection);
-
-            database.ModelBuilder.Should().NotBeNull();
+            using (var connection = new SqlConnection())
+            using (var database = new Database(connection))
+            {
+                database.ModelBuilder.Should().NotBeNull();
+            }
         }
 
         [Fact]
         public void CreateQuery()
         {
-            var connection = new SqlConnection();
-            IDatabase database = new Database(connection);
-
-            database.Query<Person>().Should().NotBeNull();
+            using (var connection = new SqlConnection())
+            using (var database = new Database(connection))
+            {
+                database.Query<Person>().Should().NotBeNull();
+            }
         }
 
         [Fact]
         public void InitForIdGenerator()
         {
-            using (var connection = new SqlConnection())
-            using (var database = new Database(connection))
+            string dbName = $"KORM_InitIdGenerator";
+            string idStoreTableName = "IdStore";
+
+            using (var testHelper = new SqlServerTestHelper(IntegrationTestConfig.ConnectionString, dbName))
+            using (IDatabase database = new Database(testHelper.Connection))
             {
-                var idGeneratorFactory = NSubstitute.Substitute.For<IIdGeneratorFactory>();
-
-                IdGeneratorFactories.Register<SqlConnection>(
-                    "Sytem.Data.Fake",
-                    (conn) => idGeneratorFactory,
-                    (connString) => idGeneratorFactory);
-
+                SqlServerIdGeneratorFactory.Register();
                 database.InitDatabaseForIdGenerator();
+
+                var result = database.ExecuteScalar(
+                    $"IF EXISTS (SELECT 1 FROM sys.Tables WHERE Name = N'{idStoreTableName}' AND Type = N'U') " +
+                     "SELECT 'true' ELSE SELECT 'false'");
+                result.Should().Be("true");
             }
         }
 
