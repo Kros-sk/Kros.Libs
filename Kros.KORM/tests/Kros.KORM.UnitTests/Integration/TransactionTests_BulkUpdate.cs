@@ -123,64 +123,96 @@ namespace Kros.KORM.UnitTests.Integration
             }
         }
 
-        [Fact]
-        public void ExplicitTransactionShould_NotChangeDataWhenBulkUpdateWithNoCommit()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ExplicitTransactionShould_NotChangeDataWhenBulkUpdateWithNoCommit(bool openConnection)
         {
-            NotChangeDataWhenBulkUpdateWithNoCommitCore(null, BulkUpdateEditItems);
+            DoTestWithConnection(
+                openConnection,
+                (db) => NotChangeDataWhenBulkUpdateWithNoCommitCore(db, null, BulkUpdateEditItems),
+                CreateDatabaseWithData);
         }
 
-        [Fact]
-        public void ExplicitTransactionShould_NotChangeDataWhenBulkUpdateActionWithNoCommit()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ExplicitTransactionShould_NotChangeDataWhenBulkUpdateActionWithNoCommit(bool openConnection)
         {
-            NotChangeDataWhenBulkUpdateWithNoCommitCore(ExecuteInTempTable, BulkUpdateEditItems);
+            DoTestWithConnection(
+                openConnection,
+                (db) => NotChangeDataWhenBulkUpdateWithNoCommitCore(db, ExecuteInTempTable, BulkUpdateEditItems),
+                CreateDatabaseWithData);
         }
 
-        [Fact]
-        public void ExplicitTransactionShould_NotChangeDataWhenBulkUpdateEnumerableWithNoCommit()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ExplicitTransactionShould_NotChangeDataWhenBulkUpdateEnumerableWithNoCommit(bool openConnection)
         {
-            NotChangeDataWhenBulkUpdateWithNoCommitCore(null, BulkUpdateEnumerableItems);
+            DoTestWithConnection(
+                openConnection,
+                (db) => NotChangeDataWhenBulkUpdateWithNoCommitCore(db, null, BulkUpdateEnumerableItems),
+                CreateDatabaseWithData);
         }
 
-        [Fact]
-        public void ExplicitTransactionShould_NotChangeDataWhenBulkUpdateEnumerableActionWithNoCommit()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ExplicitTransactionShould_NotChangeDataWhenBulkUpdateEnumerableActionWithNoCommit(bool openConnection)
         {
-            NotChangeDataWhenBulkUpdateWithNoCommitCore(ExecuteInTempTable, BulkUpdateEnumerableItems);
+            DoTestWithConnection(
+                openConnection,
+                (db) => NotChangeDataWhenBulkUpdateWithNoCommitCore(db, ExecuteInTempTable, BulkUpdateEnumerableItems),
+                CreateDatabaseWithData);
         }
 
         private void NotChangeDataWhenBulkUpdateWithNoCommitCore(
+            TestDatabase korm,
             Action<IDbConnection, IDbTransaction, string> action,
             Action<IDbSet<Invoice>, Action<IDbConnection, IDbTransaction, string>> dbSetAction)
         {
-            using (var korm = CreateDatabaseWithData())
+            using (var transaction = korm.BeginTransaction())
             {
-                using (var transaction = korm.BeginTransaction())
-                {
-                    var dbSet = korm.Query<Invoice>().AsDbSet();
+                var dbSet = korm.Query<Invoice>().AsDbSet();
 
-                    dbSetAction.Invoke(dbSet, action);
-                }
-
-                DatabaseShouldContainInvoices(korm.ConnectionString, CreateOriginalTestData());
+                dbSetAction.Invoke(dbSet, action);
             }
+
+            DatabaseShouldContainInvoices(korm.ConnectionString, CreateOriginalTestData());
         }
 
-        [Fact]
-        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenRollbackWasCallAfterBulkUpdate()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenRollbackWasCallAfterBulkUpdate(bool openConnection)
         {
-            NotCloseMasterConnectionWhenRollbackWasCallAfterBulkUpdateCore(null, BulkUpdateEditItems);
+            DoTestWithConnection(
+                openConnection,
+                (db) => NotCloseMasterConnectionWhenRollbackWasCallAfterBulkUpdateCore(db, null, BulkUpdateEditItems),
+                CreateDatabaseWithData);
         }
 
-        [Fact]
-        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenRollbackWasCallAfterBulkUpdateAction()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenRollbackWasCallAfterBulkUpdateAction(
+            bool openConnection)
         {
-            NotCloseMasterConnectionWhenRollbackWasCallAfterBulkUpdateCore(ExecuteInTempTable, BulkUpdateEditItems);
+            DoTestWithConnection(
+                openConnection,
+                (db) => NotCloseMasterConnectionWhenRollbackWasCallAfterBulkUpdateCore(
+                    db,
+                    ExecuteInTempTable,
+                    BulkUpdateEditItems),
+                CreateDatabaseWithData);
         }
 
         private void NotCloseMasterConnectionWhenRollbackWasCallAfterBulkUpdateCore(
+            TestDatabase database,
             Action<IDbConnection, IDbTransaction, string> action,
             Action<IDbSet<Invoice>, Action<IDbConnection, IDbTransaction, string>> dbSetAction)
         {
-            using (var database = CreateDatabaseWithData())
             using (var korm = new Database(database.ConnectionString, SqlServerDataHelper.ClientId))
             using (var transaction = korm.BeginTransaction())
             {
@@ -191,20 +223,17 @@ namespace Kros.KORM.UnitTests.Integration
                 transaction.Rollback();
 
                 korm.Query<Invoice>().Should().BeEquivalentTo(CreateOriginalTestData());
-                DatabaseShouldContainInvoices(database.ConnectionString, CreateOriginalTestData());
             }
+
+            DatabaseShouldContainInvoices(database.ConnectionString, CreateOriginalTestData());
         }
 
-        [Fact]
-        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenCommitWasCalledAfterBulkUpdate()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ExplicitTransactionShould_KeepMasterConnectionStateWhenCommitWasCalledAfterBulkUpdate(bool openConnection)
         {
-            DoTestOnOpenedConnection(ExplicitTransactionCommitAfterBulkUpdate, CreateDatabaseWithData);
-        }
-
-        [Fact]
-        public void ExplicitTransactionShould_CloseMasterConnectionWhenCommitWasCalledAfterBulkUpdate()
-        {
-            DoTestOnClosedConnection(ExplicitTransactionCommitAfterBulkUpdate, CreateDatabaseWithData);
+            DoTestWithConnection(openConnection, ExplicitTransactionCommitAfterBulkUpdate, CreateDatabaseWithData);
         }
 
         private void ExplicitTransactionCommitAfterBulkUpdate(TestDatabase database)
@@ -212,22 +241,22 @@ namespace Kros.KORM.UnitTests.Integration
             ExplicitTransactionCommitAfterBulkUpdateActionCore(CreateTestData(), null, BulkUpdateEditItems, database);
         }
 
-        [Fact]
-        public void ExplicitTransactionShould_NotCloseMasterConnectionWhenCommitWasCalledAfterBulkUpdateAction()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ExplicitTransactionShould_KeepMasterConnectionStateWhenCommitWasCalledAfterBulkUpdateAction(
+            bool openConnection)
         {
-            DoTestOnOpenedConnection(ExplicitTransactionCommitAfterBulkUpdateAction, CreateDatabaseWithData);
-        }
-
-        [Fact]
-        public void ExplicitTransactionShould_CloseMasterConnectionWhenCommitWasCalledAfterBulkUpdateAction()
-        {
-            DoTestOnClosedConnection(ExplicitTransactionCommitAfterBulkUpdateAction, CreateDatabaseWithData);
+            DoTestWithConnection(openConnection, ExplicitTransactionCommitAfterBulkUpdateAction, CreateDatabaseWithData);
         }
 
         private void ExplicitTransactionCommitAfterBulkUpdateAction(TestDatabase database)
         {
             ExplicitTransactionCommitAfterBulkUpdateActionCore(
-                CreateActionTestData(), ExecuteInTempTable, BulkUpdateEditItems, database);
+                CreateActionTestData(),
+                ExecuteInTempTable,
+                BulkUpdateEditItems,
+                database);
         }
 
         private void ExplicitTransactionCommitAfterBulkUpdateActionCore(
@@ -244,9 +273,9 @@ namespace Kros.KORM.UnitTests.Integration
                 dbSetAction.Invoke(dbSet, action);
 
                 transaction.Commit();
-
-                DatabaseShouldContainInvoices(database.ConnectionString, expectedData);
             }
+
+            DatabaseShouldContainInvoices(database.ConnectionString, expectedData);
         }
 
         #endregion
