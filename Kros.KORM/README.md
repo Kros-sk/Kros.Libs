@@ -49,7 +49,7 @@ After that you are ready to use benefits of Kros.KORM.
 ### Query
 
 You can use Kros.KORM for creating queries and their materialization. Kros.KORM helps you put together desired query, that can return instances of objects populated from database by using foreach or linq.
- 
+
 ##### Query for obtaining data
 
 ```c#
@@ -64,7 +64,7 @@ foreach (var person in people)
 }
 ```
 
-For more information take a look at definition of [IQuery](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM.Query.IQuery-1.html).
+For more information take a look at definition of [IQuery](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM.Query.IQuery-1.html).
 
 ### Linq to Kros.KORM
 
@@ -92,7 +92,7 @@ Other methods, such as ```Select, GroupBy, Join``` are not supported at this mom
 You can use also some string functions in Linq queries:
 
 | String function | Example                                               | Translation to T-SQL                          |
-|-----------------|-------------------------------------------------------|-----------------------------------------------|
+| --------------- | ----------------------------------------------------- | --------------------------------------------- |
 | StartWith       | Where(p => p.FirstName.StartWith("Mi"))               | WHERE (FirstName LIKE @1 + '%')               |
 | EndWith         | Where(p => p.LastName.EndWith("ová"))                 | WHERE (LastName LIKE '%' + @1)                |
 | Contains        | Where(p => p.LastName.Contains("ia"))                 | WHERE (LastName LIKE '%' + @1 + '%')          |
@@ -103,7 +103,7 @@ You can use also some string functions in Linq queries:
 | Substring       | Where(p => p.FirstName.Substring(1, 2) == "oh")       | WHERE (SUBSTRING(FirstName, @1 + 1, @2) = @3) |
 | Trim            | Where(p => p.FirstName.Trim() == "John")              | WHERE (RTRIM(LTRIM(FirstName)) = @1)          |
 
-Translation is provided by implementation of [ISqlExpressionVisitor](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM.Query.Sql.ISqlExpressionVisitor.html).
+Translation is provided by implementation of [ISqlExpressionVisitor](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM.Query.Sql.ISqlExpressionVisitor.html).
 
 ### DataAnnotation attributes
 
@@ -177,15 +177,17 @@ using (var database = new Database(_connection))
 }
 ```
 
-Alternatively you can write your own implementation of [IModelMapper](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM.Metadata.IModelMapper.html).
+Alternatively you can write your own implementation of [IModelMapper](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM.Metadata.IModelMapper.html).
 
 ##### Custom model mapper
+
 ```c#
 Database.DefaultModelMapper = new CustomModelMapper();
 ```
 If your POCO class is defined in external library, you can redefine mapper, so it can map properties of the model to desired database names.
 
 ##### External class mapping example
+
 ```c#
 var externalPersonMap = new Dictionary<string, string>() {
     { nameOf(ExternalPerson.oId), "Id" },
@@ -216,7 +218,7 @@ using (var database = new Database(_connection))
 }
 ```
 
-For dynamic mapping you can use method [SetColumnName<TModel, TValue>](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM.Metadata.IModelMapper.html#Kros_KORM_Metadata_IModelMapper_SetColumnName__2_System_Linq_Expressions_Expression_System_Func___0___1___System_String_)
+For dynamic mapping you can use method [SetColumnName<TModel, TValue>](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM.Metadata.IModelMapper.html#Kros_KORM_Metadata_IModelMapper_SetColumnName__2_System_Linq_Expressions_Expression_System_Func___0___1___System_String_)
 
 ```c#
 Database.DefaultModelMapper.SetColumnName<Person, string>(p => p.Name, "FirstName");
@@ -267,7 +269,7 @@ public List<string> Addresses { get; set; }
 
 ### OnAfterMaterialize
 
-If you want to do some special action right after materialisation is done (for example to do some calculations) or you want to get some other values from source reader, that can not by processed automatically, your class should implement interface [IMaterialize](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM.Materializer.IMaterialize.html).
+If you want to do some special action right after materialisation is done (for example to do some calculations) or you want to get some other values from source reader, that can not by processed automatically, your class should implement interface [IMaterialize](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM.Materializer.IMaterialize.html).
 
 You can do whatever you need in method ```OnAfterMaterialize```.
 
@@ -308,7 +310,7 @@ Database.DefaultModelMapper
     .InjectionConfigurator<Person>()
         .FillProperty(p => p.CalculationService, () => new CalculationService())
         .FillProperty(p => p.Logger, () => ServiceContainer.Instance.Resolve<ILogger>());
-```        
+```
 
 ### Model builder
 
@@ -324,7 +326,7 @@ Database.DefaultModelFactory = new ReflectionModelfactory();
 
 ### Committing of changes
 
-You can use Kros.KORM also for editing, adding or deleting records from database. [IdDbSet](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.IDbSet-1.html) is designed for that.
+You can use Kros.KORM also for editing, adding or deleting records from database. [IdDbSet](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM/Kros.KORM.Query.IDbSet-1.html) is designed for that.
 
 Records to edit or delete are identified by the primary key. You can set primary key to your POCO class by using `Key` attribute.
 
@@ -393,7 +395,7 @@ Kros.KORM supports generating of primary keys for inserted records. Primary key 
 public int Id { get; set; }
 ```
 
-Kros.KORM generates primary key for every inserted record, that does not have value for primary key property. For generating primary keys implementations of [IIdGenerator](https://kros-sk.github.io/Kros.Libs/api/Kros.Utils/Kros.Data.IIdGenerator.html) are used.
+Kros.KORM generates primary key for every inserted record, that does not have value for primary key property. For generating primary keys implementations of [IIdGenerator](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Data.IIdGenerator.html) are used.
 
 ##### Editing records in database
 
@@ -436,7 +438,7 @@ public void Delete()
 
 By default, changes of a `DbSet` are committed to database in a transaction. If committing of one record fails, rollback of transaction is executed.
 
-Sometimes you might come to situation, when such implicit transaction would not meet your requirements. For example you need to commit changes to two tables as an atomic operation. When saving changes to first of tables is not successful, you want to discard changes to the other table. Solution of that task is easy with explicit transactions supported by Kros.KORM. See the documentation of [BeginTransaction](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.IDatabase.html#Kros_KORM_IDatabase_BeginTransaction).
+Sometimes you might come to situation, when such implicit transaction would not meet your requirements. For example you need to commit changes to two tables as an atomic operation. When saving changes to first of tables is not successful, you want to discard changes to the other table. Solution of that task is easy with explicit transactions supported by Kros.KORM. See the documentation of [BeginTransaction](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM/Kros.KORM.IDatabase.html#Kros_KORM_IDatabase_BeginTransaction).
 
 ```c#
 using (var transaction = database.BeginTransaction())
@@ -467,7 +469,7 @@ Kros.KORM supports SQL commands execution. There are three types of commands:
 
 * ```ExecuteNonQuery``` for commands that do not return value (DELETE, UPDATE, ...)
 * ```ExecuteScalar``` for commands that return only one value (SELECT)
-* ```ExecuteStoredProcedure``` for executing of stored procedures. Stored procedure may return scalar value or list of values or 
+* ```ExecuteStoredProcedure``` for executing of stored procedures. Stored procedure may return scalar value or list of values or
 it can return data in output parameters.
 
 ##### Execution of stored procedure example
@@ -508,7 +510,7 @@ IEnumerable<Person> persons = _database.ExecuteStoredProcedure<IEnumerable<Perso
 
 ##### CommandTimeout support.
 
-If you want to execute time-consuming command, you will definitely appreciate `CommandTimeout` property of transaction. See the documentation of [BeginTransaction](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.IDatabase.html#Kros_KORM_IDatabase_BeginTransaction).
+If you want to execute time-consuming command, you will definitely appreciate `CommandTimeout` property of transaction. See the documentation of [BeginTransaction](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM/Kros.KORM.IDatabase.html#Kros_KORM_IDatabase_BeginTransaction).
 
 Warning: You can set `CommandTimeout` only for main transaction, not for nested transactions. In that case CommandTimout of main transaction will be used.
 
@@ -532,15 +534,18 @@ using (var transaction = database.BeginTransaction(IsolationLevel.Chaos))
 ```
 
 ### Logging
+
 Kros.KORM offers the ability to log each generated and executed query. All you have to do is add this line to your source code.
+
 ```c#
 Database.Log = Console.WriteLine;
 ```
 
 ### Supported database types
-Kros.KORM uses its own [QueryProvider](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.QueryProvider.html) to execute query in a database. [ISqlExpressionVisitor](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.Sql.ISqlExpressionVisitor.html) transforms IQuery to SELECT command specific for each supported database engine.
 
-MsAccess is suported from version 2.4 in Kros.KORM.MsAccess library. If you need to work with MS Access database, you have to refer this library in your project and register [MsAccessQueryProviderFactory](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM.MsAccess/Kros.KORM.Query.MsAccess.MsAccessQueryProviderFactory.html).
+Kros.KORM uses its own [QueryProvider](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM/Kros.KORM.Query.QueryProvider.html) to execute query in a database. [ISqlExpressionVisitor](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM/Kros.KORM.Query.Sql.ISqlExpressionVisitor.html) transforms IQuery to SELECT command specific for each supported database engine.
+
+MsAccess is suported from version 2.4 in Kros.KORM.MsAccess library. If you need to work with MS Access database, you have to refer this library in your project and register [MsAccessQueryProviderFactory](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM.MsAccess/Kros.KORM.Query.MsAccess.MsAccessQueryProviderFactory.html).
 
 ```c#
 MsAccessQueryProviderFactory.Register();
@@ -548,7 +553,7 @@ MsAccessQueryProviderFactory.Register();
 
 Current version of Kros.KORM suports databases MS ACCESS and MS SQL.
 
-If you want to support a different database engine, you can implement your own [IQueryProvider](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.IQueryProvider.html). And register it in [QueryProviderFactories](https://kros-sk.github.io/Kros.Libs/api/Kros.KORM/Kros.KORM.Query.QueryProviderFactories.html).
+If you want to support a different database engine, you can implement your own [IQueryProvider](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM/Kros.KORM.Query.IQueryProvider.html). And register it in [QueryProviderFactories](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM/Kros.KORM.Query.QueryProviderFactories.html).
 
 ```c#
 public class CustomQueryProvider : QueryProvider
