@@ -1,4 +1,6 @@
-﻿namespace Kros.KORM.Query.Providers
+﻿using Kros.KORM.Query.Providers;
+
+namespace Kros.KORM.Query.Sql
 {
     public class QueryInfo
     {

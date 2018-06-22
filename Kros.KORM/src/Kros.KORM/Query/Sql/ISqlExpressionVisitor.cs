@@ -1,5 +1,4 @@
 ﻿using Kros.KORM.Query.Expressions;
-using Kros.KORM.Query.Providers;
 using System.Linq.Expressions;
 
 namespace Kros.KORM.Query.Sql

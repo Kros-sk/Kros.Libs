@@ -1,10 +1,10 @@
-﻿using Kros.KORM.Metadata.Attribute;
-using Xunit;
-using System.Linq;
+﻿using FluentAssertions;
+using Kros.KORM.Metadata.Attribute;
+using Kros.KORM.Query.Providers;
 using Kros.KORM.Query.Sql;
 using System;
-using FluentAssertions;
-using Kros.KORM.Query.Providers;
+using System.Linq;
+using Xunit;
 
 namespace Kros.KORM.UnitTests.Query.Sql
 {

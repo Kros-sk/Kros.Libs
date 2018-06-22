@@ -75,7 +75,7 @@ namespace Kros.KORM.UnitTests.Materializer
             command.Connection = connection;
             command.ExecuteReader().Returns(internalReader);
 
-            ModelBuilder.QueryDataReader reader = new ModelBuilder.QueryDataReader(command, true);
+            ModelBuilder.QueryDataReader reader = new ModelBuilder.QueryDataReader(command, null, true);
             ModelBuilder builder = CreateBuilder();
             var data = builder.Materialize<Foo>(reader).ToList();
 

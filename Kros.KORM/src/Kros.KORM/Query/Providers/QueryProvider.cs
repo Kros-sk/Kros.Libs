@@ -31,6 +31,23 @@ namespace Kros.KORM.Query
     {
         #region Nested types
 
+        private class DbCommandInfo : IDisposable
+        {
+            public DbCommandInfo(DbCommand command, IDataReaderEnvelope reader)
+            {
+                Command = command;
+                Reader = reader;
+            }
+
+            public DbCommand Command { get; }
+            public IDataReaderEnvelope Reader { get; }
+
+            public void Dispose()
+            {
+                Command.Dispose();
+            }
+        }
+
         private class IdGeneratorHelper : IIdGenerator
         {
             private readonly DbConnection _connection;
@@ -198,9 +215,10 @@ namespace Kros.KORM.Query
             Check.NotNull(query, nameof(query));
 
             Data.ConnectionHelper cnHelper = OpenConnection();
-            DbCommand command = CreateCommand(query.Expression);
-            _logger.LogCommand(command);
-            IDataReader reader = new ModelBuilder.QueryDataReader(command, cnHelper.CloseConnection);
+            DbCommandInfo commandInfo = CreateCommand(query.Expression);
+            _logger.LogCommand(commandInfo.Command);
+            IDataReader reader = new ModelBuilder.QueryDataReader(commandInfo.Command, commandInfo.Reader,
+                cnHelper.CloseConnection);
             return _modelBuilder.Materialize<T>(reader);
         }
 
@@ -220,11 +238,25 @@ namespace Kros.KORM.Query
             Check.NotNull(query, nameof(query));
 
             using (var cnHelper = OpenConnection())
-            using (var command = CreateCommand(query.Expression))
+            using (DbCommandInfo commandInfo = CreateCommand(query.Expression))
             {
-                _logger.LogCommand(command);
-                var ret = command.ExecuteScalar();
-                return ret;
+                _logger.LogCommand(commandInfo.Command);
+                if (commandInfo.Reader == null)
+                {
+                    return commandInfo.Command.ExecuteScalar();
+                }
+                else
+                {
+                    using (IDataReaderEnvelope reader = commandInfo.Reader)
+                    {
+                        reader.SetInnerReader(commandInfo.Command.ExecuteReader());
+                        if (reader.Read())
+                        {
+                            return reader.GetValue(0);
+                        }
+                    }
+                }
+                return null;
             }
         }
 
@@ -330,7 +362,7 @@ namespace Kros.KORM.Query
 
                 if (typeof(IEnumerable).IsAssignableFrom(typeof(TResult)))
                 {
-                    IDataReader reader = new ModelBuilder.QueryDataReader(command, cnHelper.CloseConnection);
+                    IDataReader reader = new ModelBuilder.QueryDataReader(command, null, cnHelper.CloseConnection);
                     result = MaterializeStoredProcedureResult<TResult>(reader);
                     callDispose = false;
                 }
@@ -555,15 +587,15 @@ namespace Kros.KORM.Query
             return new Data.ConnectionHelper(Connection);
         }
 
-        private DbCommand CreateCommand(Expression expression)
+        private DbCommandInfo CreateCommand(Expression expression)
         {
             var command = _transactionHelper.Value.CreateCommand();
 
-            QueryInfo sql = _sqlGeneratorFactory.CreateVisitor(command.Connection).GenerateSql(expression);
-            command.CommandText = sql.Query;
+            QueryInfo queryInfo = _sqlGeneratorFactory.CreateVisitor(command.Connection).GenerateSql(expression);
+            command.CommandText = queryInfo.Query;
             ParameterExtractingExpressionVisitor.ExtractParametersToCommand(command, expression);
 
-            return command;
+            return new DbCommandInfo(command, queryInfo.Reader);
         }
 
         private DbCommand CreateCommand(string commandText, CommandParameterCollection parameters)

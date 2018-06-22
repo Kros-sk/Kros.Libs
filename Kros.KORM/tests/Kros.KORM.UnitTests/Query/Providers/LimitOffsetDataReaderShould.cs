@@ -79,6 +79,10 @@ namespace Kros.KORM.UnitTests.Query.Providers
 
             limitOffsetReader.Read().Should().BeFalse();
             innerReader.Received(11).Read();
+
+            innerReader.ClearReceivedCalls();
+            limitOffsetReader.Read().Should().BeFalse();
+            innerReader.Received(1).Read();
         }
 
         [Fact]
