@@ -71,6 +71,17 @@ namespace Kros.KORM.UnitTests.Query.Providers
         }
 
         [Fact]
+        public void ReturnFalseImmediatelyWhenOffsetIsTooBig()
+        {
+            var limitOffsetReader = new LimitOffsetDataReader(10, 20);
+            IDataReader innerReader = CreateInnerReader();
+            limitOffsetReader.SetInnerReader(innerReader);
+
+            limitOffsetReader.Read().Should().BeFalse();
+            innerReader.Received(11).Read();
+        }
+
+        [Fact]
         public void ReturnAllRemainingRowsWhenLimitIsTooBig()
         {
             var limitOffsetReader = new LimitOffsetDataReader(50, 2);

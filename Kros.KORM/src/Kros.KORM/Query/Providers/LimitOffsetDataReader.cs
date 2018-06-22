@@ -29,7 +29,7 @@ namespace Kros.KORM.Query.Providers
         /// <summary>
         /// Creates an instance wit specified <paramref name="limit"/>. <see cref="Offset"/> is set to 0.
         /// </summary>
-        /// <param name="limit">Maximum number of rows returned.</param>
+        /// <param name="limit">Maximum number of rows returned. If value is 0, number of rows not limited.</param>
         public LimitOffsetDataReader(int limit)
             : this(limit, 0)
         {
@@ -38,7 +38,7 @@ namespace Kros.KORM.Query.Providers
         /// <summary>
         /// Creates an instance wit specified <paramref name="limit"/> and <paramref name="offset"/>.
         /// </summary>
-        /// <param name="limit">Maximum number of rows returned.</param>
+        /// <param name="limit">Maximum number of rows returned. If value is 0, number of rows not limited.</param>
         /// <param name="offset">Number of rows to skip from the begining.</param>
         public LimitOffsetDataReader(int limit, int offset)
         {
@@ -52,7 +52,7 @@ namespace Kros.KORM.Query.Providers
         #region Common
 
         /// <summary>
-        /// Maximum number of rows returned.
+        /// Maximum number of rows returned. If value is 0, number of rows not limited.
         /// </summary>
         public int Limit { get; }
 
@@ -124,7 +124,10 @@ namespace Kros.KORM.Query.Providers
             {
                 for (var i = 0; i < Offset; i++)
                 {
-                    _reader.Read();
+                    if (!_reader.Read())
+                    {
+                        return false;
+                    }
                 }
                 _offsetApplied = true;
             }
