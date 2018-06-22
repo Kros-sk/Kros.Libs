@@ -82,17 +82,14 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             }
         }
 
-        public static void CompareRowOneColumn(DataTable actualTable,
-                                               DataTable expectedTable,
-                                               DataRow expectedRow)
-        {
-            CompareRowOneColumn(actualTable, expectedTable, expectedRow, string.Empty);
-        }
+        public static void CompareRowOneColumn(DataTable actualTable, DataTable expectedTable, DataRow expectedRow)
+            => CompareRowOneColumn(actualTable, expectedTable, expectedRow, string.Empty);
 
-        public static void CompareRowOneColumn(DataTable actualTable,
-                                               DataTable expectedTable,
-                                               DataRow expectedRow,
-                                               string columnName)
+        public static void CompareRowOneColumn(
+            DataTable actualTable,
+            DataTable expectedTable,
+            DataRow expectedRow,
+            string columnName)
         {
             object[] primaryKey = new object[expectedTable.PrimaryKey.Length];
 
@@ -119,7 +116,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
             foreach (DataColumn column in expectedRow.Table.Columns)
             {
-                if (string.IsNullOrEmpty(columnName) || columnName.ToUpper().Equals(column.ColumnName.ToUpper()))
+                if (string.IsNullOrEmpty(columnName) || columnName.Equals(column.ColumnName, StringComparison.OrdinalIgnoreCase))
                 {
                     object expectedValue = expectedRow[column] == DBNull.Value ? "NULL" : expectedRow[column];
                     object actualValue = actualRow[column.ColumnName] == DBNull.Value ? "NULL" : actualRow[column.ColumnName];

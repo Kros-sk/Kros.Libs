@@ -98,6 +98,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
 ) ON [PRIMARY];
 ";
+
         #endregion
 
         #region DatabaseTestBase Overrides
@@ -105,7 +106,10 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         protected override string BaseDatabaseName => DATABASE_NAME;
 
         protected override IEnumerable<string> DatabaseInitScripts
-            => new string[] { CreateTable_BulkInsertTest, CreateTable_BulkInsertTest_IgnoreCaseInColumnNames, CreateTable_BulkInsertTest_PrimitiveDataTypes };
+            => new string[] {
+                CreateTable_BulkInsertTest,
+                CreateTable_BulkInsertTest_IgnoreCaseInColumnNames,
+                CreateTable_BulkInsertTest_PrimitiveDataTypes };
 
         #endregion
 
@@ -533,14 +537,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         private IBulkActionDataReader CreateIDataReaderShortText()
-        {
-            List<string> data = new List<string>();
-            foreach (string item in _rawDataShortText)
-            {
-                data.Add(item);
-            }
-            return new EnumerableDataReader<string>(data, new List<string> { "ColValue" });
-        }
+            => new EnumerableDataReader<string>(_rawDataShortText, new List<string> { "ColValue" });
 
         private IBulkActionDataReader CreateDataSourceWithNonExistingColumn()
         {
