@@ -19,10 +19,10 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
         public static void CompareColumnValues(DataTable actualTable, DataTable expectedTable, string columnName)
         {
-            actualTable.Columns[columnName].Should().NotBeNull($"Tabuľke chýba stĺpec [{columnName}].");
+            actualTable.Columns[columnName].Should().NotBeNull($"Missing column [{columnName}].");
 
             actualTable.Rows.Count.Should().Be(expectedTable.Rows.Count,
-                $"Tabuľky majú rôzny počet stĺpcov: actual = {actualTable.Rows.Count}, " +
+                $"Tables have different number of columns: actual = {actualTable.Rows.Count}, " +
                 $"expected = {expectedTable.Rows.Count}.");
 
             foreach (DataRow actual in expectedTable.Rows)
@@ -50,7 +50,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 }
             }
 
-            primaryKeysAreTheSame.Should().BeTrue("Primárne kľúče tabuliek musia byť rovnaké. " +
+            primaryKeysAreTheSame.Should().BeTrue("Tables primary keys must be equal. " +
                 $"actual = {GetPk(actualTable)}; expected = {GetPk(expectedTable)}");
         }
 
@@ -60,18 +60,18 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         private static void CompareColumns(DataTable actualTable, DataTable expectedTable)
         {
             actualTable.Columns.Count.Should().Be(expectedTable.Columns.Count,
-                $"Tabuľky majú rôzny počet stĺpcov: actual = {actualTable.Columns.Count}, " +
+                $"Tables have different number of columns: actual = {actualTable.Columns.Count}, " +
                 $"expected = {expectedTable.Columns.Count}.");
 
             foreach (DataColumn column in expectedTable.Columns)
             {
-                actualTable.Columns[column.ColumnName].Should().NotBeNull($"Tabuľke chýba stĺpec [{column.ColumnName}].");
+                actualTable.Columns[column.ColumnName].Should().NotBeNull($"Missing column [{column.ColumnName}].");
             }
         }
 
         private static void CompareRowCounts(DataTable actualTable, DataTable expectedTable) =>
             actualTable.Rows.Count.Should().Be(expectedTable.Rows.Count,
-                $"Tabuľky majú rôzny počet riadkov: actual = {actualTable.Rows.Count}, " +
+                $"Tables have different number of rows: actual = {actualTable.Rows.Count}, " +
                 $"expected = {expectedTable.Rows.Count}.");
 
         private static void CompareData(DataTable actualTable, DataTable expectedTable)
@@ -112,7 +112,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 pk += expectedRow[expectedRow.Table.PrimaryKey[i]].ToString();
             }
 
-            actualRow.Should().NotBeNull($"V tabuľke neexistuje riadok s primárnym kľúčom \"{pk}\".");
+            actualRow.Should().NotBeNull($"Table does not contain row with primary key \"{pk}\".");
 
             foreach (DataColumn column in expectedRow.Table.Columns)
             {
@@ -121,9 +121,9 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                     object expectedValue = expectedRow[column] == DBNull.Value ? "NULL" : expectedRow[column];
                     object actualValue = actualRow[column.ColumnName] == DBNull.Value ? "NULL" : actualRow[column.ColumnName];
 
-                    actualValue.Should().Be(expectedValue, $"Riadok s primárnym kľúčom \"{pk}\" nemá požadované dáta. " +
-                        $"V stĺpci [{column.ColumnName}] je hodnota \"{actualValue}\", " +
-                        $"očakávaná hodnota je \"{expectedValue}\".");
+                    actualValue.Should().Be(expectedValue, $"Row with primary key \"{pk}\" does not contain expected data. " +
+                        $"In column [{column.ColumnName}] is expected value \"{expectedValue}\", " +
+                        $"but found value \"{actualValue}\".");
                 }
             }
         }
