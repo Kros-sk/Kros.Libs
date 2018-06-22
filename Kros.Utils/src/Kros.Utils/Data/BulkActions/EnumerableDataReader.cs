@@ -58,12 +58,9 @@ namespace Kros.Data.BulkActions
             else
             {
                 Check.GreaterOrEqualThan(_columnNames.Count, 1, nameof(columnNames));
-            }
-
-            if (!_isPrimitiveType)
-            {
                 _propertyCache = LoadProperties(_columnNames);
             }
+
             _dataEnumerator = data.GetEnumerator();
         }
 
