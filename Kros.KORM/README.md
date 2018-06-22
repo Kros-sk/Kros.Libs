@@ -10,9 +10,15 @@ Kros.KORM is simple, fast and easy to use micro-ORM framework for .NETStandard c
 * Saving changes to your data (Insert / Update / Delete)
 * Kros.KORM supports bulk operations for fast inserting and updating large amounts of data (BulkInsert, BulkDelete)
 
-## This topic contains following sections:
+### Download
 
-* [Kros.KORM.dll](#kroskormdll)
+Kros.KORM is available from:
+
+* Nuget [__Kros.KORM__](https://www.nuget.org/packages/Kros.KORM/)
+* Nuget [__Kros.KORM.MsAccess__](https://www.nuget.org/packages/Kros.KORM.MsAccess/)
+
+## This topic contains following sections
+
 * [Query](#query)
 * [Linq to Kros.KORM](#linq-to-kroskorm)
 * [DataAnnotation attributes](#dataannotation-attributes)
@@ -27,30 +33,11 @@ Kros.KORM is simple, fast and easy to use micro-ORM framework for .NETStandard c
 * [Supported database types](#supported-database-types)
 * [Unit and performance tests](#unit-and-performance-tests)
 
-### Kros.KORM.dll
-
-What should you do when you want to append Kros.KORM to your project?
-
-##### Package manager
-
-```
-Install-Package Kros.KORM
-Install-Package Kros.KORM.MsAccess
-```
-
-##### .NET CLI
-
-```
-dotnet add package Kros.KORM
-```
-
-After that you are ready to use benefits of Kros.KORM.
-
 ### Query
 
 You can use Kros.KORM for creating queries and their materialization. Kros.KORM helps you put together desired query, that can return instances of objects populated from database by using foreach or linq.
 
-##### Query for obtaining data
+#### Query for obtaining data
 
 ```c#
 var people = database.Query<Person>()
@@ -70,7 +57,7 @@ For more information take a look at definition of [IQuery](https://kros-sk.githu
 
 Kros.KORM allows you to use Linq for creating queries. Basic queries are translated to SQL language.
 
-##### Example
+#### Example
 
 ```c#
 var people = database.Query<Person>()
@@ -148,7 +135,8 @@ public int Computed { get; set; }
 
 If you have different conventions for naming properties in POCO classes and fields in database, you can redefine behaviour of ModelMapper, which serves mapping POCO classes to database tables and vice versa.
 
-##### Redefining mapping conventions example
+#### Redefining mapping conventions example
+
 ```c#
 Database.DefaultModelMapper.MapColumnName = (colInfo, modelType) =>
 {
@@ -184,6 +172,7 @@ Alternatively you can write your own implementation of [IModelMapper](https://kr
 ```c#
 Database.DefaultModelMapper = new CustomModelMapper();
 ```
+
 If your POCO class is defined in external library, you can redefine mapper, so it can map properties of the model to desired database names.
 
 ##### External class mapping example
@@ -339,7 +328,7 @@ public string FirstName { get; set; }
 public string LastName { get; set; }
 ```
 
-##### Inserting records to database
+#### Inserting records to database
 
 ```c#
 public void Insert()
@@ -386,7 +375,7 @@ This bulk way of inserting or updating data is several times faster than standar
 
 For both of bulk operations you can provide data as an argument of method. The advantage is that if you have a specific enumerator, you do not need to spill data into memory.
 
-##### Primary key generating.
+#### Primary key generating
 
 Kros.KORM supports generating of primary keys for inserted records. Primary key must be simple `Int32` column. Primary key property in POCO class must be decorated by `Key` attribute and its property `AutoIncrementMethodType` must be set to `Custom`.
 
@@ -397,7 +386,7 @@ public int Id { get; set; }
 
 Kros.KORM generates primary key for every inserted record, that does not have value for primary key property. For generating primary keys implementations of [IIdGenerator](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Data.IIdGenerator.html) are used.
 
-##### Editing records in database
+#### Editing records in database
 
 ```c#
 public void Edit()
@@ -434,7 +423,7 @@ public void Delete()
 }
 ```
 
-##### Explicit transactions
+#### Explicit transactions
 
 By default, changes of a `DbSet` are committed to database in a transaction. If committing of one record fails, rollback of transaction is executed.
 
@@ -469,10 +458,9 @@ Kros.KORM supports SQL commands execution. There are three types of commands:
 
 * ```ExecuteNonQuery``` for commands that do not return value (DELETE, UPDATE, ...)
 * ```ExecuteScalar``` for commands that return only one value (SELECT)
-* ```ExecuteStoredProcedure``` for executing of stored procedures. Stored procedure may return scalar value or list of values or
-it can return data in output parameters.
+* ```ExecuteStoredProcedure``` for executing of stored procedures. Stored procedure may return scalar value or list of values or it can return data in output parameters.
 
-##### Execution of stored procedure example
+#### Execution of stored procedure example
 
 ```c#
 public class Person
@@ -508,7 +496,7 @@ Person person = _database.ExecuteStoredProcedure<Person>("ProcedureName");
 IEnumerable<Person> persons = _database.ExecuteStoredProcedure<IEnumerable<Person>>("ProcedureName");
 ```
 
-##### CommandTimeout support.
+#### CommandTimeout support
 
 If you want to execute time-consuming command, you will definitely appreciate `CommandTimeout` property of transaction. See the documentation of [BeginTransaction](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.KORM/Kros.KORM.IDatabase.html#Kros_KORM_IDatabase_BeginTransaction).
 
