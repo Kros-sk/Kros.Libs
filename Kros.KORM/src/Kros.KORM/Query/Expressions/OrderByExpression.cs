@@ -17,7 +17,7 @@ namespace Kros.KORM.Query.Expressions
         /// The group by statement
         /// </summary>
         public const string OrderByStatement = "ORDER BY";
-        private const string OrderByRegexPattern = "ORDER *BY";
+        private const string OrderByRegexPattern = @"ORDER\s+BY";
 
         #endregion
 
@@ -32,12 +32,9 @@ namespace Kros.KORM.Query.Expressions
         /// </remarks>
         public OrderByExpression(string orderBy)
         {
-            Check.NotNullOrWhiteSpace(orderBy, "orderBy");
+            Check.NotNullOrWhiteSpace(orderBy, nameof(orderBy));
 
-            this.OrderByPart = Regex.Replace(orderBy,
-                OrderByRegexPattern,
-                string.Empty,
-                RegexOptions.IgnoreCase).TrimStart().TrimEnd();
+            OrderByPart = Regex.Replace(orderBy, OrderByRegexPattern, string.Empty, RegexOptions.IgnoreCase).Trim();
         }
 
         /// <summary>
@@ -46,9 +43,9 @@ namespace Kros.KORM.Query.Expressions
         /// <param name="columns">The orderBy.</param>
         public OrderByExpression(params string[] columns)
         {
-            Check.NotNull(columns, "columns");
+            Check.NotNull(columns, nameof(columns));
 
-            this.OrderByPart = string.Join(", ", columns);
+            OrderByPart = string.Join(", ", columns);
         }
 
         #endregion
@@ -69,13 +66,13 @@ namespace Kros.KORM.Query.Expressions
         /// </returns>
         protected override Expression Accept(ExpressionVisitor visitor)
         {
-            Check.NotNull(visitor, "visitor");
+            Check.NotNull(visitor, nameof(visitor));
 
             var specificVisitor = visitor as ISqlExpressionVisitor;
 
             return specificVisitor != null
                 ? specificVisitor.VisitOrderBy(this)
-                : this.CanReduce ? base.Accept(visitor) : this;
+                : CanReduce ? base.Accept(visitor) : this;
         }
 
         #endregion

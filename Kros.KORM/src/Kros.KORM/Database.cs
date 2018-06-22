@@ -105,8 +105,8 @@ namespace Kros.KORM
         /// <param name="queryProviderFactory">The query provider factory, which know create query provider.</param>
         public Database(ConnectionStringSettings connectionString, IQueryProviderFactory queryProviderFactory)
         {
-            Check.NotNull(connectionString, "connectionString");
-            Check.NotNull(queryProviderFactory, "queryProviderFactory");
+            Check.NotNull(connectionString, nameof(connectionString));
+            Check.NotNull(queryProviderFactory, nameof(queryProviderFactory));
 
             _databaseMapper = DatabaseMapper;
             _modelBuilder = new ModelBuilder(Database.DefaultModelFactory);

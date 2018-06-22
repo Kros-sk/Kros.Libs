@@ -1,9 +1,8 @@
-﻿using Kros.Utils;
+﻿using Kros.KORM.Properties;
+using Kros.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace Kros.KORM.Injection
 {
@@ -57,7 +56,7 @@ namespace Kros.KORM.Injection
             }
             else
             {
-                throw new InvalidOperationException($"Doesn't exist injection configuration for property '{propertyName}'");
+                throw new InvalidOperationException(string.Format(Resources.NoInjectionConfigurationForProperty, propertyName));
             }
         }
 

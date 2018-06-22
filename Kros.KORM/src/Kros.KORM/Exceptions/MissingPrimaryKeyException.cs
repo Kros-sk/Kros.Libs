@@ -11,15 +11,15 @@ namespace Kros.KORM.Exceptions
         /// Initializes a new instance of the <see cref="MissingPrimaryKeyException" /> class.
         /// </summary>
         /// <param name="message">Exception message.</param>
-        /// <param name="tableName">Table name whitch doesn't have primary key.</param>
-        public MissingPrimaryKeyException(string message, string tableName) :base(message)
+        /// <param name="tableName">Table name which doesn't have primary key.</param>
+        public MissingPrimaryKeyException(string message, string tableName) : base(message)
         {
-            this.TableName = tableName;
+            TableName = tableName;
         }
 
         /// <summary>
-        /// Table name whitch doesn't have primary key.
+        /// Table name which doesn't have primary key.
         /// </summary>
-        public string TableName { get; private set; }
+        public string TableName { get; }
     }
 }
