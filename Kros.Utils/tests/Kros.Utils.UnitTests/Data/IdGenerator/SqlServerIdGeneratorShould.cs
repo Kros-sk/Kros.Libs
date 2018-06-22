@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Kros.Data;
 using Kros.Data.SqlServer;
 using Kros.UnitTests;
 using System.Collections.Generic;
@@ -46,6 +47,7 @@ namespace Kros.Utils.UnitTests.Data.IdGenerator
         [Fact]
         public void GenerateIdsForTableWhenDataExists()
         {
+            using (ConnectionHelper.OpenConnection(ServerHelper.Connection))
             using (var cmd = ServerHelper.Connection.CreateCommand())
             {
                 cmd.CommandText = "INSERT INTO IdStore VALUES ('People', 10)";
@@ -66,6 +68,7 @@ namespace Kros.Utils.UnitTests.Data.IdGenerator
         [Fact]
         public void GenerateBatchIdsForTableWhenDataExists()
         {
+            using (ConnectionHelper.OpenConnection(ServerHelper.Connection))
             using (var cmd = ServerHelper.Connection.CreateCommand())
             {
                 cmd.CommandText = "INSERT INTO IdStore VALUES ('People', 10)";
@@ -172,6 +175,7 @@ namespace Kros.Utils.UnitTests.Data.IdGenerator
 
         private bool HasTable(SqlConnection connection, string tableName)
         {
+            using (ConnectionHelper.OpenConnection(connection))
             using (var cmd = connection.CreateCommand())
             {
                 cmd.CommandText = $"SELECT TOP 1 1 FROM sys.tables WHERE name='{tableName}' AND type='U'";
@@ -181,6 +185,7 @@ namespace Kros.Utils.UnitTests.Data.IdGenerator
 
         private bool HasProcedure(SqlConnection connection, string procedureName)
         {
+            using (ConnectionHelper.OpenConnection(connection))
             using (var cmd = connection.CreateCommand())
             {
                 cmd.CommandText = $"SELECT TOP 1 1 FROM sys.procedures WHERE name='{procedureName}' AND type='P'";

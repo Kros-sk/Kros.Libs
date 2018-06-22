@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.Data;
+using Kros.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -132,6 +133,7 @@ namespace Kros.UnitTests
         {
             if (_initDatabaseScripts != null)
             {
+                using (ConnectionHelper.OpenConnection(Connection))
                 using (SqlCommand cmd = Connection.CreateCommand())
                 {
                     foreach (string script in _initDatabaseScripts)
@@ -156,6 +158,7 @@ namespace Kros.UnitTests
         {
             string databaseName = GenerateDatabaseName();
             using (SqlConnection masterConnection = GetConnectionCore(MasterDatabaseName))
+            using (ConnectionHelper.OpenConnection(masterConnection))
             {
                 using (SqlCommand cmd = masterConnection.CreateCommand())
                 {
@@ -174,10 +177,8 @@ namespace Kros.UnitTests
                 Pooling = false,
                 PersistSecurityInfo = true
             };
-            SqlConnection connection = new SqlConnection(builder.ToString());
-            connection.Open();
 
-            return connection;
+            return new SqlConnection(builder.ToString());
         }
 
         private void RemoveDatabase()
@@ -188,6 +189,7 @@ namespace Kros.UnitTests
                 _connection.Dispose();
                 _connection = null;
                 using (SqlConnection connection = GetConnectionCore(MasterDatabaseName))
+                using (ConnectionHelper.OpenConnection(connection))
                 {
                     using (SqlCommand cmd = connection.CreateCommand())
                     {
