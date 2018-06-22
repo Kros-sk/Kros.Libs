@@ -1,6 +1,7 @@
 ﻿using Kros.KORM.Metadata;
 using Kros.KORM.Properties;
 using Kros.KORM.Query.Expressions;
+using Kros.KORM.Query.Providers;
 using Kros.Utils;
 using System;
 using System.Collections.Generic;
@@ -61,7 +62,13 @@ namespace Kros.KORM.Query.Sql
             AddAnyMethod();
             AddTop();
 
-            return new QueryInfo(_sqlBuilder.ToString(), _top, _skip);
+            IDataReaderEnvelope reader = null;
+            if (_skip > 0)
+            {
+                reader = new LimitOffsetDataReader(_top, _skip);
+            }
+
+            return new QueryInfo(_sqlBuilder.ToString(), reader);
         }
 
         private void CheckSkip()

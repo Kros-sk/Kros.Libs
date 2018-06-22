@@ -213,14 +213,16 @@ namespace Kros.KORM.Materializer
             /// </summary>
             public T Current
             {
-                get {
+                get
+                {
                     return _currentItem;
                 }
             }
 
             object IEnumerator.Current
             {
-                get {
+                get
+                {
                     return _currentItem;
                 }
             }

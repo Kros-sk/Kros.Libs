@@ -6,6 +6,7 @@ using Kros.KORM.Materializer;
 using Kros.KORM.Metadata;
 using Kros.KORM.Query;
 using Kros.KORM.Query.Expressions;
+using Kros.KORM.Query.Providers;
 using Kros.KORM.Query.Sql;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,9 @@ namespace Kros.KORM.UnitTests.Query.Sql
             var visitor = CreateVisitor();
             QueryInfo sql = visitor.GenerateSql(expression);
 
-            sql.Should().BeEquivalentTo(expectedQuery);
+            sql.Query.Should().Be(expectedQuery.Query);
+            CompareLimitOffsetDataReaders(sql.Reader as LimitOffsetDataReader, expectedQuery.Reader as LimitOffsetDataReader)
+                .Should().BeTrue();
             parameters?.Should().BeEquivalentTo(ParameterExtractor.ExtractParameters(expression));
         }
 
@@ -76,6 +79,15 @@ namespace Kros.KORM.UnitTests.Query.Sql
             var provider = value.Provider as FakeQueryProvider;
 
             AreSame(provider.LastExpression.Expression, new QueryInfo(expectedSql), parameters);
+        }
+
+        private bool CompareLimitOffsetDataReaders(LimitOffsetDataReader reader1, LimitOffsetDataReader reader2)
+        {
+            if (reader1 == null)
+            {
+                return reader2 == null;
+            }
+            return (reader1.Limit == reader2.Limit) && (reader1.Offset == reader2.Offset);
         }
 
         private class ParameterExtractor : ExpressionVisitor

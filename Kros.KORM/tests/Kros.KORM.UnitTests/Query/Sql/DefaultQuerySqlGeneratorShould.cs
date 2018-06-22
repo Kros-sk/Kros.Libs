@@ -19,9 +19,9 @@ namespace Kros.KORM.UnitTests.Query.Sql
             var expression = new SqlExpression(originSql, 10);
             var generator = CreateQuerySqlGenerator();
 
-            var sql = generator.GenerateSql(expression);
+            var queryInfo = generator.GenerateSql(expression);
 
-            sql.Should().BeEquivalentTo(originSql);
+            queryInfo.Query.Should().BeEquivalentTo(originSql);
         }
 
         [Fact]
@@ -32,9 +32,9 @@ namespace Kros.KORM.UnitTests.Query.Sql
 
             var generator = CreateQuerySqlGenerator();
 
-            var sql = generator.GenerateSql(expression);
+            var queryInfo = generator.GenerateSql(expression);
 
-            sql.Should().Be("SELECT Id, FirstName FROM TPerson");
+            queryInfo.Query.Should().Be("SELECT Id, FirstName FROM TPerson");
         }
 
         [Fact]
@@ -44,9 +44,9 @@ namespace Kros.KORM.UnitTests.Query.Sql
 
             var generator = CreateQuerySqlGenerator();
 
-            var sql = generator.GenerateSql(expression);
+            var queryInfo = generator.GenerateSql(expression);
 
-            sql.Should().Be("SELECT Id, Name, LastName FROM TPerson");
+            queryInfo.Query.Should().Be("SELECT Id, Name, LastName FROM TPerson");
         }
 
         [Fact]
@@ -58,9 +58,9 @@ namespace Kros.KORM.UnitTests.Query.Sql
 
             var generator = CreateQuerySqlGenerator();
 
-            var sql = generator.GenerateSql(expression);
+            var queryInfo = generator.GenerateSql(expression);
 
-            sql.Should().Be("SELECT Id, FirstName FROM TPerson as p join Avatar as a on (p.Id = a.PersonId)");
+            queryInfo.Query.Should().Be("SELECT Id, FirstName FROM TPerson as p join Avatar as a on (p.Id = a.PersonId)");
         }
 
         [Fact]
@@ -72,9 +72,9 @@ namespace Kros.KORM.UnitTests.Query.Sql
 
             var generator = CreateQuerySqlGenerator();
 
-            var sql = generator.GenerateSql(expression);
+            var queryInfo = generator.GenerateSql(expression);
 
-            sql.Should().Be("SELECT TOP 1 1 FROM TPerson");
+            queryInfo.Query.Should().Be("SELECT TOP 1 1 FROM TPerson");
         }
 
         [Fact]
@@ -88,9 +88,10 @@ namespace Kros.KORM.UnitTests.Query.Sql
 
             var generator = CreateQuerySqlGenerator();
 
-            var sql = generator.GenerateSql(expression);
+            var queryInfo = generator.GenerateSql(expression);
 
-            sql.Should().Be(@"SELECT Id, FirstName FROM TPerson as p join Avatar as a on (p.Id = a.PersonId) WHERE (p.Id > @1 and p.Age > @2) ORDER BY FirstName, LastName desc");
+            queryInfo.Query.Should().Be(@"SELECT Id, FirstName FROM TPerson as p join Avatar as a on (p.Id = a.PersonId) " +
+                "WHERE (p.Id > @1 and p.Age > @2) ORDER BY FirstName, LastName desc");
         }
 
         [Fact]
@@ -103,13 +104,13 @@ namespace Kros.KORM.UnitTests.Query.Sql
 
             var generator = CreateQuerySqlGenerator();
 
-            var sql = generator.GenerateSql(expression);
+            var queryInfo = generator.GenerateSql(expression);
 
-            sql.Should().Be(@"SELECT LastName, Min(Age) FROM TPerson GROUP BY LastName");
+            queryInfo.Query.Should().Be(@"SELECT LastName, Min(Age) FROM TPerson GROUP BY LastName");
         }
 
-        private static DefaultQuerySqlGenerator CreateQuerySqlGenerator() =>
-           new DefaultQuerySqlGenerator(new DatabaseMapper(new ConventionModelMapper()));
+        private static DefaultQuerySqlGenerator CreateQuerySqlGenerator()
+            => new DefaultQuerySqlGenerator(new DatabaseMapper(new ConventionModelMapper()));
 
         private TableInfo GetTableInfo()
         {

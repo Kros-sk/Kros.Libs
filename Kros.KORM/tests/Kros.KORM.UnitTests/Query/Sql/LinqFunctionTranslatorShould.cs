@@ -4,6 +4,7 @@ using System.Linq;
 using Kros.KORM.Query.Sql;
 using System;
 using FluentAssertions;
+using Kros.KORM.Query.Providers;
 
 namespace Kros.KORM.UnitTests.Query.Sql
 {
@@ -103,7 +104,12 @@ namespace Kros.KORM.UnitTests.Query.Sql
                 .Skip(10)
                 .OrderBy(p => p.Id);
 
-            AreSame(query, new QueryInfo("SELECT Id, FirstName, LastName, PostAddress FROM People ORDER BY Id ASC", 0, 10), null);
+            AreSame(
+                query,
+                new QueryInfo(
+                    "SELECT Id, FirstName, LastName, PostAddress FROM People ORDER BY Id ASC",
+                    new LimitOffsetDataReader(0, 10)),
+                null);
         }
 
         [Fact]
@@ -114,7 +120,12 @@ namespace Kros.KORM.UnitTests.Query.Sql
                 .Take(5)
                 .OrderBy(p => p.Id);
 
-            AreSame(query, new QueryInfo("SELECT Id, FirstName, LastName, PostAddress FROM People ORDER BY Id ASC", 5, 10), null);
+            AreSame(
+                query,
+                new QueryInfo(
+                    "SELECT Id, FirstName, LastName, PostAddress FROM People ORDER BY Id ASC",
+                    new LimitOffsetDataReader(5, 10)),
+                null);
         }
 
         [Fact]
