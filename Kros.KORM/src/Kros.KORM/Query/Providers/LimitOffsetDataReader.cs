@@ -63,6 +63,7 @@ namespace Kros.KORM.Query.Providers
 
         /// <summary>
         /// Sets the inner reader, to which <see cref="Limit"/> and <see cref="Offset"/> are applied.
+        /// Inner reader is closed when this reader is closed.
         /// </summary>
         /// <param name="innerReader">Inner reader.</param>
         /// <exception cref="ArgumentNullException">Value of <paramref name="innerReader"/> is <see langword="null"/>.</exception>
@@ -136,9 +137,7 @@ namespace Kros.KORM.Query.Providers
             return _reader.Read();
         }
 
-        public void Close()
-        {
-        }
+        public void Close() => _reader?.Close();
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
@@ -146,10 +145,7 @@ namespace Kros.KORM.Query.Providers
         #region IDisposable Support
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public void Dispose()
-        {
-            Close();
-        }
+        public void Dispose() => Close();
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion

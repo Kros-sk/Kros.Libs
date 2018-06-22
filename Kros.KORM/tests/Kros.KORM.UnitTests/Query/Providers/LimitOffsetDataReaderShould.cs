@@ -86,6 +86,17 @@ namespace Kros.KORM.UnitTests.Query.Providers
             CheckReaderData(limitOffsetReader, 3, 4, 5, 6, 7, 8, 9, 10);
         }
 
+        [Fact]
+        public void CloseInnerReader()
+        {
+            var limitOffsetReader = new LimitOffsetDataReader(0, 2);
+            IDataReader innerReader = Substitute.For<IDataReader>();
+            limitOffsetReader.SetInnerReader(innerReader);
+            limitOffsetReader.Close();
+
+            innerReader.Received().Close();
+        }
+
         #endregion
 
         #region Helpers
