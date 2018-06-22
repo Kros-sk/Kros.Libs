@@ -1,8 +1,10 @@
 # Kros.Utils
+
 [![Build status](https://ci.appveyor.com/api/projects/status/5ws8h5jp777wsalb/branch/master?svg=true)](https://ci.appveyor.com/project/Kros/kros-libs/branch/master)
 
 __Kros.Utils__ is universal library of various tools to simplify the work of the programmer.
 Library is:
+
 * Independent of third-party libraries. You only need .NET Framework.
 * Platform-independent. That means it's applicable to desktop applications and server services (e.g. It's independent of System.Windows.Forms).
 
@@ -15,12 +17,11 @@ For configuration, general information and examples [see the documentation](http
 ## Download
 
 Kros.Libs is available from:
-* Nuget __Kros.Utils__ - https://www.nuget.org/packages/Kros.Utils/
-* Nuget __Kros.Utils.MsAccess__ - https://www.nuget.org/packages/Kros.Utils.MsAccess/
-* Nuget __Kros.KORM__ - https://www.nuget.org/packages/Kros.KORM/
-* Nuget __Kros.KORM.MsAccess__ - https://www.nuget.org/packages/Kros.KORM.MsAccess/
 
-## This topic contains following sections:
+* Nuget [__Kros.Utils__](https://www.nuget.org/packages/Kros.Utils/)
+* Nuget [__Kros.Utils.MsAccess__](https://www.nuget.org/packages/Kros.Utils.MsAccess/)
+
+## This topic contains following sections
 
 __Kros.Utils__
 
@@ -40,7 +41,6 @@ __Kros.Utils.MsAccess__
 * [Database Schema](#msaccess-database-schema)
 * [Bulk Operations - Bulk Insert and Bulk Update](#msaccess-bulk-operations---bulk-insert-and-bulk-update)
 * [Unit Testing Helpers](#msaccess-unit-testing-helpers)
-
 
 ### Arguments Check Functions
 
@@ -88,18 +88,21 @@ The [Check](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kro
 ### Standard Extensions
 
 General extensions for:
+
 * Strings - [StringExtensions](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Extensions.StringExtensions.html "String Extensions")
 * Dates - [DateTimeExtensions](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Extensions.DateTimeExtensions.html "DateTime Extensions")
 
 ### File/Folder Path Helpers
 
 The [PathHelper](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.IO.PathHelper.html "PathHelper") class provides functions to work with files/folder paths.
+
 * [PathHelper.BuildPath](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.IO.PathHelper.html#Kros_IO_PathHelper_BuildPath_ "PathHelper BuildPath") server to link multiple string into one path, as well as standard function [Path.Combine](https://msdn.microsoft.com/en-us/library/dd781134 "Path.Combine") but with some changed details.
 * [PathHelper.ReplaceInvalidPathChars](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.IO.PathHelper.html#Kros_IO_PathHelper_ReplaceInvalidPathChars_ "PathHelper ReplaceInvalidChars") in the input string will replace all characters that are not applicable to the file path.
 
 The [PathFormatter](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.IO.PathFormatter.html "PathFormatter") class includes functions for formatting paths to output files so that the result path is valid. The class checks the maximum allowed length of the path so that the result path does not exceed it.
 
 The class is not static. If necessary, you can inherit it and modify its behavior. For simple use, the [Default](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.IO.PathFormatter.html#Kros_IO_PathFormatter_Default "Default") instance is created.
+
 * `PathFormatter.Default.FormatPath("C:\data\export", "exportFile.txt")` returns path `C:\data\export\exportFile.txt`. If the resulting path is too long, the file name is automatically truncated (the suffix is preserved) so the path is valid.
 * `PathFormatter.Default.FormatNewPath("C:\data\export", "exportFile.txt")` returns path `C:\data\export\exportFile.txt`. However, if the resulting file already exists, it automatically adds a counter to the name so that the return path is to a non-existent file: `C:\data\export\exportFile (1).txt`. If the resulting path was too long, the file name is automatically truncated so that the path is valid. The suffix and counter are preserved.
 
@@ -135,7 +138,8 @@ Inserting (`INSERT`) and updating (`UPDATE`) large amounts of data in a database
 
 Because `IDataReader` is an intricate interface, you just need to implement the simplier interface [IBulkActionDataReader](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Data.BulkActions.IBulkActionDataReader.html "IBulkActionDataReader"). If the source is a list (`IEnumerable`), it is sufficient to use the [`EnumerableDataReader<T>`](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Data.BulkActions.EnumerableDataReader-1.html "EnumerableDataReader<T>") class for its bulk insertion.
 
-__Bulk Insert__
+#### Bulk Insert
+
 ```c#
 private class Item
 {
@@ -161,7 +165,9 @@ private class BulkUpdateItem
     public string Name { get; set; }
 }
 ```
-__Bulk Update__
+
+#### Bulk Update
+
 ```c#
 public void UpdateManyItems()
     {
@@ -292,6 +298,7 @@ For some (especially database) stuff to work properly, the library needs to be i
 ### MsAccess General Utilities
 
 The [MsAccessDataHelper](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.Data.MsAccess.MsAccessDataHelper.html "MsAccessDataHelper") class contains general utilities for working with the MS Access database connection.
+
 * Retrieve current MS Access provider: [MsAccessProvider](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.Data.MsAccess.MsAccessDataHelper.html#Kros_Data_MsAccess_MsAccessDataHelper_MsAccessAceProvider "MsAccessProvider")
 * Determining whether the connection to the MS Access database is exclusive: [IsExclusiveMsAccessConnection](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.Data.MsAccess.MsAccessDataHelper.html#Kros_Data_MsAccess_MsAccessDataHelper_IsExclusiveMsAccessConnection_System_Data_IDbConnection_ "IsExclusiveMsAccessConnection")
 * Determining whether the connection is a connection to the MS Access database: [IsMsAccessConnection](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils.MsAccess/Kros.Data.MsAccess.MsAccessDataHelper.html#Kros_Data_MsAccess_MsAccessDataHelper_IsMsAccessConnection_System_Data_IDbConnection_ "IsMsAccessConnection")
