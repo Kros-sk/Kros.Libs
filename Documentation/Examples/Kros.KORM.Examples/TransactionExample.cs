@@ -102,7 +102,6 @@ namespace Kros.KORM.Examples
         }
         public class Item
         {
-
         }
     }
 }

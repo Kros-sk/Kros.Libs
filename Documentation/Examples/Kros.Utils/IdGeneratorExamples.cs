@@ -5,7 +5,6 @@ namespace Kros.Utils.Examples
 {
     public class IdGeneratorExamples
     {
-
         public void GeneratorExample()
         {
             using (var conn = new SqlConnection())
@@ -37,7 +36,7 @@ namespace Kros.Utils.Examples
                         {
                             Id = idGenerator.GetNext()
                         };
-                    };
+                    }
                 }
             }
         }

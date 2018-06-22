@@ -5,7 +5,6 @@ namespace Kros.Utils.Examples
     public class FactAttribute
         : Attribute
     {
-
     }
 
     #region SqlServerDatabaseTestBase
@@ -27,7 +26,6 @@ namespace Kros.Utils.Examples
         [Fact]
         public void Test2()
         {
-
         }
     }
 

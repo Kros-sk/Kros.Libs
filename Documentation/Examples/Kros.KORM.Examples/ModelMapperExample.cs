@@ -5,7 +5,7 @@
         public void SetColumnMapExample()
         {
             #region SetColumnName
-            Database.DefaultModelMapper.SetColumnName<Person, string>(p => p.Name, "FirstName"); 
+            Database.DefaultModelMapper.SetColumnName<Person, string>(p => p.Name, "FirstName");
             #endregion
         }
 
@@ -14,5 +14,4 @@
             public string Name { get; set; }
         }
     }
-
 }

@@ -21,5 +21,4 @@ namespace KORM.Test.Performance.Doc
             public string FirstName { get; set; }
         }
     }
-
 }

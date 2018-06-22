@@ -59,7 +59,6 @@ namespace Kros.Utils.MsAccess.Examples
         }
         #endregion
 
-
         #region BulkUpdate
         private class BulkUpdateItem
         {
@@ -80,7 +79,6 @@ namespace Kros.Utils.MsAccess.Examples
             }
         }
         #endregion
-
 
         #region TestHelper
         private const string BaseDatabasePath = "C:\testfiles\testdatabase.accdb";

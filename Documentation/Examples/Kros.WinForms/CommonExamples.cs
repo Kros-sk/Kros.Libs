@@ -21,7 +21,6 @@ namespace Kros.WinForms.Examples
             // Zachytenie obrázku klientskej časti formulára, tzn. bez hlavičky a orámovania.
             Bitmap formClientImage = frm.CaptureImage(true);
 
-
             // Zachytenie/uloženie obrázku formulárového prvku.
             Control ctrl = new Panel();
 
@@ -38,17 +37,15 @@ namespace Kros.WinForms.Examples
 
             WinFormsUtils.SaveScreenImage(@"C:\images\primaryScreenImage.jpg");
 
-
             // Zachytenie/uloženie obrázku konkrétnej obrazovky.
             Bitmap secondaryScreenImage = WinFormsUtils.CaptureScreenImage(Screen.AllScreens[1]);
 
             WinFormsUtils.SaveScreenImage(Screen.AllScreens[1], @"C:\images\secondaryScreenImage.jpg");
 
-
             // Zachytenie/uloženie obrázkov všetkých obrazoviek naraz.
             Bitmap[] allScreenImages = WinFormsUtils.CaptureAllScreenImages();
 
-            WinFormsUtils.SaveAllScreenImages(@"C:\images\screenImage.jpg"); ;
+            WinFormsUtils.SaveAllScreenImages(@"C:\images\screenImage.jpg");
 
             #endregion
         }
@@ -125,7 +122,6 @@ namespace Kros.WinForms.Examples
                 public bool DetailsSaved { get; set; }
             }
 
-
             private ExampleViewModel _viewModel = new ExampleViewModel();
 
             // Bindovanie v metóde OnLoad() formulára.
@@ -153,7 +149,6 @@ namespace Kros.WinForms.Examples
                 _lblInfo.DataBindings.BindVisible(_viewModel, nameof(ExampleViewModel.DetailsSaved), new InversionBooleanConverter());
                 #endregion
             }
-
         }
 
         #region BindingActions
@@ -181,11 +176,9 @@ namespace Kros.WinForms.Examples
                 var okCommand = new DelegateCommand(() => true, _viewModel.Save);
                 _commandManager.Bind(okCommand, _btnOk);
 
-
                 // Pre jednoduchšie bindovanie existuje extension metóda.
                 _commandManager.BindClick(_btnOk, _viewModel.Save);
             }
-
 
             protected override void Dispose(bool disposing)
             {
@@ -199,7 +192,6 @@ namespace Kros.WinForms.Examples
         }
         #endregion
     }
-
 
     public class ItemClickEventArgs
     {

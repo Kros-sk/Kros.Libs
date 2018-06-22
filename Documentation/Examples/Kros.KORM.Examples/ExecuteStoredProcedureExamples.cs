@@ -29,7 +29,6 @@ namespace Kros.KORM.Examples
             int intResult = _database.ExecuteStoredProcedure<int>("ProcedureName");
             DateTime dateResult = _database.ExecuteStoredProcedure<DateTime>("ProcedureName");
 
-
             // Stored procedure sets the value of output parameter.
             var parameters = new CommandParameterCollection();
             parameters.Add("@param1", 10);
@@ -40,10 +39,8 @@ namespace Kros.KORM.Examples
 
             Console.WriteLine(parameters["@outputParam"].Value);
 
-
             // Stored procedure returns complex object.
             Person person = _database.ExecuteStoredProcedure<Person>("ProcedureName");
-
 
             // Stored procedure returns list of complex objects.
             IEnumerable<Person> persons = _database.ExecuteStoredProcedure<IEnumerable<Person>>("ProcedureName");

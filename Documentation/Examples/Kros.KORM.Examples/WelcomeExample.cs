@@ -22,7 +22,6 @@ namespace Kros.KORM.Tests.Performance.Doc
 {
     internal class WelcomeExample
     {
-
         private void RegisterMsAccessFactory()
         {
             #region MsAccessQueryProviderFactory
@@ -94,7 +93,6 @@ namespace Kros.KORM.Tests.Performance.Doc
 
             using (var database = new Database(_connection))
             {
-
                 _command.CommandText = "SELECT COL_ID, COL_FIRSTNAME from TABLE_WORKERS";
 
                 using (var reader = _command.ExecuteReader())
@@ -399,7 +397,6 @@ namespace Kros.KORM.Tests.Performance.Doc
             #endregion
         }
 
-
         private void BulkUpdate()
         {
             Database database = null;
@@ -416,14 +413,13 @@ namespace Kros.KORM.Tests.Performance.Doc
             #endregion
         }
 
-
         #region Injections
 
         private interface ICalculationService
         {
         }
 
-        public interface ILogger { };
+        public interface ILogger { }
 
         public class ServiceContainer
         {
@@ -446,7 +442,6 @@ namespace Kros.KORM.Tests.Performance.Doc
 
         #endregion
     }
-
 
     #region CustomQueryProvider
     public class CustomQueryProvider : QueryProvider
@@ -506,7 +501,6 @@ namespace Kros.KORM.Tests.Performance.Doc
         { }
     }
 
-
     public class CustomQueryProviderFactory : IQueryProviderFactory
     {
         public Query.IQueryProvider Create(DbConnection connection, IModelBuilder modelBuilder, IDatabaseMapper databaseMapper) =>
@@ -562,7 +556,6 @@ namespace Kros.KORM.Tests.Performance.Doc
 
     internal class CustomBulkUpdate : IBulkUpdate
     {
-
         private CustomConnection _customConnection;
 
         public CustomBulkUpdate(CustomConnection customConnection)

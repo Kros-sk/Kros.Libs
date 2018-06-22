@@ -24,7 +24,6 @@ namespace Kros.Examples
 
             DatabaseSchema schema = cache.GetSchema(cn);
 
-
             // Použitie statickej vlastnosti.
             schema = DatabaseSchemaCache.Default.GetSchema(cn);
             #endregion
