@@ -11,7 +11,7 @@ namespace Kros.Data.BulkActions.SqlServer
     /// Class for fast data update for SQL Server.
     /// </summary>
     /// <example>
-    ///   <code source="..\Examples\Kros.Utils\BulkUpdateExamples.cs" title="Bulk update" region="BulkUpdate" lang="C#" />
+    ///   <code source="..\..\..\..\Documentation\Examples\Kros.Utils\BulkUpdateExamples.cs" title="Bulk update" region="BulkUpdate" language="cs" />
     /// </example>
     public class SqlServerBulkUpdate : BulkUpdateBase
     {

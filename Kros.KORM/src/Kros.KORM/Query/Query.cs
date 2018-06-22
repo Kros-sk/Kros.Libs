@@ -218,7 +218,7 @@ namespace Kros.KORM.Query
         /// </returns>
         /// <exception cref="ArgumentNullException">if <c>whereCondition</c> is null or white string.</exception>
         /// <example>
-        ///   <code source="..\Examples\Kros.KORM.Examples\IQueryExample.cs" title="Any" region="Any" lang="C#" />
+        ///   <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IQueryExample.cs" title="Any" region="Any" language="cs" />
         /// </example>
         public bool Any(RawSqlString whereCondition, params object[] args)
         {
@@ -311,10 +311,10 @@ namespace Kros.KORM.Query
         /// </returns>
         /// <example>
         /// <code
-        ///   source="..\Examples\Kros.KORM.Examples\IQueryExample.cs"
+        ///   source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IQueryExample.cs"
         ///   title="Execute string scalar"
         ///   region="ExecuteScalar"
-        ///   lang="C#" />
+        ///   language="cs" />
         /// </example>
         public object ExecuteScalar() => _provider.ExecuteScalar(this);
 
@@ -328,9 +328,10 @@ namespace Kros.KORM.Query
         /// </returns>
         /// <example>
         /// <code
-        ///   source="..\Examples\Kros.KORM.Examples\IQueryExample.cs"
+        ///   source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IQueryExample.cs"
         ///   title="Execute string scalar"
-        ///   region="ExecuteStringScalar" lang="C#" />
+        ///   region="ExecuteStringScalar"
+        ///   language="cs" />
         /// </example>
         public string ExecuteStringScalar()
         {
@@ -358,9 +359,10 @@ namespace Kros.KORM.Query
         /// </returns>
         /// <example>
         /// <code
-        ///   source="..\Examples\Kros.KORM.Examples\IQueryExample.cs"
+        ///   source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IQueryExample.cs"
         ///   title="Execute generic scalar"
-        ///   region="ExecuteScalarGeneric" lang="C#" />
+        ///   region="ExecuteScalarGeneric"
+        ///   language="cs" />
         /// </example>
         public TRet? ExecuteScalar<TRet>() where TRet : struct
         {

@@ -315,3 +315,6 @@ $RECYCLE.BIN/
 *.lnk
 Kros.KORM/tests/Kros.KORM.PerformanceTests/TestRunnerScript.ps1
 *.ps1
+
+/Documentattion/_site
+/Documentattion/api
