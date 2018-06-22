@@ -14,7 +14,7 @@ namespace Kros.Data.BulkActions.MsAccess
     /// </summary>
     /// <remarks>The bulk update uses a temporary database.</remarks>
     /// <example>
-    ///   <code source="..\Examples\Kros.Utils.MsAccess\MsAccessExamples.cs" title="Bulk update" region="BulkUpdate" lang="C#" />
+    ///   <code source="..\..\..\..\Documentation\Examples\Kros.Utils.MsAccess\MsAccessExamples.cs" title="Bulk update" region="BulkUpdate" language="cs" />
     /// </example>
     public class MsAccessBulkUpdate : BulkUpdateBase
     {

@@ -21,9 +21,10 @@ namespace Kros.KORM
     /// </para>
     /// </summary>
     /// <example>
-    /// <code source="..\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
+    /// <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
     ///       title="Materialize data table"
-    ///       region="ModelBuilderExample" lang="C#"  />
+    ///       region="ModelBuilderExample"
+    ///       language="cs" />
     /// </example>
     public interface IDatabase : IDisposable
     {
@@ -48,12 +49,14 @@ namespace Kros.KORM
         /// Gets the model builder for materializing data from ado to models.
         /// </summary>
         /// <example>
-        /// <code source="..\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
+        /// <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
         ///       title="Materialize data table"
-        ///       region="ModelBuilderExample" lang="C#"  />
-        /// <code source="..\Examples\Kros.KORM.Examples\IQueryExample.cs"
+        ///       region="ModelBuilderExample"
+        ///       language="cs" />
+        /// <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IQueryExample.cs"
         ///       title="Query for obtaining data"
-        ///       region="Select" lang="C#"  />
+        ///       region="Select"
+        ///       language="cs" />
         /// </example>
         IModelBuilder ModelBuilder { get; }
 
@@ -157,7 +160,7 @@ namespace Kros.KORM
         /// </summary>
         /// <returns><see cref="ITransaction"/> wrapping access to the underlying store's transaction object.</returns>
         /// <example>
-        /// <code source="..\Examples\Kros.KORM.Examples\TransactionExample.cs" title="Transaction" region="Transaction" lang="C#"  />
+        /// <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\TransactionExample.cs" title="Transaction" region="Transaction" language="cs" />
         /// </example>
         ITransaction BeginTransaction();
 
@@ -167,7 +170,7 @@ namespace Kros.KORM
         /// <param name="isolationLevel">The database isolation level with which the underlying store transaction will be created.</param>
         /// <returns><see cref="ITransaction"/> wrapping access to the underlying store's transaction object.</returns>
         /// <example>
-        /// <code source="..\Examples\Kros.KORM.Examples\TransactionExample.cs" title="Transaction" region="TransactionsIsolationLevel" lang="C#"  />
+        /// <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\TransactionExample.cs" title="Transaction" region="TransactionsIsolationLevel" language="cs" />
         /// </example>
         ITransaction BeginTransaction(IsolationLevel isolationLevel);
 
