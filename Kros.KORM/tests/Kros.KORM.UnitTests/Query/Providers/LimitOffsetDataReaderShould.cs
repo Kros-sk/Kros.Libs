@@ -17,9 +17,9 @@ namespace Kros.KORM.UnitTests.Query.Providers
         {
             Action action;
 
-            action = () => new LimitOffsetDataReader(0, 10);
+            action = () => new LimitOffsetDataReader(-1, 10);
             action.Should().Throw<ArgumentException>()
-                .And.ParamName.Should().Be("limit", "Limit must be greater than 0.");
+                .And.ParamName.Should().Be("limit", "Limit must be equal or greater than 0.");
 
             action = () => new LimitOffsetDataReader(10, -1);
             action.Should().Throw<ArgumentException>()
@@ -74,6 +74,14 @@ namespace Kros.KORM.UnitTests.Query.Providers
         public void ReturnAllRemainingRowsWhenLimitIsTooBig()
         {
             var limitOffsetReader = new LimitOffsetDataReader(50, 2);
+            limitOffsetReader.SetInnerReader(CreateInnerReader());
+            CheckReaderData(limitOffsetReader, 3, 4, 5, 6, 7, 8, 9, 10);
+        }
+
+        [Fact]
+        public void ReturnAllRemainingRowsWhenLimitIsZero()
+        {
+            var limitOffsetReader = new LimitOffsetDataReader(0, 2);
             limitOffsetReader.SetInnerReader(CreateInnerReader());
             CheckReaderData(limitOffsetReader, 3, 4, 5, 6, 7, 8, 9, 10);
         }

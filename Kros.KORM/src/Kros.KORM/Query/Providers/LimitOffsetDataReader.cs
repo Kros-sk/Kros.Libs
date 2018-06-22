@@ -42,7 +42,7 @@ namespace Kros.KORM.Query.Providers
         /// <param name="offset">Number of rows to skip from the begining.</param>
         public LimitOffsetDataReader(int limit, int offset)
         {
-            Limit = Check.GreaterThan(limit, 0, nameof(limit));
+            Limit = Check.GreaterOrEqualThan(limit, 0, nameof(limit));
             Offset = Check.GreaterOrEqualThan(offset, 0, nameof(offset));
             _offsetApplied = Offset == 0;
         }
@@ -128,7 +128,7 @@ namespace Kros.KORM.Query.Providers
                 _offsetApplied = true;
             }
 
-            if (_readCount >= Limit)
+            if ((Limit > 0) && (_readCount >= Limit))
             {
                 return false;
             }
