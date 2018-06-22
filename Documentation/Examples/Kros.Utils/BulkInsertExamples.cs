@@ -6,7 +6,6 @@ namespace Kros.Examples
 {
     class BulkInsertExamples
     {
-
         private IEnumerable<Item> GetData()
         {
             return null;

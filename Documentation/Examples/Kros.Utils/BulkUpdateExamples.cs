@@ -6,7 +6,6 @@ namespace Kros.Utils.Examples
 {
     class BulkUpdateExamples
     {
-
         #region BulkUpdate
         private class BulkUpdateItem
         {
