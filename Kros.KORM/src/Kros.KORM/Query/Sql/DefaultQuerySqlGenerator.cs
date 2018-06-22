@@ -20,7 +20,10 @@ namespace Kros.KORM.Query.Sql
         private const string VbOperatorsClassName = "Microsoft.VisualBasic.CompilerServices.Operators";
         private const string VbEmbeddedOperatorsClassName = "Microsoft.VisualBasic.CompilerServices.EmbeddedOperators";
 
-        private StringBuilder _sqlBuilder = null;
+        private StringBuilder _sqlBuilder;
+        private int _top;
+        private int _topPosition;
+        private int _skip;
 
         /// <summary>
         /// Constructor.
@@ -60,16 +63,15 @@ namespace Kros.KORM.Query.Sql
 
             AddOrderBy();
             AddAnyMethod();
-            AddTop();
+            AddLimitAndOffset();
 
-            IDataReaderEnvelope reader = null;
-            if (_skip > 0)
-            {
-                reader = new LimitOffsetDataReader(_top, _skip);
-            }
-
-            return new QueryInfo(_sqlBuilder.ToString(), reader);
+            return new QueryInfo(SqlBuilder.ToString(), CreateQueryReader());
         }
+
+        protected StringBuilder SqlBuilder => _sqlBuilder;
+        protected int Skip => _skip;
+        protected int Top => _top;
+        protected int TopPosition => _topPosition;
 
         private void CheckSkip()
         {
@@ -83,11 +85,16 @@ namespace Kros.KORM.Query.Sql
             }
         }
 
-        protected virtual void AddTop()
+        protected virtual IDataReaderEnvelope CreateQueryReader()
+        {
+            return _skip > 0 ? new LimitOffsetDataReader(Top, Skip) : null;
+        }
+
+        protected virtual void AddLimitAndOffset()
         {
             if ((_top > 0) && (_skip == 0))
             {
-                _sqlBuilder.Insert(_topPosition, $"TOP {_top} ");
+                SqlBuilder.Insert(_topPosition, $"TOP {_top} ");
                 _top = 0;
             }
         }
@@ -96,7 +103,7 @@ namespace Kros.KORM.Query.Sql
         {
             if (_wasAny)
             {
-                _sqlBuilder = new StringBuilder(BindAnyCondition(_sqlBuilder.ToString()));
+                _sqlBuilder = new StringBuilder(BindAnyCondition(SqlBuilder.ToString()));
             }
         }
 
@@ -115,7 +122,7 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitSql(SqlExpression sqlExpression)
         {
-            _sqlBuilder.Append(sqlExpression.Sql);
+            SqlBuilder.Append(sqlExpression.Sql);
 
             return sqlExpression;
         }
@@ -129,12 +136,12 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitSelect(SelectExpression selectExpression)
         {
-            _sqlBuilder.Append(SelectExpression.SelectStatement);
-            _sqlBuilder.Append(" ");
+            SqlBuilder.Append(SelectExpression.SelectStatement);
+            SqlBuilder.Append(" ");
 
             if (_top > 0)
             {
-                _topPosition = _sqlBuilder.Length;
+                _topPosition = SqlBuilder.Length;
             }
 
             VisitExtension(selectExpression);
@@ -151,7 +158,7 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitColumns(ColumnsExpression columnExpression)
         {
-            _sqlBuilder.Append(columnExpression.ColumnsPart);
+            SqlBuilder.Append(columnExpression.ColumnsPart);
 
             return columnExpression;
         }
@@ -165,7 +172,7 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitTable(TableExpression tableExpression)
         {
-            _sqlBuilder.AppendFormat(" {0} {1}", TableExpression.FromStatement, tableExpression.TablePart);
+            SqlBuilder.AppendFormat(" {0} {1}", TableExpression.FromStatement, tableExpression.TablePart);
 
             return tableExpression;
         }
@@ -179,7 +186,7 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitWhere(WhereExpression whereExpression)
         {
-            _sqlBuilder.AppendFormat(" {0} ({1})", WhereExpression.WhereStatement, whereExpression.Sql);
+            SqlBuilder.AppendFormat(" {0} ({1})", WhereExpression.WhereStatement, whereExpression.Sql);
 
             return whereExpression;
         }
@@ -193,7 +200,7 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitGroupBy(GroupByExpression groupByExpression)
         {
-            _sqlBuilder.AppendFormat(" {0} {1}", GroupByExpression.GroupByStatement, groupByExpression.GroupByPart);
+            SqlBuilder.AppendFormat(" {0} {1}", GroupByExpression.GroupByStatement, groupByExpression.GroupByPart);
 
             return groupByExpression;
         }
@@ -207,7 +214,7 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitOrderBy(OrderByExpression orderByExpression)
         {
-            _sqlBuilder.AppendFormat(" {0} {1}", OrderByExpression.OrderByStatement, orderByExpression.OrderByPart);
+            SqlBuilder.AppendFormat(" {0} {1}", OrderByExpression.OrderByStatement, orderByExpression.OrderByPart);
 
             return orderByExpression;
         }
@@ -223,9 +230,6 @@ namespace Kros.KORM.Query.Sql
         /// Gets the linq string builder.
         /// </summary>
         protected StringBuilder LinqStringBuilder { get; private set; }
-        private int _top;
-        private int _topPosition;
-        private int _skip;
 
         /// <summary>
         /// Gets the linq query parameters.

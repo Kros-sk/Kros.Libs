@@ -4,6 +4,7 @@ using Kros.Data.BulkActions;
 using Kros.KORM.Data;
 using Kros.KORM.Materializer;
 using Kros.KORM.Metadata;
+using Kros.KORM.Metadata.Attribute;
 using Kros.KORM.Query;
 using Kros.KORM.Query.Expressions;
 using Kros.KORM.Query.Providers;
@@ -25,6 +26,28 @@ namespace Kros.KORM.UnitTests.Query.Sql
     /// </summary>
     public abstract class LinqTranslatorTestBase
     {
+        #region Nested classes
+
+        public interface IModel
+        {
+            int Id { get; set; }
+        }
+
+        [Alias("People")]
+        public class Person : IModel
+        {
+            public int Id { get; set; }
+
+            public string FirstName { get; set; }
+
+            public string LastName { get; set; }
+
+            [Alias("PostAddress")]
+            public string Address { get; set; }
+        }
+
+        #endregion
+
         //Dátumové funkcie
 
         /// <summary>
@@ -37,8 +60,8 @@ namespace Kros.KORM.UnitTests.Query.Sql
         /// <summary>
         /// Create visitor for translate query to SQL.
         /// </summary>
-        protected virtual ISqlExpressionVisitor CreateVisitor() =>
-           new DefaultQuerySqlGenerator(Database.DatabaseMapper);
+        protected virtual ISqlExpressionVisitor CreateVisitor()
+            => new DefaultQuerySqlGenerator(Database.DatabaseMapper);
 
         /// <summary>
         /// Query should be equal to <paramref name="expectedSql"/>.

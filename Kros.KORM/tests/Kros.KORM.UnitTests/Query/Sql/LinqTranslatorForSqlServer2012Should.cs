@@ -1,0 +1,61 @@
+﻿using Kros.KORM.Query.Providers;
+using Kros.KORM.Query.Sql;
+using System.Linq;
+using Xunit;
+
+namespace Kros.KORM.UnitTests.Query.Sql
+{
+    public class LinqTranslatorForSqlServer2012Should : LinqTranslatorTestBase
+    {
+        #region Tests
+
+        [Fact]
+        public void TranslateTakeMethod()
+        {
+            var query = Query<Person>()
+                .Take(5);
+
+            AreSame(query, "SELECT TOP 5 Id, FirstName, LastName, PostAddress FROM People");
+        }
+
+        [Fact]
+        public void TranslateSkipMethod()
+        {
+            var query = Query<Person>()
+                .Skip(10)
+                .OrderBy(p => p.Id);
+
+            AreSame(
+                query,
+                new QueryInfo(
+                    "SELECT Id, FirstName, LastName, PostAddress FROM People ORDER BY Id ASC OFFSET 10 ROWS",
+                    null),
+                null);
+        }
+
+        [Fact]
+        public void TranslateSkipWithTakeMethod()
+        {
+            var query = Query<Person>()
+                .Skip(10)
+                .Take(5)
+                .OrderBy(p => p.Id);
+
+            AreSame(
+                query,
+                new QueryInfo(
+                    "SELECT Id, FirstName, LastName, PostAddress FROM People ORDER BY Id ASC " +
+                    "OFFSET 10 ROWS FETCH NEXT 5 ROWS ONLY",
+                    null),
+                null);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        protected override ISqlExpressionVisitor CreateVisitor() => new SqlServer2012SqlGenerator(Database.DatabaseMapper);
+
+        #endregion
+    }
+}

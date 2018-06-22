@@ -1,4 +1,5 @@
 ﻿using Kros.KORM.Metadata;
+using Kros.KORM.Query.Providers;
 
 namespace Kros.KORM.Query.Sql
 {
@@ -8,6 +9,22 @@ namespace Kros.KORM.Query.Sql
         {
         }
 
+        protected override void AddLimitAndOffset()
+        {
+            if (Skip == 0)
+            {
+                base.AddLimitAndOffset();
+            }
+            else
+            {
+                SqlBuilder.AppendFormat(" OFFSET {0} ROWS", Skip);
+                if (Top > 0)
+                {
+                    SqlBuilder.AppendFormat(" FETCH NEXT {0} ROWS ONLY", Top);
+                }
+            }
+        }
 
+        protected override IDataReaderEnvelope CreateQueryReader() => null;
     }
 }

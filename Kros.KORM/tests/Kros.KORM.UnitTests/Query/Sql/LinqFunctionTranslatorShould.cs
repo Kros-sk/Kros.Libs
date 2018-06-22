@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Kros.KORM.Metadata.Attribute;
 using Kros.KORM.Query.Providers;
 using Kros.KORM.Query.Sql;
 using System;
@@ -344,24 +343,6 @@ namespace Kros.KORM.UnitTests.Query.Sql
             }
 
             TestMethod<Person>();
-        }
-
-        public interface IModel
-        {
-            int Id { get; set; }
-        }
-
-        [Alias("People")]
-        public class Person : IModel
-        {
-            public int Id { get; set; }
-
-            public string FirstName { get; set; }
-
-            public string LastName { get; set; }
-
-            [Alias("PostAddress")]
-            public string Address { get; set; }
         }
     }
 }
