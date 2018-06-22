@@ -331,7 +331,13 @@ namespace Kros.Data.BulkActions.MsAccess
             return folder;
         }
 
-        // Vytvorá SQL príkaz pre vloženie dát do tabuľky "tableName" zo vstupného súboru "sourceFilePath".
+        /// <summary>
+        /// Creates SQL command for inserting data into table <paramref name="tableName"/>
+        /// from file <paramref name="sourceFilePath"/>.
+        /// </summary>
+        /// <param name="tableName">Destination table.</param>
+        /// <param name="sourceFilePath">Source file.</param>
+        /// <returns>Insert statement.</returns>
         private string CreateInsertSql(string tableName, string sourceFilePath)
         {
             StringBuilder sql = new StringBuilder(2000);
