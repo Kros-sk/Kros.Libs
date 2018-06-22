@@ -298,9 +298,10 @@ namespace Kros.KORM.Materializer
         /// IEnumerable of models.
         /// </returns>
         /// <example>
-        /// <code source="..\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
+        /// <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
         ///     title="Materialize data table"
-        ///     region="ModelBuilderDataTableExample" lang="C#" />
+        ///     region="ModelBuilderDataTableExample"
+        ///     language="cs" />
         /// </example>
         /// <remarks>
         /// If disposeReader is <see langword="true"/> and connection is not null, then connection will be disposed.

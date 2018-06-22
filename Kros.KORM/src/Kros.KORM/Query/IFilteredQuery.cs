@@ -20,7 +20,7 @@ namespace Kros.KORM.Query
         /// Query for enumerable models.
         /// </returns>
         /// <example>
-        /// <code source="..\Examples\Kros.KORM.Examples\IQueryExample.cs" title="OrderBy" region="OrderBy" lang="C#"  />
+        /// <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IQueryExample.cs" title="OrderBy" region="OrderBy" language="cs"  />
         /// </example>
         /// <exception cref="ArgumentNullException">if <c>orderBy</c> is null or white string.</exception>
         IOrderedQuery<T> OrderBy(string orderBy);
@@ -33,7 +33,7 @@ namespace Kros.KORM.Query
         /// Query for enumerable models.
         /// </returns>
         /// <example>
-        /// <code source="..\Examples\Kros.KORM.Examples\IQueryExample.cs" title="GroupBy" region="GroupBy" lang="C#"  />
+        /// <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IQueryExample.cs" title="GroupBy" region="GroupBy" language="cs"  />
         /// </example>
         /// <exception cref="ArgumentNullException">if <c>groupBy</c> is null or white string.</exception>
         IGroupedQuery<T> GroupBy(string groupBy);

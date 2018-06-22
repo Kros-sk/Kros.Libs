@@ -8,10 +8,9 @@ namespace Kros.Data
     /// <remarks>Usually one generator generates IDs for just one table.</remarks>
     /// <seealso cref="SqlServer.SqlServerIdGenerator"/>
     /// <example>
-    /// <code language="cs" source="..\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
+    /// <code language="cs" source="..\..\..\..\Documentation\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
     /// </example>
-    public interface IIdGenerator
-        : IDisposable
+    public interface IIdGenerator : IDisposable
     {
         /// <summary>
         /// Returns next ID.
@@ -20,5 +19,10 @@ namespace Kros.Data
         /// Unique ID for record in data table.
         /// </returns>
         int GetNext();
+
+        /// <summary>
+        /// Initializes database for using ID generator. Initialization can mean creating necessary table and stored procedure.
+        /// </summary>
+        void InitDatabaseForIdGenerator();
     }
 }

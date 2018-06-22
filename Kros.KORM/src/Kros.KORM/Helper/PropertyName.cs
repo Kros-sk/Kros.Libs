@@ -8,7 +8,7 @@ namespace Kros.KORM.Helper
     /// </summary>
     /// <typeparam name="P">Class type, from want get property name</typeparam>
     /// <example>
-    ///   <code source="..\Examples\Kros.KORM.Examples\PropertyNameExample.cs" title="Get property name" region="GetPropertyName" lang="C#" />
+    ///   <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\PropertyNameExample.cs" title="Get property name" region="GetPropertyName" language="cs" />
     /// </example>
     public static class PropertyName<P> where P : class
     {
@@ -23,7 +23,7 @@ namespace Kros.KORM.Helper
         /// Property name.
         /// </returns>
         /// <example>
-        ///   <code source="..\Examples\Kros.KORM.Examples\PropertyNameExample.cs" title="Get property name" region="GetPropertyName" lang="C#" />
+        ///   <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\PropertyNameExample.cs" title="Get property name" region="GetPropertyName" language="cs" />
         /// </example>
         public static string GetPropertyName<T>(Expression<Func<P, T>> expression)
         {

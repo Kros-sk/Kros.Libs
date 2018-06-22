@@ -7,9 +7,10 @@ namespace Kros.KORM.Materializer
     /// Interface for ModelBuilder, which know materialize data from Ado to objects.
     /// </summary>
     /// <example>
-    /// <code source="..\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
+    /// <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
     ///       title="Materialize data table"
-    ///       region="ModelBuilderExample" lang="C#"  />
+    ///       region="ModelBuilderExample"
+    ///       language="cs" />
     /// </example>
     public interface IModelBuilder
     {
@@ -22,9 +23,10 @@ namespace Kros.KORM.Materializer
         ///  IEnumerable of models.
         /// </returns>
         /// <example>
-        /// <code source="..\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
+        /// <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
         ///       title="Materialize data table"
-        ///       region="ModelBuilderDataTableExample" lang="C#"  />
+        ///       region="ModelBuilderDataTableExample"
+        ///       language="cs" />
         /// </example>
         /// <remarks>Doesn' call dispose over reader.</remarks>
         IEnumerable<T> Materialize<T>(IDataReader reader);
@@ -38,9 +40,10 @@ namespace Kros.KORM.Materializer
         /// IEnumerable of models.
         /// </returns>
         /// <example>
-        /// <code source="..\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
+        /// <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
         ///       title="Materialize data reader"
-        ///       region="ModelBuilderReaderExample" lang="C#"  />
+        ///       region="ModelBuilderReaderExample"
+        ///       language="cs" />
         /// </example>
         IEnumerable<T> Materialize<T>(DataTable table);
 
@@ -53,9 +56,10 @@ namespace Kros.KORM.Materializer
         /// Model.
         /// </returns>
         /// <example>
-        /// <code source="..\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
+        /// <code source="..\..\..\..\Documentation\Examples\Kros.KORM.Examples\IModelBuilderExample.cs"
         ///       title="Materialize data row"
-        ///       region="ModelBuilderDataRowExample" lang="C#"  />
+        ///       region="ModelBuilderDataRowExample"
+        ///       language="cs" />
         /// </example>
         T Materialize<T>(DataRow dataRow);
     }

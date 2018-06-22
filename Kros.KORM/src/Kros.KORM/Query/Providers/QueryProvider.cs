@@ -43,6 +43,8 @@ namespace Kros.KORM.Query
 
             public int GetNext() => _idGenerator.GetNext();
 
+            public void InitDatabaseForIdGenerator() => _idGenerator.InitDatabaseForIdGenerator();
+
             #region IDisposable Support
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member

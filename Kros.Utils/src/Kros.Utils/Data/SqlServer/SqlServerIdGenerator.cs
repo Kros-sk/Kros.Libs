@@ -12,10 +12,9 @@ namespace Kros.Data.SqlServer
     /// <seealso cref="SqlServerIdGeneratorFactory" />
     /// <remarks>In general, the generator should be created using <see cref="SqlServerIdGeneratorFactory"/>.</remarks>
     /// <example>
-    /// <code language="cs" source="..\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
+    /// <code language="cs" source="..\..\..\..\Documentation\Examples\Kros.Utils\IdGeneratorExamples.cs" region="IdGeneratorFactory"/>
     /// </example>
-    public class SqlServerIdGenerator
-        : IdGeneratorBase
+    public class SqlServerIdGenerator : IdGeneratorBase
     {
         private const string GetNewIdSpName = "spGetNewId";
 
@@ -70,8 +69,7 @@ namespace Kros.Data.SqlServer
         }
 
         /// <inheritdoc/>
-        protected override DbConnection CreateConnection(string connectionString) =>
-            new SqlConnection(connectionString);
+        protected override DbConnection CreateConnection(string connectionString) => new SqlConnection(connectionString);
 
         /// <summary>
         /// Returns SQL script for creating stored procedure, which generates IDs.
