@@ -55,6 +55,7 @@ namespace Kros.KORM.Query.Sql
             _top = 0;
             _topPosition = 0;
             _skip = 0;
+            _columnsPosition = 0;
             LinqParameters = new Parameters();
             _orders = new List<OrderBy>();
 
@@ -96,13 +97,9 @@ namespace Kros.KORM.Query.Sql
 
         private void CheckSkip()
         {
-            if (_skip > 0)
+            if ((_skip > 0) && (_orders.Count == 0))
             {
-                if (_orders.Count == 0)
-                {
-                    // RES:
-                    throw new InvalidOperationException("When Skip method is used, OrderBy must be specified.");
-                }
+                throw new InvalidOperationException(Resources.SkipWithoutOrderByInQuery);
             }
         }
 
@@ -295,8 +292,8 @@ namespace Kros.KORM.Query.Sql
                    expression.NodeType != ExpressionType.Lambda;
         }
 
-        private static Expression ThrowNotSupportedException(MethodCallExpression expression) =>
-            throw new NotSupportedException(string.Format(Resources.QueryGeneratorMethodNotSupported, expression.Method.Name));
+        private static Expression ThrowNotSupportedException(MethodCallExpression expression)
+            => throw new NotSupportedException(string.Format(Resources.QueryGeneratorMethodNotSupported, expression.Method.Name));
 
         private static Expression StripQuotes(Expression e)
         {
@@ -612,8 +609,8 @@ namespace Kros.KORM.Query.Sql
         private Expression VisitSelect(MethodCallExpression expression)
             => ThrowNotSupportedException(expression);
 
-        private Expression VisitGroupBy(MethodCallExpression expression) =>
-            ThrowNotSupportedException(expression);
+        private Expression VisitGroupBy(MethodCallExpression expression)
+            => ThrowNotSupportedException(expression);
 
         /// <summary>
         /// Visits the Linq Where method.
@@ -764,11 +761,11 @@ namespace Kros.KORM.Query.Sql
                     return string.Empty;
             }
 
-            bool IsCompareToNull(BinaryExpression exp) =>
-                IsNullable(exp) && (exp.Right is ConstantExpression constExpr) && constExpr.Value == null;
+            bool IsCompareToNull(BinaryExpression exp)
+                => IsNullable(exp) && (exp.Right is ConstantExpression constExpr) && constExpr.Value == null;
 
-            bool IsNullable(BinaryExpression exp) =>
-                Nullable.GetUnderlyingType(exp.Left.Type) != null;
+            bool IsNullable(BinaryExpression exp)
+                => Nullable.GetUnderlyingType(exp.Left.Type) != null;
         }
 
         /// <summary>
@@ -1030,7 +1027,7 @@ namespace Kros.KORM.Query.Sql
 
     internal static class StringExtension
     {
-        public static bool MatchMethodName(this string methodName, string expected) =>
-            methodName.Equals(expected, StringComparison.OrdinalIgnoreCase);
+        public static bool MatchMethodName(this string methodName, string expected)
+            => methodName.Equals(expected, StringComparison.OrdinalIgnoreCase);
     }
 }

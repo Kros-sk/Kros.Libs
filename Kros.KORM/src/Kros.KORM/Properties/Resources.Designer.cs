@@ -295,6 +295,15 @@ namespace Kros.KORM.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to When Skip method is used, OrderBy must be specified..
+        /// </summary>
+        internal static string SkipWithoutOrderByInQuery {
+            get {
+                return ResourceManager.GetString("SkipWithoutOrderByInQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This call of Take() method is not supported..
         /// </summary>
         internal static string ThisCallOfTakeMethodIsNotSupported {

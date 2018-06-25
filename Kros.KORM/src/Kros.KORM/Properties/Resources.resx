@@ -195,6 +195,9 @@
   <data name="ResultMustBeGenericIEnumerable" xml:space="preserve">
     <value>Result type must be generic type IEnumerable&lt;T&gt;.</value>
   </data>
+  <data name="SkipWithoutOrderByInQuery" xml:space="preserve">
+    <value>When Skip method is used, OrderBy must be specified.</value>
+  </data>
   <data name="ThisCallOfTakeMethodIsNotSupported" xml:space="preserve">
     <value>This call of Take() method is not supported.</value>
   </data>
