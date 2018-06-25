@@ -1,5 +1,6 @@
 ﻿using Kros.KORM.Metadata;
 using Kros.KORM.Query.Sql;
+using Kros.KORM.Query.Sql.MsAccess;
 using Kros.Utils;
 using System.Data;
 
@@ -16,7 +17,7 @@ namespace Kros.KORM.MsAccess.Query.Sql
 
         public ISqlExpressionVisitor CreateVisitor(IDbConnection connection)
         {
-            return new DefaultQuerySqlGenerator(_databaseMapper);
+            return new MsAccessQuerySqlGenerator(_databaseMapper);
         }
     }
 }
