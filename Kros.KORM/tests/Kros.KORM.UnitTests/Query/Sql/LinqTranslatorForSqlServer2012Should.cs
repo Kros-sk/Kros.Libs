@@ -1,5 +1,4 @@
-﻿using Kros.KORM.Query.Providers;
-using Kros.KORM.Query.Sql;
+﻿using Kros.KORM.Query.Sql;
 using System.Linq;
 using Xunit;
 
@@ -48,6 +47,40 @@ namespace Kros.KORM.UnitTests.Query.Sql
                     "OFFSET 10 ROWS FETCH NEXT 5 ROWS ONLY",
                     null),
                 null);
+        }
+
+        [Fact]
+        public void TranslateSkipMethodWithCondition()
+        {
+            var query = Query<Person>()
+                .Where(p => p.Id > 5)
+                .Skip(10)
+                .OrderBy(p => p.Id);
+
+            AreSame(
+                query,
+                new QueryInfo(
+                    "SELECT Id, FirstName, LastName, PostAddress FROM People WHERE ((Id > @1)) ORDER BY Id ASC OFFSET 10 ROWS",
+                    null),
+                5);
+        }
+
+        [Fact]
+        public void TranslateSkipWithTakeMethodAndCondition()
+        {
+            var query = Query<Person>()
+                .Where(p => p.Id > 5)
+                .Skip(10)
+                .Take(5)
+                .OrderBy(p => p.Id);
+
+            AreSame(
+                query,
+                new QueryInfo(
+                    "SELECT Id, FirstName, LastName, PostAddress FROM People WHERE ((Id > @1)) ORDER BY Id ASC " +
+                    "OFFSET 10 ROWS FETCH NEXT 5 ROWS ONLY",
+                    null),
+                5);
         }
 
         #endregion

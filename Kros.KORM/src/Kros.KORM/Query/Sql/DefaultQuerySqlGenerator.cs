@@ -23,6 +23,7 @@ namespace Kros.KORM.Query.Sql
         private StringBuilder _sqlBuilder;
         private int _top;
         private int _topPosition;
+        private int _columnsPosition;
         private int _skip;
 
         /// <summary>
@@ -72,6 +73,7 @@ namespace Kros.KORM.Query.Sql
         protected int Skip => _skip;
         protected int Top => _top;
         protected int TopPosition => _topPosition;
+        protected int ColumnsPosition => _columnsPosition;
 
         private void CheckSkip()
         {
@@ -159,7 +161,7 @@ namespace Kros.KORM.Query.Sql
         public virtual Expression VisitColumns(ColumnsExpression columnExpression)
         {
             SqlBuilder.Append(columnExpression.ColumnsPart);
-
+            _columnsPosition = SqlBuilder.Length;
             return columnExpression;
         }
 
@@ -214,9 +216,15 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitOrderBy(OrderByExpression orderByExpression)
         {
-            SqlBuilder.AppendFormat(" {0} {1}", OrderByExpression.OrderByStatement, orderByExpression.OrderByPart);
+            SqlBuilder.Append(" ");
+            SqlBuilder.Append(CreateOrderByString(orderByExpression));
 
             return orderByExpression;
+        }
+
+        protected string CreateOrderByString(OrderByExpression orderByExpression)
+        {
+            return string.Format("{0} {1}", OrderByExpression.OrderByStatement, orderByExpression.OrderByPart);
         }
 
         #region LINQ
