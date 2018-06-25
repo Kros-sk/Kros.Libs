@@ -25,7 +25,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         }
 
         [Alias("People")]
-        public class Person
+        public new class Person
         {
             public int Id { get; set; }
 

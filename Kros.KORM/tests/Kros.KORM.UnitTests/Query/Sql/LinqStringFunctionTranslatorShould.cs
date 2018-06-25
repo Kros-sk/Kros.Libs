@@ -28,7 +28,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
 
             AreSame(query, "SELECT Id, FirstName, LastName FROM People" +
                            " WHERE ((FirstName LIKE @1 + '%'))", "Joh");
-        }       
+        }
 
         [Fact]
         public void TranslateEndWithMethod()
@@ -112,7 +112,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         }
 
         [Alias("People")]
-        public class Person
+        public new class Person
         {
             public int Id { get; set; }
             [Alias("FirstName")]

@@ -5,14 +5,30 @@ using Kros.KORM.Query.Providers;
 
 namespace Kros.KORM.Query.Sql
 {
+    /// <summary>
+    /// SQL query generator for SQL Server 2008 and newer.
+    /// </summary>
+    /// <remarks>
+    /// Offset (<c>Skip</c>) and limit (<c>Top</c>) are translated to CTE (Common Table Expression).
+    /// </remarks>
     public class SqlServer2008SqlGenerator : DefaultQuerySqlGenerator
     {
+        private const string CteQueryOffset =
+            "WITH Results_CTE AS ({0}) SELECT * FROM Results_CTE WHERE __RowNum__ > {1}";
+        private const string CteQueryLimitOffset =
+            "WITH Results_CTE AS ({0}) SELECT * FROM Results_CTE WHERE __RowNum__ > {1} AND __RowNum__ <= {2}";
+
+        private string _orderByString;
+
+        /// <summary>
+        /// Creates an instance of the generator with specified database mapper <paramref name="databaseMapper"/>.
+        /// </summary>
+        /// <param name="databaseMapper">Database mapper</param>
         public SqlServer2008SqlGenerator(IDatabaseMapper databaseMapper) : base(databaseMapper)
         {
         }
 
-        private string _orderByString;
-
+        /// <inheritdoc/>
         public override Expression VisitOrderBy(OrderByExpression orderByExpression)
         {
             if (Skip == 0)
@@ -27,11 +43,7 @@ namespace Kros.KORM.Query.Sql
             }
         }
 
-        private const string CteQueryOffset =
-            "WITH Results_CTE AS ({0}) SELECT * FROM Results_CTE WHERE __RowNum__ > {1}";
-        private const string CteQueryLimitOffset =
-            "WITH Results_CTE AS ({0}) SELECT * FROM Results_CTE WHERE __RowNum__ > {1} AND __RowNum__ <= {2}";
-
+        /// <inheritdoc/>
         protected override void AddLimitAndOffset()
         {
             if (Skip == 0)
@@ -57,6 +69,10 @@ namespace Kros.KORM.Query.Sql
             }
         }
 
+        /// <summary>
+        /// Returns <see langword="null"/>.
+        /// </summary>
+        /// <returns>Returns <see langword="null"/>.</returns>
         protected override IDataReaderEnvelope CreateQueryReader() => null;
     }
 }

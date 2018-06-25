@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Kros.KORM.MsAccess.UnitTests.Query.Sql
 {
-    public class LinqStringFunctionMsAccessTranslator: LinqTranslatorTestBase
+    public class LinqStringFunctionMsAccessTranslator : LinqTranslatorTestBase
     {
         //Podporované funkcie
         //  * StartsWith
@@ -76,7 +76,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Query.Sql
         }
 
         [Alias("People")]
-        public class Person
+        public new class Person
         {
             public int Id { get; set; }
             [Alias("FirstName")]

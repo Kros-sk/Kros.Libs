@@ -69,10 +69,29 @@ namespace Kros.KORM.Query.Sql
             return new QueryInfo(SqlBuilder.ToString(), CreateQueryReader());
         }
 
+        /// <summary>
+        /// General builder for the SQL query.
+        /// </summary>
         protected StringBuilder SqlBuilder => _sqlBuilder;
+
+        /// <summary>
+        /// Offset - the number of rows to skip.
+        /// </summary>
         protected int Skip => _skip;
+
+        /// <summary>
+        /// Limit - the maximum number of rows to return.
+        /// </summary>
         protected int Top => _top;
+
+        /// <summary>
+        /// Position in the SQL query, where TOP clause belongs.
+        /// </summary>
         protected int TopPosition => _topPosition;
+
+        /// <summary>
+        /// Position in the SQL Query, where columns part ends. Some other columns can be added here.
+        /// </summary>
         protected int ColumnsPosition => _columnsPosition;
 
         private void CheckSkip()
@@ -87,11 +106,18 @@ namespace Kros.KORM.Query.Sql
             }
         }
 
+        /// <summary>
+        /// Creates a reader over data, for example to manually apply limit and offset if the database does not support it.
+        /// </summary>
+        /// <returns>Implementation of <see cref="IDataReaderEnvelope"/> or <see langword="null"/>.</returns>
         protected virtual IDataReaderEnvelope CreateQueryReader()
         {
             return _skip > 0 ? new LimitOffsetDataReader(Top, Skip) : null;
         }
 
+        /// <summary>
+        /// Adds limit (Top) and offset (Skip) clauses to the query.
+        /// </summary>
         protected virtual void AddLimitAndOffset()
         {
             if ((_top > 0) && (_skip == 0))
@@ -222,6 +248,11 @@ namespace Kros.KORM.Query.Sql
             return orderByExpression;
         }
 
+        /// <summary>
+        /// Creates an <c>ORDER BY</c> string for the SQL query.
+        /// </summary>
+        /// <param name="orderByExpression">Input expression.</param>
+        /// <returns>String.</returns>
         protected string CreateOrderByString(OrderByExpression orderByExpression)
         {
             return string.Format("{0} {1}", OrderByExpression.OrderByStatement, orderByExpression.OrderByPart);
@@ -456,6 +487,11 @@ namespace Kros.KORM.Query.Sql
             return expression;
         }
 
+        /// <summary>
+        /// Visits the Linq <c>Skip</c> method.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <returns>The <paramref name="expression"/> itself.</returns>
         protected virtual Expression VisitSkip(MethodCallExpression expression)
         {
             Visit(StripQuotes(expression.Arguments[1]));

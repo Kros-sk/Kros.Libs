@@ -1,4 +1,6 @@
-﻿using Kros.KORM.Query.Sql;
+﻿using FluentAssertions;
+using Kros.KORM.Query.Sql;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -7,6 +9,17 @@ namespace Kros.KORM.UnitTests.Query.Sql
     public class LinqTranslatorForSqlServer2012Should : LinqTranslatorTestBase
     {
         #region Tests
+
+        [Fact]
+        public void ThrowInvalidOperationExceptionWhenUsedSkipWithoutOrderBy()
+        {
+            var visitor = CreateVisitor();
+            var query = Query<Person>()
+                .Skip(10);
+            Action action = () => visitor.GenerateSql(query.Expression);
+
+            action.Should().Throw<InvalidOperationException>();
+        }
 
         [Fact]
         public void TranslateTakeMethod()

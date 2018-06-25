@@ -553,7 +553,7 @@ namespace Kros.KORM.Query
 
         /// <summary>
         /// Connection string na databázu, ktorý bol zadaný pri vytvorení inštancie triedy
-        /// (<see cref="QueryProvider.QueryProvider(ConnectionStringSettings, ISqlExpressionVisitor, IModelBuilder, ILogger)"/>).
+        /// (<see cref="QueryProvider.QueryProvider(ConnectionStringSettings, ISqlExpressionVisitorFactory, IModelBuilder, ILogger)"/>).
         /// Ak bola trieda vytvorená konkrétnou inštanciou spojenia, vráti <see langword="null"/>.
         /// </summary>
         protected string ConnectionString { get => _connectionSettings?.ConnectionString; }
