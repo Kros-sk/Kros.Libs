@@ -304,6 +304,15 @@ namespace Kros.KORM.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This call of Skip() method is not supported..
+        /// </summary>
+        internal static string ThisCallOfSkipMethodIsNotSupported {
+            get {
+                return ResourceManager.GetString("ThisCallOfSkipMethodIsNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This call of Take() method is not supported..
         /// </summary>
         internal static string ThisCallOfTakeMethodIsNotSupported {

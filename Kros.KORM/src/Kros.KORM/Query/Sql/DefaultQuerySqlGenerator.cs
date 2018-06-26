@@ -503,7 +503,7 @@ namespace Kros.KORM.Query.Sql
             }
             catch (Exception ex)
             {
-                throw new NotSupportedException("ThisCallOfSkipMethodIsNotSupported", ex);
+                throw new NotSupportedException(Resources.ThisCallOfSkipMethodIsNotSupported, ex);
             }
         }
 

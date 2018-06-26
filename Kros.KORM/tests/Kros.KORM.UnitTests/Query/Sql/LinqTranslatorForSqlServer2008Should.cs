@@ -90,6 +90,23 @@ namespace Kros.KORM.UnitTests.Query.Sql
             AreSame(query, new QueryInfo(expectedQuery, null), 5);
         }
 
+        [Fact]
+        public void TranslateSkipWithTakeAndConditionAndComplexOrderBy()
+        {
+            var query = Query<Person>()
+                .Where(p => p.Id > 5)
+                .Skip(10)
+                .Take(5)
+                .OrderBy(p => p.Id)
+                .ThenByDescending(p => p.FirstName);
+
+            const string expectedQuery =
+                "WITH Results_CTE AS (SELECT Id, FirstName, LastName, PostAddress, " +
+                "ROW_NUMBER() OVER(ORDER BY Id ASC, FirstName DESC) AS __RowNum__ FROM People WHERE ((Id > @1))) " +
+                "SELECT * FROM Results_CTE WHERE __RowNum__ > 10 AND __RowNum__ <= 15";
+            AreSame(query, new QueryInfo(expectedQuery, null), 5);
+        }
+
         #endregion
 
         #region Helpers

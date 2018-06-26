@@ -128,6 +128,24 @@ namespace Kros.KORM.UnitTests.Query.Sql
         }
 
         [Fact]
+        public void TranslateSkipWithTakeAndConditionAndComplexOrderBy()
+        {
+            var query = Query<Person>()
+                .Where(p => p.Id > 5)
+                .Skip(10)
+                .Take(5)
+                .OrderBy(p => p.Id)
+                .ThenByDescending(p => p.FirstName);
+
+            AreSame(
+                query,
+                new QueryInfo(
+                    "SELECT Id, FirstName, LastName, PostAddress FROM People WHERE ((Id > @1)) ORDER BY Id ASC, FirstName DESC",
+                    new LimitOffsetDataReader(5, 10)),
+                5);
+        }
+
+        [Fact]
         public void ThrowInvalidOperationExceptionWhenUsedSkipWithoutOrderBy()
         {
             var visitor = CreateVisitor();
