@@ -64,7 +64,7 @@ namespace Kros.KORM.UnitTests.Integration
         private const string Table_TestTable = "People";
 
         private static string CreateTable_TestTable =
-$@"CREATE TABLE[dbo].[{Table_TestTable}] (
+$@"CREATE TABLE [dbo].[{Table_TestTable}] (
     [Id] [int] NOT NULL,
     [Age] [int] NULL,
     [FirstName] [nvarchar] (50) NULL,
@@ -79,32 +79,32 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');";
         private const string Table_LimitOffsetTest = "LimitOffsetTest";
 
         private static string CreateTable_LimitOffsetTest =
-$@"CREATE TABLE[dbo].[{Table_LimitOffsetTest}] (
+$@"CREATE TABLE [dbo].[{Table_LimitOffsetTest}] (
     [Id] [int] NOT NULL,
     [Value] [nvarchar](50) NULL
 ) ON[PRIMARY];";
 
         private static string InsertLimitOffsetDataScript =
-$@"INSERT INTO {Table_LimitOffsetTest} VALUES (1, 'one');
-INSERT INTO {Table_LimitOffsetTest} VALUES (2, 'two');
-INSERT INTO {Table_LimitOffsetTest} VALUES (3, 'three');
-INSERT INTO {Table_LimitOffsetTest} VALUES (4, 'four');
-INSERT INTO {Table_LimitOffsetTest} VALUES (5, 'fice');
-INSERT INTO {Table_LimitOffsetTest} VALUES (6, 'six');
-INSERT INTO {Table_LimitOffsetTest} VALUES (7, 'seven');
-INSERT INTO {Table_LimitOffsetTest} VALUES (8, 'eight');
-INSERT INTO {Table_LimitOffsetTest} VALUES (9, 'nine');
-INSERT INTO {Table_LimitOffsetTest} VALUES (10, 'ten');
-INSERT INTO {Table_LimitOffsetTest} VALUES (11, 'eleven');
-INSERT INTO {Table_LimitOffsetTest} VALUES (12, 'twelve');
-INSERT INTO {Table_LimitOffsetTest} VALUES (13, 'thirteen');
-INSERT INTO {Table_LimitOffsetTest} VALUES (14, 'fourteen');
-INSERT INTO {Table_LimitOffsetTest} VALUES (15, 'fifteen');
-INSERT INTO {Table_LimitOffsetTest} VALUES (16, 'sixteen');
-INSERT INTO {Table_LimitOffsetTest} VALUES (17, 'seventeen');
-INSERT INTO {Table_LimitOffsetTest} VALUES (18, 'eighteen');
-INSERT INTO {Table_LimitOffsetTest} VALUES (19, 'nineteen');
-INSERT INTO {Table_LimitOffsetTest} VALUES (20, 'twenty');";
+$@"INSERT INTO [{Table_LimitOffsetTest}] VALUES (1, 'one');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (2, 'two');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (3, 'three');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (4, 'four');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (5, 'fice');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (6, 'six');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (7, 'seven');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (8, 'eight');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (9, 'nine');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (10, 'ten');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (11, 'eleven');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (12, 'twelve');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (13, 'thirteen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (14, 'fourteen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (15, 'fifteen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (16, 'sixteen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (17, 'seventeen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (18, 'eighteen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (19, 'nineteen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
 
         #endregion
 
@@ -633,9 +633,9 @@ INSERT INTO {Table_LimitOffsetTest} VALUES (20, 'twenty');";
             using (IDatabase korm = CreateDatabase(CreateTable_LimitOffsetTest, InsertLimitOffsetDataScript))
             {
                 var expectedData = new List<LimitOffsetTestData>(new[] {
-                    new LimitOffsetTestData() {  Id = 1, Value = "one" },
-                    new LimitOffsetTestData() {  Id = 2, Value = "two" },
-                    new LimitOffsetTestData() {  Id = 3, Value = "three" }
+                    new LimitOffsetTestData() { Id = 1, Value = "one" },
+                    new LimitOffsetTestData() { Id = 2, Value = "two" },
+                    new LimitOffsetTestData() { Id = 3, Value = "three" }
                 });
 
                 List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
@@ -653,9 +653,9 @@ INSERT INTO {Table_LimitOffsetTest} VALUES (20, 'twenty');";
             using (IDatabase korm = CreateDatabase(CreateTable_LimitOffsetTest, InsertLimitOffsetDataScript))
             {
                 var expectedData = new List<LimitOffsetTestData>(new[] {
-                    new LimitOffsetTestData() {  Id = 18, Value = "eighteen" },
-                    new LimitOffsetTestData() {  Id = 19, Value = "nineteen" },
-                    new LimitOffsetTestData() {  Id = 20, Value = "twenty" }
+                    new LimitOffsetTestData() { Id = 18, Value = "eighteen" },
+                    new LimitOffsetTestData() { Id = 19, Value = "nineteen" },
+                    new LimitOffsetTestData() { Id = 20, Value = "twenty" }
                 });
 
                 List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
@@ -673,9 +673,9 @@ INSERT INTO {Table_LimitOffsetTest} VALUES (20, 'twenty');";
             using (IDatabase korm = CreateDatabase(CreateTable_LimitOffsetTest, InsertLimitOffsetDataScript))
             {
                 var expectedData = new List<LimitOffsetTestData>(new[] {
-                    new LimitOffsetTestData() {  Id = 6, Value = "six" },
-                    new LimitOffsetTestData() {  Id = 7, Value = "seven" },
-                    new LimitOffsetTestData() {  Id = 8, Value = "eight" }
+                    new LimitOffsetTestData() { Id = 6, Value = "six" },
+                    new LimitOffsetTestData() { Id = 7, Value = "seven" },
+                    new LimitOffsetTestData() { Id = 8, Value = "eight" }
                 });
 
                 List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
@@ -710,8 +710,8 @@ INSERT INTO {Table_LimitOffsetTest} VALUES (20, 'twenty');";
             using (IDatabase korm = CreateDatabase(CreateTable_LimitOffsetTest, InsertLimitOffsetDataScript))
             {
                 var expectedData = new List<LimitOffsetTestData>(new[] {
-                    new LimitOffsetTestData() {  Id = 19, Value = "nineteen" },
-                    new LimitOffsetTestData() {  Id = 20, Value = "twenty" },
+                    new LimitOffsetTestData() { Id = 19, Value = "nineteen" },
+                    new LimitOffsetTestData() { Id = 20, Value = "twenty" },
                 });
 
                 List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
