@@ -1,4 +1,5 @@
-﻿using Kros.Data.MsAccess;
+﻿using Kros.Data;
+using Kros.Data.MsAccess;
 using Kros.MsAccess.Properties;
 using Kros.Utils;
 using System;
@@ -173,6 +174,7 @@ namespace Kros.UnitTests
         {
             if (_initDatabaseScripts != null)
             {
+                using (ConnectionHelper.OpenConnection(Connection))
                 using (OleDbCommand cmd = Connection.CreateCommand())
                 {
                     foreach (string script in _initDatabaseScripts)
