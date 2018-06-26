@@ -29,6 +29,29 @@ namespace Kros.UnitTests
         #region Constructors
 
         /// <summary>
+        /// Creates an instance of helper with specified parameters. New database file is created as an empty database
+        /// with random name in temporary folder.
+        /// </summary>
+        /// <param name="provider">Microsoft Access provider type.</param>
+        public MsAccessTestHelper(ProviderType provider)
+            : this(provider, null as IEnumerable<string>)
+        {
+        }
+
+        /// <summary>
+        /// Creates an instance of helper with specified parameters. New database file is created as an empty database
+        /// with random name in temporary folder and is initialized with scripts in <paramref name="initDatabaseScripts"/>.
+        /// </summary>
+        /// <param name="provider">Microsoft Access provider type.</param>
+        /// <param name="initDatabaseScripts">List of scripts, which are used for database initialization.
+        /// For example, they can be scripts for creating and filling necessary tables.</param>
+        public MsAccessTestHelper(ProviderType provider, IEnumerable<string> initDatabaseScripts)
+        {
+            _provider = provider;
+            _initDatabaseScripts = initDatabaseScripts;
+        }
+
+        /// <summary>
         /// Creates an instance of helper with specified parameters. New database file is created as a copy of
         /// <paramref name="sourceDatabasePath"/>.
         /// </summary>
@@ -115,7 +138,7 @@ namespace Kros.UnitTests
         /// <summary>
         /// Path to created temporary database.
         /// </summary>
-        public string DatabasePath { get => _databasePath; }
+        public string DatabasePath => _databasePath;
 
         /// <summary>
         /// Connection to created temporary database.
@@ -140,10 +163,7 @@ namespace Kros.UnitTests
         /// Generates path to the file where database will be created. Default is random filename in system's temp folder.
         /// </summary>
         /// <returns>Path to the database file.</returns>
-        protected virtual string GenerateDatabaseName()
-        {
-            return Path.GetTempFileName();
-        }
+        protected virtual string GenerateDatabaseName() => Path.GetTempFileName();
 
         /// <summary>
         /// Initializes new empty database. Method is called after empty temporary database is created and it executes
@@ -173,10 +193,7 @@ namespace Kros.UnitTests
             }
         }
 
-        private void CreateConnection()
-        {
-            _connection = new OleDbConnection(InitConnectionString(_provider));
-        }
+        private void CreateConnection() => _connection = new OleDbConnection(InitConnectionString(_provider));
 
         private string InitConnectionString(ProviderType provider)
         {
@@ -186,16 +203,20 @@ namespace Kros.UnitTests
             }
 
             _databasePath = GenerateDatabaseName();
-            if (_sourceDatabaseStream == null)
+            if (!string.IsNullOrEmpty(_sourceDatabasePath))
             {
                 File.Copy(_sourceDatabasePath, _databasePath, true);
             }
-            else
+            else if (_sourceDatabaseStream != null)
             {
                 using (FileStream writer = new FileStream(_databasePath, FileMode.Create, FileAccess.Write))
                 {
                     _sourceDatabaseStream.CopyTo(writer);
                 }
+            }
+            else
+            {
+                MsAccessDataHelper.CreateEmptyDatabase(_databasePath, provider);
             }
             return MsAccessDataHelper.CreateConnectionString(_databasePath, provider);
         }
@@ -224,25 +245,8 @@ namespace Kros.UnitTests
 
         #region IDisposable
 
-        private bool disposedValue = false;
-
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    RemoveDatabase();
-                }
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
+        public void Dispose() => RemoveDatabase();
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion
