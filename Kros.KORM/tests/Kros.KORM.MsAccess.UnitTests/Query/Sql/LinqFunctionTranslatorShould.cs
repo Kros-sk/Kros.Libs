@@ -111,7 +111,6 @@ namespace Kros.KORM.MsAccess.UnitTests.Query.Sql
             action.Should().Throw<InvalidOperationException>();
         }
 
-
         [Fact]
         public void TranslateAnyMethod()
         {

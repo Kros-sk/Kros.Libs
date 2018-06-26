@@ -23,7 +23,6 @@ namespace Kros.KORM.UnitTests.Integration
         {
             public int Id { get; set; }
             public string Value { get; set; }
-
         }
 
         [Alias("People")]
