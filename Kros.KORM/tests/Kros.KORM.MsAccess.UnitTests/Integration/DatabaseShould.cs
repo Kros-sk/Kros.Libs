@@ -60,22 +60,21 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
         #region Limit/Offset
 
         [Fact]
-        public void ReturnOnlyFirstNRows_Ace() => ReturnOnlyFirstNRowsCore(ProviderType.Ace);
+        public void ReturnOnlyFirstNRows_Ace()
+        {
+            Helpers.SkipTestIfAceProviderNotAvailable();
+            ReturnOnlyFirstNRowsCore(ProviderType.Ace);
+        }
 
         [Fact]
-        public void ReturnOnlyFirstNRows_Jet() => ReturnOnlyFirstNRowsCore(ProviderType.Jet);
+        public void ReturnOnlyFirstNRows_Jet()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            ReturnOnlyFirstNRowsCore(ProviderType.Jet);
+        }
 
         private void ReturnOnlyFirstNRowsCore(ProviderType provider)
         {
-            if (provider == ProviderType.Ace)
-            {
-                Helpers.SkipTestIfAceProviderNotAvailable();
-            }
-            else if (provider == ProviderType.Jet)
-            {
-                Helpers.SkipTestIfJetProviderNotAvailable();
-            }
-
             using (MsAccessTestHelper helper = CreateDatabase(provider, LimitOffsetInitScripts))
             using (IDatabase korm = new Database(helper.Connection))
             {
@@ -95,22 +94,21 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
         }
 
         [Fact]
-        public void SkipFirstNRows_Ace() => SkipFirstNRowsCore(ProviderType.Ace);
+        public void SkipFirstNRows_Ace()
+        {
+            Helpers.SkipTestIfAceProviderNotAvailable();
+            SkipFirstNRowsCore(ProviderType.Ace);
+        }
 
         [Fact]
-        public void SkipFirstNRows_Jet() => SkipFirstNRowsCore(ProviderType.Jet);
+        public void SkipFirstNRows_Jet()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            SkipFirstNRowsCore(ProviderType.Jet);
+        }
 
         private void SkipFirstNRowsCore(ProviderType provider)
         {
-            if (provider == ProviderType.Ace)
-            {
-                Helpers.SkipTestIfAceProviderNotAvailable();
-            }
-            else if (provider == ProviderType.Jet)
-            {
-                Helpers.SkipTestIfJetProviderNotAvailable();
-            }
-
             using (MsAccessTestHelper helper = CreateDatabase(provider, LimitOffsetInitScripts))
             using (IDatabase korm = new Database(helper.Connection))
             {
@@ -130,22 +128,21 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
         }
 
         [Fact]
-        public void SkipFirstNRowsAndReturnNextMRows_Ace() => SkipFirstNRowsAndReturnNextMRowsCore(ProviderType.Ace);
+        public void SkipFirstNRowsAndReturnNextMRows_Ace()
+        {
+            Helpers.SkipTestIfAceProviderNotAvailable();
+            SkipFirstNRowsAndReturnNextMRowsCore(ProviderType.Ace);
+        }
 
         [Fact]
-        public void SkipFirstNRowsAndReturnNextMRows_Jet() => SkipFirstNRowsAndReturnNextMRowsCore(ProviderType.Jet);
+        public void SkipFirstNRowsAndReturnNextMRows_Jet()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            SkipFirstNRowsAndReturnNextMRowsCore(ProviderType.Jet);
+        }
 
         private void SkipFirstNRowsAndReturnNextMRowsCore(ProviderType provider)
         {
-            if (provider == ProviderType.Ace)
-            {
-                Helpers.SkipTestIfAceProviderNotAvailable();
-            }
-            else if (provider == ProviderType.Jet)
-            {
-                Helpers.SkipTestIfJetProviderNotAvailable();
-            }
-
             using (MsAccessTestHelper helper = CreateDatabase(provider, LimitOffsetInitScripts))
             using (IDatabase korm = new Database(helper.Connection))
             {
@@ -166,22 +163,21 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
         }
 
         [Fact]
-        public void ReturnNoRowsWhenSkipIsTooBig_Ace() => ReturnNoRowsWhenSkipIsTooBigCore(ProviderType.Ace);
+        public void ReturnNoRowsWhenSkipIsTooBig_Ace()
+        {
+            Helpers.SkipTestIfAceProviderNotAvailable();
+            ReturnNoRowsWhenSkipIsTooBigCore(ProviderType.Ace);
+        }
 
         [Fact]
-        public void ReturnNoRowsWhenSkipIsTooBig_Jet() => ReturnNoRowsWhenSkipIsTooBigCore(ProviderType.Jet);
+        public void ReturnNoRowsWhenSkipIsTooBig_Jet()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            ReturnNoRowsWhenSkipIsTooBigCore(ProviderType.Jet);
+        }
 
         private void ReturnNoRowsWhenSkipIsTooBigCore(ProviderType provider)
         {
-            if (provider == ProviderType.Ace)
-            {
-                Helpers.SkipTestIfAceProviderNotAvailable();
-            }
-            else if (provider == ProviderType.Jet)
-            {
-                Helpers.SkipTestIfJetProviderNotAvailable();
-            }
-
             using (MsAccessTestHelper helper = CreateDatabase(provider, LimitOffsetInitScripts))
             using (IDatabase korm = new Database(helper.Connection))
             {
@@ -197,22 +193,21 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
         }
 
         [Fact]
-        public void ReturnAllRemainigRowsWhenTakeIsTooBig_Ace() => ReturnAllRemainigRowsWhenTakeIsTooBigCore(ProviderType.Ace);
+        public void ReturnAllRemainigRowsWhenTakeIsTooBig_Ace()
+        {
+            Helpers.SkipTestIfAceProviderNotAvailable();
+            ReturnAllRemainigRowsWhenTakeIsTooBigCore(ProviderType.Ace);
+        }
 
         [Fact]
-        public void ReturnAllRemainigRowsWhenTakeIsTooBig_Jet() => ReturnAllRemainigRowsWhenTakeIsTooBigCore(ProviderType.Jet);
+        public void ReturnAllRemainigRowsWhenTakeIsTooBig_Jet()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            ReturnAllRemainigRowsWhenTakeIsTooBigCore(ProviderType.Jet);
+        }
 
         private void ReturnAllRemainigRowsWhenTakeIsTooBigCore(ProviderType provider)
         {
-            if (provider == ProviderType.Ace)
-            {
-                Helpers.SkipTestIfAceProviderNotAvailable();
-            }
-            else if (provider == ProviderType.Jet)
-            {
-                Helpers.SkipTestIfJetProviderNotAvailable();
-            }
-
             using (MsAccessTestHelper helper = CreateDatabase(provider, LimitOffsetInitScripts))
             using (IDatabase korm = new Database(helper.Connection))
             {
