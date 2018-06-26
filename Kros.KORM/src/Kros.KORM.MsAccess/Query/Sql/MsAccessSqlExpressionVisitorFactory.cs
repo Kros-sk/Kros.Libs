@@ -18,9 +18,7 @@ namespace Kros.KORM.MsAccess.Query.Sql
         /// </summary>
         /// <param name="databaseMapper">Database mapper.</param>
         public MsAccessSqlExpressionVisitorFactory(IDatabaseMapper databaseMapper)
-        {
-            _databaseMapper = Check.NotNull(databaseMapper, nameof(databaseMapper));
-        }
+            => _databaseMapper = Check.NotNull(databaseMapper, nameof(databaseMapper));
 
         /// <summary>
         /// Returns <see cref="MsAccessQuerySqlGenerator"/>.
@@ -28,8 +26,6 @@ namespace Kros.KORM.MsAccess.Query.Sql
         /// <param name="connection">Database connection.</param>
         /// <returns>Instance of <see cref="MsAccessQuerySqlGenerator"/>.</returns>
         public ISqlExpressionVisitor CreateVisitor(IDbConnection connection)
-        {
-            return new MsAccessQuerySqlGenerator(_databaseMapper);
-        }
+            => new MsAccessQuerySqlGenerator(_databaseMapper);
     }
 }

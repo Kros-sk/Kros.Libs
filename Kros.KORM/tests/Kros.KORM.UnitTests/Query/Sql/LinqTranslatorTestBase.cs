@@ -70,14 +70,10 @@ namespace Kros.KORM.UnitTests.Query.Sql
         /// <param name="value">Testing query.</param>
         /// <param name="expectedSql">Expected sql query.</param>
         protected void AreSame<T>(IQueryable<T> value, string expectedSql, params object[] parameters)
-        {
-            AreSame(value.Expression, new QueryInfo(expectedSql), parameters);
-        }
+            => AreSame(value.Expression, new QueryInfo(expectedSql), parameters);
 
         protected void AreSame<T>(IQueryable<T> value, QueryInfo sql, params object[] parameters)
-        {
-            AreSame(value.Expression, sql, parameters);
-        }
+            => AreSame(value.Expression, sql, parameters);
 
         private void AreSame(Expression expression, QueryInfo expectedQuery, object[] parameters)
         {

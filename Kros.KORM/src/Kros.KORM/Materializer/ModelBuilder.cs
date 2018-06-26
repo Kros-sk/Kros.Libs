@@ -220,21 +220,9 @@ namespace Kros.KORM.Materializer
             /// <summary>
             /// Gets the element in the collection at the current position of the enumerator.
             /// </summary>
-            public T Current
-            {
-                get
-                {
-                    return _currentItem;
-                }
-            }
+            public T Current => _currentItem;
 
-            object IEnumerator.Current
-            {
-                get
-                {
-                    return _currentItem;
-                }
-            }
+            object IEnumerator.Current => _currentItem;
 
             /// <summary>
             /// Advances the enumerator to the next element of the collection.

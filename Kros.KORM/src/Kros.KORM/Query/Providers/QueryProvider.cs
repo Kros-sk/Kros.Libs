@@ -42,10 +42,7 @@ namespace Kros.KORM.Query
             public DbCommand Command { get; }
             public IDataReaderEnvelope Reader { get; }
 
-            public void Dispose()
-            {
-                Command.Dispose();
-            }
+            public void Dispose() => Command?.Dispose();
         }
 
         private class IdGeneratorHelper : IIdGenerator

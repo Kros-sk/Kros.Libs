@@ -124,20 +124,6 @@ INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (10, 100,
         }
 
         [Fact]
-        public void ReturnScalar()
-        {
-            using (var korm = CreateDatabase(CreateTable_TestTable))
-            {
-                //var actual = korm
-                //    .Query<TestTable>()
-                //    .OrderBy(p => p.Id)
-                //    .ExecuteScalar();
-
-                //actual.Select(p => p.Id).Should().BeEquivalentTo(new List<int>() { 7, 8, 9 });
-            }
-        }
-
-        [Fact]
         public void ExecuteOrderBy()
         {
             using (var korm = CreateDatabase(CreateTable_TestTable))

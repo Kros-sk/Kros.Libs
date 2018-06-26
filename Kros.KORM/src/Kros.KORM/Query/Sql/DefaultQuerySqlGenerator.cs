@@ -107,10 +107,7 @@ namespace Kros.KORM.Query.Sql
         /// Creates a reader over data, for example to manually apply limit and offset if the database does not support it.
         /// </summary>
         /// <returns>Implementation of <see cref="IDataReaderEnvelope"/> or <see langword="null"/>.</returns>
-        protected virtual IDataReaderEnvelope CreateQueryReader()
-        {
-            return _skip > 0 ? new LimitOffsetDataReader(Top, Skip) : null;
-        }
+        protected virtual IDataReaderEnvelope CreateQueryReader() => _skip > 0 ? new LimitOffsetDataReader(Top, Skip) : null;
 
         /// <summary>
         /// Adds limit (Top) and offset (Skip) clauses to the query.
@@ -251,9 +248,7 @@ namespace Kros.KORM.Query.Sql
         /// <param name="orderByExpression">Input expression.</param>
         /// <returns>String.</returns>
         protected string CreateOrderByString(OrderByExpression orderByExpression)
-        {
-            return string.Format("{0} {1}", OrderByExpression.OrderByStatement, orderByExpression.OrderByPart);
-        }
+            => string.Format("{0} {1}", OrderByExpression.OrderByStatement, orderByExpression.OrderByPart);
 
         #region LINQ
 
