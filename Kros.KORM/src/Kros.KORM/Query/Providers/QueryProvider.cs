@@ -6,6 +6,7 @@ using Kros.KORM.Data;
 using Kros.KORM.Helper;
 using Kros.KORM.Materializer;
 using Kros.KORM.Properties;
+using Kros.KORM.Query.Providers;
 using Kros.KORM.Query.Sql;
 using Kros.Utils;
 using System;
@@ -29,6 +30,20 @@ namespace Kros.KORM.Query
     public abstract class QueryProvider : IQueryProvider
     {
         #region Nested types
+
+        private class DbCommandInfo : IDisposable
+        {
+            public DbCommandInfo(DbCommand command, IDataReaderEnvelope reader)
+            {
+                Command = command;
+                Reader = reader;
+            }
+
+            public DbCommand Command { get; }
+            public IDataReaderEnvelope Reader { get; }
+
+            public void Dispose() => Command?.Dispose();
+        }
 
         private class IdGeneratorHelper : IIdGenerator
         {
@@ -83,7 +98,7 @@ namespace Kros.KORM.Query
         #region Private fields
 
         private readonly ILogger _logger;
-        private readonly ISqlExpressionVisitor _sqlGenerator;
+        private readonly ISqlExpressionVisitorFactory _sqlGeneratorFactory;
         private readonly IModelBuilder _modelBuilder;
         private readonly ConnectionStringSettings _connectionSettings = null;
         private DbConnection _connection = null;
@@ -100,24 +115,24 @@ namespace Kros.KORM.Query
         /// Initializes a new instance of the <see cref="QueryProvider" /> class.
         /// </summary>
         /// <param name="connectionSettings">The connection string settings.</param>
-        /// <param name="sqlGenerator">The SQL generator.</param>
+        /// <param name="sqlGeneratorFactory">The SQL generator factory.</param>
         /// <param name="modelBuilder">The model builder.</param>
         /// <param name="logger">The logger.</param>
         public QueryProvider(
             ConnectionStringSettings connectionSettings,
-            ISqlExpressionVisitor sqlGenerator,
+            ISqlExpressionVisitorFactory sqlGeneratorFactory,
             IModelBuilder modelBuilder,
             ILogger logger)
         {
             Check.NotNull(connectionSettings, nameof(connectionSettings));
-            Check.NotNull(sqlGenerator, nameof(sqlGenerator));
+            Check.NotNull(sqlGeneratorFactory, nameof(sqlGeneratorFactory));
             Check.NotNull(modelBuilder, nameof(modelBuilder));
             Check.NotNull(logger, nameof(logger));
 
             _logger = logger;
             _connectionSettings = connectionSettings;
             IsExternalConnection = false;
-            _sqlGenerator = sqlGenerator;
+            _sqlGeneratorFactory = sqlGeneratorFactory;
             _modelBuilder = modelBuilder;
             _transactionHelper = new Lazy<TransactionHelper>(() => new TransactionHelper(Connection));
         }
@@ -126,24 +141,24 @@ namespace Kros.KORM.Query
         /// Initializes a new instance of the <see cref="QueryProvider" /> class.
         /// </summary>
         /// <param name="externalConnection">The connection.</param>
-        /// <param name="sqlGenerator">The SQL generator.</param>
+        /// <param name="sqlGeneratorFactory">The SQL generator factory.</param>
         /// <param name="modelBuilder">The model builder.</param>
         /// <param name="logger">The logger.</param>
         public QueryProvider(
             DbConnection externalConnection,
-            ISqlExpressionVisitor sqlGenerator,
+            ISqlExpressionVisitorFactory sqlGeneratorFactory,
             IModelBuilder modelBuilder,
             ILogger logger)
         {
             Check.NotNull(externalConnection, nameof(externalConnection));
-            Check.NotNull(sqlGenerator, nameof(sqlGenerator));
+            Check.NotNull(sqlGeneratorFactory, nameof(sqlGeneratorFactory));
             Check.NotNull(modelBuilder, nameof(modelBuilder));
             Check.NotNull(logger, nameof(logger));
 
             _logger = logger;
             _connection = externalConnection;
             IsExternalConnection = true;
-            _sqlGenerator = sqlGenerator;
+            _sqlGeneratorFactory = sqlGeneratorFactory;
             _modelBuilder = modelBuilder;
             _transactionHelper = new Lazy<TransactionHelper>(() => new TransactionHelper(Connection));
         }
@@ -197,9 +212,10 @@ namespace Kros.KORM.Query
             Check.NotNull(query, nameof(query));
 
             Data.ConnectionHelper cnHelper = OpenConnection();
-            DbCommand command = CreateCommand(query.Expression);
-            _logger.LogCommand(command);
-            IDataReader reader = new ModelBuilder.QueryDataReader(command, cnHelper.CloseConnection);
+            DbCommandInfo commandInfo = CreateCommand(query.Expression);
+            _logger.LogCommand(commandInfo.Command);
+            IDataReader reader = new ModelBuilder.QueryDataReader(commandInfo.Command, commandInfo.Reader,
+                cnHelper.CloseConnection);
             return _modelBuilder.Materialize<T>(reader);
         }
 
@@ -219,11 +235,25 @@ namespace Kros.KORM.Query
             Check.NotNull(query, nameof(query));
 
             using (var cnHelper = OpenConnection())
-            using (var command = CreateCommand(query.Expression))
+            using (DbCommandInfo commandInfo = CreateCommand(query.Expression))
             {
-                _logger.LogCommand(command);
-                var ret = command.ExecuteScalar();
-                return ret;
+                _logger.LogCommand(commandInfo.Command);
+                if (commandInfo.Reader == null)
+                {
+                    return commandInfo.Command.ExecuteScalar();
+                }
+                else
+                {
+                    using (IDataReaderEnvelope reader = commandInfo.Reader)
+                    {
+                        reader.SetInnerReader(commandInfo.Command.ExecuteReader());
+                        if (reader.Read())
+                        {
+                            return reader.GetValue(0);
+                        }
+                    }
+                }
+                return null;
             }
         }
 
@@ -329,7 +359,7 @@ namespace Kros.KORM.Query
 
                 if (typeof(IEnumerable).IsAssignableFrom(typeof(TResult)))
                 {
-                    IDataReader reader = new ModelBuilder.QueryDataReader(command, cnHelper.CloseConnection);
+                    IDataReader reader = new ModelBuilder.QueryDataReader(command, null, cnHelper.CloseConnection);
                     result = MaterializeStoredProcedureResult<TResult>(reader);
                     callDispose = false;
                 }
@@ -520,7 +550,7 @@ namespace Kros.KORM.Query
 
         /// <summary>
         /// Connection string na databázu, ktorý bol zadaný pri vytvorení inštancie triedy
-        /// (<see cref="QueryProvider.QueryProvider(ConnectionStringSettings, ISqlExpressionVisitor, IModelBuilder, ILogger)"/>).
+        /// (<see cref="QueryProvider.QueryProvider(ConnectionStringSettings, ISqlExpressionVisitorFactory, IModelBuilder, ILogger)"/>).
         /// Ak bola trieda vytvorená konkrétnou inštanciou spojenia, vráti <see langword="null"/>.
         /// </summary>
         protected string ConnectionString { get => _connectionSettings?.ConnectionString; }
@@ -554,14 +584,15 @@ namespace Kros.KORM.Query
             return new Data.ConnectionHelper(Connection);
         }
 
-        private DbCommand CreateCommand(Expression expression)
+        private DbCommandInfo CreateCommand(Expression expression)
         {
             var command = _transactionHelper.Value.CreateCommand();
 
-            command.CommandText = _sqlGenerator.GenerateSql(expression);
+            QueryInfo queryInfo = _sqlGeneratorFactory.CreateVisitor(command.Connection).GenerateSql(expression);
+            command.CommandText = queryInfo.Query;
             ParameterExtractingExpressionVisitor.ExtractParametersToCommand(command, expression);
 
-            return command;
+            return new DbCommandInfo(command, queryInfo.Reader);
         }
 
         private DbCommand CreateCommand(string commandText, CommandParameterCollection parameters)

@@ -144,6 +144,9 @@
   <data name="InvalidPrimaryKeyForBulkUpdate" xml:space="preserve">
     <value>Table {0} has none, or composite primary key. Primary key must be one column only.</value>
   </data>
+  <data name="LimitOffsetDataReaderInnerReaderAlreadySet" xml:space="preserve">
+    <value>Inner reader is already set. It can be set only once.</value>
+  </data>
   <data name="MemberIsNotSupported" xml:space="preserve">
     <value>The member '{0}' is not supported.</value>
   </data>
@@ -191,6 +194,12 @@
   </data>
   <data name="ResultMustBeGenericIEnumerable" xml:space="preserve">
     <value>Result type must be generic type IEnumerable&lt;T&gt;.</value>
+  </data>
+  <data name="SkipWithoutOrderByInQuery" xml:space="preserve">
+    <value>When Skip method is used, OrderBy must be specified.</value>
+  </data>
+  <data name="ThisCallOfSkipMethodIsNotSupported" xml:space="preserve">
+    <value>This call of Skip() method is not supported.</value>
   </data>
   <data name="ThisCallOfTakeMethodIsNotSupported" xml:space="preserve">
     <value>This call of Take() method is not supported.</value>

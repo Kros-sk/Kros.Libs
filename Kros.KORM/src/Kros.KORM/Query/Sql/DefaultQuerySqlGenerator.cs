@@ -1,6 +1,7 @@
 ﻿using Kros.KORM.Metadata;
 using Kros.KORM.Properties;
 using Kros.KORM.Query.Expressions;
+using Kros.KORM.Query.Providers;
 using Kros.Utils;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,11 @@ namespace Kros.KORM.Query.Sql
         private const string VbOperatorsClassName = "Microsoft.VisualBasic.CompilerServices.Operators";
         private const string VbEmbeddedOperatorsClassName = "Microsoft.VisualBasic.CompilerServices.EmbeddedOperators";
 
-        private StringBuilder _sqlBuilder = null;
+        private StringBuilder _sqlBuilder;
+        private int _top;
+        private int _topPosition;
+        private int _columnsPosition;
+        private int _skip;
 
         /// <summary>
         /// Constructor.
@@ -42,28 +47,85 @@ namespace Kros.KORM.Query.Sql
         /// </summary>
         /// <param name="expression">The expression.</param>
         /// <returns>SQL select command text.</returns>
-        public virtual string GenerateSql(Expression expression)
+        public virtual QueryInfo GenerateSql(Expression expression)
         {
             Check.NotNull(expression, nameof(expression));
             _wasAny = false;
             _sqlBuilder = new StringBuilder();
             _top = 0;
+            _topPosition = 0;
+            _skip = 0;
+            _columnsPosition = 0;
             LinqParameters = new Parameters();
             _orders = new List<OrderBy>();
 
             Visit(expression);
 
+            CheckSkip();
+
             AddOrderBy();
             AddAnyMethod();
+            AddLimitAndOffset();
 
-            return _sqlBuilder.ToString();
+            return new QueryInfo(SqlBuilder.ToString(), CreateQueryReader());
+        }
+
+        /// <summary>
+        /// General builder for the SQL query.
+        /// </summary>
+        protected StringBuilder SqlBuilder => _sqlBuilder;
+
+        /// <summary>
+        /// Offset - the number of rows to skip.
+        /// </summary>
+        protected int Skip => _skip;
+
+        /// <summary>
+        /// Limit - the maximum number of rows to return.
+        /// </summary>
+        protected int Top => _top;
+
+        /// <summary>
+        /// Position in the SQL query, where TOP clause belongs.
+        /// </summary>
+        protected int TopPosition => _topPosition;
+
+        /// <summary>
+        /// Position in the SQL Query, where columns part ends. Some other columns can be added here.
+        /// </summary>
+        protected int ColumnsPosition => _columnsPosition;
+
+        private void CheckSkip()
+        {
+            if ((_skip > 0) && (_orders.Count == 0))
+            {
+                throw new InvalidOperationException(Resources.SkipWithoutOrderByInQuery);
+            }
+        }
+
+        /// <summary>
+        /// Creates a reader over data, for example to manually apply limit and offset if the database does not support it.
+        /// </summary>
+        /// <returns>Implementation of <see cref="IDataReaderEnvelope"/> or <see langword="null"/>.</returns>
+        protected virtual IDataReaderEnvelope CreateQueryReader() => _skip > 0 ? new LimitOffsetDataReader(Top, Skip) : null;
+
+        /// <summary>
+        /// Adds limit (Top) and offset (Skip) clauses to the query.
+        /// </summary>
+        protected virtual void AddLimitAndOffset()
+        {
+            if ((_top > 0) && (_skip == 0))
+            {
+                SqlBuilder.Insert(_topPosition, $"TOP {_top} ");
+                _top = 0;
+            }
         }
 
         private void AddAnyMethod()
         {
             if (_wasAny)
             {
-                _sqlBuilder = new StringBuilder(BindAnyCondition(_sqlBuilder.ToString()));
+                _sqlBuilder = new StringBuilder(BindAnyCondition(SqlBuilder.ToString()));
             }
         }
 
@@ -71,7 +133,7 @@ namespace Kros.KORM.Query.Sql
         /// Adds any method to query.
         /// </summary>
         protected virtual string BindAnyCondition(string existsCondition)
-                  => $"SELECT (CASE WHEN EXISTS({existsCondition}) THEN 1 ELSE 0 END)";
+            => $"SELECT (CASE WHEN EXISTS({existsCondition}) THEN 1 ELSE 0 END)";
 
         /// <summary>
         /// Visits the SQL.
@@ -82,7 +144,7 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitSql(SqlExpression sqlExpression)
         {
-            _sqlBuilder.Append(sqlExpression.Sql);
+            SqlBuilder.Append(sqlExpression.Sql);
 
             return sqlExpression;
         }
@@ -96,12 +158,12 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitSelect(SelectExpression selectExpression)
         {
-            _sqlBuilder.Append(SelectExpression.SelectStatement);
-            _sqlBuilder.Append(" ");
+            SqlBuilder.Append(SelectExpression.SelectStatement);
+            SqlBuilder.Append(" ");
 
             if (_top > 0)
             {
-                _sqlBuilder.Append($"TOP {_top} ");
+                _topPosition = SqlBuilder.Length;
             }
 
             VisitExtension(selectExpression);
@@ -118,8 +180,8 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitColumns(ColumnsExpression columnExpression)
         {
-            _sqlBuilder.Append(columnExpression.ColumnsPart);
-
+            SqlBuilder.Append(columnExpression.ColumnsPart);
+            _columnsPosition = SqlBuilder.Length;
             return columnExpression;
         }
 
@@ -132,7 +194,7 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitTable(TableExpression tableExpression)
         {
-            _sqlBuilder.AppendFormat(" {0} {1}", TableExpression.FromStatement, tableExpression.TablePart);
+            SqlBuilder.AppendFormat(" {0} {1}", TableExpression.FromStatement, tableExpression.TablePart);
 
             return tableExpression;
         }
@@ -146,7 +208,7 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitWhere(WhereExpression whereExpression)
         {
-            _sqlBuilder.AppendFormat(" {0} ({1})", WhereExpression.WhereStatement, whereExpression.Sql);
+            SqlBuilder.AppendFormat(" {0} ({1})", WhereExpression.WhereStatement, whereExpression.Sql);
 
             return whereExpression;
         }
@@ -160,7 +222,7 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitGroupBy(GroupByExpression groupByExpression)
         {
-            _sqlBuilder.AppendFormat(" {0} {1}", GroupByExpression.GroupByStatement, groupByExpression.GroupByPart);
+            SqlBuilder.AppendFormat(" {0} {1}", GroupByExpression.GroupByStatement, groupByExpression.GroupByPart);
 
             return groupByExpression;
         }
@@ -174,10 +236,19 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitOrderBy(OrderByExpression orderByExpression)
         {
-            _sqlBuilder.AppendFormat(" {0} {1}", OrderByExpression.OrderByStatement, orderByExpression.OrderByPart);
+            SqlBuilder.Append(" ");
+            SqlBuilder.Append(CreateOrderByString(orderByExpression));
 
             return orderByExpression;
         }
+
+        /// <summary>
+        /// Creates an <c>ORDER BY</c> string for the SQL query.
+        /// </summary>
+        /// <param name="orderByExpression">Input expression.</param>
+        /// <returns>String.</returns>
+        protected string CreateOrderByString(OrderByExpression orderByExpression)
+            => string.Format("{0} {1}", OrderByExpression.OrderByStatement, orderByExpression.OrderByPart);
 
         #region LINQ
 
@@ -190,7 +261,6 @@ namespace Kros.KORM.Query.Sql
         /// Gets the linq string builder.
         /// </summary>
         protected StringBuilder LinqStringBuilder { get; private set; }
-        private int _top = 0;
 
         /// <summary>
         /// Gets the linq query parameters.
@@ -217,8 +287,8 @@ namespace Kros.KORM.Query.Sql
                    expression.NodeType != ExpressionType.Lambda;
         }
 
-        private static Expression ThrowNotSupportedException(MethodCallExpression expression) =>
-            throw new NotSupportedException(string.Format(Resources.QueryGeneratorMethodNotSupported, expression.Method.Name));
+        private static Expression ThrowNotSupportedException(MethodCallExpression expression)
+            => throw new NotSupportedException(string.Format(Resources.QueryGeneratorMethodNotSupported, expression.Method.Name));
 
         private static Expression StripQuotes(Expression e)
         {
@@ -373,6 +443,7 @@ namespace Kros.KORM.Query.Sql
             if (methodName.MatchMethodName(nameof(Enumerable.FirstOrDefault))) return VisitFirst(expression);
             if (methodName.MatchMethodName(nameof(Enumerable.Single))) return VisitFirst(expression);
             if (methodName.MatchMethodName(nameof(Enumerable.SingleOrDefault))) return VisitFirst(expression);
+            if (methodName.MatchMethodName(nameof(Enumerable.Skip))) return VisitSkip(expression);
             if (methodName.MatchMethodName(nameof(Enumerable.Take))) return VisitTake(expression);
             if (methodName.MatchMethodName(nameof(Enumerable.GroupBy))) return VisitGroupBy(expression);
             if (methodName.MatchMethodName(nameof(Enumerable.Select))) return VisitSelect(expression);
@@ -409,6 +480,29 @@ namespace Kros.KORM.Query.Sql
         }
 
         /// <summary>
+        /// Visits the Linq <c>Skip</c> method.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <returns>The <paramref name="expression"/> itself.</returns>
+        protected virtual Expression VisitSkip(MethodCallExpression expression)
+        {
+            Visit(StripQuotes(expression.Arguments[1]));
+            LinqStringBuilder.Clear();
+
+            try
+            {
+                _skip = (int)LinqParameters.GetParams().First();
+
+                LinqParameters = new Parameters();
+                return expression;
+            }
+            catch (Exception ex)
+            {
+                throw new NotSupportedException(Resources.ThisCallOfSkipMethodIsNotSupported, ex);
+            }
+        }
+
+        /// <summary>
         /// Visits the Linq Take method.
         /// </summary>
         /// <param name="expression">The expression.</param>
@@ -438,7 +532,7 @@ namespace Kros.KORM.Query.Sql
         /// <param name="aggregateName">Name of aggreage method.</param>
         protected virtual Expression VisitAggregate(MethodCallExpression expression, string aggregateName)
         {
-            LinqStringBuilder.Append($"{aggregateName}(");
+            LinqStringBuilder.Append($"{aggregateName.ToUpper()}(");
             Visit(StripQuotes(expression.Arguments[1]));
             LinqStringBuilder.Append(")");
 
@@ -510,8 +604,8 @@ namespace Kros.KORM.Query.Sql
         private Expression VisitSelect(MethodCallExpression expression)
             => ThrowNotSupportedException(expression);
 
-        private Expression VisitGroupBy(MethodCallExpression expression) =>
-            ThrowNotSupportedException(expression);
+        private Expression VisitGroupBy(MethodCallExpression expression)
+            => ThrowNotSupportedException(expression);
 
         /// <summary>
         /// Visits the Linq Where method.
@@ -539,7 +633,6 @@ namespace Kros.KORM.Query.Sql
             {
                 VisitWhere(expression);
             }
-
             _top = 1;
 
             return expression;
@@ -663,11 +756,11 @@ namespace Kros.KORM.Query.Sql
                     return string.Empty;
             }
 
-            bool IsCompareToNull(BinaryExpression exp) =>
-                IsNullable(exp) && (exp.Right is ConstantExpression constExpr) && constExpr.Value == null;
+            bool IsCompareToNull(BinaryExpression exp)
+                => IsNullable(exp) && (exp.Right is ConstantExpression constExpr) && constExpr.Value == null;
 
-            bool IsNullable(BinaryExpression exp) =>
-                Nullable.GetUnderlyingType(exp.Left.Type) != null;
+            bool IsNullable(BinaryExpression exp)
+                => Nullable.GetUnderlyingType(exp.Left.Type) != null;
         }
 
         /// <summary>
@@ -929,7 +1022,7 @@ namespace Kros.KORM.Query.Sql
 
     internal static class StringExtension
     {
-        public static bool MatchMethodName(this string methodName, string expected) =>
-            methodName.Equals(expected, StringComparison.OrdinalIgnoreCase);
+        public static bool MatchMethodName(this string methodName, string expected)
+            => methodName.Equals(expected, StringComparison.OrdinalIgnoreCase);
     }
 }

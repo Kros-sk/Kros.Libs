@@ -54,7 +54,7 @@ namespace Kros.KORM.UnitTests.Query.Providers
             private TestQueryProvider(DbConnection internalConnection, bool isInternalConnection)
                 : base(
                       new ConnectionStringSettings("QueryProviderTest", "QueryProviderTestConnectionString", "QueryProviderTest"),
-                      Substitute.For<ISqlExpressionVisitor>(),
+                      Substitute.For<ISqlExpressionVisitorFactory>(),
                       new ModelBuilder(Database.DefaultModelFactory),
                       Substitute.For<ILogger>())
             {
@@ -63,7 +63,7 @@ namespace Kros.KORM.UnitTests.Query.Providers
 
             private TestQueryProvider(DbConnection externalConnection)
                 : base(externalConnection,
-                      Substitute.For<ISqlExpressionVisitor>(),
+                      Substitute.For<ISqlExpressionVisitorFactory>(),
                       new ModelBuilder(Database.DefaultModelFactory),
                       Substitute.For<ILogger>())
             {
@@ -460,14 +460,14 @@ END";
         private static SqlServerQueryProvider CreateQueryProvider(SqlConnection connection)
             => new SqlServerQueryProvider(
                 connection,
-                Substitute.For<ISqlExpressionVisitor>(),
+                Substitute.For<ISqlExpressionVisitorFactory>(),
                 new ModelBuilder(Database.DefaultModelFactory),
                 Substitute.For<ILogger>());
 
         private static SqlServerQueryProvider CreateQueryProvider(string connectionString)
             => new SqlServerQueryProvider(
                 new ConnectionStringSettings("Default", connectionString, SqlServerDataHelper.ClientId),
-                Substitute.For<ISqlExpressionVisitor>(),
+                Substitute.For<ISqlExpressionVisitorFactory>(),
                 new ModelBuilder(Database.DefaultModelFactory),
                 Substitute.For<ILogger>());
 

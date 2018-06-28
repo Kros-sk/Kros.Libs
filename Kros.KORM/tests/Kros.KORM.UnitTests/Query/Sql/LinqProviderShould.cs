@@ -23,6 +23,12 @@ INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (1, 10, '
 INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (2, 20, NULL);
 INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (3, 20, 'Hello world');
 INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (4, 40, 'Nothing special');
+INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (5, 50, 'Nothing special');
+INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (6, 60, 'Nothing special');
+INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (7, 70, 'Nothing special');
+INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (8, 80, 'Nothing special');
+INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (9, 90, 'Nothing special');
+INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (10, 100, 'Nothing special');
 ";
 
         #endregion
@@ -70,6 +76,54 @@ INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (4, 40, '
         }
 
         [Fact]
+        public void Skip8Rows()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable))
+            {
+                var actual = korm
+                    .Query<TestTable>()
+                    .Skip(8)
+                    .OrderBy(p => p.Id)
+                    .ToList();
+
+                actual.Select(p => p.Id).Should().BeEquivalentTo(new List<int>() { 9, 10 });
+            }
+        }
+
+        [Fact]
+        public void Skip2RowsAndReturnNext3()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable))
+            {
+                var actual = korm
+                    .Query<TestTable>()
+                    .Skip(2)
+                    .Take(3)
+                    .OrderBy(p => p.Id)
+                    .ToList();
+
+                actual.Select(p => p.Id).Should().BeEquivalentTo(new List<int>() { 3, 4, 5 });
+            }
+        }
+
+        [Fact]
+        public void Skip2RowsAndReturnNext3WithCondition()
+        {
+            using (var korm = CreateDatabase(CreateTable_TestTable))
+            {
+                var actual = korm
+                    .Query<TestTable>()
+                    .Where(p => p.Id > 4)
+                    .Skip(2)
+                    .Take(3)
+                    .OrderBy(p => p.Id)
+                    .ToList();
+
+                actual.Select(p => p.Id).Should().BeEquivalentTo(new List<int>() { 7, 8, 9 });
+            }
+        }
+
+        [Fact]
         public void ExecuteOrderBy()
         {
             using (var korm = CreateDatabase(CreateTable_TestTable))
@@ -80,7 +134,7 @@ INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (4, 40, '
                     .ThenBy(p => p.Id)
                     .ToList();
 
-                actual.Select(p => p.Id).Should().BeEquivalentTo(new List<int>() { 4, 2, 3, 1 });
+                actual.Select(p => p.Id).Should().BeEquivalentTo(new List<int>() { 10, 9, 8, 7, 6, 5, 4, 2, 3, 1 });
             }
         }
 
@@ -94,7 +148,7 @@ INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (4, 40, '
                     .Where(p => p.Id > 2)
                     .Count();
 
-                actual.Should().Be(2);
+                actual.Should().Be(8);
             }
         }
 
@@ -134,7 +188,7 @@ INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (4, 40, '
                     .Query<TestTable>()
                     .Sum(p => p.Number);
 
-                actual.Should().Be(90);
+                actual.Should().Be(540);
             }
         }
 
@@ -173,7 +227,7 @@ INSERT INTO [{Table_TestTable}] ([Id], [Number], [Description]) VALUES (4, 40, '
             {
                 var any = korm
                     .Query<TestTable>()
-                    .Any(p => p.Id > 5);
+                    .Any(p => p.Id > 50);
 
                 any.Should().BeFalse();
             }

@@ -2,7 +2,7 @@
 using Kros.KORM.Helper;
 using Kros.KORM.Materializer;
 using Kros.KORM.Metadata;
-using Kros.KORM.Query.Sql;
+using Kros.KORM.Query.Providers;
 using System.Configuration;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -23,8 +23,9 @@ namespace Kros.KORM.Query
         /// <returns>
         /// Instance of <see cref="SqlServerQueryProvider"/>.
         /// </returns>
-        public IQueryProvider Create(DbConnection connection, IModelBuilder modelBuilder, IDatabaseMapper databaseMapper) =>
-            new SqlServerQueryProvider(connection, new DefaultQuerySqlGenerator(databaseMapper), modelBuilder, new Logger());
+        public IQueryProvider Create(DbConnection connection, IModelBuilder modelBuilder, IDatabaseMapper databaseMapper)
+            => new SqlServerQueryProvider(
+                connection, new SqlServerSqlExpressionVisitorFactory(databaseMapper), modelBuilder, new Logger());
 
         /// <summary>
         /// Creates the SqlServer query provider.
@@ -35,8 +36,12 @@ namespace Kros.KORM.Query
         /// <returns>
         /// Instance of <see cref="SqlServerQueryProvider"/>.
         /// </returns>
-        public IQueryProvider Create(ConnectionStringSettings connectionString, IModelBuilder modelBuilder, IDatabaseMapper databaseMapper) =>
-            new SqlServerQueryProvider(connectionString, new DefaultQuerySqlGenerator(databaseMapper), modelBuilder, new Logger());
+        public IQueryProvider Create(
+            ConnectionStringSettings connectionString,
+            IModelBuilder modelBuilder,
+            IDatabaseMapper databaseMapper)
+            => new SqlServerQueryProvider(
+                connectionString, new SqlServerSqlExpressionVisitorFactory(databaseMapper), modelBuilder, new Logger());
 
         /// <summary>
         /// Registers instance of this type to <see cref="QueryProviderFactories"/>.

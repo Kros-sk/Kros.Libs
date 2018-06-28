@@ -4,8 +4,10 @@ using Kros.Data.BulkActions;
 using Kros.KORM.Data;
 using Kros.KORM.Materializer;
 using Kros.KORM.Metadata;
+using Kros.KORM.Metadata.Attribute;
 using Kros.KORM.Query;
 using Kros.KORM.Query.Expressions;
+using Kros.KORM.Query.Providers;
 using Kros.KORM.Query.Sql;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,28 @@ namespace Kros.KORM.UnitTests.Query.Sql
     /// </summary>
     public abstract class LinqTranslatorTestBase
     {
+        #region Nested classes
+
+        public interface IModel
+        {
+            int Id { get; set; }
+        }
+
+        [Alias("People")]
+        public class Person : IModel
+        {
+            public int Id { get; set; }
+
+            public string FirstName { get; set; }
+
+            public string LastName { get; set; }
+
+            [Alias("PostAddress")]
+            public string Address { get; set; }
+        }
+
+        #endregion
+
         //Dátumové funkcie
 
         /// <summary>
@@ -36,32 +60,34 @@ namespace Kros.KORM.UnitTests.Query.Sql
         /// <summary>
         /// Create visitor for translate query to SQL.
         /// </summary>
-        protected virtual ISqlExpressionVisitor CreateVisitor() =>
-           new DefaultQuerySqlGenerator(Database.DatabaseMapper);
+        protected virtual ISqlExpressionVisitor CreateVisitor()
+            => new DefaultQuerySqlGenerator(Database.DatabaseMapper);
 
         /// <summary>
-        /// Query should be equel to <paramref name="expectedSql"/>.
+        /// Query should be equal to <paramref name="expectedSql"/>.
         /// </summary>
         /// <typeparam name="T">Model type.</typeparam>
         /// <param name="value">Testing query.</param>
         /// <param name="expectedSql">Expected sql query.</param>
         protected void AreSame<T>(IQueryable<T> value, string expectedSql, params object[] parameters)
-        {
-            var expression = value.Expression;
-            AreSame(expectedSql, parameters, expression);
-        }
+            => AreSame(value.Expression, new QueryInfo(expectedSql), parameters);
 
-        private void AreSame(string expectedSql, object[] parameters, Expression expression)
+        protected void AreSame<T>(IQueryable<T> value, QueryInfo sql, params object[] parameters)
+            => AreSame(value.Expression, sql, parameters);
+
+        private void AreSame(Expression expression, QueryInfo expectedQuery, object[] parameters)
         {
             var visitor = CreateVisitor();
-            var sql = visitor.GenerateSql(expression);
+            QueryInfo sql = visitor.GenerateSql(expression);
 
-            sql.Should().BeEquivalentTo(expectedSql);
-            parameters.Should().BeEquivalentTo(ParameterExtractor.ExtractParameters(expression));
+            sql.Query.Should().Be(expectedQuery.Query);
+            CompareLimitOffsetDataReaders(sql.Reader as LimitOffsetDataReader, expectedQuery.Reader as LimitOffsetDataReader)
+                .Should().BeTrue();
+            parameters?.Should().BeEquivalentTo(ParameterExtractor.ExtractParameters(expression));
         }
 
         /// <summary>
-        /// Wases the generated same SQL.
+        /// Was generated the same SQL.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value">The value.</param>
@@ -71,7 +97,16 @@ namespace Kros.KORM.UnitTests.Query.Sql
         {
             var provider = value.Provider as FakeQueryProvider;
 
-            AreSame(expectedSql, parameters, provider.LastExpression.Expression);
+            AreSame(provider.LastExpression.Expression, new QueryInfo(expectedSql), parameters);
+        }
+
+        private bool CompareLimitOffsetDataReaders(LimitOffsetDataReader reader1, LimitOffsetDataReader reader2)
+        {
+            if (reader1 == null)
+            {
+                return reader2 == null;
+            }
+            return (reader1.Limit == reader2.Limit) && (reader1.Offset == reader2.Offset);
         }
 
         private class ParameterExtractor : ExpressionVisitor

@@ -1,6 +1,9 @@
-﻿using Kros.KORM.Metadata.Attribute;
-using Xunit;
+﻿using FluentAssertions;
+using Kros.KORM.Query.Providers;
+using Kros.KORM.Query.Sql;
+using System;
 using System.Linq;
+using Xunit;
 
 namespace Kros.KORM.UnitTests.Query.Sql
 {
@@ -91,6 +94,66 @@ namespace Kros.KORM.UnitTests.Query.Sql
                 .Take(5);
 
             AreSame(query, "SELECT TOP 5 Id, FirstName, LastName, PostAddress FROM People");
+        }
+
+        [Fact]
+        public void TranslateSkipMethod()
+        {
+            var query = Query<Person>()
+                .Skip(10)
+                .OrderBy(p => p.Id);
+
+            AreSame(
+                query,
+                new QueryInfo(
+                    "SELECT Id, FirstName, LastName, PostAddress FROM People ORDER BY Id ASC",
+                    new LimitOffsetDataReader(0, 10)),
+                null);
+        }
+
+        [Fact]
+        public void TranslateSkipWithTakeMethod()
+        {
+            var query = Query<Person>()
+                .Skip(10)
+                .Take(5)
+                .OrderBy(p => p.Id);
+
+            AreSame(
+                query,
+                new QueryInfo(
+                    "SELECT Id, FirstName, LastName, PostAddress FROM People ORDER BY Id ASC",
+                    new LimitOffsetDataReader(5, 10)),
+                null);
+        }
+
+        [Fact]
+        public void TranslateSkipWithTakeAndConditionAndComplexOrderBy()
+        {
+            var query = Query<Person>()
+                .Where(p => p.Id > 5)
+                .Skip(10)
+                .Take(5)
+                .OrderBy(p => p.Id)
+                .ThenByDescending(p => p.FirstName);
+
+            AreSame(
+                query,
+                new QueryInfo(
+                    "SELECT Id, FirstName, LastName, PostAddress FROM People WHERE ((Id > @1)) ORDER BY Id ASC, FirstName DESC",
+                    new LimitOffsetDataReader(5, 10)),
+                5);
+        }
+
+        [Fact]
+        public void ThrowInvalidOperationExceptionWhenUsedSkipWithoutOrderBy()
+        {
+            var visitor = CreateVisitor();
+            var query = Query<Person>()
+                .Skip(10);
+            Action action = () => visitor.GenerateSql(query.Expression);
+
+            action.Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -228,8 +291,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
             var query = Query<Person>();
             var count = query.Count(p => p.Id > 5);
 
-            WasGeneratedSameSql(query, "SELECT COUNT(*) FROM People" +
-                                       " WHERE ((Id > @1))", 5);
+            WasGeneratedSameSql(query, "SELECT COUNT(*) FROM People WHERE ((Id > @1))", 5);
         }
 
         [Fact]
@@ -265,8 +327,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
             var query = Query<Person>();
             var item = query.Any();
 
-            WasGeneratedSameSql(query,
-                            @"SELECT (CASE WHEN EXISTS(SELECT '' FROM People) THEN 1 ELSE 0 END)");
+            WasGeneratedSameSql(query, @"SELECT (CASE WHEN EXISTS(SELECT '' FROM People) THEN 1 ELSE 0 END)");
         }
 
         [Fact]
@@ -276,7 +337,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
             var item = query.Any(p => p.Id > 5);
 
             WasGeneratedSameSql(query,
-                            @"SELECT (CASE WHEN EXISTS(SELECT '' FROM People WHERE ((Id > @1))) THEN 1 ELSE 0 END)", 5);
+                @"SELECT (CASE WHEN EXISTS(SELECT '' FROM People WHERE ((Id > @1))) THEN 1 ELSE 0 END)", 5);
         }
 
         [Fact]
@@ -292,7 +353,7 @@ namespace Kros.KORM.UnitTests.Query.Sql
         [Fact]
         public void TranslateQueryWhenUseGenericTypeWithConstraint()
         {
-            void TestMethod<T>() where T: IModel
+            void TestMethod<T>() where T : IModel
             {
                 var query = Query<T>().Where(p => p.Id == 5);
                 AreSame(query, "SELECT Id, FirstName, LastName, PostAddress FROM People" +
@@ -300,24 +361,6 @@ namespace Kros.KORM.UnitTests.Query.Sql
             }
 
             TestMethod<Person>();
-        }
-
-        public interface IModel
-        {
-            int Id { get; set; }
-        }
-
-        [Alias("People")]
-        public class Person: IModel
-        {
-            public int Id { get; set; }
-
-            public string FirstName { get; set; }
-
-            public string LastName { get; set; }
-
-            [Alias("PostAddress")]
-            public string Address { get; set; }
         }
     }
 }

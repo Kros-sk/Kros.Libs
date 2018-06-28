@@ -1,11 +1,5 @@
-﻿using Kros.Data.BulkActions;
-using Kros.KORM.Query.Expressions;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
+﻿using Kros.KORM.Query.Expressions;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace Kros.KORM.Query.Sql
 {
@@ -19,7 +13,7 @@ namespace Kros.KORM.Query.Sql
         /// </summary>
         /// <param name="expression">The expression.</param>
         /// <returns>SQL select command text.</returns>
-        string GenerateSql(Expression expression);
+        QueryInfo GenerateSql(Expression expression);
 
         /// <summary>
         /// Visits the SQL.

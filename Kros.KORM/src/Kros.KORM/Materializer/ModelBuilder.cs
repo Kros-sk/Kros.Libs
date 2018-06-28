@@ -1,4 +1,5 @@
 ﻿using Kros.KORM.Data;
+using Kros.KORM.Query.Providers;
 using Kros.Utils;
 using System;
 using System.Collections;
@@ -29,11 +30,19 @@ namespace Kros.KORM.Materializer
 
             #region Constructor
 
-            public QueryDataReader(IDbCommand command, bool closeConnectionWhenFinished)
+            public QueryDataReader(IDbCommand command, IDataReaderEnvelope readerEnvelope, bool closeConnectionWhenFinished)
             {
                 Check.NotNull(command, nameof(command));
                 _command = command;
-                _reader = _command.ExecuteReader();
+                if (readerEnvelope == null)
+                {
+                    _reader = _command.ExecuteReader();
+                }
+                else
+                {
+                    readerEnvelope.SetInnerReader(_command.ExecuteReader());
+                    _reader = readerEnvelope;
+                }
                 _closeConnectionWhenFinished = closeConnectionWhenFinished;
             }
 
@@ -211,19 +220,9 @@ namespace Kros.KORM.Materializer
             /// <summary>
             /// Gets the element in the collection at the current position of the enumerator.
             /// </summary>
-            public T Current
-            {
-                get {
-                    return _currentItem;
-                }
-            }
+            public T Current => _currentItem;
 
-            object IEnumerator.Current
-            {
-                get {
-                    return _currentItem;
-                }
-            }
+            object IEnumerator.Current => _currentItem;
 
             /// <summary>
             /// Advances the enumerator to the next element of the collection.

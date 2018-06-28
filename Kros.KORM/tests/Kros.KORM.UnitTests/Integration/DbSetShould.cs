@@ -16,24 +16,95 @@ namespace Kros.KORM.UnitTests.Integration
 {
     public class DbSetShould : DatabaseTestBase
     {
+        #region Nested Classes
+
+        [Alias("LimitOffsetTest")]
+        private class LimitOffsetTestData
+        {
+            public int Id { get; set; }
+            public string Value { get; set; }
+        }
+
+        [Alias("People")]
+        private class Person
+        {
+            [Key(AutoIncrementMethodType.Custom)]
+            public int Id { get; set; }
+
+            public int Age { get; set; }
+
+            public string FirstName { get; set; }
+
+            public string LastName { get; set; }
+
+            [Converter(typeof(AddressConverter))]
+            public List<string> Address { get; set; }
+        }
+
+        [Alias("People")]
+        private class Foo
+        {
+            [Key(AutoIncrementMethodType.None)]
+            public int Id { get; set; }
+        }
+
+        private class AddressConverter : IConverter
+        {
+            public object Convert(object value) =>
+                value != null ? value.ToString().Split('#').ToList() : new List<string>();
+
+            public object ConvertBack(object value) =>
+                value is List<string> address && address.Count > 0 ? string.Join("#", address) : null;
+        }
+
+        #endregion
+
         #region SQL Scripts
 
         private const string Table_TestTable = "People";
 
         private static string CreateTable_TestTable =
-            $@"CREATE TABLE[dbo].[{Table_TestTable}] (
+$@"CREATE TABLE [dbo].[{Table_TestTable}] (
     [Id] [int] NOT NULL,
     [Age] [int] NULL,
     [FirstName] [nvarchar] (50) NULL,
     [LastName] [nvarchar] (50) NULL,
     [Address] [nvarchar] (50) NULL
-) ON[PRIMARY];
-";
+) ON[PRIMARY];";
 
         private static string InsertDataScript =
-            $@"INSERT INTO {Table_TestTable} VALUES (1, 18, 'John', 'Smith', 'London');
-INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
-";
+$@"INSERT INTO {Table_TestTable} VALUES (1, 18, 'John', 'Smith', 'London');
+INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');";
+
+        private const string Table_LimitOffsetTest = "LimitOffsetTest";
+
+        private static string CreateTable_LimitOffsetTest =
+$@"CREATE TABLE [dbo].[{Table_LimitOffsetTest}] (
+    [Id] [int] NOT NULL,
+    [Value] [nvarchar](50) NULL
+) ON[PRIMARY];";
+
+        private static string InsertLimitOffsetDataScript =
+$@"INSERT INTO [{Table_LimitOffsetTest}] VALUES (1, 'one');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (2, 'two');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (3, 'three');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (4, 'four');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (5, 'fice');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (6, 'six');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (7, 'seven');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (8, 'eight');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (9, 'nine');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (10, 'ten');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (11, 'eleven');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (12, 'twelve');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (13, 'thirteen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (14, 'fourteen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (15, 'fifteen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (16, 'sixteen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (17, 'seventeen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (18, 'eighteen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (19, 'nineteen');
+INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
 
         #endregion
 
@@ -408,17 +479,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
 
         #endregion
 
-        private static void AssertData(IDatabase korm)
-        {
-            var person = korm.Query<Person>().FirstOrDefault(p => p.Id == 1);
-
-            person.Should().NotBeNull();
-            person.Id.Should().Be(1);
-            person.Age.Should().Be(32);
-            person.FirstName.Should().Be("Milan");
-            person.LastName.Should().Be("Martiniak");
-            person.Address.Should().BeEquivalentTo(new List<string>() { "Petzvalova", "Pekna", "Zelena" });
-        }
+        #region Primary Keys
 
         [Fact]
         public void GeneratePrimaryKey()
@@ -562,36 +623,123 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');
             }
         }
 
-        [Alias("People")]
-        private class Person
+        #endregion
+
+        #region Limit/Offset
+
+        [Fact]
+        public void ReturnOnlyFirstNRows()
         {
-            [Key(AutoIncrementMethodType.Custom)]
-            public int Id { get; set; }
+            using (IDatabase korm = CreateDatabase(CreateTable_LimitOffsetTest, InsertLimitOffsetDataScript))
+            {
+                var expectedData = new List<LimitOffsetTestData>(new[] {
+                    new LimitOffsetTestData() { Id = 1, Value = "one" },
+                    new LimitOffsetTestData() { Id = 2, Value = "two" },
+                    new LimitOffsetTestData() { Id = 3, Value = "three" }
+                });
 
-            public int Age { get; set; }
+                List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
+                    .OrderBy(item => item.Id)
+                    .Take(3)
+                    .ToList();
 
-            public string FirstName { get; set; }
-
-            public string LastName { get; set; }
-
-            [Converter(typeof(AddressConverter))]
-            public List<string> Address { get; set; }
+                data.Should().BeEquivalentTo(expectedData);
+            }
         }
 
-        [Alias("People")]
-        private class Foo
+        [Fact]
+        public void SkipFirstNRows()
         {
-            [Key(AutoIncrementMethodType.None)]
-            public int Id { get; set; }
+            using (IDatabase korm = CreateDatabase(CreateTable_LimitOffsetTest, InsertLimitOffsetDataScript))
+            {
+                var expectedData = new List<LimitOffsetTestData>(new[] {
+                    new LimitOffsetTestData() { Id = 18, Value = "eighteen" },
+                    new LimitOffsetTestData() { Id = 19, Value = "nineteen" },
+                    new LimitOffsetTestData() { Id = 20, Value = "twenty" }
+                });
+
+                List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
+                    .OrderBy(item => item.Id)
+                    .Skip(17)
+                    .ToList();
+
+                data.Should().BeEquivalentTo(expectedData);
+            }
         }
 
-        private class AddressConverter : IConverter
+        [Fact]
+        public void SkipFirstNRowsAndReturnNextMRows()
         {
-            public object Convert(object value) =>
-                value != null ? value.ToString().Split('#').ToList() : new List<string>();
+            using (IDatabase korm = CreateDatabase(CreateTable_LimitOffsetTest, InsertLimitOffsetDataScript))
+            {
+                var expectedData = new List<LimitOffsetTestData>(new[] {
+                    new LimitOffsetTestData() { Id = 6, Value = "six" },
+                    new LimitOffsetTestData() { Id = 7, Value = "seven" },
+                    new LimitOffsetTestData() { Id = 8, Value = "eight" }
+                });
 
-            public object ConvertBack(object value) =>
-                value is List<string> address && address.Count > 0 ? string.Join("#", address) : null;
+                List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
+                    .OrderBy(item => item.Id)
+                    .Skip(5)
+                    .Take(3)
+                    .ToList();
+
+                data.Should().BeEquivalentTo(expectedData);
+            }
         }
+
+        [Fact]
+        public void ReturnNoRowsWhenSkipIsTooBig()
+        {
+            using (IDatabase korm = CreateDatabase(CreateTable_LimitOffsetTest, InsertLimitOffsetDataScript))
+            {
+                var expectedData = new List<LimitOffsetTestData>();
+
+                List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
+                    .OrderBy(item => item.Id)
+                    .Skip(100)
+                    .ToList();
+
+                data.Should().BeEquivalentTo(expectedData);
+            }
+        }
+
+        [Fact]
+        public void ReturnAllRemainigRowsWhenTakeIsTooBig()
+        {
+            using (IDatabase korm = CreateDatabase(CreateTable_LimitOffsetTest, InsertLimitOffsetDataScript))
+            {
+                var expectedData = new List<LimitOffsetTestData>(new[] {
+                    new LimitOffsetTestData() { Id = 19, Value = "nineteen" },
+                    new LimitOffsetTestData() { Id = 20, Value = "twenty" },
+                });
+
+                List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
+                    .OrderBy(item => item.Id)
+                    .Skip(18)
+                    .Take(100)
+                    .ToList();
+
+                data.Should().BeEquivalentTo(expectedData);
+            }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private static void AssertData(IDatabase korm)
+        {
+            var person = korm.Query<Person>().FirstOrDefault(p => p.Id == 1);
+
+            person.Should().NotBeNull();
+            person.Id.Should().Be(1);
+            person.Age.Should().Be(32);
+            person.FirstName.Should().Be("Milan");
+            person.LastName.Should().Be("Martiniak");
+            person.Address.Should().BeEquivalentTo(new List<string>() { "Petzvalova", "Pekna", "Zelena" });
+        }
+
+        #endregion
     }
 }

@@ -142,6 +142,15 @@ namespace Kros.KORM.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inner reader is already set. It can be set only once..
+        /// </summary>
+        internal static string LimitOffsetDataReaderInnerReaderAlreadySet {
+            get {
+                return ResourceManager.GetString("LimitOffsetDataReaderInnerReaderAlreadySet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The member &apos;{0}&apos; is not supported..
         /// </summary>
         internal static string MemberIsNotSupported {
@@ -282,6 +291,24 @@ namespace Kros.KORM.Properties {
         internal static string ResultMustBeGenericIEnumerable {
             get {
                 return ResourceManager.GetString("ResultMustBeGenericIEnumerable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When Skip method is used, OrderBy must be specified..
+        /// </summary>
+        internal static string SkipWithoutOrderByInQuery {
+            get {
+                return ResourceManager.GetString("SkipWithoutOrderByInQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This call of Skip() method is not supported..
+        /// </summary>
+        internal static string ThisCallOfSkipMethodIsNotSupported {
+            get {
+                return ResourceManager.GetString("ThisCallOfSkipMethodIsNotSupported", resourceCulture);
             }
         }
         

@@ -69,7 +69,7 @@ Namespace Kros.KORM.VB.UnitTests.Query.Sql
 
 
         <[Alias]("People")>
-        Private Class Person
+        Private Shadows Class Person
             Public Property Id As Integer
 
             Public Property FirstName As String

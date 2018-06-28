@@ -6,6 +6,7 @@ using Kros.KORM.Materializer;
 using Kros.KORM.Metadata;
 using Kros.KORM.Metadata.Attribute;
 using Kros.KORM.Query;
+using Kros.KORM.Query.Providers;
 using Kros.KORM.Query.Sql;
 using NSubstitute;
 using System;
@@ -182,11 +183,13 @@ namespace Kros.KORM.UnitTests.CommandGenerator
 
         private IQuery<Foo> CreateFooQuery()
         {
-            Query<Foo> query = new Query<Foo>(new DatabaseMapper(new ConventionModelMapper()),
-                                              new SqlServerQueryProvider(new SqlConnection(),
-                                                                new DefaultQuerySqlGenerator(new DatabaseMapper(new ConventionModelMapper())),
-                                                                Substitute.For<IModelBuilder>(),
-                                                                new Logger()));
+            Query<Foo> query = new Query<Foo>(
+                new DatabaseMapper(new ConventionModelMapper()),
+                new SqlServerQueryProvider(
+                    new SqlConnection(),
+                    new SqlServerSqlExpressionVisitorFactory(new DatabaseMapper(new ConventionModelMapper())),
+                    Substitute.For<IModelBuilder>(),
+                    new Logger()));
 
             return query;
         }
