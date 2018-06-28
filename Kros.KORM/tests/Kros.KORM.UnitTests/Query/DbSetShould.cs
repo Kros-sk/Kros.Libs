@@ -184,7 +184,7 @@ namespace Kros.KORM.UnitTests
 
             action.Should().Throw<AlreadyInCollectionException>();
         }
-        
+
         [Fact]
         public void ClearPendingChanges()
         {
@@ -354,6 +354,8 @@ namespace Kros.KORM.UnitTests
             {
                 throw new NotImplementedException();
             }
+
+            public bool SupportsPrepareCommand() => true;
         }
 
         #endregion

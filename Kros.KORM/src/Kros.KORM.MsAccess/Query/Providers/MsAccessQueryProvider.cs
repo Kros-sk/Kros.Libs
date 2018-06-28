@@ -54,6 +54,12 @@ namespace Kros.KORM.Query.MsAccess
         public override DbProviderFactory DbProviderFactory => OleDbFactory.Instance;
 
         /// <summary>
+        /// Returns, if provider supports preparing of command (<see cref="DbCommand.Prepare"/>).
+        /// </summary>
+        /// <returns>Returns <see langword="false"/>.</returns>
+        public override bool SupportsPrepareCommand() => false;
+
+        /// <summary>
         /// Creates instance of <see cref="MsAccessBulkInsert" />.
         /// </summary>
         /// <returns>

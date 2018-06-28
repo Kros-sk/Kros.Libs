@@ -1,23 +1,40 @@
 ﻿using Kros.Data.MsAccess;
 using Kros.KORM.Query.MsAccess;
+using Kros.UnitTests;
 using Kros.Utils.MsAccess;
+using System;
 using Xunit;
 
 namespace Kros.KORM.MsAccess.UnitTests
 {
     internal static class Helpers
     {
-        private static bool _inited = false;
-
-        public static void InitLibrary()
+        internal class KormHelper : IDisposable
         {
-            if (!_inited)
+            public KormHelper(MsAccessTestHelper helper)
             {
-                _inited = true;
-                LibraryInitializer.InitLibrary();
-                MsAccessQueryProviderFactory.Register();
+                Helper = helper;
+                Korm = new Database(helper.Connection);
+            }
+
+            public MsAccessTestHelper Helper { get; }
+            public IDatabase Korm { get; }
+
+            public void Dispose()
+            {
+                Korm.Dispose();
+                Helper.Dispose();
             }
         }
+
+        static Helpers()
+        {
+            LibraryInitializer.InitLibrary();
+            MsAccessQueryProviderFactory.Register();
+        }
+
+        public static KormHelper CreateDatabase(ProviderType provider, params string[] initDatabaseScripts)
+            => new KormHelper(new MsAccessTestHelper(provider, initDatabaseScripts));
 
         private const string ProviderNotAvailableMessage = "MS Access provider {0} is not available.";
 

@@ -275,6 +275,8 @@ namespace Kros.KORM.UnitTests.Query.Sql
             {
                 throw new NotImplementedException();
             }
+
+            public bool SupportsPrepareCommand() => true;
         }
 
         public class FakeQueryProviderFactory : IQueryProviderFactory
