@@ -172,6 +172,12 @@ namespace Kros.KORM.Query
         /// </summary>
         public abstract DbProviderFactory DbProviderFactory { get; }
 
+        /// <summary>
+        /// Returns, if provider supports preparing of command (<see cref="DbCommand.Prepare"/>).
+        /// </summary>
+        /// <returns>Returns <see langword="true"/>.</returns>
+        public virtual bool SupportsPrepareCommand() => true;
+
         /// <inheritdoc cref="IQueryProvider.SetParameterDbType(DbParameter, string, string)"/>
         public void SetParameterDbType(DbParameter parameter, string tableName, string columnName)
         {

@@ -272,6 +272,14 @@ namespace Kros.KORM.Query
 
         #region Private Helpers
 
+        private void PrepareCommand(IDbCommand command)
+        {
+            if (_provider.SupportsPrepareCommand())
+            {
+                command.Prepare();
+            }
+        }
+
         private async Task CommitChangesAddedItemsAsync(HashSet<T> items, bool useAsync)
         {
             if (items?.Count > 0)
@@ -279,8 +287,7 @@ namespace Kros.KORM.Query
                 GeneratePrimaryKeys(items);
                 using (DbCommand command = _commandGenerator.GetInsertCommand())
                 {
-                    command.Prepare();
-
+                    PrepareCommand(command);
                     foreach (T item in items)
                     {
                         _commandGenerator.FillCommand(command, item);
@@ -330,8 +337,7 @@ namespace Kros.KORM.Query
             {
                 using (DbCommand command = _commandGenerator.GetUpdateCommand())
                 {
-                    command.Prepare();
-
+                    PrepareCommand(command);
                     foreach (T item in items)
                     {
                         _commandGenerator.FillCommand(command, item);

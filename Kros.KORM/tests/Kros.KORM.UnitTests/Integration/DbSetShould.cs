@@ -39,6 +39,8 @@ namespace Kros.KORM.UnitTests.Integration
 
             [Converter(typeof(AddressConverter))]
             public List<string> Address { get; set; }
+
+            public string TestLongText { get; set; }
         }
 
         [Alias("People")]
@@ -69,12 +71,13 @@ $@"CREATE TABLE [dbo].[{Table_TestTable}] (
     [Age] [int] NULL,
     [FirstName] [nvarchar] (50) NULL,
     [LastName] [nvarchar] (50) NULL,
-    [Address] [nvarchar] (50) NULL
-) ON[PRIMARY];";
+    [Address] [nvarchar] (50) NULL,
+    [TestLongText] [nvarchar] (max) NULL
+) ON [PRIMARY];";
 
         private static string InsertDataScript =
-$@"INSERT INTO {Table_TestTable} VALUES (1, 18, 'John', 'Smith', 'London');
-INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');";
+$@"INSERT INTO {Table_TestTable} VALUES (1, 18, 'John', 'Smith', 'London', 'Lorem ipsum dolor sit amet 1.');
+INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London', 'Lorem ipsum dolor sit amet 2.');";
 
         private const string Table_LimitOffsetTest = "LimitOffsetTest";
 
@@ -82,7 +85,7 @@ INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London');";
 $@"CREATE TABLE [dbo].[{Table_LimitOffsetTest}] (
     [Id] [int] NOT NULL,
     [Value] [nvarchar](50) NULL
-) ON[PRIMARY];";
+) ON [PRIMARY];";
 
         private static string InsertLimitOffsetDataScript =
 $@"INSERT INTO [{Table_LimitOffsetTest}] VALUES (1, 'one');
@@ -462,7 +465,8 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
                 FirstName = "Milan",
                 LastName = "Martiniak",
                 Age = 32,
-                Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" }
+                Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" },
+                TestLongText = "Lorem ipsum dolor sit amet 1."
             });
 
             data.Add(new Person()
@@ -471,7 +475,8 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
                 FirstName = "Peter",
                 LastName = "Juráček",
                 Age = 14,
-                Address = new List<string>() { "Novozámocká" }
+                Address = new List<string>() { "Novozámocká" },
+                TestLongText = "Lorem ipsum dolor sit amet 2."
             });
 
             return data;
@@ -738,6 +743,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
             person.FirstName.Should().Be("Milan");
             person.LastName.Should().Be("Martiniak");
             person.Address.Should().BeEquivalentTo(new List<string>() { "Petzvalova", "Pekna", "Zelena" });
+            person.TestLongText.Should().Be("Lorem ipsum dolor sit amet 1.");
         }
 
         #endregion

@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Kros.Data.MsAccess;
 using Kros.KORM.Metadata.Attribute;
-using Kros.UnitTests;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -10,11 +9,6 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
 {
     public class DatabaseShould
     {
-        static DatabaseShould()
-        {
-            Helpers.InitLibrary();
-        }
-
         #region Nested Classes
 
         [Alias("LimitOffsetTest")]
@@ -75,8 +69,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
 
         private void ReturnOnlyFirstNRowsCore(ProviderType provider)
         {
-            using (MsAccessTestHelper helper = CreateDatabase(provider, LimitOffsetInitScripts))
-            using (IDatabase korm = new Database(helper.Connection))
+            using (var helper = Helpers.CreateDatabase(provider, LimitOffsetInitScripts))
             {
                 var expectedData = new List<LimitOffsetTestData>(new[] {
                     new LimitOffsetTestData() { Id = 1, Value = "one" },
@@ -84,7 +77,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
                     new LimitOffsetTestData() { Id = 3, Value = "three" }
                 });
 
-                List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
+                List<LimitOffsetTestData> data = helper.Korm.Query<LimitOffsetTestData>()
                     .OrderBy(item => item.Id)
                     .Take(3)
                     .ToList();
@@ -109,8 +102,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
 
         private void SkipFirstNRowsCore(ProviderType provider)
         {
-            using (MsAccessTestHelper helper = CreateDatabase(provider, LimitOffsetInitScripts))
-            using (IDatabase korm = new Database(helper.Connection))
+            using (var helper = Helpers.CreateDatabase(provider, LimitOffsetInitScripts))
             {
                 var expectedData = new List<LimitOffsetTestData>(new[] {
                     new LimitOffsetTestData() { Id = 18, Value = "eighteen" },
@@ -118,7 +110,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
                     new LimitOffsetTestData() { Id = 20, Value = "twenty" }
                 });
 
-                List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
+                List<LimitOffsetTestData> data = helper.Korm.Query<LimitOffsetTestData>()
                     .OrderBy(item => item.Id)
                     .Skip(17)
                     .ToList();
@@ -143,8 +135,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
 
         private void SkipFirstNRowsAndReturnNextMRowsCore(ProviderType provider)
         {
-            using (MsAccessTestHelper helper = CreateDatabase(provider, LimitOffsetInitScripts))
-            using (IDatabase korm = new Database(helper.Connection))
+            using (var helper = Helpers.CreateDatabase(provider, LimitOffsetInitScripts))
             {
                 var expectedData = new List<LimitOffsetTestData>(new[] {
                     new LimitOffsetTestData() { Id = 6, Value = "six" },
@@ -152,7 +143,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
                     new LimitOffsetTestData() { Id = 8, Value = "eight" }
                 });
 
-                List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
+                List<LimitOffsetTestData> data = helper.Korm.Query<LimitOffsetTestData>()
                     .OrderBy(item => item.Id)
                     .Skip(5)
                     .Take(3)
@@ -178,12 +169,11 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
 
         private void ReturnNoRowsWhenSkipIsTooBigCore(ProviderType provider)
         {
-            using (MsAccessTestHelper helper = CreateDatabase(provider, LimitOffsetInitScripts))
-            using (IDatabase korm = new Database(helper.Connection))
+            using (var helper = Helpers.CreateDatabase(provider, LimitOffsetInitScripts))
             {
                 var expectedData = new List<LimitOffsetTestData>();
 
-                List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
+                List<LimitOffsetTestData> data = helper.Korm.Query<LimitOffsetTestData>()
                     .OrderBy(item => item.Id)
                     .Skip(100)
                     .ToList();
@@ -208,15 +198,14 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
 
         private void ReturnAllRemainigRowsWhenTakeIsTooBigCore(ProviderType provider)
         {
-            using (MsAccessTestHelper helper = CreateDatabase(provider, LimitOffsetInitScripts))
-            using (IDatabase korm = new Database(helper.Connection))
+            using (var helper = Helpers.CreateDatabase(provider, LimitOffsetInitScripts))
             {
                 var expectedData = new List<LimitOffsetTestData>(new[] {
                     new LimitOffsetTestData() { Id = 19, Value = "nineteen" },
                     new LimitOffsetTestData() { Id = 20, Value = "twenty" },
                 });
 
-                List<LimitOffsetTestData> data = korm.Query<LimitOffsetTestData>()
+                List<LimitOffsetTestData> data = helper.Korm.Query<LimitOffsetTestData>()
                     .OrderBy(item => item.Id)
                     .Skip(18)
                     .Take(100)
@@ -224,16 +213,6 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
 
                 data.Should().BeEquivalentTo(expectedData);
             }
-        }
-
-        #endregion
-
-        #region Helpers
-
-        protected MsAccessTestHelper CreateDatabase(ProviderType provider, params string[] initDatabaseScripts)
-        {
-            var helper = new MsAccessTestHelper(provider, initDatabaseScripts);
-            return helper;
         }
 
         #endregion

@@ -71,6 +71,12 @@ namespace Kros.KORM.Query
         DbProviderFactory DbProviderFactory { get; }
 
         /// <summary>
+        /// Returns, if provider supports peparing of command (<see cref="DbCommand.Prepare"/>).
+        /// </summary>
+        /// <returns><see langword="true"/> is provider supports preparing command, otherwise <see langword="false"/>.</returns>
+        bool SupportsPrepareCommand();
+
+        /// <summary>
         /// Sets correct data type to <paramref name="parameter"/>, according to column <paramref name="columnName"/>
         /// in table <paramref name="tableName"/>. The method does not set general <see cref="DbParameter.DbType"/>,
         /// but specific for given database (<c>SqlParameter.SqlDbType</c>, <c>OleDbParameter.OleDbType</c>).
