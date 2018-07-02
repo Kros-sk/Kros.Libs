@@ -104,6 +104,14 @@ namespace Kros.Data.BulkActions
             }
         }
 
+        /// <inheritdoc cref="IBulkActionDataReader.IsDBNull(int)"/>
+        public bool IsDBNull(int i)
+        {
+            object value = GetValue(i);
+            return (value == null) || (value == DBNull.Value);
+        }
+
+
         /// <summary>
         /// Moves to next record.
         /// </summary>

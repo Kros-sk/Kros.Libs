@@ -63,6 +63,9 @@ namespace Kros.Data.BulkActions
         /// </exception>
         public override object GetValue(int i) => _reader.GetValue(i);
 
+        /// <inheritdoc cref="IBulkActionDataReader.IsDBNull(int)"/>
+        public override bool IsDBNull(int i) => _reader.IsDBNull(i);
+
         /// <summary>
         /// Moves reader to next record.
         /// </summary>
@@ -89,7 +92,6 @@ namespace Kros.Data.BulkActions
         public override bool GetBoolean(int i) => throw new NotImplementedException();
         public override bool HasRows => throw new NotImplementedException();
         public override bool IsClosed => throw new NotSupportedException();
-        public override bool IsDBNull(int i) => throw new NotImplementedException();
         public override bool NextResult() => throw new NotImplementedException();
         public override byte GetByte(int i) => throw new NotImplementedException();
         public override DataTable GetSchemaTable() => throw new NotImplementedException();
