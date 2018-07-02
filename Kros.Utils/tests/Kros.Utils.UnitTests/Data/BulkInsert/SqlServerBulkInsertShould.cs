@@ -21,7 +21,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             public string ColNote { get; set; }
             public byte? ColByte { get; set; }
             public int? ColInt32 { get; set; }
-            public Int64? ColInt64 { get; set; }
+            public long? ColInt64 { get; set; }
             public float? ColSingle { get; set; }
             public double? ColDouble { get; set; }
             public decimal? ColDecimal { get; set; }
@@ -31,6 +31,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             public bool? ColBool { get; set; }
             public string ColShortText { get; set; }
             public string ColLongText { get; set; }
+            public string ColNVarcharMax { get; set; }
         }
 
         public class NonExistingColumnDataItem
@@ -55,10 +56,10 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
         private const string DATABASE_NAME = "KrosUtilsTestBulkInsert";
         private const string TableName = "BulkInsertTest";
-        private string CreateTable_BulkInsertTest =
-            $@"CREATE TABLE[dbo].[{TableName}] (
+        private readonly string CreateTable_BulkInsertTest =
+$@"CREATE TABLE[dbo].[{TableName}] (
     [Id] [int] NOT NULL,
-    [ColNote] [nvarchar] (255) NULL,
+    [ColNote] [nvarchar](255) NULL,
     [ColByte] [tinyint] NULL,
     [ColInt32] [int] NULL,
     [ColInt64] [bigint] NULL,
@@ -66,11 +67,12 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
     [ColDouble] [float] NULL,
     [ColDecimal] [decimal](18, 5) NULL,
     [ColCurrency] [money] NULL,
-    [ColDate] [datetime2] (7) NULL,
+    [ColDate] [datetime2](7) NULL,
     [ColGuid] [uniqueidentifier] NULL,
     [ColBool] [bit] NULL,
-    [ColShortText] [nvarchar] (20) NULL,
+    [ColShortText] [nvarchar](20) NULL,
     [ColLongText] [ntext] NULL,
+    [ColNVarcharMax] [nvarchar](max) NULL,
 
     CONSTRAINT [PK_TestTable] PRIMARY KEY CLUSTERED ([Id] ASC) ON [PRIMARY]
 
@@ -78,7 +80,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 ";
 
         private const string TableName_IgnoreCaseInColumnNames = "BulkInsertTest_IgnoreCaseInColumnNames";
-        private string CreateTable_BulkInsertTest_IgnoreCaseInColumnNames =
+        private readonly string CreateTable_BulkInsertTest_IgnoreCaseInColumnNames =
             $@"CREATE TABLE[dbo].[{TableName_IgnoreCaseInColumnNames}] (
     [ID] [int] NOT NULL,
     [colnote] [nvarchar] (255) NULL,
@@ -89,7 +91,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 ";
 
         private const string TableName_PrimitiveDataTypes = "BulkInsertTest_ShortText";
-        private string CreateTable_BulkInsertTest_PrimitiveDataTypes =
+        private readonly string CreateTable_BulkInsertTest_PrimitiveDataTypes =
             $@"CREATE TABLE[dbo].[{TableName_PrimitiveDataTypes}] (
     [ID] [int] NOT NULL IDENTITY(1, 1),
     [ColValue] [nvarchar] (30) NULL,
@@ -116,8 +118,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         #region Tests
 
         [Fact]
-        public void BulkInsertDataFromDataTable()
-            => BulkInsertDataFromDataTableCore();
+        public void BulkInsertDataFromDataTable() => BulkInsertDataFromDataTableCore();
 
         [Fact]
         public void BulkInsertDataFromDataTableSynchronouslyWithoutDeadLock() =>
@@ -196,12 +197,11 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         [Fact]
-        public void BulkInsertDataFromIBulkActionDataReader() =>
-            BulkInsertDataFromIBulkActionDataReaderCore();
+        public void BulkInsertDataFromIBulkActionDataReader() => BulkInsertDataFromIBulkActionDataReaderCore();
 
         [Fact]
-        public void BulkInsertDataFromIBulkActionDataReaderSynchronouslyWithoutDeadLock() =>
-            AsyncContext.Run(() => BulkInsertDataFromIBulkActionDataReaderCore());
+        public void BulkInsertDataFromIBulkActionDataReaderSynchronouslyWithoutDeadLock()
+            => AsyncContext.Run(() => BulkInsertDataFromIBulkActionDataReaderCore());
 
         [Fact]
         public async Task BulkInsertDataFromIBulkActionDataReaderAsynchronously()
@@ -297,119 +297,145 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
         #region Helpers
 
-        private static Dictionary<string, Dictionary<string, object>> _rawData = new Dictionary<string, Dictionary<string, object>>
+        private static readonly Dictionary<string, Dictionary<string, object>> _rawData = new Dictionary<string, Dictionary<string, object>>
         {
             {
-            "ColByte",
-            new Dictionary<string, object>
-            { { "Byte - 123", (byte) 123 },
-            { "Byte - MinValue", byte.MinValue },
-            { "Byte - MaxValue", byte.MaxValue },
-            }
+                "ColByte",
+                new Dictionary<string, object>
+                {
+                    { "Byte - 123", (byte) 123 },
+                    { "Byte - MinValue", byte.MinValue },
+                    { "Byte - MaxValue", byte.MaxValue },
+                }
             },
             {
-            "ColInt32",
-            new Dictionary<string, object>
-            { { "Int - 123", 123 },
-            { "Int - MinValue", int.MinValue },
-            { "Int - MaxValue", int.MaxValue },
-            }
+                "ColInt32",
+                new Dictionary<string, object>
+                {
+                    { "Int - 123", 123 },
+                    { "Int - MinValue", int.MinValue },
+                    { "Int - MaxValue", int.MaxValue },
+                }
             },
             {
-            "ColInt64",
-            new Dictionary<string, object>
-            { { "Short - 123", 123L },
-            { "Short - MinValue", Int64.MinValue },
-            { "Short - MaxValue", Int64.MaxValue },
-            }
+                "ColInt64",
+                new Dictionary<string, object>
+                {
+                    { "Short - 123", 123L },
+                    { "Short - MinValue", long.MinValue },
+                    { "Short - MaxValue", long.MaxValue },
+                }
             },
             {
-            "ColSingle",
-            new Dictionary<string, object>
-            { { "Single - 123.456", (float) 123456.654321 },
-            { "Single - MinValue", FloatMinimum },
-            { "Single - MaxValue", FloatMaximum },
-            }
+                "ColSingle",
+                new Dictionary<string, object>
+                {
+                    { "Single - 123.456", (float) 123456.654321 },
+                    { "Single - MinValue", FloatMinimum },
+                    { "Single - MaxValue", FloatMaximum },
+                }
             },
             {
-            "ColDouble",
-            new Dictionary<string, object>
-            { { "Double - 123.456", 123456.654321 },
-            { "Double - MinValue", DoubleMinimum },
-            { "Double - MaxValue", DoubleMaximum },
-            }
+                "ColDouble",
+                new Dictionary<string, object>
+                {
+                    { "Double - 123.456", 123456.654321 },
+                    { "Double - MinValue", DoubleMinimum },
+                    { "Double - MaxValue", DoubleMaximum },
+                }
             },
             {
-            "ColDecimal",
-            new Dictionary<string, object>
-            { { "Decimal - 123.456", (decimal) 123456.6543 },
-            { "Decimal - MinValue", DecimalMinimum },
-            { "Decimal - MaxValue", DecimalMaximum },
-            }
+                "ColDecimal",
+                new Dictionary<string, object>
+                {
+                    { "Decimal - 123.456", (decimal) 123456.6543 },
+                    { "Decimal - MinValue", DecimalMinimum },
+                    { "Decimal - MaxValue", DecimalMaximum },
+                }
             },
             {
-            "ColCurrency",
-            new Dictionary<string, object>
-            { { "Currency - 123.456", (decimal) 123456.6543 },
-            { "Currency - MinValue", MoneyMinimum },
-            { "Currency - MaxValue", MoneyMaximum },
-            }
+                "ColCurrency",
+                new Dictionary<string, object>
+                {
+                    { "Currency - 123.456", (decimal) 123456.6543 },
+                    { "Currency - MinValue", MoneyMinimum },
+                    { "Currency - MaxValue", MoneyMaximum },
+                }
             },
             {
-            "ColDate",
-            new Dictionary<string, object>
-            { { "DateTime - 10.12.1978 7:30:59", new DateTime(1978, 12, 10, 7, 30, 59) },
-            { "DateTime - 1.1.1900", new DateTime(1900, 1, 1) },
-            { "DateTime - MaxValue", DateTime.MaxValue },
-            }
+                "ColDate",
+                new Dictionary<string, object>
+                {
+                    { "DateTime - 10.12.1978 7:30:59", new DateTime(1978, 12, 10, 7, 30, 59) },
+                    { "DateTime - 1.1.1900", new DateTime(1900, 1, 1) },
+                    { "DateTime - MaxValue", DateTime.MaxValue },
+                }
             },
             {
-            "ColGuid",
-            new Dictionary<string, object>
-            { { "Guid", new Guid("abcdef00-1234-5678-9000-abcdefabcdef") },
-            }
+                "ColGuid",
+                new Dictionary<string, object>
+                {
+                    { "Guid", new Guid("abcdef00-1234-5678-9000-abcdefabcdef") },
+                }
             },
             {
-            "ColBool",
-            new Dictionary<string, object>
-            { { "Bool - True", true },
-            { "Bool - False", false },
-            }
+                "ColBool",
+                new Dictionary<string, object>
+                {
+                    { "Bool - True", true },
+                    { "Bool - False", false },
+                }
             },
             {
-            "ColShortText",
-            new Dictionary<string, object>
-            { { "ShortText", "lorem ipsum" },
-            }
+                "ColShortText",
+                new Dictionary<string, object>
+                {
+                    { "ShortText", "lorem ipsum" },
+                }
             },
             {
-            "ColLongText",
-            new Dictionary<string, object>
-            {
-            {
-            "LongText",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut ullamcorper nisl. Nulla iaculis " +
-            "scelerisque dui ut molestie. Suspendisse potenti. In hac habitasse platea dictumst. Maecenas " +
-            "pellentesque ante tortor, vitae pellentesque dolor eleifend sed. Cras a commodo arcu. Nulla " +
-            "convallis vulputate quam, vel lobortis mauris feugiat nec. Nullam tincidunt, sapien eu cursus varius, " +
-            "metus lacus ultrices leo, eu accumsan sem lacus nec elit. Vestibulum ac felis vitae odio interdum " +
-            "ullamcorper."
+                "ColLongText",
+                new Dictionary<string, object>
+                {
+                    {
+                        "LongText",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut ullamcorper nisl. Nulla iaculis " +
+                        "scelerisque dui ut molestie. Suspendisse potenti. In hac habitasse platea dictumst. Maecenas " +
+                        "pellentesque ante tortor, vitae pellentesque dolor eleifend sed. Cras a commodo arcu. Nulla " +
+                        "convallis vulputate quam, vel lobortis mauris feugiat nec. Nullam tincidunt, sapien eu cursus varius, " +
+                        "metus lacus ultrices leo, eu accumsan sem lacus nec elit. Vestibulum ac felis vitae odio interdum " +
+                        "ullamcorper."
+                    },
+                }
             },
-            }
+            {
+                "ColNVarcharMax",
+                new Dictionary<string, object>
+                {
+                    {
+                        "NVarchar(max)",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut ullamcorper nisl. Nulla iaculis " +
+                        "scelerisque dui ut molestie. Suspendisse potenti. In hac habitasse platea dictumst. Maecenas " +
+                        "pellentesque ante tortor, vitae pellentesque dolor eleifend sed. Cras a commodo arcu. Nulla " +
+                        "convallis vulputate quam, vel lobortis mauris feugiat nec. Nullam tincidunt, sapien eu cursus varius, " +
+                        "metus lacus ultrices leo, eu accumsan sem lacus nec elit. Vestibulum ac felis vitae odio interdum " +
+                        "ullamcorper."
+                    },
+                }
             },
         };
 
-        private static List<string> _rawDataShortText = new List<string>
-            {
-                "Lorem",
-                "consectetur",
-                "Integer",
-                "scelerisque",
-                "pellentesque",
-                "convallis",
-                "metus",
-                "ullamcorper.",
-            };
+        private static readonly List<string> _rawDataShortText = new List<string>
+        {
+            "Lorem",
+            "consectetur",
+            "Integer",
+            "scelerisque",
+            "pellentesque",
+            "convallis",
+            "metus",
+            "ullamcorper.",
+        };
 
         private DataTable LoadData(SqlConnection cn, string tableName)
         {
@@ -449,7 +475,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             {
                 table.Columns.Add("ColByte", typeof(byte));
                 table.Columns.Add("ColInt32", typeof(int));
-                table.Columns.Add("ColInt64", typeof(Int64));
+                table.Columns.Add("ColInt64", typeof(long));
                 table.Columns.Add("ColSingle", typeof(float));
                 table.Columns.Add("ColDouble", typeof(double));
                 table.Columns.Add("ColDecimal", typeof(decimal));
@@ -459,6 +485,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 table.Columns.Add("ColBool", typeof(bool));
                 table.Columns.Add("ColShortText", typeof(string));
                 table.Columns.Add("ColLongText", typeof(string));
+                table.Columns.Add("ColNVarcharMax", typeof(string));
             }
 
             table.PrimaryKey = new DataColumn[] { table.Columns["Id"] };

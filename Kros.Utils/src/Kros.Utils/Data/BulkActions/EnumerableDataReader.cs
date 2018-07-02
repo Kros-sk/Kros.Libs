@@ -49,7 +49,7 @@ namespace Kros.Data.BulkActions
             Check.NotNull(columnNames, nameof(columnNames));
 
             _columnNames = columnNames.ToList();
-            _isPrimitiveType = (typeof(T).IsPrimitive || typeof(T) == typeof(String));
+            _isPrimitiveType = (typeof(T).IsPrimitive || typeof(T) == typeof(string));
 
             if (_isPrimitiveType)
             {
@@ -103,6 +103,9 @@ namespace Kros.Data.BulkActions
                 return _propertyCache[GetName(i)].GetValue(_dataEnumerator.Current, null);
             }
         }
+
+        /// <inheritdoc cref="IBulkActionDataReader.GetString(int)"/>
+        public string GetString(int i) => (string)GetValue(i);
 
         /// <inheritdoc cref="IBulkActionDataReader.IsDBNull(int)"/>
         public bool IsDBNull(int i)

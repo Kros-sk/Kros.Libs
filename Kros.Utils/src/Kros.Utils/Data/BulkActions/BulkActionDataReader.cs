@@ -63,6 +63,9 @@ namespace Kros.Data.BulkActions
         /// </exception>
         public override object GetValue(int i) => _reader.GetValue(i);
 
+        /// <inheritdoc cref="IBulkActionDataReader.GetString(int)"/>
+        public override string GetString(int i) => _reader.GetString(i);
+
         /// <inheritdoc cref="IBulkActionDataReader.IsDBNull(int)"/>
         public override bool IsDBNull(int i) => _reader.IsDBNull(i);
 
@@ -115,7 +118,6 @@ namespace Kros.Data.BulkActions
         public override object this[string name] => throw new NotSupportedException();
         public override short GetInt16(int i) => throw new NotImplementedException();
         public override string GetDataTypeName(int i) => throw new NotImplementedException();
-        public override string GetString(int i) => throw new NotImplementedException();
         public override Type GetFieldType(int i) => throw new NotImplementedException();
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
