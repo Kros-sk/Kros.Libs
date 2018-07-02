@@ -111,7 +111,6 @@ namespace Kros.Data.BulkActions
             return (value == null) || (value == DBNull.Value);
         }
 
-
         /// <summary>
         /// Moves to next record.
         /// </summary>
