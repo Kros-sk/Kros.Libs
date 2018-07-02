@@ -201,6 +201,7 @@ namespace Kros.Data.BulkActions.SqlServer
                 bulkCopy.DestinationTableName = DestinationTableName;
                 bulkCopy.BulkCopyTimeout = BulkInsertTimeout;
                 bulkCopy.BatchSize = BatchSize;
+                bulkCopy.EnableStreaming = true;
                 SetColumnMappings(bulkCopy, reader);
                 if (useAsync)
                 {

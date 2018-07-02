@@ -48,6 +48,14 @@ namespace Kros.KORM.Data
             return _generator.GetColumnValue(_columns[i], DataEnumerator.Current);
         }
 
+        public string GetString(int i) => (string)GetValue(i);
+
+        public bool IsDBNull(int i)
+        {
+            object value = GetValue(i);
+            return (value == null) || (value == System.DBNull.Value);
+        }
+
         public bool Read()
         {
             return DataEnumerator.MoveNext();

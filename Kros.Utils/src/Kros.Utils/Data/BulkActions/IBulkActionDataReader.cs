@@ -38,6 +38,21 @@ namespace Kros.Data.BulkActions
         object GetValue(int i);
 
         /// <summary>
+        /// Gets the value of the specified column as an instance of <see cref="System.String"/>.
+        /// </summary>
+        /// <param name="i">The zero-based column ordinal.</param>
+        /// <returns>The value of the specified column.</returns>
+        string GetString(int i);
+
+        /// <summary>
+        /// Gets a value that indicates whether the column contains non-existent or missing values.
+        /// </summary>
+        /// <param name="i">The zero-based column ordinal.</param>
+        /// <returns><see langword="true"/> if the specified column value is <see cref="DBNull"/> or <see langword="null"/>,
+        /// otherwise false.</returns>
+        bool IsDBNull(int i);
+
+        /// <summary>
         /// Moves reader to next record.
         /// </summary>
         /// <returns>
