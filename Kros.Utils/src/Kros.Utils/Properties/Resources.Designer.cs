@@ -61,6 +61,24 @@ namespace Kros.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Destination table &quot;{0}&quot; does not have column &quot;{1}&quot;..
+        /// </summary>
+        internal static string BulkInsertColumnDoesNotExistInDestination {
+            get {
+                return ResourceManager.GetString("BulkInsertColumnDoesNotExistInDestination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid destination column mapping at index {0}..
+        /// </summary>
+        internal static string BulkInsertInvalidDestinationColumnMapping {
+            get {
+                return ResourceManager.GetString("BulkInsertInvalidDestinationColumnMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to It is not possible to change index name if it already belongs to some table. The index &quot;{0}&quot; belong to table &quot;{1}&quot;..
         /// </summary>
         internal static string CannotChangeIndexNameWhenIndexBelongsToTable {
@@ -223,6 +241,15 @@ namespace Kros.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The destination column name nor its ordinal is set..
+        /// </summary>
+        internal static string DestinationColumnMappingNotSet {
+            get {
+                return ResourceManager.GetString("DestinationColumnMappingNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; for ADO client &quot;{1}&quot; is not registered..
         /// </summary>
         internal static string FactoryNotRegisteredForClient {
@@ -255,6 +282,33 @@ namespace Kros.Properties {
         internal static string IndexBelongsToAnotherTable {
             get {
                 return ResourceManager.GetString("IndexBelongsToAnotherTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Column ordinal can not be negative..
+        /// </summary>
+        internal static string InvalidBulkInsertColumnMappingOrdinal {
+            get {
+                return ResourceManager.GetString("InvalidBulkInsertColumnMappingOrdinal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination table &quot;{0}&quot; does not contain column at index {1}..
+        /// </summary>
+        internal static string InvalidIndexInDestinationColumnMapping {
+            get {
+                return ResourceManager.GetString("InvalidIndexInDestinationColumnMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination table &quot;{0}&quot; does not contain column &quot;{1}&quot;..
+        /// </summary>
+        internal static string InvalidNameInDestinationColumnMapping {
+            get {
+                return ResourceManager.GetString("InvalidNameInDestinationColumnMapping", resourceCulture);
             }
         }
         

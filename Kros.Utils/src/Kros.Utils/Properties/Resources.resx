@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BulkInsertColumnDoesNotExistInDestination" xml:space="preserve">
+    <value>Destination table "{0}" does not have column "{1}".</value>
+  </data>
+  <data name="BulkInsertInvalidDestinationColumnMapping" xml:space="preserve">
+    <value>Invalid destination column mapping at index {0}.</value>
+  </data>
   <data name="CannotChangeIndexNameWhenIndexBelongsToTable" xml:space="preserve">
     <value>It is not possible to change index name if it already belongs to some table. The index "{0}" belong to table "{1}".</value>
   </data>
@@ -171,6 +177,9 @@
   <data name="ColumnMissingInBulkInsertDestinationTable" xml:space="preserve">
     <value>Destination table "{0}" does not have column "{1}".</value>
   </data>
+  <data name="DestinationColumnMappingNotSet" xml:space="preserve">
+    <value>The destination column name nor its ordinal is set.</value>
+  </data>
   <data name="FactoryNotRegisteredForClient" xml:space="preserve">
     <value>"{0}" for ADO client "{1}" is not registered.</value>
   </data>
@@ -182,6 +191,15 @@
   </data>
   <data name="IndexBelongsToAnotherTable" xml:space="preserve">
     <value>Index "{0}" cannot be added to table "{1}" because it already belongs to table "{2}".</value>
+  </data>
+  <data name="InvalidBulkInsertColumnMappingOrdinal" xml:space="preserve">
+    <value>Column ordinal can not be negative.</value>
+  </data>
+  <data name="InvalidIndexInDestinationColumnMapping" xml:space="preserve">
+    <value>Destination table "{0}" does not contain column at index {1}.</value>
+  </data>
+  <data name="InvalidNameInDestinationColumnMapping" xml:space="preserve">
+    <value>Destination table "{0}" does not contain column "{1}".</value>
   </data>
   <data name="MissingPropertyInType" xml:space="preserve">
     <value>Type "{0}" does not have property "{1}" which is in column names list.</value>

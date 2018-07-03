@@ -61,6 +61,42 @@ namespace Kros.MsAccess.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid column in data source. Column &quot;{0}&quot; does not exist in destination table..
+        /// </summary>
+        internal static string BulkInsertColumnDoesNotExistInDestination {
+            get {
+                return ResourceManager.GetString("BulkInsertColumnDoesNotExistInDestination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid destination column mapping at index {0}..
+        /// </summary>
+        internal static string BulkInsertInvalidDestinationColumnMapping {
+            get {
+                return ResourceManager.GetString("BulkInsertInvalidDestinationColumnMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid source column mapping at index {0}..
+        /// </summary>
+        internal static string BulkInsertInvalidSourceColumnMapping {
+            get {
+                return ResourceManager.GetString("BulkInsertInvalidSourceColumnMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Column &quot;{0}&quot; specified in column list does not exist in data source..
+        /// </summary>
+        internal static string BulkInsertSourceColumnDoesNotExist {
+            get {
+                return ResourceManager.GetString("BulkInsertSourceColumnDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Provided connection string is not a connection string for Microsoft Access database. Supported providers are Microsoft.ACE.OLEDB and Microsoft.Jet.OLEDB..
         /// </summary>
         internal static string ConnectionStringIsNotMsAccess {
@@ -79,11 +115,65 @@ namespace Kros.MsAccess.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The destination column name nor its ordinal is set..
+        /// </summary>
+        internal static string DestinationColumnMappingNotSet {
+            get {
+                return ResourceManager.GetString("DestinationColumnMappingNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination table &quot;{0}&quot; does not contain column at index {1}..
+        /// </summary>
+        internal static string InvalidIndexInDestinationColumnMapping {
+            get {
+                return ResourceManager.GetString("InvalidIndexInDestinationColumnMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source data does not contain column at index {0}..
+        /// </summary>
+        internal static string InvalidIndexInSourceColumnMapping {
+            get {
+                return ResourceManager.GetString("InvalidIndexInSourceColumnMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination table &quot;{0}&quot; does not contain column &quot;{1}&quot;..
+        /// </summary>
+        internal static string InvalidNameInDestinationColumnMapping {
+            get {
+                return ResourceManager.GetString("InvalidNameInDestinationColumnMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source data does not contain column &quot;{0}&quot;..
+        /// </summary>
+        internal static string InvalidNameInSourceColumnMapping {
+            get {
+                return ResourceManager.GetString("InvalidNameInSourceColumnMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MS Access provider &quot;{0}&quot; is not installed..
         /// </summary>
         internal static string ProviderNotInstaller {
             get {
                 return ResourceManager.GetString("ProviderNotInstaller", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The source column name nor its ordinal is set..
+        /// </summary>
+        internal static string SourceColumnMappingNotSet {
+            get {
+                return ResourceManager.GetString("SourceColumnMappingNotSet", resourceCulture);
             }
         }
         

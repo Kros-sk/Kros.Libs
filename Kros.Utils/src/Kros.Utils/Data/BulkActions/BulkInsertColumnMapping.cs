@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kros.Properties;
+using System;
 
 namespace Kros.Data.BulkActions
 {
@@ -8,7 +9,6 @@ namespace Kros.Data.BulkActions
     public class BulkInsertColumnMapping
     {
         private const int NoOrdinal = -1;
-        private const string InvalidOrdinalMessage = "Column ordinal can not be negative.";
 
         private string _sourceName = string.Empty;
         private int _sourceOrdinal = NoOrdinal;
@@ -93,7 +93,7 @@ namespace Kros.Data.BulkActions
             {
                 if (value < 0)
                 {
-                    throw new IndexOutOfRangeException(InvalidOrdinalMessage);
+                    throw new IndexOutOfRangeException(Resources.InvalidBulkInsertColumnMappingOrdinal);
                 }
                 _sourceName = string.Empty;
                 _sourceOrdinal = value;
@@ -126,7 +126,7 @@ namespace Kros.Data.BulkActions
             {
                 if (value < 0)
                 {
-                    throw new IndexOutOfRangeException(InvalidOrdinalMessage);
+                    throw new IndexOutOfRangeException(Resources.InvalidBulkInsertColumnMappingOrdinal);
                 }
                 _destinationName = string.Empty;
                 _destinationOrdinal = value;

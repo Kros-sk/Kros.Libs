@@ -234,8 +234,8 @@ namespace Kros.Data.BulkActions.SqlServer
                     }
                     else
                     {
-                        throw new InvalidOperationException(
-                            $"Destination table \"{bulkCopy.DestinationTableName}\" does not have column \"{sourceColumn}\".");
+                        throw new InvalidOperationException(string.Format(Resources.BulkInsertColumnDoesNotExistInDestination,
+                            bulkCopy.DestinationTableName, sourceColumn));
                     }
                 }
                 bulkCopy.ColumnMappings.Add(sourceColumn, destinationColumn);
@@ -303,19 +303,21 @@ namespace Kros.Data.BulkActions.SqlServer
             string exceptionDetail;
             if (mappingOrdinal.HasValue)
             {
-                exceptionDetail = $"Destination table \"{DestinationTableName}\" does not contain column index {mappingOrdinal.Value}.";
+                exceptionDetail = string.Format(Resources.InvalidIndexInDestinationColumnMapping,
+                    DestinationTableName, mappingOrdinal.Value);
             }
             else if (mappingName != null)
             {
-                exceptionDetail = $"Destination table \"{DestinationTableName}\" does not contain column \"{mappingName}\".";
+                exceptionDetail = string.Format(Resources.InvalidNameInDestinationColumnMapping,
+                    DestinationTableName, mappingName);
             }
             else
             {
-                exceptionDetail = "The destination column name nor the its ordinal is set.";
+                exceptionDetail = Resources.DestinationColumnMappingNotSet;
             }
 
             throw new InvalidOperationException(
-                $"Invalid destination column mapping at position {columnMappingIndex}. " + exceptionDetail);
+                string.Format(Resources.BulkInsertInvalidDestinationColumnMapping, columnMappingIndex) + " " + exceptionDetail);
         }
 
         /// <inheritdoc/>

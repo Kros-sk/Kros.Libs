@@ -510,7 +510,7 @@ namespace Kros.Data.BulkActions.MsAccess
                 else
                 {
                     throw new InvalidOperationException(
-                        $"Invalid column in data source. Column \"{columnName}\" does not exist in destination table.");
+                        string.Format(Resources.BulkInsertColumnDoesNotExistInDestination, columnName));
                 }
             }
         }
@@ -645,19 +645,20 @@ namespace Kros.Data.BulkActions.MsAccess
             string exceptionDetail;
             if (mappingOrdinal.HasValue)
             {
-                exceptionDetail = $"Source data does not contain column index {mappingOrdinal.Value}.";
+                exceptionDetail = string.Format(Resources.InvalidIndexInSourceColumnMapping, mappingOrdinal.Value);
             }
             else if (mappingName != null)
             {
-                exceptionDetail = $"Source data does not contain column \"{mappingName}\".";
+                exceptionDetail = string.Format(Resources.InvalidNameInSourceColumnMapping, mappingName);
             }
             else
             {
-                exceptionDetail = "The source column name nor its ordinal is set.";
+                exceptionDetail = Resources.SourceColumnMappingNotSet;
             }
 
             throw new InvalidOperationException(
-                $"Invalid source column mapping at position {columnMappingIndex}. " + exceptionDetail, innerException);
+                string.Format(Resources.BulkInsertInvalidSourceColumnMapping, columnMappingIndex) + " " + exceptionDetail,
+                innerException);
         }
 
         private void ThrowExceptionInvalidDestinationColumnMapping(
@@ -668,19 +669,21 @@ namespace Kros.Data.BulkActions.MsAccess
             string exceptionDetail;
             if (mappingOrdinal.HasValue)
             {
-                exceptionDetail = $"Destination table \"{DestinationTableName}\" does not contain column index {mappingOrdinal.Value}.";
+                exceptionDetail = string.Format(Resources.InvalidIndexInDestinationColumnMapping,
+                    DestinationTableName, mappingOrdinal.Value);
             }
             else if (mappingName != null)
             {
-                exceptionDetail = $"Destination table \"{DestinationTableName}\" does not contain column \"{mappingName}\".";
+                exceptionDetail = string.Format(Resources.InvalidNameInDestinationColumnMapping,
+                    DestinationTableName, mappingName);
             }
             else
             {
-                exceptionDetail = "The destination column name nor the its ordinal is set.";
+                exceptionDetail = Resources.DestinationColumnMappingNotSet;
             }
 
             throw new InvalidOperationException(
-                $"Invalid destination column mapping at position {columnMappingIndex}. " + exceptionDetail);
+                string.Format(Resources.BulkInsertInvalidDestinationColumnMapping, columnMappingIndex) + " " + exceptionDetail);
         }
 
         #endregion

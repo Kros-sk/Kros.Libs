@@ -249,7 +249,7 @@ namespace Kros.Data.BulkActions.MsAccess
                 }
                 else
                 {
-                    throw new InvalidOperationException($"Column {name} specified in column list does not exist in data source.");
+                    throw new InvalidOperationException(string.Format(Resources.BulkInsertSourceColumnDoesNotExist, name));
                 }
             }
 
