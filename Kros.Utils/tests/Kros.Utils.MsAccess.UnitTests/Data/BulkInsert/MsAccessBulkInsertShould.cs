@@ -225,7 +225,6 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             }
         }
 
-
         [SkippableFact]
         public void BulkInsertDataFromDataTableWithExplicitColumnMappingsIntoAce()
         {
@@ -411,7 +410,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 bulkInsert.ColumnMappings.Add("Id", " \t \r\n");
                 action.Should().Throw<InvalidOperationException>($"Mapping's DestinationName is whitespace string.")
                     .WithMessage("*0*");
-            };
+            }
         }
 
         #endregion
