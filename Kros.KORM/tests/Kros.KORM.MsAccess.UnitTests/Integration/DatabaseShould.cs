@@ -53,14 +53,14 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
 
         #region Limit/Offset
 
-        [Fact]
+        [SkippableFact]
         public void ReturnOnlyFirstNRows_Ace()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
             ReturnOnlyFirstNRowsCore(ProviderType.Ace);
         }
 
-        [Fact]
+        [SkippableFact]
         public void ReturnOnlyFirstNRows_Jet()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -86,14 +86,14 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
             }
         }
 
-        [Fact]
+        [SkippableFact]
         public void SkipFirstNRows_Ace()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
             SkipFirstNRowsCore(ProviderType.Ace);
         }
 
-        [Fact]
+        [SkippableFact]
         public void SkipFirstNRows_Jet()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -119,14 +119,14 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
             }
         }
 
-        [Fact]
+        [SkippableFact]
         public void SkipFirstNRowsAndReturnNextMRows_Ace()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
             SkipFirstNRowsAndReturnNextMRowsCore(ProviderType.Ace);
         }
 
-        [Fact]
+        [SkippableFact]
         public void SkipFirstNRowsAndReturnNextMRows_Jet()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -153,14 +153,14 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
             }
         }
 
-        [Fact]
+        [SkippableFact]
         public void ReturnNoRowsWhenSkipIsTooBig_Ace()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
             ReturnNoRowsWhenSkipIsTooBigCore(ProviderType.Ace);
         }
 
-        [Fact]
+        [SkippableFact]
         public void ReturnNoRowsWhenSkipIsTooBig_Jet()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -182,14 +182,14 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
             }
         }
 
-        [Fact]
+        [SkippableFact]
         public void ReturnAllRemainigRowsWhenTakeIsTooBig_Ace()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
             ReturnAllRemainigRowsWhenTakeIsTooBigCore(ProviderType.Ace);
         }
 
-        [Fact]
+        [SkippableFact]
         public void ReturnAllRemainigRowsWhenTakeIsTooBig_Jet()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
