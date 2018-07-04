@@ -243,9 +243,9 @@ namespace Kros.Data.BulkActions.MsAccess
             var ordinals = new List<int>();
             foreach (string name in columnNames)
             {
-                if (dataOrdinals.ContainsKey(name))
+                if (dataOrdinals.TryGetValue(name, out int value))
                 {
-                    ordinals.Add(dataOrdinals[name]);
+                    ordinals.Add(value);
                 }
                 else
                 {
