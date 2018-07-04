@@ -76,21 +76,21 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
 
         #region Insert Data
 
-        [Fact]
+        [SkippableFact]
         public void InsertData_Ace()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
             InsertDataCore(ProviderType.Ace);
         }
 
-        [Fact]
+        [SkippableFact]
         public void InsertData_Jet()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
             InsertDataCore(ProviderType.Jet);
         }
 
-        [Fact]
+        [SkippableFact]
         public void InsertDataSynchronouslyWithoutDeadLock_Ace()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
@@ -100,7 +100,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
             });
         }
 
-        [Fact]
+        [SkippableFact]
         public void InsertDataSynchronouslyWithoutDeadLock_Jet()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
@@ -110,14 +110,14 @@ namespace Kros.KORM.MsAccess.UnitTests.Integration
             });
         }
 
-        [Fact]
+        [SkippableFact]
         public async Task InsertDataAsync_Ace()
         {
             Helpers.SkipTestIfAceProviderNotAvailable();
             await InsertDataAsyncCore(ProviderType.Ace);
         }
 
-        [Fact]
+        [SkippableFact]
         public async Task InsertDataAsync_Jet()
         {
             Helpers.SkipTestIfJetProviderNotAvailable();
