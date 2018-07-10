@@ -49,10 +49,17 @@ namespace Kros.Data.Schema.MsAccess
         /// <inheritdoc/>
         /// <exception cref="ArgumentException">Hodnota <paramref name="param"/> nie je typu <see cref="OleDbParameter"/>.
         /// </exception>
-        public override void SetParameterDbType(IDataParameter param)
+        public override void SetupParameter(IDataParameter param)
         {
             Check.IsOfType<OleDbParameter>(param, nameof(param));
-            (param as OleDbParameter).OleDbType = OleDbType;
+            var oleParam = (OleDbParameter)param;
+            oleParam.OleDbType = OleDbType;
+            oleParam.Precision = Precision;
+            oleParam.Scale = Scale;
+            if (Size > 0)
+            {
+                oleParam.Size = Size;
+            }
         }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member

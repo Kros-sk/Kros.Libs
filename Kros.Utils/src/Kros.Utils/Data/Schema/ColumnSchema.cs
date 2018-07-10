@@ -27,6 +27,16 @@ namespace Kros.Data.Schema
         public const int DefaultSize = 0;
 
         /// <summary>
+        /// Default value for column's <see cref="Precision"/>. The value is <c>0</c>.
+        /// </summary>
+        public const byte DefaultPrecision = 0;
+
+        /// <summary>
+        /// Default value for column's <see cref="Scale"/>. The value is <c>0</c>.
+        /// </summary>
+        public const byte DefaultScale = 0;
+
+        /// <summary>
         /// Columns' default values for individual data types.
         /// <list type="bullet">
         /// <item><c>Boolean</c>'s default value is <see langword="false"/>.</item>
@@ -119,10 +129,24 @@ namespace Kros.Data.Schema
         public int Size { get; set; } = DefaultSize;
 
         /// <summary>
-        /// Sets data type to command parameter <paramref name="param"/>.
+        /// The maximum total number of decimal digits that will be stored, both to the left and to the right
+        /// of the decimal point.
+        /// </summary>
+        public byte Precision { get; set; } = DefaultPrecision;
+
+        /// <summary>
+        /// The number of decimal digits that will be stored to the right of the decimal point.
+        /// This number is subtracted from p to determine the maximum number of digits to the left of the decimal point.
+        /// </summary>
+        public byte Scale { get; set; } = DefaultScale;
+
+        /// <summary>
+        /// Sets-up command parameter <paramref name="param"/> according to the column schema.
         /// </summary>
         /// <param name="param">Parameter for <see cref="IDbCommand"/> commands.</param>
-        public abstract void SetParameterDbType(IDataParameter param);
+        /// <remarks>Method should set parameters data type, and other specific values (size for <c>VARCHAR</c>,
+        /// precision and scale for float columns).</remarks>
+        public abstract void SetupParameter(IDataParameter param);
 
         /// <summary>
         /// Returns value for <see cref="DefaultValue"/> for use in <c>ToString()</c>.

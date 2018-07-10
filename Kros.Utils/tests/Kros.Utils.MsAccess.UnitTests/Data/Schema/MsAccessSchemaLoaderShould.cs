@@ -169,14 +169,14 @@ namespace Kros.Utils.UnitTests.Data.Schema
             actualColumns.Should().BeEquivalentTo(expectedColumns, "Missing or invalid columns in table.");
 
             CheckColumnSchema(table.Columns["ColByte"], OleDbType.UnsignedTinyInt, null, true);
-            CheckColumnSchema(table.Columns["ColInt32"], OleDbType.SmallInt, (Int16)32, true);
+            CheckColumnSchema(table.Columns["ColInt32"], OleDbType.SmallInt, (short)32, true);
             CheckColumnSchema(table.Columns["ColInt64"], OleDbType.Integer, 64, true);
             CheckColumnSchema(table.Columns["ColInt64NotNull"], OleDbType.Integer, null, false);
-            CheckColumnSchema(table.Columns["ColSingle"], OleDbType.Single, (float)123.456, true);
-            CheckColumnSchema(table.Columns["ColDouble"], OleDbType.Double, (double)654.321, true);
-            CheckColumnSchema(table.Columns["ColDecimal"], OleDbType.Numeric, (double)1234.5678, true);
-            CheckColumnSchema(table.Columns["ColVarChar"], OleDbType.WChar, null, true, 100);
-            CheckColumnSchema(table.Columns["ColVarCharNotNull"], OleDbType.WChar, "Lorem ipsum", false, 200);
+            CheckColumnSchema(table.Columns["ColSingle"], OleDbType.Single, (float)123.456, true, null, null, null);
+            CheckColumnSchema(table.Columns["ColDouble"], OleDbType.Double, (double)654.321, true, null, null, null);
+            CheckColumnSchema(table.Columns["ColDecimal"], OleDbType.Numeric, (double)1234.5678, true, null, 18, 5);
+            CheckColumnSchema(table.Columns["ColVarChar"], OleDbType.WChar, null, true, 100, null, null);
+            CheckColumnSchema(table.Columns["ColVarCharNotNull"], OleDbType.WChar, "Lorem ipsum", false, 200, null, null);
             CheckColumnSchema(table.Columns["ColText"], OleDbType.WChar, null, true);
             CheckColumnSchema(table.Columns["ColDateTime"], OleDbType.Date, new DateTime(1978, 12, 10), true);
             CheckColumnSchema(table.Columns["ColBoolean"], OleDbType.Boolean, true, false);
@@ -186,11 +186,17 @@ namespace Kros.Utils.UnitTests.Data.Schema
         private static void CheckColumnSchema(
             ColumnSchema column, OleDbType oleDbType, object defaultValue, bool allowNull)
         {
-            CheckColumnSchema(column, oleDbType, defaultValue, allowNull, null);
+            CheckColumnSchema(column, oleDbType, defaultValue, allowNull, null, null, null);
         }
 
         private static void CheckColumnSchema(
-            ColumnSchema column, OleDbType oleDbType, object defaultValue, bool allowNull, int? size)
+            ColumnSchema column,
+            OleDbType oleDbType,
+            object defaultValue,
+            bool allowNull,
+            int? size,
+            byte? precision,
+            byte? scale)
         {
             MsAccessColumnSchema msAccessColumn = (MsAccessColumnSchema)column;
             string columnName = msAccessColumn.Name;
@@ -203,6 +209,14 @@ namespace Kros.Utils.UnitTests.Data.Schema
             if (size.HasValue)
             {
                 msAccessColumn.Size.Should().Be(size, $"{columnName} should have correct size.");
+            }
+            if (precision.HasValue)
+            {
+                msAccessColumn.Precision.Should().Be(precision, $"{columnName} should have correct precision.");
+            }
+            if (scale.HasValue)
+            {
+                msAccessColumn.Scale.Should().Be(scale, $"{columnName} should have correct scale.");
             }
         }
 

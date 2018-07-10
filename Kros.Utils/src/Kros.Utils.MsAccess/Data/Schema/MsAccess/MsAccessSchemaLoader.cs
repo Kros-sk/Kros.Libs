@@ -279,6 +279,14 @@ namespace Kros.Data.Schema.MsAccess
             {
                 column.Size = (int)row.Field<long>(ColumnsSchemaNames.CharacterMaximumLength);
             }
+            if (!row.IsNull(ColumnsSchemaNames.NumericPrecision))
+            {
+                column.Precision = Convert.ToByte(row[ColumnsSchemaNames.NumericPrecision]);
+            }
+            if (!row.IsNull(ColumnsSchemaNames.NumericScale))
+            {
+                column.Scale = Convert.ToByte(row[ColumnsSchemaNames.NumericScale]);
+            }
 
             return column;
         }
