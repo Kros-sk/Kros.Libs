@@ -297,15 +297,19 @@ ALTER TABLE [dbo].[ChildTableCascade] CHECK CONSTRAINT [FK_ChildTableCascade_Par
             CheckColumnSchema(table.Columns["ColVarCharNotNull"], SqlDbType.NVarChar, "Lorem ipsum", false, 200, null, null);
             CheckColumnSchema(table.Columns["ColText"], SqlDbType.NText, null, true);
             CheckColumnSchema(table.Columns["ColNVarcharMax"], SqlDbType.NVarChar, null, true);
-            CheckColumnSchema(table.Columns["ColDate"], SqlDbType.Date, null, true);
-            CheckColumnSchema(table.Columns["ColDateTime"], SqlDbType.DateTime, new DateTime(1978, 12, 10, 6, 30, 0), true);
-            CheckColumnSchema(table.Columns["ColSmallDateTime"], SqlDbType.SmallDateTime, new DateTime(1978, 12, 10, 6, 30, 0), true);
 
-            // DateTime and DateTimeOffset values are parsed from string, because DateTime constructor does not accept
-            // value for millisecond greater than 999.
-            CheckColumnSchema(table.Columns["ColDateTime2"], SqlDbType.DateTime2, DateTime.Parse("1978-12-10 06:30:0.1234"), true);
-            CheckColumnSchema(table.Columns["ColDateTimeOffset"], SqlDbType.DateTimeOffset, DateTimeOffset.Parse("1978-12-10 06:30:0.1234 +01:30"), true);
-            CheckColumnSchema(table.Columns["ColDateTimeOffset2"], SqlDbType.DateTimeOffset, DateTimeOffset.Parse("1978-12-10 06:30:0.1234 -01:30"), true);
+            CheckColumnSchema(table.Columns["ColDate"], SqlDbType.Date, new DateTime(1978, 12, 10), true);
+
+            var dateTimeDefault = new DateTime(1978, 12, 10, 6, 30, 0);
+            CheckColumnSchema(table.Columns["ColDateTime"], SqlDbType.DateTime, dateTimeDefault, true);
+            CheckColumnSchema(table.Columns["ColSmallDateTime"], SqlDbType.SmallDateTime, dateTimeDefault, true);
+
+            // DateTime and DateTimeOffset do not accept value for milliseconds greater than 999 or fractional milliseconds,
+            // so we need to add them this way. 1 ms = 10 000 ticks.
+            dateTimeDefault = dateTimeDefault.AddTicks(1234000);
+            CheckColumnSchema(table.Columns["ColDateTime2"], SqlDbType.DateTime2, dateTimeDefault, true);
+            CheckColumnSchema(table.Columns["ColDateTimeOffset"], SqlDbType.DateTimeOffset, new DateTimeOffset(dateTimeDefault, TimeSpan.FromMinutes(90)), true);
+            CheckColumnSchema(table.Columns["ColDateTimeOffset2"], SqlDbType.DateTimeOffset, new DateTimeOffset(dateTimeDefault, TimeSpan.FromMinutes(-90)), true);
 
             CheckColumnSchema(table.Columns["ColBoolean"], SqlDbType.Bit, true, false);
             CheckColumnSchema(table.Columns["ColGuid"], SqlDbType.UniqueIdentifier, new Guid("01234567-89ab-cdef-0123-456789abcdef"), true);
