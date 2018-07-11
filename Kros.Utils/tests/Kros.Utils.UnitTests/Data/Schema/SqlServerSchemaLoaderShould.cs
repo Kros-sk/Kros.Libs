@@ -15,7 +15,7 @@ namespace Kros.Utils.UnitTests.Data.Schema
 
         private const string TestSchemaTableName = "SchemaTest";
 
-        private static string[] _databaseInitScripts = new string[]
+        private static readonly string[] _databaseInitScripts = new string[]
         {
             CreateTable_SchemaTest,
             CreateTable_IndexesTest,
@@ -27,7 +27,7 @@ namespace Kros.Utils.UnitTests.Data.Schema
         };
 
         private const string CreateTable_SchemaTest =
-            @"CREATE TABLE [dbo].[SchemaTest] (
+@"CREATE TABLE [dbo].[SchemaTest] (
     [ColByte] [tinyint] NULL,
     [ColInt32] [int] NULL,
     [ColInt64] [bigint] NULL,
@@ -36,24 +36,39 @@ namespace Kros.Utils.UnitTests.Data.Schema
     [ColSingle] [real] NULL,
     [ColDouble] [float] NULL,
     [ColDecimal] [decimal](18, 5) NULL,
-    [ColVarChar] [nvarchar] (100) NULL,
-    [ColVarCharNotNull] [nvarchar] (200) NOT NULL,
+    [ColCurrency] [money] NULL,
 
+    [ColVarChar] [nvarchar](100) NULL,
+    [ColVarCharNotNull] [nvarchar](200) NOT NULL,
     [ColText] [ntext] NULL,
-    [ColDateTime] [datetime2] NULL,
-    [ColBoolean] [bit] NOT NULL,
+    [ColNVarcharMax] [nvarchar](max) NULL,
 
+    [ColDate] [date] NULL,
+    [ColDateTime] [datetime] NULL,
+    [ColDateTime2] [datetime2](7) NULL,
+    [ColDateTimeOffset] [datetimeoffset] NULL,
+    [ColDateTimeOffset2] [datetimeoffset] NULL,
+    [ColSmallDateTime] [smalldatetime] NULL,
+
+    [ColBoolean] [bit] NOT NULL,
     [ColGuid] [uniqueidentifier] NULL
 ) ON[PRIMARY];
 
-ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColInt32]  DEFAULT((32)) FOR[ColInt32];
-ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColInt64]  DEFAULT((64)) FOR[ColInt64];
-ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColSingle]  DEFAULT((123.456)) FOR[ColSingle];
-ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColDouble]  DEFAULT((654.321)) FOR[ColDouble];
-ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColDecimal]  DEFAULT((1234.5678)) FOR[ColDecimal];
-ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColVarCharNotNull]  DEFAULT(N'Lorem ipsum') FOR[ColVarCharNotNull];
-ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColDateTime]  DEFAULT('1978-12-10 00:00:00') FOR[ColDateTime];
-ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColBoolean]  DEFAULT('TRUE') FOR[ColBoolean];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColInt32] DEFAULT((32)) FOR [ColInt32];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColInt64] DEFAULT((64)) FOR [ColInt64];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColSingle] DEFAULT((123.456)) FOR [ColSingle];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColDouble] DEFAULT((654.321)) FOR [ColDouble];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColDecimal] DEFAULT((1234.5678)) FOR [ColDecimal];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColCurrency] DEFAULT((1234.5678)) FOR [ColCurrency];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColVarCharNotNull] DEFAULT(N'Lorem ipsum') FOR [ColVarCharNotNull];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColDate] DEFAULT('1978-12-10') FOR [ColDate];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColDateTime] DEFAULT('1978-12-10 06:30:00') FOR [ColDateTime];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColDateTime2] DEFAULT('1978-12-10 06:30:00.1234') FOR [ColDateTime2];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColDateTimeOffset] DEFAULT('1978-12-10 06:30:00.123400 +01:30') FOR [ColDateTimeOffset];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColDateTimeOffset2] DEFAULT('1978-12-10 06:30:00.123400 -01:30') FOR [ColDateTimeOffset2];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColSmallDateTime] DEFAULT('1978-12-10 06:30:00') FOR [ColSmallDateTime];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColBoolean] DEFAULT('TRUE') FOR [ColBoolean];
+ALTER TABLE[dbo].[SchemaTest] ADD CONSTRAINT[DF_SchemaTest_ColGuid] DEFAULT('01234567-89ab-cdef-0123-456789abcdef') FOR [ColGuid];
 ";
 
         private const string CreateTable_IndexesTest =
@@ -170,7 +185,6 @@ ALTER TABLE [dbo].[ChildTableCascade] CHECK CONSTRAINT [FK_ChildTableCascade_Par
         {
             SqlServerSchemaLoader loader = new SqlServerSchemaLoader();
             DatabaseSchema schema = loader.LoadSchema(ServerHelper.Connection);
-
             CheckTableSchema(schema.Tables[TestSchemaTableName]);
         }
 
@@ -253,10 +267,17 @@ ALTER TABLE [dbo].[ChildTableCascade] CHECK CONSTRAINT [FK_ChildTableCascade_Par
                 "ColSingle",
                 "ColDouble",
                 "ColDecimal",
+                "ColCurrency",
                 "ColVarChar",
                 "ColVarCharNotNull",
                 "ColText",
+                "ColNVarcharMax",
+                "ColDate",
                 "ColDateTime",
+                "ColDateTime2",
+                "ColDateTimeOffset",
+                "ColDateTimeOffset2",
+                "ColSmallDateTime",
                 "ColBoolean",
                 "ColGuid"
             };
@@ -268,37 +289,63 @@ ALTER TABLE [dbo].[ChildTableCascade] CHECK CONSTRAINT [FK_ChildTableCascade_Par
             CheckColumnSchema(table.Columns["ColInt32"], SqlDbType.Int, 32, true);
             CheckColumnSchema(table.Columns["ColInt64"], SqlDbType.BigInt, 64L, true);
             CheckColumnSchema(table.Columns["ColInt64NotNull"], SqlDbType.BigInt, null, false);
-            CheckColumnSchema(table.Columns["ColSingle"], SqlDbType.Real, (float) 123.456, true);
-            CheckColumnSchema(table.Columns["ColDouble"], SqlDbType.Float, (double) 654.321, true);
-            CheckColumnSchema(table.Columns["ColDecimal"], SqlDbType.Decimal, (decimal) 1234.5678, true);
-            CheckColumnSchema(table.Columns["ColVarChar"], SqlDbType.NVarChar, null, true, 100);
-            CheckColumnSchema(table.Columns["ColVarCharNotNull"], SqlDbType.NVarChar, "Lorem ipsum", false, 200);
+            CheckColumnSchema(table.Columns["ColSingle"], SqlDbType.Real, (float)123.456, true, null, 24, 0);
+            CheckColumnSchema(table.Columns["ColDouble"], SqlDbType.Float, (double)654.321, true, null, 53, 0);
+            CheckColumnSchema(table.Columns["ColDecimal"], SqlDbType.Decimal, (decimal)1234.5678, true, null, 18, 5);
+            CheckColumnSchema(table.Columns["ColCurrency"], SqlDbType.Money, (decimal)1234.5678, true, null, null, null);
+            CheckColumnSchema(table.Columns["ColVarChar"], SqlDbType.NVarChar, null, true, 100, null, null);
+            CheckColumnSchema(table.Columns["ColVarCharNotNull"], SqlDbType.NVarChar, "Lorem ipsum", false, 200, null, null);
             CheckColumnSchema(table.Columns["ColText"], SqlDbType.NText, null, true);
-            CheckColumnSchema(table.Columns["ColDateTime"], SqlDbType.DateTime2, new DateTime(1978, 12, 10), true);
+            CheckColumnSchema(table.Columns["ColNVarcharMax"], SqlDbType.NVarChar, null, true);
+
+            CheckColumnSchema(table.Columns["ColDate"], SqlDbType.Date, new DateTime(1978, 12, 10), true);
+
+            var dateTimeDefault = new DateTime(1978, 12, 10, 6, 30, 0);
+            CheckColumnSchema(table.Columns["ColDateTime"], SqlDbType.DateTime, dateTimeDefault, true);
+            CheckColumnSchema(table.Columns["ColSmallDateTime"], SqlDbType.SmallDateTime, dateTimeDefault, true);
+
+            // DateTime and DateTimeOffset do not accept value for milliseconds greater than 999 or fractional milliseconds,
+            // so we need to add them this way. 1 ms = 10 000 ticks.
+            dateTimeDefault = dateTimeDefault.AddTicks(1234000);
+            CheckColumnSchema(table.Columns["ColDateTime2"], SqlDbType.DateTime2, dateTimeDefault, true);
+            CheckColumnSchema(table.Columns["ColDateTimeOffset"], SqlDbType.DateTimeOffset, new DateTimeOffset(dateTimeDefault, TimeSpan.FromMinutes(90)), true);
+            CheckColumnSchema(table.Columns["ColDateTimeOffset2"], SqlDbType.DateTimeOffset, new DateTimeOffset(dateTimeDefault, TimeSpan.FromMinutes(-90)), true);
+
             CheckColumnSchema(table.Columns["ColBoolean"], SqlDbType.Bit, true, false);
-            CheckColumnSchema(table.Columns["ColGuid"], SqlDbType.UniqueIdentifier, null, true);
+            CheckColumnSchema(table.Columns["ColGuid"], SqlDbType.UniqueIdentifier, new Guid("01234567-89ab-cdef-0123-456789abcdef"), true);
         }
 
-        private static void CheckColumnSchema(
-            ColumnSchema column, SqlDbType sqlDbType, object defaultValue, bool allowNull)
-        {
-            CheckColumnSchema(column, sqlDbType, defaultValue, allowNull, null);
-        }
+        private static void CheckColumnSchema(ColumnSchema column, SqlDbType sqlDbType, object defaultValue, bool allowNull)
+            => CheckColumnSchema(column, sqlDbType, defaultValue, allowNull, null, null, null);
 
         private static void CheckColumnSchema(
-            ColumnSchema column, SqlDbType sqlDbType, object defaultValue, bool allowNull, int? size)
+            ColumnSchema column,
+            SqlDbType sqlDbType,
+            object defaultValue,
+            bool allowNull,
+            int? size,
+            byte? precision,
+            byte? scale)
         {
-            SqlServerColumnSchema msAccessColumn = (SqlServerColumnSchema) column;
-            string columnName = msAccessColumn.Name;
-            msAccessColumn.SqlDbType.Should().Be(sqlDbType, $"{columnName} should have correct SqlDbType.");
-            msAccessColumn.AllowNull.Should().Be(allowNull, $"{columnName} should allow NULL.");
+            SqlServerColumnSchema sqlServerColumn = (SqlServerColumnSchema)column;
+            string columnName = sqlServerColumn.Name;
+            sqlServerColumn.SqlDbType.Should().Be(sqlDbType, $"{columnName} should have correct SqlDbType.");
+            sqlServerColumn.AllowNull.Should().Be(allowNull, $"{columnName} should allow NULL.");
             if (defaultValue != null)
             {
-                msAccessColumn.DefaultValue.Should().Be(defaultValue, $"{columnName} should have correct default value.");
+                sqlServerColumn.DefaultValue.Should().Be(defaultValue, $"{columnName} should have correct default value.");
             }
             if (size.HasValue)
             {
-                msAccessColumn.Size.Should().Be(size, $"{columnName} should have correct size.");
+                sqlServerColumn.Size.Should().Be(size, $"{columnName} should have correct size.");
+            }
+            if (precision.HasValue)
+            {
+                sqlServerColumn.Precision.Should().Be(precision, $"{columnName} should have correct precision.");
+            }
+            if (scale.HasValue)
+            {
+                sqlServerColumn.Scale.Should().Be(scale, $"{columnName} should have correct scale.");
             }
         }
 

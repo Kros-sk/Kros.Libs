@@ -158,23 +158,20 @@ namespace Kros.Data.Schema
             return null;
         }
 
-        private static Regex reDateTime =
-            new Regex(@"(?<year>\d\d\d\d)-(?<month>\d\d)-(?<day>\d\d).(?<hour>\d\d):(?<min>\d\d):(?<sec>\d\d)",
-                RegexOptions.Compiled);
-
         public static object ParseDateSql(string defaultValue)
         {
-            Match match = reDateTime.Match(defaultValue);
-            if (match.Success)
+            if (DateTime.TryParse(defaultValue, out DateTime value))
             {
-                return new DateTime(
-                    int.Parse(match.Groups["year"].Value),
-                    int.Parse(match.Groups["month"].Value),
-                    int.Parse(match.Groups["day"].Value),
-                    int.Parse(match.Groups["hour"].Value),
-                    int.Parse(match.Groups["min"].Value),
-                    int.Parse(match.Groups["sec"].Value)
-                );
+                return value;
+            }
+            return null;
+        }
+
+        public static object ParseDateTimeOffsetSql(string defaultValue)
+        {
+            if (DateTimeOffset.TryParse(defaultValue, out DateTimeOffset value))
+            {
+                return value;
             }
             return null;
         }

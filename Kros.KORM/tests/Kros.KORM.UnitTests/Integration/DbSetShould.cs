@@ -3,6 +3,7 @@ using Kros.Data.SqlServer;
 using Kros.KORM.Converter;
 using Kros.KORM.Metadata;
 using Kros.KORM.Metadata.Attribute;
+using Kros.KORM.UnitTests.Properties;
 using Kros.KORM.Query;
 using Kros.KORM.UnitTests.Base;
 using Nito.AsyncEx;
@@ -23,6 +24,30 @@ namespace Kros.KORM.UnitTests.Integration
         {
             public int Id { get; set; }
             public string Value { get; set; }
+        }
+
+        [Alias("DataTypesTest")]
+        private class DataTypesData
+        {
+            public int Id { get; set; }
+            public string ColNote { get; set; }
+            public byte ColByte { get; set; }
+            public int ColInt32 { get; set; }
+            public long ColInt64 { get; set; }
+            //public float ColSingle { get; set; }
+            public double ColDouble { get; set; }
+            public decimal ColDecimal { get; set; }
+            public decimal ColCurrency { get; set; }
+            public DateTime ColDate { get; set; }
+            public DateTime ColDateTime { get; set; }
+            public DateTime ColDateTime2 { get; set; }
+            //public DateTimeOffset ColDateTimeOffset { get; set; }
+            public DateTime ColSmallDateTime { get; set; }
+            public Guid ColGuid { get; set; }
+            public bool ColBool { get; set; }
+            public string ColShortText { get; set; }
+            public string ColLongText { get; set; }
+            public string ColNVarcharMax { get; set; }
         }
 
         [Alias("People")]
@@ -63,31 +88,59 @@ namespace Kros.KORM.UnitTests.Integration
 
         #region SQL Scripts
 
+        private const string Table_DataTypes = "DataTypesTest";
+
+        private static readonly string CreateTable_DataTypes =
+$@"CREATE TABLE[dbo].[{Table_DataTypes}] (
+    [Id] [int] NOT NULL,
+    [ColNote] [nvarchar](255) NULL,
+    [ColByte] [tinyint] NULL,
+    [ColInt32] [int] NULL,
+    [ColInt64] [bigint] NULL,
+    [ColSingle] [real] NULL,
+    [ColDouble] [float] NULL,
+    [ColDecimal] [decimal](18, 5) NULL,
+    [ColCurrency] [money] NULL,
+    [ColDate] [date] NULL,
+    [ColDateTime] [datetime] NULL,
+    [ColDateTime2] [datetime2](7) NULL,
+    [ColDateTimeOffset] [datetimeoffset] NULL,
+    [ColSmallDateTime] [smalldatetime] NULL,
+    [ColGuid] [uniqueidentifier] NULL,
+    [ColBool] [bit] NULL,
+    [ColShortText] [nvarchar](20) NULL,
+    [ColLongText] [ntext] NULL,
+    [ColNVarcharMax] [nvarchar](max) NULL,
+
+    CONSTRAINT [PK_TestTable] PRIMARY KEY CLUSTERED ([Id] ASC) ON [PRIMARY]
+
+) ON [PRIMARY];";
+
         private const string Table_TestTable = "People";
 
-        private static string CreateTable_TestTable =
+        private static readonly string CreateTable_TestTable =
 $@"CREATE TABLE [dbo].[{Table_TestTable}] (
     [Id] [int] NOT NULL,
     [Age] [int] NULL,
-    [FirstName] [nvarchar] (50) NULL,
-    [LastName] [nvarchar] (50) NULL,
-    [Address] [nvarchar] (50) NULL,
-    [TestLongText] [nvarchar] (max) NULL
+    [FirstName] [nvarchar](50) NULL,
+    [LastName] [nvarchar](50) NULL,
+    [Address] [nvarchar](50) NULL,
+    [TestLongText] [nvarchar](max) NULL
 ) ON [PRIMARY];";
 
-        private static string InsertDataScript =
+        private static readonly string InsertDataScript =
 $@"INSERT INTO {Table_TestTable} VALUES (1, 18, 'John', 'Smith', 'London', 'Lorem ipsum dolor sit amet 1.');
 INSERT INTO {Table_TestTable} VALUES (1, 22, 'Kilie', 'Bistrol', 'London', 'Lorem ipsum dolor sit amet 2.');";
 
         private const string Table_LimitOffsetTest = "LimitOffsetTest";
 
-        private static string CreateTable_LimitOffsetTest =
+        private static readonly string CreateTable_LimitOffsetTest =
 $@"CREATE TABLE [dbo].[{Table_LimitOffsetTest}] (
     [Id] [int] NOT NULL,
     [Value] [nvarchar](50) NULL
 ) ON [PRIMARY];";
 
-        private static string InsertLimitOffsetDataScript =
+        private static readonly string InsertLimitOffsetDataScript =
 $@"INSERT INTO [{Table_LimitOffsetTest}] VALUES (1, 'one');
 INSERT INTO [{Table_LimitOffsetTest}] VALUES (2, 'two');
 INSERT INTO [{Table_LimitOffsetTest}] VALUES (3, 'three');
@@ -131,33 +184,29 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
         [Fact]
         public async Task InsertDataAsync()
         {
-            using (var korm = CreateDatabase(CreateTable_TestTable))
+            using (var korm = CreateDatabase(CreateTable_DataTypes))
             {
-                IDbSet<Person> dbSet = GetDbSetForCommitInsert(korm);
-
+                IDbSet<DataTypesData> dbSet = GetDbSetForCommitInsert(korm);
                 await dbSet.CommitChangesAsync();
-
-                AssertData(korm);
+                AssertDataTypesData(korm);
             }
         }
 
         private void InsertDataCore()
         {
-            using (var korm = CreateDatabase(CreateTable_TestTable))
+            using (var korm = CreateDatabase(CreateTable_DataTypes))
             {
-                IDbSet<Person> dbSet = GetDbSetForCommitInsert(korm);
-
+                IDbSet<DataTypesData> dbSet = GetDbSetForCommitInsert(korm);
                 dbSet.CommitChanges();
-
-                AssertData(korm);
+                AssertDataTypesData(korm);
             }
         }
 
-        private static IDbSet<Person> GetDbSetForCommitInsert(IDatabase korm)
+        private static IDbSet<DataTypesData> GetDbSetForCommitInsert(IDatabase korm)
         {
-            var dbSet = korm.Query<Person>().AsDbSet();
+            var dbSet = korm.Query<DataTypesData>().AsDbSet();
 
-            dbSet.Add(GetData());
+            dbSet.Add(GetDataTypesData());
             return dbSet;
         }
 
@@ -209,7 +258,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
         {
             var dbSet = korm.Query<Person>().AsDbSet();
 
-            dbSet.Edit(GetData());
+            dbSet.Edit(GetPersonData());
             return dbSet;
         }
 
@@ -273,7 +322,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
             using (var korm = CreateDatabase(CreateTable_TestTable))
             {
                 IDbSet<Person> dbSet = korm.Query<Person>().AsDbSet();
-                dbSet.Add(GetData());
+                dbSet.Add(GetPersonData());
 
                 await dbSet.BulkInsertAsync();
 
@@ -288,7 +337,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
             {
                 IDbSet<Person> dbSet = korm.Query<Person>().AsDbSet();
 
-                await dbSet.BulkInsertAsync(GetData());
+                await dbSet.BulkInsertAsync(GetPersonData());
 
                 AssertData(korm);
             }
@@ -302,7 +351,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
                 using (var korm = CreateDatabase(CreateTable_TestTable))
                 {
                     IDbSet<Person> dbSet = korm.Query<Person>().AsDbSet();
-                    dbSet.Add(GetData());
+                    dbSet.Add(GetPersonData());
 
                     dbSet.BulkInsert();
 
@@ -320,7 +369,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
                 {
                     IDbSet<Person> dbSet = korm.Query<Person>().AsDbSet();
 
-                    dbSet.BulkInsert(GetData());
+                    dbSet.BulkInsert(GetPersonData());
 
                     AssertData(korm);
                 }
@@ -340,7 +389,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
                 {
                     var dbSet = korm.Query<Person>().AsDbSet();
 
-                    dbSet.Edit(GetData());
+                    dbSet.Edit(GetPersonData());
 
                     dbSet.BulkUpdate();
 
@@ -356,7 +405,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
             {
                 var dbSet = korm.Query<Person>().AsDbSet();
 
-                dbSet.Edit(GetData());
+                dbSet.Edit(GetPersonData());
 
                 await dbSet.BulkUpdateAsync();
 
@@ -373,7 +422,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
                 {
                     var dbSet = korm.Query<Person>().AsDbSet();
 
-                    dbSet.Edit(GetData());
+                    dbSet.Edit(GetPersonData());
 
                     dbSet.BulkUpdate((c, t, s) => { });
 
@@ -389,7 +438,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
             {
                 var dbSet = korm.Query<Person>().AsDbSet();
 
-                dbSet.Edit(GetData());
+                dbSet.Edit(GetPersonData());
 
                 await dbSet.BulkUpdateAsync((c, t, s) => { });
 
@@ -406,7 +455,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
                 {
                     var dbSet = korm.Query<Person>().AsDbSet();
 
-                    dbSet.BulkUpdate(GetData());
+                    dbSet.BulkUpdate(GetPersonData());
 
                     AssertData(korm);
                 }
@@ -420,7 +469,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
             {
                 var dbSet = korm.Query<Person>().AsDbSet();
 
-                await dbSet.BulkUpdateAsync(GetData());
+                await dbSet.BulkUpdateAsync(GetPersonData());
 
                 AssertData(korm);
             }
@@ -435,7 +484,7 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
                 {
                     var dbSet = korm.Query<Person>().AsDbSet();
 
-                    dbSet.BulkUpdate(GetData(), (c, t, s) => { });
+                    dbSet.BulkUpdate(GetPersonData(), (c, t, s) => { });
 
                     AssertData(korm);
                 }
@@ -449,37 +498,10 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
             {
                 var dbSet = korm.Query<Person>().AsDbSet();
 
-                await dbSet.BulkUpdateAsync(GetData(), (c, t, s) => { });
+                await dbSet.BulkUpdateAsync(GetPersonData(), (c, t, s) => { });
 
                 AssertData(korm);
             }
-        }
-
-        private static IEnumerable<Person> GetData()
-        {
-            var data = new List<Person>();
-
-            data.Add(new Person()
-            {
-                Id = 1,
-                FirstName = "Milan",
-                LastName = "Martiniak",
-                Age = 32,
-                Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" },
-                TestLongText = "Lorem ipsum dolor sit amet 1."
-            });
-
-            data.Add(new Person()
-            {
-                Id = 2,
-                FirstName = "Peter",
-                LastName = "Juráček",
-                Age = 14,
-                Address = new List<string>() { "Novozámocká" },
-                TestLongText = "Lorem ipsum dolor sit amet 2."
-            });
-
-            return data;
         }
 
         #endregion
@@ -732,6 +754,74 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
         #endregion
 
         #region Helpers
+
+        private static IEnumerable<DataTypesData> GetDataTypesData()
+        {
+            yield return CreateRecord(1);
+            yield return CreateRecord(2);
+            yield return CreateRecord(3);
+            yield return CreateRecord(4);
+            yield return CreateRecord(5);
+        }
+
+        private static DataTypesData CreateRecord(int id)
+        {
+            return new DataTypesData()
+            {
+                Id = id,
+                ColNote = "Record " + id.ToString(),
+                ColByte = (byte)id,
+                ColInt32 = id * 100,
+                ColInt64 = id * 100000000000,
+                //ColSingle = id * (float)100000000000.12345,
+                ColDouble = id * 100000000000.12345,
+                ColDecimal = id * (decimal)100000000000.12345,
+                ColCurrency = id * (decimal)100000000000.12345,
+                ColDate = new DateTime(1978, 12, id),
+                ColDateTime = new DateTime(1978, 12, id, 10, 11, 22),
+                ColDateTime2 = new DateTime(1978, 12, id, 10, 11, 22),
+                //ColDateTimeOffset = new DateTimeOffset(1978, 12, id, 10, 11, 22, 123, TimeSpan.FromHours(id)),
+                ColSmallDateTime = new DateTime(1978, 12, id, 10, 11, 0),
+                ColGuid = Guid.Parse($"{id}0000000-0000-0000-0000-000000000000"),
+                ColBool = (id % 2) == 0,
+                ColShortText = "Short text " + id.ToString(),
+                ColLongText = "Long text " + id.ToString() + " " + Resources.BigTextData,
+                ColNVarcharMax = "NVarcharMax text " + id.ToString() + " " + Resources.BigTextData
+            };
+        }
+
+        private static void AssertDataTypesData(IDatabase korm)
+        {
+            List<DataTypesData> actualData = korm.Query<DataTypesData>().OrderBy(item => item.Id).ToList();
+            actualData.Should().BeEquivalentTo(GetDataTypesData());
+        }
+
+        private static IEnumerable<Person> GetPersonData()
+        {
+            var data = new List<Person>();
+
+            data.Add(new Person()
+            {
+                Id = 1,
+                FirstName = "Milan",
+                LastName = "Martiniak",
+                Age = 32,
+                Address = new List<string>() { "Petzvalova", "Pekna", "Zelena" },
+                TestLongText = "Lorem ipsum dolor sit amet 1."
+            });
+
+            data.Add(new Person()
+            {
+                Id = 2,
+                FirstName = "Peter",
+                LastName = "Juráček",
+                Age = 14,
+                Address = new List<string>() { "Novozámocká" },
+                TestLongText = "Lorem ipsum dolor sit amet 2."
+            });
+
+            return data;
+        }
 
         private static void AssertData(IDatabase korm)
         {

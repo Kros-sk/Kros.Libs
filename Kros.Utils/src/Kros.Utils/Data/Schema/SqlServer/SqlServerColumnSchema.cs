@@ -50,10 +50,24 @@ namespace Kros.Data.Schema.SqlServer
         /// <exception cref="System.ArgumentException">
         /// Value of <paramref name="param"/> is not of type <see cref="SqlParameter"/>.
         /// </exception>
-        public override void SetParameterDbType(IDataParameter param)
+        public override void SetupParameter(IDataParameter param)
         {
             Check.IsOfType<SqlParameter>(param, nameof(param));
-            (param as SqlParameter).SqlDbType = SqlDbType;
+            var sqlParam = (SqlParameter)param;
+            sqlParam.SqlDbType = SqlDbType;
+            sqlParam.Precision = Precision;
+            sqlParam.Scale = Scale;
+            if (Size > 0)
+            {
+                sqlParam.Size = Size;
+            }
+            else if ((sqlParam.Size == -1) &&
+                ((sqlParam.SqlDbType == SqlDbType.NVarChar)
+                || (sqlParam.SqlDbType == SqlDbType.VarChar)
+                || (sqlParam.SqlDbType == SqlDbType.VarBinary)))
+            {
+                sqlParam.Size = int.MaxValue;
+            }
         }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member

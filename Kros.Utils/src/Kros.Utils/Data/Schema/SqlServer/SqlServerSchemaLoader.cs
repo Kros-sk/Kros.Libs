@@ -177,20 +177,25 @@ namespace Kros.Data.Schema.SqlServer
         {
             CheckConnection(connection);
 
-            try
+            using (SqlConnection newConnection = (SqlConnection)(connection as ICloneable).Clone())
             {
-                using (SqlConnection cn = (SqlConnection)(connection as ICloneable).Clone())
+                SqlConnection schemaConnection = newConnection;
+                try
                 {
-                    cn.Open();
-                    return LoadSchemaCore(cn);
+                    newConnection.Open();
                 }
-            }
-            catch (Exception)
-            {
-                // Attempt to load schema using original connection in case it failed using new connection.
-                // It would be great if we new how to check if a connection to SQL Server database is exclusive,
-                // so we would not need to use try-catch block.
-                return LoadSchemaCore(connection);
+                catch
+                {
+                    // Attempt to load schema using original connection in case new connection failed to open (is exclusive?).
+                    // It would be great if we new how to check if a connection to SQL Server database is exclusive,
+                    // so we would not need to use try-catch block.
+                    newConnection.Dispose();
+                    schemaConnection = connection;
+                }
+                using (ConnectionHelper.OpenConnection(schemaConnection))
+                {
+                    return LoadSchemaCore(schemaConnection);
+                }
             }
         }
 
@@ -317,6 +322,20 @@ namespace Kros.Data.Schema.SqlServer
             if (!row.IsNull(ColumnsSchemaNames.CharacterMaximumLength))
             {
                 column.Size = (int)row[ColumnsSchemaNames.CharacterMaximumLength];
+            }
+            if (!row.IsNull(ColumnsSchemaNames.DatetimePrecision))
+            {
+                System.Diagnostics.Debug.Assert(column.Size == 0,
+                    "Setting DatetimePrecision but SqlServerColumnSchema.Size is already set.");
+                column.Size = Convert.ToInt32(row[ColumnsSchemaNames.DatetimePrecision]);
+            }
+            if (!row.IsNull(ColumnsSchemaNames.NumericPrecision))
+            {
+                column.Precision = Convert.ToByte(row[ColumnsSchemaNames.NumericPrecision]);
+            }
+            if (!row.IsNull(ColumnsSchemaNames.NumericScale))
+            {
+                column.Scale = Convert.ToByte(row[ColumnsSchemaNames.NumericScale]);
             }
 
             return column;
@@ -450,9 +469,14 @@ namespace Kros.Data.Schema.SqlServer
                 case SqlDbType.Real:
                     return DefaultValueParsers.ParseSingle;
 
+                case SqlDbType.Date:
                 case SqlDbType.DateTime:
                 case SqlDbType.DateTime2:
+                case SqlDbType.SmallDateTime:
                     return DefaultValueParsers.ParseDateSql;
+
+                case SqlDbType.DateTimeOffset:
+                    return DefaultValueParsers.ParseDateTimeOffsetSql;
 
                 case SqlDbType.UniqueIdentifier:
                     return DefaultValueParsers.ParseGuid;
