@@ -187,7 +187,7 @@ namespace Kros.KORM.Query
                 throw new InvalidOperationException(
                     string.Format(Resources.QueryProviderCouldNotGetDataTypeForColumn, tableName, columnName));
             }
-            table.Columns[columnName].SetParameterDbType(parameter);
+            table.Columns[columnName].SetupParameter(parameter);
             parameter.Size = table.Columns[columnName].Size;
         }
 
