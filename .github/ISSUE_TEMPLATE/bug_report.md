@@ -1,22 +1,21 @@
 ---
-name: Bug report
+name: Bug Report
 about: Create a report to help us improve
-
 ---
 
-**Library name and version**
-- Kros.KORM [3.0]
+## Library name and version
+- Kros.KORM 3.0
 
-**Describe the bug**
+## Description
 A clear and concise description of what the bug is.
 
-**Steps To Reproduce**
+## Steps To Reproduce
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
+## Expected behavior
 A clear and concise description of what you expected to happen.
 
-**Actual behavior**
+## Actual behavior
