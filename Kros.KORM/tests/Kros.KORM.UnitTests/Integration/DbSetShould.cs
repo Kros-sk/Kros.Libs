@@ -34,14 +34,14 @@ namespace Kros.KORM.UnitTests.Integration
             public byte ColByte { get; set; }
             public int ColInt32 { get; set; }
             public long ColInt64 { get; set; }
-            public float ColSingle { get; set; }
+            //public float ColSingle { get; set; }
             public double ColDouble { get; set; }
             public decimal ColDecimal { get; set; }
             public decimal ColCurrency { get; set; }
             public DateTime ColDate { get; set; }
             public DateTime ColDateTime { get; set; }
             public DateTime ColDateTime2 { get; set; }
-            public DateTimeOffset ColDateTimeOffset { get; set; }
+            //public DateTimeOffset ColDateTimeOffset { get; set; }
             public DateTime ColSmallDateTime { get; set; }
             public Guid ColGuid { get; set; }
             public bool ColBool { get; set; }
@@ -773,14 +773,14 @@ INSERT INTO [{Table_LimitOffsetTest}] VALUES (20, 'twenty');";
                 ColByte = (byte)id,
                 ColInt32 = id * 100,
                 ColInt64 = id * 100000000000,
-                ColSingle = id * (float)100000000000.12345,
+                //ColSingle = id * (float)100000000000.12345,
                 ColDouble = id * 100000000000.12345,
                 ColDecimal = id * (decimal)100000000000.12345,
                 ColCurrency = id * (decimal)100000000000.12345,
                 ColDate = new DateTime(1978, 12, id),
                 ColDateTime = new DateTime(1978, 12, id, 10, 11, 22),
                 ColDateTime2 = new DateTime(1978, 12, id, 10, 11, 22),
-                ColDateTimeOffset = new DateTimeOffset(1978, 12, id, 10, 11, 22, 123, TimeSpan.FromHours(id)),
+                //ColDateTimeOffset = new DateTimeOffset(1978, 12, id, 10, 11, 22, 123, TimeSpan.FromHours(id)),
                 ColSmallDateTime = new DateTime(1978, 12, id, 10, 11, 0),
                 ColGuid = Guid.Parse($"{id}0000000-0000-0000-0000-000000000000"),
                 ColBool = (id % 2) == 0,
