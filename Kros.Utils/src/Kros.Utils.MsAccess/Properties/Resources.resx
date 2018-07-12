@@ -117,14 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BulkInsertColumnDoesNotExistInDestination" xml:space="preserve">
+    <value>Invalid column in data source. Column "{0}" does not exist in destination table.</value>
+  </data>
+  <data name="BulkInsertInvalidDestinationColumnMapping" xml:space="preserve">
+    <value>Invalid destination column mapping at index {0}.</value>
+  </data>
+  <data name="BulkInsertInvalidSourceColumnMapping" xml:space="preserve">
+    <value>Invalid source column mapping at index {0}.</value>
+  </data>
+  <data name="BulkInsertSourceColumnDoesNotExist" xml:space="preserve">
+    <value>Column "{0}" specified in column list does not exist in data source.</value>
+  </data>
   <data name="ConnectionStringIsNotMsAccess" xml:space="preserve">
     <value>Provided connection string is not a connection string for Microsoft Access database. Supported providers are Microsoft.ACE.OLEDB and Microsoft.Jet.OLEDB.</value>
   </data>
   <data name="CsvFileDoesNotExist" xml:space="preserve">
     <value>Data cannot be inserted. Data file does not exist: {0}</value>
   </data>
+  <data name="DestinationColumnMappingNotSet" xml:space="preserve">
+    <value>The destination column name nor its ordinal is set.</value>
+  </data>
+  <data name="InvalidIndexInDestinationColumnMapping" xml:space="preserve">
+    <value>Destination table "{0}" does not contain column at index {1}.</value>
+  </data>
+  <data name="InvalidIndexInSourceColumnMapping" xml:space="preserve">
+    <value>Source data does not contain column at index {0}.</value>
+  </data>
+  <data name="InvalidNameInDestinationColumnMapping" xml:space="preserve">
+    <value>Destination table "{0}" does not contain column "{1}".</value>
+  </data>
+  <data name="InvalidNameInSourceColumnMapping" xml:space="preserve">
+    <value>Source data does not contain column "{0}".</value>
+  </data>
   <data name="ProviderNotInstaller" xml:space="preserve">
     <value>MS Access provider "{0}" is not installed.</value>
+  </data>
+  <data name="SourceColumnMappingNotSet" xml:space="preserve">
+    <value>The source column name nor its ordinal is set.</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="SqlIdGeneratorTableScript" type="System.Resources.ResXFileRef, System.Windows.Forms">

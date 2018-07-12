@@ -136,14 +136,8 @@ namespace Kros.Data.BulkActions.SqlServer
         /// <exception cref="ArgumentException">Value is negative.</exception>
         public int BatchSize
         {
-            get
-            {
-                return _batchSize;
-            }
-            set
-            {
-                _batchSize = Check.GreaterOrEqualThan(value, 0, nameof(value));
-            }
+            get => _batchSize;
+            set => _batchSize = Check.GreaterOrEqualThan(value, 0, nameof(value));
         }
 
         private int _bulkInsertTimeout = 0;
@@ -154,20 +148,17 @@ namespace Kros.Data.BulkActions.SqlServer
         /// <exception cref="ArgumentException">Value is negative.</exception>
         public int BulkInsertTimeout
         {
-            get
-            {
-                return _bulkInsertTimeout;
-            }
-            set
-            {
-                _bulkInsertTimeout = Check.GreaterOrEqualThan(value, 0, nameof(value));
-            }
+            get => _bulkInsertTimeout;
+            set => _bulkInsertTimeout = Check.GreaterOrEqualThan(value, 0, nameof(value));
         }
 
         /// <summary>
         /// Destination table name in database.
         /// </summary>
         public string DestinationTableName { get; set; }
+
+        /// <inheritdoc cref="IBulkInsert.ColumnMappings"/>
+        public BulkInsertColumnMappingCollection ColumnMappings { get; } = new BulkInsertColumnMappingCollection();
 
         /// <inheritdoc/>
         public void Insert(IBulkActionDataReader reader)
@@ -216,6 +207,18 @@ namespace Kros.Data.BulkActions.SqlServer
 
         private void SetColumnMappings(SqlBulkCopy bulkCopy, IDataReader reader)
         {
+            if (ColumnMappings.Count == 0)
+            {
+                SetImplicitColumnMappings(bulkCopy, reader);
+            }
+            else
+            {
+                SetExplicitColumnMappings(bulkCopy);
+            }
+        }
+
+        private void SetImplicitColumnMappings(SqlBulkCopy bulkCopy, IDataReader reader)
+        {
             var tableSchema = DatabaseSchemaLoader.Default.LoadTableSchema(_connection, DestinationTableName);
 
             for (int i = 0; i < reader.FieldCount; i++)
@@ -231,12 +234,90 @@ namespace Kros.Data.BulkActions.SqlServer
                     }
                     else
                     {
-                        throw new InvalidOperationException(string.Format(Resources.ColumnMissingInBulkInsertDestinationTable,
+                        throw new InvalidOperationException(string.Format(Resources.BulkInsertColumnDoesNotExistInDestination,
                             bulkCopy.DestinationTableName, sourceColumn));
                     }
                 }
                 bulkCopy.ColumnMappings.Add(sourceColumn, destinationColumn);
             }
+        }
+
+        private void SetExplicitColumnMappings(SqlBulkCopy bulkCopy)
+        {
+            var tableSchema = DatabaseSchemaLoader.Default.LoadTableSchema(_connection, DestinationTableName);
+
+            for (int columnNumber = 0; columnNumber < ColumnMappings.Count; columnNumber++)
+            {
+                SqlBulkCopyColumnMapping mapping = ConvertColumnMapping(ColumnMappings[columnNumber]);
+                if (tableSchema != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(mapping.DestinationColumn))
+                    {
+                        if (tableSchema.Columns.Contains(mapping.DestinationColumn))
+                        {
+                            mapping.DestinationColumn = tableSchema.Columns[mapping.DestinationColumn].Name;
+                        }
+                        else
+                        {
+                            ThrowExceptionInvalidDestinationColumnMapping(columnNumber, null, mapping.DestinationColumn);
+                        }
+                    }
+                    else if (mapping.DestinationOrdinal >= 0)
+                    {
+                        if (mapping.DestinationOrdinal >= tableSchema.Columns.Count)
+                        {
+                            ThrowExceptionInvalidDestinationColumnMapping(columnNumber, mapping.DestinationOrdinal);
+                        }
+                    }
+                    else
+                    {
+                        ThrowExceptionInvalidDestinationColumnMapping(columnNumber);
+                    }
+                }
+                bulkCopy.ColumnMappings.Add(mapping);
+            }
+        }
+
+        private SqlBulkCopyColumnMapping ConvertColumnMapping(BulkInsertColumnMapping mapping)
+        {
+            if (!string.IsNullOrEmpty(mapping.SourceName) && !string.IsNullOrEmpty(mapping.DestinationName))
+            {
+                return new SqlBulkCopyColumnMapping(mapping.SourceName, mapping.DestinationName);
+            }
+            else if (!string.IsNullOrEmpty(mapping.SourceName))
+            {
+                return new SqlBulkCopyColumnMapping(mapping.SourceName, mapping.DestinationOrdinal);
+            }
+            else if (!string.IsNullOrEmpty(mapping.DestinationName))
+            {
+                return new SqlBulkCopyColumnMapping(mapping.SourceOrdinal, mapping.DestinationName);
+            }
+            return new SqlBulkCopyColumnMapping(mapping.SourceOrdinal, mapping.DestinationOrdinal);
+        }
+
+        private void ThrowExceptionInvalidDestinationColumnMapping(
+            int columnMappingIndex,
+            int? mappingOrdinal = null,
+            string mappingName = null)
+        {
+            string exceptionDetail;
+            if (mappingOrdinal.HasValue)
+            {
+                exceptionDetail = string.Format(Resources.InvalidIndexInDestinationColumnMapping,
+                    DestinationTableName, mappingOrdinal.Value);
+            }
+            else if (mappingName != null)
+            {
+                exceptionDetail = string.Format(Resources.InvalidNameInDestinationColumnMapping,
+                    DestinationTableName, mappingName);
+            }
+            else
+            {
+                exceptionDetail = Resources.DestinationColumnMappingNotSet;
+            }
+
+            throw new InvalidOperationException(
+                string.Format(Resources.BulkInsertInvalidDestinationColumnMapping, columnMappingIndex) + " " + exceptionDetail);
         }
 
         /// <inheritdoc/>
