@@ -25,6 +25,14 @@ namespace Kros.Data.BulkActions
         string DestinationTableName { get; set; }
 
         /// <summary>
+        /// Returns a collection of <see cref="BulkInsertColumnMapping"/> items. Column mappings define the relationships
+        /// between columns in the data source and columns in the destination. Mappings also specifies which columns
+        /// are inserted into database. When mapping is set, only columns in mapping collection are inserted. If no mapping
+        /// is set, all columns from data source are inserted.
+        /// </summary>
+        BulkInsertColumnMappingCollection ColumnMappings { get; }
+
+        /// <summary>
         /// Inserts all data from <paramref name="reader"/>.
         /// </summary>
         /// <param name="reader">Data source.</param>

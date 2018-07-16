@@ -3,10 +3,12 @@ using Kros.Data.Schema.MsAccess;
 using Kros.MsAccess.Properties;
 using Kros.Utils;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,6 +22,39 @@ namespace Kros.Data.BulkActions.MsAccess
     /// </remarks>
     public class MsAccessBulkInsert : IBulkInsert
     {
+        #region Nested Types
+
+        private class MsAccessBulkInsertColumn
+        {
+            public MsAccessBulkInsertColumn(string sourceColumnName, BulkInsertColumnMapping mapping)
+            {
+                SourceColumnName = Check.NotNullOrWhiteSpace(sourceColumnName, nameof(sourceColumnName));
+                Mapping = mapping;
+            }
+
+            public MsAccessBulkInsertColumn(
+                string sourceColumnName,
+                string destinationColumnName,
+                BulkInsertColumnType columnType)
+            {
+                SourceColumnName = Check.NotNullOrWhiteSpace(sourceColumnName, nameof(sourceColumnName));
+                DestinationColumnName = Check.NotNullOrWhiteSpace(destinationColumnName, nameof(destinationColumnName));
+                ColumnType = columnType;
+            }
+
+            public string SourceColumnName { get; }
+            public string DestinationColumnName { get; set; }
+            public BulkInsertColumnMapping Mapping { get; set; }
+            public BulkInsertColumnType ColumnType { get; set; }
+
+            public override string ToString()
+            {
+                return $"{SourceColumnName} -> {DestinationColumnName} ({ColumnType})";
+            }
+        }
+
+        #endregion
+
         #region Constants
 
         /// <summary>
@@ -58,6 +93,7 @@ namespace Kros.Data.BulkActions.MsAccess
 
         private OleDbConnection _connection;
         private readonly bool _disposeOfConnection = false;
+        private readonly List<MsAccessBulkInsertColumn> _columns = new List<MsAccessBulkInsertColumn>();
 
         #endregion
 
@@ -147,13 +183,6 @@ namespace Kros.Data.BulkActions.MsAccess
         #region Common
 
         /// <summary>
-        /// List of inserted columns.
-        /// </summary>
-        /// <value>List of columns as <see cref="MsAccessBulkInsertColumnCollection" />.</value>
-        /// <remarks>Columns in the list must be in the same order as they are in input CSV file.</remarks>
-        public MsAccessBulkInsertColumnCollection Columns { get; } = new MsAccessBulkInsertColumnCollection();
-
-        /// <summary>
         /// Code page used for CSV file and bulk insert. Default value is 65001 <see cref="Utf8CodePage"/>.
         /// </summary>
         /// <value>Number of code page.</value>
@@ -188,6 +217,9 @@ namespace Kros.Data.BulkActions.MsAccess
         /// </summary>
         public string DestinationTableName { get; set; }
 
+        /// <inheritdoc cref="IBulkInsert.ColumnMappings"/>
+        public BulkInsertColumnMappingCollection ColumnMappings { get; } = new BulkInsertColumnMappingCollection();
+
         /// <inheritdoc/>
         public void Insert(IBulkActionDataReader reader)
         {
@@ -218,6 +250,7 @@ namespace Kros.Data.BulkActions.MsAccess
 
             try
             {
+                _columns.Clear();
                 filePath = CreateDataFile(reader);
                 InitBulkInsert(filePath, reader);
                 await InsertAsync(filePath, useAsync);
@@ -302,10 +335,50 @@ namespace Kros.Data.BulkActions.MsAccess
             using (CsvFileWriter csvWriter = CreateCsvWriter())
             {
                 dataFilePath = csvWriter.FilePath;
-                csvWriter.Write(data);
+                if (ColumnMappings.Count == 0)
+                {
+                    csvWriter.Write(data);
+                }
+                else
+                {
+                    InitBulkInsertColumns(data);
+                    csvWriter.Write(data, from column in _columns select column.SourceColumnName);
+                }
             }
 
             return dataFilePath;
+        }
+
+        private void InitBulkInsertColumns(IDataReader data)
+        {
+            for (int i = 0; i < ColumnMappings.Count; i++)
+            {
+                BulkInsertColumnMapping mapping = ColumnMappings[i];
+                if (!string.IsNullOrWhiteSpace(mapping.SourceName))
+                {
+                    try
+                    {
+                        data.GetOrdinal(mapping.SourceName); // Throws some exception if name is invalid.
+                        _columns.Add(new MsAccessBulkInsertColumn(mapping.SourceName, mapping));
+                    }
+                    catch (Exception ex)
+                    {
+                        ThrowExceptionInvalidSourceColumnMapping(i, null, mapping.SourceName, ex);
+                    }
+                }
+                else if (mapping.SourceOrdinal >= 0)
+                {
+                    if (mapping.SourceOrdinal >= data.FieldCount)
+                    {
+                        ThrowExceptionInvalidSourceColumnMapping(i, mapping.SourceOrdinal);
+                    }
+                    _columns.Add(new MsAccessBulkInsertColumn(data.GetName(mapping.SourceOrdinal), mapping));
+                }
+                else
+                {
+                    ThrowExceptionInvalidSourceColumnMapping(i);
+                }
+            }
         }
 
         private CsvFileWriter CreateCsvWriter()
@@ -343,25 +416,25 @@ namespace Kros.Data.BulkActions.MsAccess
             StringBuilder sql = new StringBuilder(2000);
 
             sql.AppendFormat("INSERT INTO {0} (", tableName);
-            foreach (var column in Columns)
+            foreach (var column in _columns)
             {
-                sql.AppendFormat("[{0}], ", column.ColumnName);
+                sql.AppendFormat("[{0}], ", column.DestinationColumnName);
             }
             sql.Length -= 2; // Removes last comma and space.
             sql.AppendLine(")");
 
             sql.Append("SELECT ");
-            dynamic i = 0;
-            foreach (var column in Columns)
+            int i = 0;
+            foreach (var column in _columns)
             {
                 i += 1;
                 if (column.ColumnType == BulkInsertColumnType.Text)
                 {
-                    sql.AppendFormat("IIF(F{0} IS NULL, '', F{0}) AS [{1}], ", i, column.ColumnName);
+                    sql.AppendFormat("IIF(F{0} IS NULL, '', F{0}) AS [{1}], ", i, column.DestinationColumnName);
                 }
                 else
                 {
-                    sql.AppendFormat("F{0} AS [{1}], ", i, column.ColumnName);
+                    sql.AppendFormat("F{0} AS [{1}], ", i, column.DestinationColumnName);
                 }
             }
             sql.Length -= 2; // Removes last comma and space.
@@ -392,14 +465,13 @@ namespace Kros.Data.BulkActions.MsAccess
         {
             using (StreamWriter schemaFile = InitSchemaFile(dataFilePath))
             {
-                var schemaLoader = new MsAccessSchemaLoader();
-                TableSchema tableSchema = schemaLoader.LoadTableSchema(_connection, DestinationTableName);
-                for (int i = 0; i < data.FieldCount; i++)
+                if (ColumnMappings.Count == 0)
                 {
-                    MsAccessColumnSchema column = tableSchema.Columns[data.GetName(i)] as MsAccessColumnSchema;
-                    Columns.Add(column);
-                    int colNumber = i + 1;
-                    schemaFile.WriteLine($"Col{colNumber}=F{colNumber} {GetColumnDataType(column)}");
+                    InitImplicitSchemaColumns(schemaFile, data);
+                }
+                else
+                {
+                    InitExplicitSchemaColumns(schemaFile);
                 }
             }
         }
@@ -420,6 +492,88 @@ namespace Kros.Data.BulkActions.MsAccess
             writer.WriteLine("DateTimeFormat=yyyy-mm-dd hh:nn:ss");
 
             return writer;
+        }
+
+        private void InitImplicitSchemaColumns(StreamWriter schemaFile, IDataReader data)
+        {
+            var schemaLoader = new MsAccessSchemaLoader();
+            TableSchema tableSchema = schemaLoader.LoadTableSchema(_connection, DestinationTableName);
+            for (int columnNumber = 0; columnNumber < data.FieldCount; columnNumber++)
+            {
+                string columnName = data.GetName(columnNumber);
+                if (tableSchema.Columns.Contains(columnName))
+                {
+                    MsAccessColumnSchema column = (MsAccessColumnSchema)tableSchema.Columns[columnName];
+                    _columns.Add(new MsAccessBulkInsertColumn(columnName, column.Name, GetBulkInsertColumnType(column)));
+                    WriteSchemaColumnInfo(schemaFile, columnNumber + 1, column);
+                }
+                else
+                {
+                    throw new InvalidOperationException(
+                        string.Format(Resources.BulkInsertColumnDoesNotExistInDestination, columnName));
+                }
+            }
+        }
+
+        private void InitExplicitSchemaColumns(StreamWriter schemaFile)
+        {
+            var schemaLoader = new MsAccessSchemaLoader();
+            TableSchema tableSchema = schemaLoader.LoadTableSchema(_connection, DestinationTableName);
+            for (int columnNumber = 0; columnNumber < ColumnMappings.Count; columnNumber++)
+            {
+                MsAccessColumnSchema databaseColumn = null;
+                MsAccessBulkInsertColumn bulkInsertColumn = _columns[columnNumber];
+                BulkInsertColumnMapping mapping = bulkInsertColumn.Mapping;
+                if (!string.IsNullOrWhiteSpace(mapping.DestinationName))
+                {
+                    if (tableSchema.Columns.Contains(mapping.DestinationName))
+                    {
+                        databaseColumn = (MsAccessColumnSchema)tableSchema.Columns[mapping.DestinationName];
+                    }
+                    else
+                    {
+                        ThrowExceptionInvalidDestinationColumnMapping(columnNumber, null, mapping.DestinationName);
+                    }
+                }
+                else if (mapping.DestinationOrdinal >= 0)
+                {
+                    if (mapping.DestinationOrdinal >= tableSchema.Columns.Count)
+                    {
+                        ThrowExceptionInvalidDestinationColumnMapping(columnNumber, mapping.DestinationOrdinal);
+                    }
+                    else
+                    {
+                        databaseColumn = (MsAccessColumnSchema)tableSchema.Columns[mapping.DestinationOrdinal];
+                    }
+                }
+                else
+                {
+                    ThrowExceptionInvalidDestinationColumnMapping(columnNumber);
+                }
+                bulkInsertColumn.DestinationColumnName = databaseColumn.Name;
+                bulkInsertColumn.ColumnType = GetBulkInsertColumnType(databaseColumn);
+                WriteSchemaColumnInfo(schemaFile, columnNumber + 1, databaseColumn);
+            }
+        }
+
+        private void WriteSchemaColumnInfo(StreamWriter schemaFile, int columnNumber, MsAccessColumnSchema column)
+        {
+            schemaFile.WriteLine($"Col{columnNumber}=F{columnNumber} {GetColumnDataType(column)}");
+        }
+
+        // Returns column type for bulk insert according to the data column's data type.
+        private static BulkInsertColumnType GetBulkInsertColumnType(MsAccessColumnSchema column)
+        {
+            if ((column.OleDbType == OleDbType.VarChar) ||
+                (column.OleDbType == OleDbType.VarWChar) ||
+                (column.OleDbType == OleDbType.LongVarChar) ||
+                (column.OleDbType == OleDbType.LongVarWChar) ||
+                (column.OleDbType == OleDbType.Char) ||
+                (column.OleDbType == OleDbType.WChar))
+            {
+                return BulkInsertColumnType.Text;
+            }
+            return BulkInsertColumnType.Undefined;
         }
 
         private string GetColumnDataType(MsAccessColumnSchema column)
@@ -482,32 +636,68 @@ namespace Kros.Data.BulkActions.MsAccess
             }
         }
 
+        private void ThrowExceptionInvalidSourceColumnMapping(
+            int columnMappingIndex,
+            int? mappingOrdinal = null,
+            string mappingName = null,
+            Exception innerException = null)
+        {
+            string exceptionDetail;
+            if (mappingOrdinal.HasValue)
+            {
+                exceptionDetail = string.Format(Resources.InvalidIndexInSourceColumnMapping, mappingOrdinal.Value);
+            }
+            else if (mappingName != null)
+            {
+                exceptionDetail = string.Format(Resources.InvalidNameInSourceColumnMapping, mappingName);
+            }
+            else
+            {
+                exceptionDetail = Resources.SourceColumnMappingNotSet;
+            }
+
+            throw new InvalidOperationException(
+                string.Format(Resources.BulkInsertInvalidSourceColumnMapping, columnMappingIndex) + " " + exceptionDetail,
+                innerException);
+        }
+
+        private void ThrowExceptionInvalidDestinationColumnMapping(
+            int columnMappingIndex,
+            int? mappingOrdinal = null,
+            string mappingName = null)
+        {
+            string exceptionDetail;
+            if (mappingOrdinal.HasValue)
+            {
+                exceptionDetail = string.Format(Resources.InvalidIndexInDestinationColumnMapping,
+                    DestinationTableName, mappingOrdinal.Value);
+            }
+            else if (mappingName != null)
+            {
+                exceptionDetail = string.Format(Resources.InvalidNameInDestinationColumnMapping,
+                    DestinationTableName, mappingName);
+            }
+            else
+            {
+                exceptionDetail = Resources.DestinationColumnMappingNotSet;
+            }
+
+            throw new InvalidOperationException(
+                string.Format(Resources.BulkInsertInvalidDestinationColumnMapping, columnMappingIndex) + " " + exceptionDetail);
+        }
+
         #endregion
 
         #region IDisposable
 
-        private bool disposedValue = false;
-
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    if (_disposeOfConnection)
-                    {
-                        _connection.Dispose();
-                        _connection = null;
-                    }
-                }
-                disposedValue = true;
-            }
-        }
-
         public void Dispose()
         {
-            Dispose(true);
+            if (_disposeOfConnection && (_connection != null))
+            {
+                _connection.Dispose();
+                _connection = null;
+            }
         }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 

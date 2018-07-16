@@ -187,21 +187,27 @@ namespace Kros.Data.BulkActions.MsAccess
 
         public void Write(IDataReader data)
         {
+            Write(data, null);
+        }
+
+        public void Write(IDataReader data, IEnumerable<string> columnNames)
+        {
             CheckDisposed();
 
+            List<int> ordinals = GetColumnOrdinals(data, columnNames);
             while (data.Read())
             {
-                WriteRecord(data);
+                WriteRecord(data, ordinals);
             }
         }
 
-        private void WriteRecord(IDataReader data)
+        private void WriteRecord(IDataReader data, List<int> columnOrdinals)
         {
             bool addValueDelimiter = false;
 
-            for (var i = 0; i < data.FieldCount; i++)
+            foreach (int columnOrdinal in columnOrdinals)
             {
-                var value = data.GetValue(i);
+                var value = data.GetValue(columnOrdinal);
 
                 if (addValueDelimiter)
                 {
@@ -219,6 +225,35 @@ namespace Kros.Data.BulkActions.MsAccess
                 }
             }
             _writer.WriteLine();
+        }
+
+        private List<int> GetColumnOrdinals(IDataReader data, IEnumerable<string> columnNames)
+        {
+            if (columnNames == null)
+            {
+                return new List<int>(Enumerable.Range(0, data.FieldCount));
+            }
+
+            var dataOrdinals = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            for (int i = 0; i < data.FieldCount; i++)
+            {
+                dataOrdinals.Add(data.GetName(i), i);
+            }
+
+            var ordinals = new List<int>();
+            foreach (string name in columnNames)
+            {
+                if (dataOrdinals.TryGetValue(name, out int value))
+                {
+                    ordinals.Add(value);
+                }
+                else
+                {
+                    throw new InvalidOperationException(string.Format(Resources.BulkInsertSourceColumnDoesNotExist, name));
+                }
+            }
+
+            return ordinals;
         }
 
         /// <summary>
