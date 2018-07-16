@@ -1,4 +1,5 @@
 ﻿using Kros.Caching;
+using Kros.Extensions;
 using Kros.KORM.Converter;
 using Kros.KORM.Injection;
 using Kros.KORM.Metadata;
@@ -27,7 +28,6 @@ namespace Kros.KORM.Materializer
         private readonly static List<IConverter> _converters = new List<IConverter>();
         private readonly static List<IInjector> _injectors = new List<IInjector>();
 
-        private readonly static ICache<string, MethodInfo> _methodsInfo = new Cache<string, MethodInfo>();
         private readonly static MethodInfo _fnIsDBNull = typeof(IDataRecord).GetMethod("IsDBNull");
         private readonly static MethodInfo _fnGetValue = typeof(IDataRecord).GetMethod("GetValue", new Type[] { typeof(int) });
         private readonly static MethodInfo _fnConvert = typeof(IConverter).GetMethod("Convert");
@@ -39,10 +39,16 @@ namespace Kros.KORM.Materializer
         private readonly static MethodInfo _fnInjectorsListGetItem = typeof(List<IInjector>).GetProperty("Item").GetGetMethod();
         private readonly static MethodInfo _fnInjectorMethodInfo =
             typeof(IInjector).GetMethod(nameof(IInjector.GetValue), new Type[] { typeof(string) });
+        private readonly static Dictionary<string, MethodInfo> _readerValueGetters =
+            new Dictionary<string, MethodInfo>(StringComparer.CurrentCultureIgnoreCase);
+        private readonly static MethodInfo _getValueMethodInfo =
+            typeof(IDataRecord).GetMethod("GetValue", new Type[] { typeof(int) });
 
         #endregion
 
         #region Constructor
+
+        static DynamicMethodModelFactory() => InitReaderValueGetters();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicMethodModelFactory" /> class.
@@ -51,9 +57,7 @@ namespace Kros.KORM.Materializer
         /// <exception cref="System.ArgumentNullException">databaseMapper;Argument 'databaseMapper' is required.</exception>
         public DynamicMethodModelFactory(IDatabaseMapper databaseMapper)
         {
-            Check.NotNull(databaseMapper, nameof(databaseMapper));
-
-            _databaseMapper = databaseMapper;
+            _databaseMapper = Check.NotNull(databaseMapper, nameof(databaseMapper));
         }
 
         #endregion
@@ -72,6 +76,7 @@ namespace Kros.KORM.Materializer
             Check.NotNull(reader, nameof(reader));
 
             var key = _keyGenerator.GenerateKey<T>(reader);
+
 
             return _factoriesCache.Get(key, () => CreateFactory<T>(reader)) as Func<IDataReader, T>;
         }
@@ -106,13 +111,12 @@ namespace Kros.KORM.Materializer
         }
 
         // ToDo: Zrefaktorovať aby sa používal DynamicMethods.
-        private static T FactoryForValueType<T>(IDataReader reader)
+        private T FactoryForValueType<T>(IDataReader reader)
         {
             Type destType = typeof(T);
             Type srcType = reader.GetFieldType(0);
 
-            var valueGetter = _methodsInfo.Get(srcType.Name,
-                                () => typeof(IDataRecord).GetMethod("Get" + srcType.Name, new Type[] { typeof(int) }));
+            var valueGetter = GetReaderValueGetter(srcType);
 
             var value = valueGetter.Invoke(reader, new object[] { 0 });
             if (destType.Name == srcType.Name)
@@ -261,10 +265,9 @@ namespace Kros.KORM.Materializer
                                                            ColumnInfo columnInfo,
                                                                  Type srcType)
         {
-            bool? castNeeded = null;
+            bool castNeeded = false;
 
-            var valuegetter = _methodsInfo.Get(srcType.Name,
-                () => typeof(IDataRecord).GetMethod("Get" + srcType.Name, new Type[] { typeof(int) }));
+            MethodInfo valuegetter = GetReaderValueGetter(srcType);
 
             if (valuegetter != null
                 && valuegetter.ReturnType == srcType
@@ -273,37 +276,78 @@ namespace Kros.KORM.Materializer
             {
                 castNeeded = false;
             }
+            else if ((srcType == columnInfo.PropertyInfo.PropertyType) ||
+                     (srcType == Nullable.GetUnderlyingType(columnInfo.PropertyInfo.PropertyType)))
+            {
+                valuegetter = _getValueMethodInfo;
+                castNeeded = true;
+            }
             else
             {
-                if (srcType == typeof(byte[]) && srcType == columnInfo.PropertyInfo.PropertyType)
+                throw new InvalidOperationException(
+                    Properties.Resources.CannotMaterializeSourceValue.Format(srcType, columnInfo.PropertyInfo.PropertyType));
+            }
+
+            ilGenerator.Emit(OpCodes.Ldarg_0);
+            ilGenerator.Emit(OpCodes.Ldc_I4, fieldIndex);
+            ilGenerator.Emit(OpCodes.Callvirt, valuegetter);
+
+            if (castNeeded)
+            {
+                EmitCastValue(ilGenerator, columnInfo, srcType);
+            }
+            else
+            {
+                if (Nullable.GetUnderlyingType(columnInfo.PropertyInfo.PropertyType) != null)
                 {
-                    valuegetter = typeof(IDataRecord).GetMethod("GetValue", new Type[] { typeof(int) });
-                    castNeeded = true;
+                    ilGenerator.Emit(OpCodes.Newobj,
+                        columnInfo.PropertyInfo.PropertyType.GetConstructor(
+                            new Type[] { Nullable.GetUnderlyingType(columnInfo.PropertyInfo.PropertyType) }));
                 }
             }
 
-            if (castNeeded.HasValue)
+            ilGenerator.Emit(OpCodes.Callvirt, columnInfo.PropertyInfo.GetSetMethod(true));
+
+        }
+
+        private static void EmitCastValue(ILGenerator ilGenerator, ColumnInfo columnInfo, Type srcType)
+        {
+            if (srcType.IsValueType)
             {
-                ilGenerator.Emit(OpCodes.Ldarg_0);
-                ilGenerator.Emit(OpCodes.Ldc_I4, fieldIndex);
-                ilGenerator.Emit(OpCodes.Callvirt, valuegetter);
-
-                if (castNeeded.Value)
-                {
-                    ilGenerator.Emit(OpCodes.Castclass, columnInfo.PropertyInfo.PropertyType);
-                }
-                else
-                {
-                    if (Nullable.GetUnderlyingType(columnInfo.PropertyInfo.PropertyType) != null)
-                    {
-                        ilGenerator.Emit(OpCodes.Newobj,
-                            columnInfo.PropertyInfo.PropertyType.GetConstructor(
-                                new Type[] { Nullable.GetUnderlyingType(columnInfo.PropertyInfo.PropertyType) }));
-                    }
-                }
-
-                ilGenerator.Emit(OpCodes.Callvirt, columnInfo.PropertyInfo.GetSetMethod(true));
+                ilGenerator.Emit(OpCodes.Unbox_Any, columnInfo.PropertyInfo.PropertyType);
+            }
+            else
+            {
+                ilGenerator.Emit(OpCodes.Castclass, columnInfo.PropertyInfo.PropertyType);
             }
         }
+
+        private static void InitReaderValueGetters()
+        {
+            MethodInfo CreateReaderValueGetter(string typeName)
+                => typeof(IDataRecord).GetMethod($"Get{typeName}", new Type[] { typeof(int) });
+
+            void Add<T>()
+                => _readerValueGetters.Add(typeof(T).Name, CreateReaderValueGetter(typeof(T).Name));
+
+            Add<Boolean>();
+            Add<Byte>();
+            Add<Char>();
+            Add<DateTime>();
+            Add<Decimal>();
+            Add<Double>();
+            Add<Guid>();
+            Add<Int16>();
+            Add<Int32>();
+            Add<Int64>();
+            Add<String>();
+
+            _readerValueGetters.Add("float", CreateReaderValueGetter("Float"));
+            _readerValueGetters.Add(nameof(Single), CreateReaderValueGetter("Float"));
+        }
+
+        private static MethodInfo GetReaderValueGetter(Type srcType)
+            => _readerValueGetters.ContainsKey(srcType.Name) ? _readerValueGetters[srcType.Name] : null;
+
     }
 }

@@ -70,6 +70,15 @@ namespace Kros.KORM.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t materialize source value type &apos;{0}&apos; to destination type &apos;{1}&apos; without defined converter..
+        /// </summary>
+        internal static string CannotMaterializeSourceValue {
+            get {
+                return ResourceManager.GetString("CannotMaterializeSourceValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There was a failure to open the database connection at the time the primary keys are generated. Try add &apos;Persist Security Info=TRUE&apos; to the connection string..
         /// </summary>
         internal static string CannotOpenConnectionWhenGeneratingPrimaryKeys {
