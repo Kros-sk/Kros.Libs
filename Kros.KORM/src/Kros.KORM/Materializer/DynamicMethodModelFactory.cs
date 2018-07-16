@@ -77,7 +77,6 @@ namespace Kros.KORM.Materializer
 
             var key = _keyGenerator.GenerateKey<T>(reader);
 
-
             return _factoriesCache.Get(key, () => CreateFactory<T>(reader)) as Func<IDataReader, T>;
         }
 
@@ -307,7 +306,6 @@ namespace Kros.KORM.Materializer
             }
 
             ilGenerator.Emit(OpCodes.Callvirt, columnInfo.PropertyInfo.GetSetMethod(true));
-
         }
 
         private static void EmitCastValue(ILGenerator ilGenerator, ColumnInfo columnInfo, Type srcType)
@@ -348,6 +346,5 @@ namespace Kros.KORM.Materializer
 
         private static MethodInfo GetReaderValueGetter(Type srcType)
             => _readerValueGetters.ContainsKey(srcType.Name) ? _readerValueGetters[srcType.Name] : null;
-
     }
 }
