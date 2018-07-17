@@ -1,4 +1,5 @@
-﻿using Kros.Data.BulkActions;
+﻿using FluentAssertions;
+using Kros.Data.BulkActions;
 using Kros.Data.BulkActions.MsAccess;
 using Kros.Data.MsAccess;
 using Kros.UnitTests;
@@ -23,7 +24,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             public int Id { get; set; }
             public string ColNote { get; set; }
             public byte? ColByte { get; set; }
-            public Int16? ColShort { get; set; }
+            public short? ColShort { get; set; }
             public int? ColInt { get; set; }
             public float? ColSingle { get; set; }
             public double? ColDouble { get; set; }
@@ -42,6 +43,8 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         private const string AccdbFileName = "MsAccessBulkInsert.accdb";
         private const string MdbFileName = "MsAccessBulkInsert.mdb";
         private const string TableName = "TestTable";
+        private const string TableName_ExplicitColumnMapping = "TestTable_ExplicitColumnMapping";
+        private const string TableName_ExplicitColumnMapping2 = "TestTable_ExplicitColumnMapping2";
 
         private const float FloatMinimum = (float)-999999999999999999999.999999999999;
         private const float FloatMaximum = -(float)999999999999999999999.999999999999;
@@ -65,12 +68,11 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         [SkippableFact]
-        public void BulkInsertDataFromDataTableIntoMdb() =>
-            BulkInsertDataFromDataTableIntoMdbCore();
+        public void BulkInsertDataFromDataTableIntoMdb() => BulkInsertDataFromDataTableIntoMdbCore();
 
         [SkippableFact]
-        public void BulkInsertDataFromDataTableIntoMdbSynchronouslyWithoutDeadLock() =>
-            AsyncContext.Run(() => BulkInsertDataFromDataTableIntoMdbCore());
+        public void BulkInsertDataFromDataTableIntoMdbSynchronouslyWithoutDeadLock()
+            => AsyncContext.Run(() => BulkInsertDataFromDataTableIntoMdbCore());
 
         private void BulkInsertDataFromDataTableIntoMdbCore()
         {
@@ -93,7 +95,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 bulkInsert.DestinationTableName = TableName;
                 await bulkInsert.InsertAsync(expectedData);
 
-                DataTable actualData = LoadData(helper.Connection);
+                DataTable actualData = LoadData(helper.Connection, TableName);
 
                 MsAccessBulkHelper.CompareTables(actualData, expectedData);
             }
@@ -107,7 +109,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             bulkInsert.DestinationTableName = TableName;
             bulkInsert.Insert(expectedData);
 
-            DataTable actualData = LoadData(cn);
+            DataTable actualData = LoadData(cn, TableName);
 
             MsAccessBulkHelper.CompareTables(actualData, expectedData);
         }
@@ -123,12 +125,12 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
         }
 
         [SkippableFact]
-        public void BulkInsertDataFromIBulkActionDataReaderIntoMdb() =>
-            BulkInsertDataFromIBulkActionDataReaderIntoMdbCore();
+        public void BulkInsertDataFromIBulkActionDataReaderIntoMdb()
+            => BulkInsertDataFromIBulkActionDataReaderIntoMdbCore();
 
         [SkippableFact]
-        public void BulkInsertDataFromIBulkActionDataReaderIntoMdbSynchronouslyWithoutDeadLock() =>
-            AsyncContext.Run(() => BulkInsertDataFromIBulkActionDataReaderIntoMdbCore());
+        public void BulkInsertDataFromIBulkActionDataReaderIntoMdbSynchronouslyWithoutDeadLock()
+            => AsyncContext.Run(() => BulkInsertDataFromIBulkActionDataReaderIntoMdbCore());
 
         [SkippableFact]
         public async Task BulkInsertDataFromIBulkActionDataReaderIntoMdbAsynchronously()
@@ -144,7 +146,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                     MsAccessBulkInsert bulkInsert = new MsAccessBulkInsert(helper.Connection);
                     bulkInsert.DestinationTableName = TableName;
                     await bulkInsert.InsertAsync(reader);
-                    actualData = LoadData(helper.Connection);
+                    actualData = LoadData(helper.Connection, TableName);
                 }
 
                 MsAccessBulkHelper.CompareTables(actualData, expectedData);
@@ -170,7 +172,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 MsAccessBulkInsert bulkInsert = new MsAccessBulkInsert(cn);
                 bulkInsert.DestinationTableName = TableName;
                 bulkInsert.Insert(reader);
-                actualData = LoadData(cn);
+                actualData = LoadData(cn, TableName);
             }
 
             MsAccessBulkHelper.CompareTables(actualData, expectedData);
@@ -193,7 +195,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                         MsAccessBulkInsert bulkInsert = new MsAccessBulkInsert(helper.Connection);
                         bulkInsert.DestinationTableName = TableName;
                         bulkInsert.Insert(reader);
-                        actualData = LoadData(helper.Connection);
+                        actualData = LoadData(helper.Connection, TableName);
                     }
 
                     MsAccessBulkHelper.CompareTables(actualData, expectedData);
@@ -216,10 +218,198 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                     MsAccessBulkInsert bulkInsert = new MsAccessBulkInsert(helper.Connection);
                     bulkInsert.DestinationTableName = TableName;
                     await bulkInsert.InsertAsync(reader);
-                    actualData = LoadData(helper.Connection);
+                    actualData = LoadData(helper.Connection, TableName);
                 }
 
                 MsAccessBulkHelper.CompareTables(actualData, expectedData);
+            }
+        }
+
+        [SkippableFact]
+        public void BulkInsertDataFromDataTableWithExplicitColumnMappingsIntoAce()
+        {
+            Helpers.SkipTestIfAceProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Ace, AccdbFileName))
+            {
+                BulkInsertDataFromDataTableWithExplicitColumnMappings(
+                    helper.Connection,
+                    TableName_ExplicitColumnMapping,
+                    (bulkInsert) =>
+                    {
+                        bulkInsert.ColumnMappings.Add("SourceId", "Id");
+                        bulkInsert.ColumnMappings.Add("SourceColNote", "ColNote");
+                    }
+                );
+            }
+        }
+
+        [SkippableFact]
+        public void BulkInsertDataFromDataTableWithExplicitColumnMappingsIntoMdb()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Jet, MdbFileName))
+            {
+                BulkInsertDataFromDataTableWithExplicitColumnMappings(
+                    helper.Connection,
+                    TableName_ExplicitColumnMapping,
+                    (bulkInsert) =>
+                    {
+                        bulkInsert.ColumnMappings.Add("SourceId", "Id");
+                        bulkInsert.ColumnMappings.Add("SourceColNote", "ColNote");
+                    }
+                );
+            }
+        }
+
+        [SkippableFact]
+        public void BulkInsertDataFromDataTableWithExplicitColumnMappings2IntoAce()
+        {
+            Helpers.SkipTestIfAceProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Ace, AccdbFileName))
+            {
+                BulkInsertDataFromDataTableWithExplicitColumnMappings(
+                    helper.Connection,
+                    TableName_ExplicitColumnMapping2,
+                    (bulkInsert) =>
+                    {
+                        bulkInsert.ColumnMappings.Add(0, 1);
+                        bulkInsert.ColumnMappings.Add("SourceColNote", 0);
+                    }
+                );
+            }
+        }
+
+        [SkippableFact]
+        public void BulkInsertDataFromDataTableWithExplicitColumnMappings2IntoMdb()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Jet, MdbFileName))
+            {
+                BulkInsertDataFromDataTableWithExplicitColumnMappings(
+                    helper.Connection,
+                    TableName_ExplicitColumnMapping2,
+                    (bulkInsert) =>
+                    {
+                        bulkInsert.ColumnMappings.Add(0, 1);
+                        bulkInsert.ColumnMappings.Add("SourceColNote", 0);
+                    }
+                );
+            }
+        }
+
+        private void BulkInsertDataFromDataTableWithExplicitColumnMappings(
+            OleDbConnection cn,
+            string tableName,
+            Action<MsAccessBulkInsert> mappingAction)
+        {
+            DataTable sourceData = CreateDataTableDataSource();
+            sourceData.Columns["Id"].ColumnName = "SourceId";
+            sourceData.Columns["ColNote"].ColumnName = "SourceColNote";
+
+            MsAccessBulkInsert bulkInsert = new MsAccessBulkInsert(cn);
+            bulkInsert.DestinationTableName = tableName;
+
+            mappingAction(bulkInsert);
+            bulkInsert.Insert(sourceData);
+
+            DataTable expectedData = CreateDataTableDataSource(false);
+            DataTable actualData = LoadData(cn, tableName);
+            MsAccessBulkHelper.CompareTables(actualData, expectedData);
+        }
+
+        [Fact]
+        public void ThrowInvalidOperationExceptionWhenSourceColumnMappingIsInvalid()
+        {
+            using (var connection = new OleDbConnection())
+            using (var bulkInsert = new MsAccessBulkInsert(connection))
+            {
+                DataTable dataSource = CreateDataTableDataSource();
+                Action action = () => bulkInsert.Insert(dataSource);
+
+                bulkInsert.ColumnMappings.Add("Id", "Id");
+                bulkInsert.ColumnMappings.Add(123, "DestinationName");
+                action.Should().Throw<InvalidOperationException>($"Mapping's SourceOrdinal is invalid.")
+                    .WithMessage("*1*123*");
+
+                bulkInsert.ColumnMappings.Clear();
+                bulkInsert.ColumnMappings.Add("Id", "Id");
+                bulkInsert.ColumnMappings.Add("ColNote", "ColNote");
+                bulkInsert.ColumnMappings.Add("InvalidColumnName", 2);
+                action.Should().Throw<InvalidOperationException>($"Mapping's SourceName is invalid.")
+                    .WithMessage("*2*InvalidColumnName*");
+
+                bulkInsert.ColumnMappings.Clear();
+                bulkInsert.ColumnMappings.Add(null, "Id");
+                action.Should().Throw<InvalidOperationException>($"Mapping's SourceName is null.")
+                    .WithMessage("*0*");
+
+                bulkInsert.ColumnMappings.Clear();
+                bulkInsert.ColumnMappings.Add(string.Empty, "Id");
+                action.Should().Throw<InvalidOperationException>($"Mapping's SourceName is empty string.")
+                    .WithMessage("*0*");
+
+                bulkInsert.ColumnMappings.Clear();
+                bulkInsert.ColumnMappings.Add(" \t \r\n", "Id");
+                action.Should().Throw<InvalidOperationException>($"Mapping's SourceName is whitespace string.")
+                    .WithMessage("*0*");
+            }
+        }
+
+        [SkippableFact]
+        public void ThrowInvalidOperationExceptionWhenDestinationColumnMappingIsInvalid_Ace()
+        {
+            Helpers.SkipTestIfAceProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Ace, AccdbFileName))
+            {
+                TestDestinationColumnMappings(helper.Connection);
+            }
+        }
+
+        [SkippableFact]
+        public void ThrowInvalidOperationExceptionWhenDestinationColumnMappingIsInvalid_Jet()
+        {
+            Helpers.SkipTestIfJetProviderNotAvailable();
+            using (var helper = CreateHelper(ProviderType.Jet, MdbFileName))
+            {
+                TestDestinationColumnMappings(helper.Connection);
+            }
+        }
+
+        private void TestDestinationColumnMappings(OleDbConnection cn)
+        {
+            DataTable dataSource = CreateDataTableDataSource();
+
+            using (MsAccessBulkInsert bulkInsert = new MsAccessBulkInsert(cn))
+            {
+                bulkInsert.DestinationTableName = TableName;
+                Action action = () => bulkInsert.Insert(dataSource);
+
+                bulkInsert.ColumnMappings.Add("Id", "Id");
+                bulkInsert.ColumnMappings.Add("ColNote", 123);
+                action.Should().Throw<InvalidOperationException>($"Mapping's DestinationOrdinal is invalid.")
+                    .WithMessage($"*1*{TableName}*123*");
+
+                bulkInsert.ColumnMappings.Clear();
+                bulkInsert.ColumnMappings.Add("Id", "Id");
+                bulkInsert.ColumnMappings.Add("ColNote", "ColNote");
+                bulkInsert.ColumnMappings.Add(2, "InvalidColumnName");
+                action.Should().Throw<InvalidOperationException>($"Mapping's DestinationName is invalid.")
+                    .WithMessage($"*2*{TableName}*InvalidColumnName*");
+
+                bulkInsert.ColumnMappings.Clear();
+                bulkInsert.ColumnMappings.Add("Id", null);
+                action.Should().Throw<InvalidOperationException>($"Mapping's DestinationName is null.")
+                    .WithMessage("*0*");
+
+                bulkInsert.ColumnMappings.Clear();
+                bulkInsert.ColumnMappings.Add("Id", string.Empty);
+                action.Should().Throw<InvalidOperationException>($"Mapping's DestinationName is empty string.")
+                    .WithMessage("*0*");
+
+                bulkInsert.ColumnMappings.Clear();
+                bulkInsert.ColumnMappings.Add("Id", " \t \r\n");
+                action.Should().Throw<InvalidOperationException>($"Mapping's DestinationName is whitespace string.")
+                    .WithMessage("*0*");
             }
         }
 
@@ -227,7 +417,7 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
 
         #region Helpers
 
-        private static Dictionary<string, Dictionary<string, object>> _rawData = new Dictionary<string, Dictionary<string, object>>
+        private static readonly Dictionary<string, Dictionary<string, object>> _rawData = new Dictionary<string, Dictionary<string, object>>
         {
             {
                 "ColByte",
@@ -328,11 +518,11 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             return new MsAccessTestHelper(provider, sourceStream);
         }
 
-        private DataTable LoadData(OleDbConnection cn)
+        private DataTable LoadData(OleDbConnection cn, string tableName)
         {
             DataTable data = new DataTable(TableName);
 
-            using (OleDbCommand cmd = new OleDbCommand($"SELECT * FROM {TableName}", cn))
+            using (OleDbCommand cmd = new OleDbCommand($"SELECT * FROM {tableName}", cn))
             using (OleDbDataAdapter adapter = new OleDbDataAdapter(cmd))
             {
                 adapter.FillSchema(data, SchemaType.Source);
@@ -342,31 +532,34 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
             return data;
         }
 
-        private DataTable CreateDataTableDataSource()
+        private DataTable CreateDataTableDataSource(bool addDataColumns = true)
         {
-            DataTable table = CreateBulkInsertDataTable();
+            DataTable table = CreateBulkInsertDataTable(addDataColumns);
             FillBulkInsertDataTable(table);
 
             return table;
         }
 
-        private DataTable CreateBulkInsertDataTable()
+        private DataTable CreateBulkInsertDataTable(bool addDataColumns)
         {
             DataTable table = new DataTable("data");
 
             table.Columns.Add("Id", typeof(int));
             table.Columns.Add("ColNote", typeof(string));
-            table.Columns.Add("ColByte", typeof(byte));
-            table.Columns.Add("ColShort", typeof(short));
-            table.Columns.Add("ColInt", typeof(int));
-            table.Columns.Add("ColSingle", typeof(float));
-            table.Columns.Add("ColDouble", typeof(double));
-            table.Columns.Add("ColCurrency", typeof(decimal));
-            table.Columns.Add("ColDate", typeof(DateTime));
-            table.Columns.Add("ColGuid", typeof(Guid));
-            table.Columns.Add("ColBool", typeof(bool));
-            table.Columns.Add("ColShortText", typeof(string));
-            table.Columns.Add("ColLongText", typeof(string));
+            if (addDataColumns)
+            {
+                table.Columns.Add("ColByte", typeof(byte));
+                table.Columns.Add("ColShort", typeof(short));
+                table.Columns.Add("ColInt", typeof(int));
+                table.Columns.Add("ColSingle", typeof(float));
+                table.Columns.Add("ColDouble", typeof(double));
+                table.Columns.Add("ColCurrency", typeof(decimal));
+                table.Columns.Add("ColDate", typeof(DateTime));
+                table.Columns.Add("ColGuid", typeof(Guid));
+                table.Columns.Add("ColBool", typeof(bool));
+                table.Columns.Add("ColShortText", typeof(string));
+                table.Columns.Add("ColLongText", typeof(string));
+            }
 
             table.PrimaryKey = new DataColumn[] { table.Columns["Id"] };
 
@@ -393,13 +586,24 @@ namespace Kros.Utils.UnitTests.Data.BulkActions
                 DataRow row = table.NewRow();
 
                 // Preddefinovanie hodnôt stĺpcov - v DataTable sú NULL hodnoty, ale Access to ako NULL nevloží.
-                row["ColBool"] = false;
-                row["ColShortText"] = string.Empty;
-                row["ColLongText"] = string.Empty;
-
+                if (row.Table.Columns.Contains("ColBool"))
+                {
+                    row["ColBool"] = false;
+                }
+                if (row.Table.Columns.Contains("ColShortText"))
+                {
+                    row["ColShortText"] = string.Empty;
+                }
+                if (row.Table.Columns.Contains("ColLongText"))
+                {
+                    row["ColLongText"] = string.Empty;
+                }
                 row["Id"] = id;
                 row["ColNote"] = data.Key;
-                row[columnName] = data.Value;
+                if (row.Table.Columns.Contains(columnName))
+                {
+                    row[columnName] = data.Value;
+                }
                 table.Rows.Add(row);
                 id++;
             }
