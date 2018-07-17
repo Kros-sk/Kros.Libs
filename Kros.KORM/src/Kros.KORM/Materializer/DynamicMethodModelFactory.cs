@@ -39,16 +39,13 @@ namespace Kros.KORM.Materializer
         private readonly static MethodInfo _fnInjectorsListGetItem = typeof(List<IInjector>).GetProperty("Item").GetGetMethod();
         private readonly static MethodInfo _fnInjectorMethodInfo =
             typeof(IInjector).GetMethod(nameof(IInjector.GetValue), new Type[] { typeof(string) });
-        private readonly static Dictionary<string, MethodInfo> _readerValueGetters =
-            new Dictionary<string, MethodInfo>(StringComparer.CurrentCultureIgnoreCase);
+        private readonly static Dictionary<string, MethodInfo> _readerValueGetters = InitReaderValueGetters();
         private readonly static MethodInfo _getValueMethodInfo =
             typeof(IDataRecord).GetMethod("GetValue", new Type[] { typeof(int) });
 
         #endregion
 
         #region Constructor
-
-        static DynamicMethodModelFactory() => InitReaderValueGetters();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicMethodModelFactory" /> class.
@@ -110,7 +107,7 @@ namespace Kros.KORM.Materializer
         }
 
         // ToDo: Zrefaktorovať aby sa používal DynamicMethods.
-        private T FactoryForValueType<T>(IDataReader reader)
+        private static T FactoryForValueType<T>(IDataReader reader)
         {
             Type destType = typeof(T);
             Type srcType = reader.GetFieldType(0);
@@ -320,13 +317,15 @@ namespace Kros.KORM.Materializer
             }
         }
 
-        private static void InitReaderValueGetters()
+        private static Dictionary<string, MethodInfo> InitReaderValueGetters()
         {
+            var getters = new Dictionary<string, MethodInfo>(StringComparer.CurrentCultureIgnoreCase);
+
             MethodInfo CreateReaderValueGetter(string typeName)
                 => typeof(IDataRecord).GetMethod($"Get{typeName}", new Type[] { typeof(int) });
 
             void Add<T>()
-                => _readerValueGetters.Add(typeof(T).Name, CreateReaderValueGetter(typeof(T).Name));
+                => getters.Add(typeof(T).Name, CreateReaderValueGetter(typeof(T).Name));
 
             Add<Boolean>();
             Add<Byte>();
@@ -338,10 +337,12 @@ namespace Kros.KORM.Materializer
             Add<Int16>();
             Add<Int32>();
             Add<Int64>();
+
             Add<String>();
 
-            _readerValueGetters.Add("float", CreateReaderValueGetter("Float"));
-            _readerValueGetters.Add(nameof(Single), CreateReaderValueGetter("Float"));
+            getters.Add(nameof(Single), CreateReaderValueGetter("Float"));
+
+            return getters;
         }
 
         private static MethodInfo GetReaderValueGetter(Type srcType)
