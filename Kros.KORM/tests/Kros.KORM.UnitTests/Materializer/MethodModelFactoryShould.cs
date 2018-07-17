@@ -35,6 +35,10 @@ namespace Kros.KORM.UnitTests.Materializer
             foo.PropertyDouble.Should().Be(45.78);
             foo.PropertyDecimal.Should().Be(785.78M);
             foo.PropertyDateTime.Should().Be(new DateTime(1980, 7, 24));
+            foo.DateTimeOffset.Should().Be(new DateTimeOffset(1985, 9, 20, 10, 11, 22, 123, TimeSpan.FromHours(5)));
+            foo.DateTimeOffsetNullable.Should().Be(new DateTimeOffset(1985, 9, 20, 10, 11, 22, 123, TimeSpan.FromHours(5)));
+            foo.Float.Should().Be(12.8F);
+            foo.FloatNullable.Should().Be(45.89F);
             foo.Is.Should().BeTrue();
             foo.PropertyGuid.Should().Be(new Guid("ddc995d7-4dda-41ca-abab-7f45e651784a"));
         }
@@ -350,6 +354,10 @@ namespace Kros.KORM.UnitTests.Materializer
                 new ColumnInfo(){ Name = "PropertyDateTimeNullable", PropertyInfo = GetPropertyInfo<Foo>("PropertyDateTimeNullable")},
                 new ColumnInfo(){ Name = "PropertyEnumConv", PropertyInfo = GetPropertyInfo<Foo>("PropertyEnumConv"), Converter = new TestEnumConverter()},
                 new ColumnInfo(){ Name = "Age", PropertyInfo = GetPropertyInfo<Foo>("Age")},
+                new ColumnInfo(){ Name = "Float", PropertyInfo = GetPropertyInfo<Foo>("Float")},
+                new ColumnInfo(){ Name = "FloatNullable", PropertyInfo = GetPropertyInfo<Foo>("FloatNullable")},
+                new ColumnInfo(){ Name = "DateTimeOffset", PropertyInfo = GetPropertyInfo<Foo>("DateTimeOffset")},
+                new ColumnInfo(){ Name = "DateTimeOffsetNullable", PropertyInfo = GetPropertyInfo<Foo>("DateTimeOffsetNullable")},
                 new ColumnInfo(){ Name = "Service", PropertyInfo = GetPropertyInfo<Foo>("Service")}
             };
 
@@ -367,7 +375,11 @@ namespace Kros.KORM.UnitTests.Materializer
             List<Dictionary<string, object>> ret = new List<Dictionary<string, object>>();
 
             AddRow(ret, 1, "Hello", 45.78, (decimal)785.78, new DateTime(1980, 7, 24),
-                true, new Guid("ddc995d7-4dda-41ca-abab-7f45e651784a"), 18.5F);
+                true, new Guid("ddc995d7-4dda-41ca-abab-7f45e651784a"), 18.5F,
+                floatValue: 12.8F,
+                floatNullableValue: 45.89F,
+                dateTimeOffset: new DateTimeOffset(1985, 9, 20, 10, 11, 22, 123, TimeSpan.FromHours(5)),
+                dateTimeOffsetNullable: new DateTimeOffset(1985, 9, 20, 10, 11, 22, 123, TimeSpan.FromHours(5)));
 
             return ret;
         }
@@ -380,7 +392,11 @@ namespace Kros.KORM.UnitTests.Materializer
                                                            DateTime birthday,
                                                                bool iS,
                                                                Guid guid,
-                                                            Single? age)
+                                                            Single? age,
+                                                            float floatValue,
+                                                            float? floatNullableValue,
+                                                            DateTimeOffset dateTimeOffset,
+                                                            DateTimeOffset? dateTimeOffsetNullable)
         {
             Dictionary<string, object> row = new Dictionary<string, object>() { { "Id", id },
                                                                                 { "FirstName", firstName },
@@ -389,7 +405,11 @@ namespace Kros.KORM.UnitTests.Materializer
                                                                                 { "Birthday", birthday},
                                                                                 { "Is", iS},
                                                                                 { "PropertyGuid", guid},
-                                                                                { "Age", age} };
+                                                                                { "Age", age},
+                                                                                { "Float", floatValue},
+                                                                                { "FloatNullable", floatNullableValue},
+                                                                                { "DateTimeOffset", dateTimeOffset},
+                                                                                { "DateTimeOffsetNullable", dateTimeOffsetNullable}};
 
             ret.Add(row);
         }
@@ -448,6 +468,14 @@ namespace Kros.KORM.UnitTests.Materializer
             public TestEnum PropertyEnumConv { get; set; }
 
             public double? Age { get; set; }
+
+            public float Float { get; set; }
+
+            public float? FloatNullable { get; set; }
+
+            public DateTimeOffset DateTimeOffset { get; set; }
+
+            public DateTimeOffset? DateTimeOffsetNullable { get; set; }
 
             [NoMap()]
             public TestService Service { get; set; }
