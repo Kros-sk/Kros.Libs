@@ -120,6 +120,9 @@
   <data name="BinaryOperatorIsNotSupported" xml:space="preserve">
     <value>The binary operator '{0}' is not supported.</value>
   </data>
+  <data name="CannotMaterializeSourceValue" xml:space="preserve">
+    <value>Can't materialize source value type '{0}' to destination type '{1}' without defined converter.</value>
+  </data>
   <data name="CannotOpenConnectionWhenGeneratingPrimaryKeys" xml:space="preserve">
     <value>There was a failure to open the database connection at the time the primary keys are generated. Try add 'Persist Security Info=TRUE' to the connection string.</value>
   </data>
