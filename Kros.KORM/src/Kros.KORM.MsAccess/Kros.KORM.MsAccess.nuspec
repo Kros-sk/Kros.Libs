@@ -16,8 +16,8 @@
     BulkUpdate;Bulk Insert;Bulk Update;MsAccess;</tags>
     <releaseNotes>https://github.com/Kros-sk/Kros.Libs/releases</releaseNotes>
     <dependencies>
-      <dependency id="Kros.Utils.MsAccess" version="1.6.1" />
-      <dependency id="Kros.KORM" version="3.7.1" />
+      <dependency id="Kros.Utils.MsAccess" version="1.6.2" />
+      <dependency id="Kros.KORM" version="3.7.2" />
     </dependencies>
   </metadata>
 </package>
