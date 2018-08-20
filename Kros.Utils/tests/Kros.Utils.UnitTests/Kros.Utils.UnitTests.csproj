@@ -9,6 +9,10 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\data.bin" />
+    <EmbeddedResource Include="Resources\data.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.3.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
     <PackageReference Include="Nito.AsyncEx.Context" Version="5.0.0-pre-05" />

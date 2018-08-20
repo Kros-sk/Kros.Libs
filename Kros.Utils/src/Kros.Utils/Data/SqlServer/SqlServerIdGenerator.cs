@@ -1,4 +1,5 @@
-﻿using Kros.Utils;
+﻿using Kros.Properties;
+using Kros.Utils;
 using System;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -75,13 +76,13 @@ namespace Kros.Data.SqlServer
         /// Returns SQL script for creating stored procedure, which generates IDs.
         /// </summary>
         public static string GetStoredProcedureCreationScript() =>
-            ResourceHelper.GetResourceContent("Kros.Resources.SqlIdGeneratorStoredProcedureScript.sql");
+            ResourceHelper.Instance.GetString("SqlIdGeneratorStoredProcedureScript.sql");
 
         /// <summary>
         /// Returns SQL script for creating table in database for storing IDs.
         /// </summary>
         public static string GetIdStoreTableCreationScript() =>
-            ResourceHelper.GetResourceContent("Kros.Resources.SqlIdGeneratorTableScript.sql");
+            ResourceHelper.Instance.GetString("SqlIdGeneratorTableScript.sql");
 
         /// <inheritdoc/>
         public override void InitDatabaseForIdGenerator()
