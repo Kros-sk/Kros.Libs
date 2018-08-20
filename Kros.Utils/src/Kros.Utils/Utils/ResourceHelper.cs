@@ -34,7 +34,7 @@ namespace Kros.Utils
     /// <code lang="csharp">
     /// ResourceHelper helper = new ResourceHelper(Assembly.GetExecutingAssembly(), "Kros.Utils.Resources");
     /// string dataValue = helper.GetString("data.txt");
-    /// string templateValue = helper.GetString(@"Templates\template.txt");
+    /// string templateValue = helper.GetString("Templates.template.txt");
     /// </code>
     /// </remarks>
     public class ResourceHelper
@@ -84,7 +84,7 @@ namespace Kros.Utils
         /// Returns the names of all the resources in assembly used by <c>ResourceHelper</c>.
         /// </summary>
         /// <returns>An array that contains the names of all the resources.</returns>
-        public string[] GetManifestResourceNames() => _assembly.GetManifestResourceNames();
+        public string[] GetResourceNames() => _assembly.GetManifestResourceNames();
 
         /// <summary>
         /// Returns content of the resource <paramref name="resourceName"/> as string. Can be used for text file resources.
