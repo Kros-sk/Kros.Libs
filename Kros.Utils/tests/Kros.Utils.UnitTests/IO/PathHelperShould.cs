@@ -3,7 +3,7 @@ using Kros.IO;
 using System;
 using Xunit;
 
-namespace Kros.Utils.UnitTest.IO
+namespace Kros.Utils.UnitTests.IO
 {
     public class PathHelperShould
     {

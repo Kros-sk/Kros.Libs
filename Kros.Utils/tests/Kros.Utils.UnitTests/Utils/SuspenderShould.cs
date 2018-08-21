@@ -1,8 +1,8 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using System;
 using Xunit;
 
-namespace Kros.Utils.UnitTest.Utils
+namespace Kros.Utils.UnitTests.Utils
 {
     public class SuspenderShould
     {
