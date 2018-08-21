@@ -11,6 +11,15 @@ namespace Kros.Utils.UnitTests.Utils
         [Fact]
         public void InitializeGracefully()
         {
+            string test = Kros.Utils.UnitTests.Properties.Resources.Test;
+            string txt = Kros.Utils.UnitTests.Properties.Resources.data_txt;
+            byte[] bin = Kros.Utils.UnitTests.Properties.Resources.data_bin;
+
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+            string test2 = Kros.Utils.UnitTests.Properties.Resources.Test;
+            string txt2 = Kros.Utils.UnitTests.Properties.Resources.data_txt;
+            byte[] bin2 = Kros.Utils.UnitTests.Properties.Resources.data_bin;
+
             Action createWithoutAssembly = () => new ResourceHelper(null);
             createWithoutAssembly.Should().Throw<ArgumentNullException>()
                 .And.ParamName.Should().Be("resourcesAssembly");
@@ -37,17 +46,17 @@ namespace Kros.Utils.UnitTests.Utils
         {
             var helper = new ResourceHelper(Assembly.GetExecutingAssembly());
             string content = helper.GetString("Kros.Utils.UnitTests.Resources.data.txt");
-            content.Should().Be("Lorem ipsum.", "BaseNamespace is not set.");
+            content.Should().Be("EN Lorem ipsum.", "BaseNamespace is not set.");
 
             helper = new ResourceHelper(Assembly.GetExecutingAssembly(), "Kros.Utils.UnitTests.Resources");
             content = helper.GetString("data.txt");
-            content.Should().Be("Lorem ipsum.", "BaseNamespace is set.");
+            content.Should().Be("EN Lorem ipsum.", "BaseNamespace is set.");
         }
 
         [Fact]
         public void ReturnBinaryResourceContent()
         {
-            byte[] expectedData = new byte[] { 1, 2, 3 };
+            byte[] expectedData = new byte[] { 1, (int)'e', (int)'n', 0xFF };
 
             byte[] content;
             var helper = new ResourceHelper(Assembly.GetExecutingAssembly());
@@ -67,9 +76,8 @@ namespace Kros.Utils.UnitTests.Utils
 
         private static byte[] ReadStreamContent(Stream stream)
         {
-            const int bufferLength = 3;
-            byte[] buffer = new byte[bufferLength];
-            stream.Read(buffer, 0, bufferLength);
+            byte[] buffer = new byte[stream.Length];
+            stream.Read(buffer, 0, (int)stream.Length);
             return buffer;
         }
     }
