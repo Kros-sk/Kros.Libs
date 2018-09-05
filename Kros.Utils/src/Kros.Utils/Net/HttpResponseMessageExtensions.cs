@@ -53,6 +53,7 @@ namespace Kros.Net
         /// <param name="response">HTTP response to which the cookie is set.</param>
         /// <param name="cookie">The cookie to be set.</param>
         /// <returns>Returns back original HTTP response for fluent API.</returns>
+        /// <remarks><para>This method is available only in .NET Core version of the library.</para></remarks>
         public static HttpResponseMessage SetCookie(this HttpResponseMessage response, SetCookieHeaderValue cookie)
         {
             response.Headers.Add(HeaderNames.SetCookie, cookie.ToString());
@@ -66,6 +67,7 @@ namespace Kros.Net
         /// <param name="cookieName">Name of the cookie.</param>
         /// <param name="cookieValue">Value of the cookie.</param>
         /// <returns>Returns back original HTTP response for fluent API.</returns>
+        /// <remarks><para>This method is available only in .NET Core version of the library.</para></remarks>
         public static HttpResponseMessage SetCookie(this HttpResponseMessage response, string cookieName, string cookieValue)
         {
             Check.NotNullOrEmpty(cookieName, nameof(cookieName));
@@ -79,6 +81,7 @@ namespace Kros.Net
         /// <param name="response">HTTP response to which the cookies are set.</param>
         /// <param name="cookies">Cookies set to the response.</param>
         /// <returns>Returns back original HTTP response for fluent API.</returns>
+        /// <remarks><para>This method is available only in .NET Core version of the library.</para></remarks>
         public static HttpResponseMessage SetCookies(this HttpResponseMessage response, IEnumerable<SetCookieHeaderValue> cookies)
         {
             foreach (SetCookieHeaderValue cookie in cookies)
@@ -94,6 +97,7 @@ namespace Kros.Net
         /// <param name="response">HTTP response to which the cookies are set.</param>
         /// <param name="cookies">Cookies set to the response.</param>
         /// <returns>Returns back original HTTP response for fluent API.</returns>
+        /// <remarks><para>This method is available only in .NET Core version of the library.</para></remarks>
         public static HttpResponseMessage SetCookies(this HttpResponseMessage response, IDictionary<string, string> cookies)
         {
             foreach (KeyValuePair<string, string> cookie in cookies)
@@ -110,6 +114,7 @@ namespace Kros.Net
         /// <returns>
         /// List of <see cref="SetCookieHeaderValue"/> objects. If the response does not have any cookies, empty list is returned.
         /// </returns>
+        /// <remarks><para>This method is available only in .NET Core version of the library.</para></remarks>
         public static IList<SetCookieHeaderValue> GetCookies(this HttpResponseMessage response)
         {
             if (response.Headers.TryGetValues(HeaderNames.SetCookie, out IEnumerable<string> values))
@@ -125,6 +130,7 @@ namespace Kros.Net
         /// <param name="response">HTTP response from which the cookies are retrieved.</param>
         /// <returns>The dictionary of the cookies and their values. If the response does not have any cookies,
         /// empty dictionary is returned.</returns>
+        /// <remarks><para>This method is available only in .NET Core version of the library.</para></remarks>
         public static IDictionary<string, string> GetCookieValues(this HttpResponseMessage response)
         {
             var result = new Dictionary<string, string>();
