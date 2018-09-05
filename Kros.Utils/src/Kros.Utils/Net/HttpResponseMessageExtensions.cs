@@ -28,7 +28,7 @@ namespace Kros.Net
         /// The response's content is searched for form's field with the name
         /// <see cref="HttpClientExtensions.AntiForgeryTokenFieldName"/>. If that field is found, it's value is returned.
         /// </remarks>
-        public static async Task<string> GetAntiForgeryToken(this HttpResponseMessage response)
+        public static async Task<string> GetAntiForgeryTokenAsync(this HttpResponseMessage response)
         {
             string token = null;
             if (response.IsSuccessStatusCode && (response.Content != null))

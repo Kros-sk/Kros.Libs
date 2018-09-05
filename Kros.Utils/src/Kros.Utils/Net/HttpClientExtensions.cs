@@ -36,7 +36,7 @@ namespace Kros.Net
             T data)
         {
             HttpResponseMessage getResponse = await client.GetAsync(requestUri);
-            string antiForgeryToken = await getResponse.GetAntiForgeryToken();
+            string antiForgeryToken = await getResponse.GetAntiForgeryTokenAsync();
 
             var postRequest = new HttpRequestMessage(HttpMethod.Post, requestUri)
             {
