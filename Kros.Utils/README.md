@@ -8,7 +8,7 @@ Library is:
 * Independent of third-party libraries. You only need .NET Framework.
 * Platform-independent. That means it's applicable to desktop applications and server services (e.g. It's independent of System.Windows.Forms).
 
-Library is compiled for __.NET Standard 2.0__. .NET Framework 4.6 is supported.
+Library is compiled for __.NET Standard 2.0__. .NET Framework 4.7 is supported.
 
 ## Documentation
 
