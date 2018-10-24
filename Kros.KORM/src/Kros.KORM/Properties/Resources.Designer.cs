@@ -88,6 +88,33 @@ namespace Kros.KORM.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Primary key of the model is composite. All of its columns must have {0} set to {1}..
+        /// </summary>
+        internal static string CompositePrimaryKeyCanNotHaveAutoIncrementColumn {
+            get {
+                return ResourceManager.GetString("CompositePrimaryKeyCanNotHaveAutoIncrementColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Primary key of the model is composite. All of its columns must have unique order..
+        /// </summary>
+        internal static string CompositePrimaryKeyMustHaveOrderedColumns {
+            get {
+                return ResourceManager.GetString("CompositePrimaryKeyMustHaveOrderedColumns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Primary key of the model is composite. The name of the key must be the same for all its columns..
+        /// </summary>
+        internal static string CompositePrimaryKeyMustHaveSameNameInAllColumns {
+            get {
+                return ResourceManager.GetString("CompositePrimaryKeyMustHaveSameNameInAllColumns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The constant for &apos;{0}&apos; is not supported..
         /// </summary>
         internal static string ConstantIsNotSupported {

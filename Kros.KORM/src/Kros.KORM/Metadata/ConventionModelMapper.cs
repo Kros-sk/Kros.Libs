@@ -4,6 +4,7 @@ using Kros.KORM.Helper;
 using Kros.KORM.Injection;
 using Kros.KORM.Materializer;
 using Kros.KORM.Metadata.Attribute;
+using Kros.KORM.Properties;
 using Kros.Utils;
 using System;
 using System.Collections.Generic;
@@ -314,21 +315,23 @@ namespace Kros.KORM.Metadata
             var uniqueOrders = new HashSet<int>(pkAttributes.Select(item => item.Attribute.Order));
             if (uniqueOrders.Count != pkAttributes.Count)
             {
-                throw new CompositePrimaryKeyException(
-                    "If primary key is composite, all of its columns must have unique order.", tableName);
+                throw new CompositePrimaryKeyException(Resources.CompositePrimaryKeyMustHaveOrderedColumns, tableName);
             }
 
             var uniqueNames = new HashSet<string>(pkAttributes.Select(item => item.Attribute.Name));
             if (uniqueNames.Count > 1)
             {
-                throw new CompositePrimaryKeyException(
-                    "If primary key is composite, the name of the key must be the same for all its columns.", tableName);
+                throw new CompositePrimaryKeyException(Resources.CompositePrimaryKeyMustHaveSameNameInAllColumns, tableName);
             }
 
             if (pkAttributes.Any(item => item.Attribute.AutoIncrementMethodType != AutoIncrementMethodType.None))
             {
                 throw new CompositePrimaryKeyException(
-                    "If primary key is composite, all of its columns must have AutoIncrementMethodType set to None.", tableName);
+                    string.Format(
+                        Resources.CompositePrimaryKeyCanNotHaveAutoIncrementColumn,
+                        nameof(KeyAttribute.AutoIncrementMethodType),
+                        nameof(AutoIncrementMethodType.None)),
+                    tableName);
             }
         }
 
