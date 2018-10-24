@@ -94,6 +94,20 @@ namespace Kros.KORM.UnitTests.Metadata
             public string Data { get; set; }
         }
 
+        private class CompositePrivateKeyWithInvalidAutoIncrementMethodType
+        {
+            [Key(AutoIncrementMethodType.Custom)]
+            public int RecordId1 { get; set; }
+
+            [Key(2)]
+            public int RecordId2 { get; set; }
+
+            [Key(3)]
+            public int RecordId3 { get; set; }
+
+            public string Data { get; set; }
+        }
+
         private class ConventionalPrivateKey
         {
             public string Data { get; set; }
@@ -261,6 +275,16 @@ namespace Kros.KORM.UnitTests.Metadata
 
             tableInfoAction.Should().Throw<CompositePrimaryKeyException>(
                 "If composite primary key has specified name, this name must be the same for all the columns.");
+        }
+
+        [Fact]
+        public void ThrowIfCompositePrimaryKeyHasColumnsWithInvalidAutoIncrementMethodType()
+        {
+            var modelMapper = new ConventionModelMapper();
+            Action tableInfoAction = () => modelMapper.GetTableInfo<CompositePrivateKeyWithInvalidAutoIncrementMethodType>();
+
+            tableInfoAction.Should().Throw<CompositePrimaryKeyException>(
+                $"All columns of the composite primary key must have \"{nameof(KeyAttribute.AutoIncrementMethodType)}\" set to \"{nameof(AutoIncrementMethodType.None)}\".");
         }
 
         [Fact]

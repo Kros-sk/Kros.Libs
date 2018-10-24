@@ -324,6 +324,12 @@ namespace Kros.KORM.Metadata
                 throw new CompositePrimaryKeyException(
                     "If primary key is composite, the name of the key must be the same for all its columns.", tableName);
             }
+
+            if (pkAttributes.Any(item => item.Attribute.AutoIncrementMethodType != AutoIncrementMethodType.None))
+            {
+                throw new CompositePrimaryKeyException(
+                    "If primary key is composite, all of its columns must have AutoIncrementMethodType set to None.", tableName);
+            }
         }
 
         #endregion
