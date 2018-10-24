@@ -19,9 +19,28 @@ namespace Kros.KORM.Metadata.Attribute
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyAttribute"/> class.
         /// </summary>
+        /// <param name="order">The order of the column in composite primary key.</param>
+        public KeyAttribute(int order)
+            : this(null, order, AutoIncrementMethodType.None)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyAttribute"/> class.
+        /// </summary>
         /// <param name="name">The key name.</param>
         public KeyAttribute(string name)
-            : this(name, AutoIncrementMethodType.None)
+            : this(name, 0, AutoIncrementMethodType.None)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyAttribute"/> class.
+        /// </summary>
+        /// <param name="name">The key name.</param>
+        /// <param name="order">The order of the column in composite primary key.</param>
+        public KeyAttribute(string name, int order)
+            : this(name, order, AutoIncrementMethodType.None)
         {
         }
 
@@ -30,7 +49,7 @@ namespace Kros.KORM.Metadata.Attribute
         /// </summary>
         /// <param name="autoIncrementMethodType">Type of primary key auto increment method.</param>
         public KeyAttribute(AutoIncrementMethodType autoIncrementMethodType)
-            : this(null, autoIncrementMethodType)
+            : this(null, 0, autoIncrementMethodType)
         {
         }
 
@@ -40,9 +59,21 @@ namespace Kros.KORM.Metadata.Attribute
         /// <param name="name">The key name.</param>
         /// <param name="autoIncrementMethodType">Type of primary key auto increment method.</param>
         public KeyAttribute(string name, AutoIncrementMethodType autoIncrementMethodType)
+            : this (name, 0, autoIncrementMethodType)
         {
-            this.AutoIncrementMethodType = autoIncrementMethodType;
-            this.Name = name;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyAttribute"/> class.
+        /// </summary>
+        /// <param name="name">The key name.</param>
+        /// <param name="order">The order of the column in composite primary key.</param>
+        /// <param name="autoIncrementMethodType">Type of primary key auto increment method.</param>
+        private KeyAttribute(string name, int order, AutoIncrementMethodType autoIncrementMethodType)
+        {
+            AutoIncrementMethodType = autoIncrementMethodType;
+            Name = name;
+            Order = order;
         }
 
         /// <summary>
@@ -51,8 +82,13 @@ namespace Kros.KORM.Metadata.Attribute
         public AutoIncrementMethodType AutoIncrementMethodType { get; private set; }
 
         /// <summary>
+        /// The order of the column in composite primary key.
+        /// </summary>
+        public int Order { get; }
+
+        /// <summary>
         /// Gets the name of key.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
     }
 }

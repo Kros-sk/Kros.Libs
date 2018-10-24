@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Kros.KORM.Converter;
+using Kros.KORM.Exceptions;
 using Kros.KORM.Materializer;
 using Kros.KORM.Metadata;
 using Kros.KORM.Metadata.Attribute;
@@ -43,7 +44,7 @@ namespace Kros.KORM.UnitTests.Metadata
             public string Data { get; set; }
         }
 
-        private class PrivateKeyWithAttributeModel
+        private class SinglePrivateKey
         {
             [Key]
             public int RecordId { get; set; }
@@ -51,21 +52,49 @@ namespace Kros.KORM.UnitTests.Metadata
             public string Data { get; set; }
         }
 
-        private class CompositePrivateKeyModel
+        private class CompositePrivateKey
         {
-            [Key]
-            public int RecordId1 { get; set; }
-
-            [Key]
+            [Key(2)]
             public int RecordId2 { get; set; }
 
-            [Key]
+            [Key(3)]
+            public int RecordId3 { get; set; }
+
+            [Key(1)]
+            public int RecordId1 { get; set; }
+
+            public string Data { get; set; }
+        }
+
+        private class CompositePrivateKeyWithInvalidOrder
+        {
+            [Key(1)]
+            public int RecordId1 { get; set; }
+
+            [Key(1)]
+            public int RecordId2 { get; set; }
+
+            [Key(3)]
             public int RecordId3 { get; set; }
 
             public string Data { get; set; }
         }
 
-        private class PrivateKeyWithConventionModel
+        private class CompositePrivateKeyWithInvalidName
+        {
+            [Key("PK", 1)]
+            public int RecordId1 { get; set; }
+
+            [Key("PK_Test", 2)]
+            public int RecordId2 { get; set; }
+
+            [Key("PK_Test", 3)]
+            public int RecordId3 { get; set; }
+
+            public string Data { get; set; }
+        }
+
+        private class ConventionalPrivateKey
         {
             public string Data { get; set; }
             public int Id { get; set; }
@@ -176,12 +205,12 @@ namespace Kros.KORM.UnitTests.Metadata
         public void GetTableInfoWithPrimaryKeyByAttribute()
         {
             var modelMapper = new ConventionModelMapper();
-            var tableInfo = modelMapper.GetTableInfo<PrivateKeyWithAttributeModel>();
+            var tableInfo = modelMapper.GetTableInfo<SinglePrivateKey>();
 
             const string pkMessage = "Column \"RecordId\" is attributed as key and attribute has precedence over convention (\"Id\" column).";
             const int propertiesCount = 3;
             tableInfo.Columns.Should().HaveCount(propertiesCount,
-                "\"{0}\" has {1} properties.", nameof(PrivateKeyWithAttributeModel), propertiesCount);
+                "\"{0}\" has {1} properties.", nameof(SinglePrivateKey), propertiesCount);
             tableInfo.Columns.Count(c => c.IsPrimaryKey).Should().Be(1, pkMessage);
 
             var key = tableInfo.PrimaryKey.ToList();
@@ -194,24 +223,44 @@ namespace Kros.KORM.UnitTests.Metadata
         public void GetTableInfoWithCompositePrimaryKey()
         {
             var modelMapper = new ConventionModelMapper();
-            var tableInfo = modelMapper.GetTableInfo<CompositePrivateKeyModel>();
+            var tableInfo = modelMapper.GetTableInfo<CompositePrivateKey>();
 
             const string pkMessage = "3 columns are attributed as key.";
             const int propertiesCount = 4;
             tableInfo.Columns.Should().HaveCount(propertiesCount,
-                "\"{0}\" has {1} properties.", nameof(CompositePrivateKeyModel), propertiesCount);
+                "\"{0}\" has {1} properties.", nameof(CompositePrivateKey), propertiesCount);
             tableInfo.Columns.Count(c => c.IsPrimaryKey).Should().Be(3, pkMessage);
 
             var key = tableInfo.PrimaryKey.ToList();
             key.Should().HaveCount(3, pkMessage);
-            key[0].Name.Should().Be("RecordId1");
+            key[0].Name.Should().Be("RecordId1", $"Property {nameof(CompositePrivateKey.RecordId1)} has order 1.");
             key[0].IsPrimaryKey.Should().BeTrue();
 
-            key[1].Name.Should().Be("RecordId2");
+            key[1].Name.Should().Be("RecordId2", $"Property {nameof(CompositePrivateKey.RecordId2)} has order 2.");
             key[1].IsPrimaryKey.Should().BeTrue();
 
-            key[2].Name.Should().Be("RecordId3");
+            key[2].Name.Should().Be("RecordId3", $"Property {nameof(CompositePrivateKey.RecordId3)} has order 3.");
             key[2].IsPrimaryKey.Should().BeTrue();
+        }
+
+        [Fact]
+        public void ThrowIfCompositePrimaryKeyHasColumnsWithInvalidOrder()
+        {
+            var modelMapper = new ConventionModelMapper();
+            Action tableInfoAction = () => modelMapper.GetTableInfo<CompositePrivateKeyWithInvalidOrder>();
+
+            tableInfoAction.Should().Throw<CompositePrimaryKeyException>(
+                "Composite primary key columns must have specified order and this order must be unique for every column.");
+        }
+
+        [Fact]
+        public void ThrowIfCompositePrimaryKeyHasColumnsWithInvalidName()
+        {
+            var modelMapper = new ConventionModelMapper();
+            Action tableInfoAction = () => modelMapper.GetTableInfo<CompositePrivateKeyWithInvalidName>();
+
+            tableInfoAction.Should().Throw<CompositePrimaryKeyException>(
+                "If composite primary key has specified name, this name must be the same for all the columns.");
         }
 
         [Fact]
@@ -221,7 +270,7 @@ namespace Kros.KORM.UnitTests.Metadata
 
             const string pkMessage = "No attributed key was found, co column \"Id\" is primary key by convention.";
 
-            var tableInfo = modelMapper.GetTableInfo<PrivateKeyWithConventionModel>();
+            var tableInfo = modelMapper.GetTableInfo<ConventionalPrivateKey>();
             tableInfo.Columns.Should().HaveCount(2);
             tableInfo.Columns.Count(c => c.IsPrimaryKey).Should().Be(1, pkMessage);
 

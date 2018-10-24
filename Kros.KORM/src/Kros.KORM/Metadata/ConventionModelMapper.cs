@@ -1,4 +1,5 @@
 ﻿using Kros.KORM.Converter;
+using Kros.KORM.Exceptions;
 using Kros.KORM.Helper;
 using Kros.KORM.Injection;
 using Kros.KORM.Materializer;
@@ -18,7 +19,7 @@ namespace Kros.KORM.Metadata
     /// <seealso cref="Kros.KORM.Metadata.IModelMapper" />
     public class ConventionModelMapper : IModelMapper
     {
-        private const string ID_NAME = "ID";
+        private const string ConventionalPrimaryKeyName = "ID";
         private static readonly string _onAfterMaterializeName = MethodName<IMaterialize>.GetName(p => p.OnAfterMaterialize(null));
         private Dictionary<Type, Dictionary<string, string>> _columnMap = new Dictionary<Type, Dictionary<string, string>>();
 
@@ -265,8 +266,8 @@ namespace Kros.KORM.Metadata
 
         private static IEnumerable<ColumnInfo> OnMapPrimaryKey(TableInfo tableInfo)
         {
-            ColumnInfo pkConvention = null;
-            var pkAttributes = new List<(ColumnInfo Column, KeyAttribute Attribute)>();
+            ColumnInfo pkByConvention = null;
+            var pkByAttributes = new List<(ColumnInfo Column, KeyAttribute Attribute)>();
 
             foreach (var column in tableInfo.Columns)
             {
@@ -274,27 +275,55 @@ namespace Kros.KORM.Metadata
                 if (attributes.Length == 1)
                 {
                     column.IsPrimaryKey = true;
-                    pkAttributes.Add((column, attributes[0] as KeyAttribute));
+                    pkByAttributes.Add((column, attributes[0] as KeyAttribute));
                 }
-                else if (column.Name.Equals(ID_NAME, StringComparison.CurrentCultureIgnoreCase))
+                else if (column.Name.Equals(ConventionalPrimaryKeyName, StringComparison.OrdinalIgnoreCase))
                 {
-                    pkConvention = column;
+                    pkByConvention = column;
                 }
             }
 
             var ret = new List<ColumnInfo>();
-            if (pkAttributes.Count > 0)
+            if (pkByAttributes.Count == 1)
             {
-                pkAttributes[0].Column.AutoIncrementMethodType = pkAttributes[0].Attribute.AutoIncrementMethodType;
-                ret.AddRange(pkAttributes.Select(item => item.Column));
+                ret.Add(pkByAttributes[0].Column);
+                ret[0].AutoIncrementMethodType = pkByAttributes[0].Attribute.AutoIncrementMethodType;
             }
-            else if (pkConvention != null)
+            else if (pkByAttributes.Count > 1)
             {
-                pkConvention.IsPrimaryKey = true;
-                ret.Add(pkConvention);
+                CheckPrimaryKeyColumns(pkByAttributes, tableInfo.Name);
+                ret.AddRange(pkByAttributes.OrderBy(item => item.Attribute.Order).Select(item => item.Column));
+                for (int i = 0; i < ret.Count; i++)
+                {
+                    ret[i].PrimaryKeyOrder = i;
+                }
+            }
+            else if (pkByConvention != null)
+            {
+                pkByConvention.IsPrimaryKey = true;
+                ret.Add(pkByConvention);
             }
 
             return ret;
+        }
+
+        private static void CheckPrimaryKeyColumns(
+            List<(ColumnInfo Column, KeyAttribute Attribute)> pkAttributes,
+            string tableName)
+        {
+            var uniqueOrders = new HashSet<int>(pkAttributes.Select(item => item.Attribute.Order));
+            if (uniqueOrders.Count != pkAttributes.Count)
+            {
+                throw new CompositePrimaryKeyException(
+                    "If primary key is composite, all of its columns must have unique order.", tableName);
+            }
+
+            var uniqueNames = new HashSet<string>(pkAttributes.Select(item => item.Attribute.Name));
+            if (uniqueNames.Count > 1)
+            {
+                throw new CompositePrimaryKeyException(
+                    "If primary key is composite, the name of the key must be the same for all its columns.", tableName);
+            }
         }
 
         #endregion
