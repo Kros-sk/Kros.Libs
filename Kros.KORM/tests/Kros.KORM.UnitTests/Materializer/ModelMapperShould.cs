@@ -12,17 +12,129 @@ namespace Kros.KORM.UnitTests.Metadata
 {
     public class ModelMapperShould : IDisposable
     {
+        #region Nested Types
+
+        private class Foo
+        {
+            [Alias("PostCode")]
+            public string Code { get; set; }
+
+            [Alias("FirstName")]
+            public string PropertyString { get; set; }
+
+            public string LastName { get; set; }
+
+            public double PropertyDouble { get; set; }
+
+            [Converter(typeof(TestConverter))]
+            public TestEnum PropertyEnum { get; set; }
+
+            public int ReadOnlyProperty { get { return 5; } }
+
+            public string DataTypeProperty { get; set; }
+
+            [NoMap()]
+            public int Ignore { get; set; }
+        }
+
+        private class NoPrivateKeyModel
+        {
+            public int RecordId { get; set; }
+            public string Data { get; set; }
+        }
+
+        private class PrivateKeyWithAttributeModel
+        {
+            [Key]
+            public int RecordId { get; set; }
+            public int Id { get; set; }
+            public string Data { get; set; }
+        }
+
+        private class CompositePrivateKeyModel
+        {
+            [Key]
+            public int RecordId1 { get; set; }
+
+            [Key]
+            public int RecordId2 { get; set; }
+
+            [Key]
+            public int RecordId3 { get; set; }
+
+            public string Data { get; set; }
+        }
+
+        private class PrivateKeyWithConventionModel
+        {
+            public string Data { get; set; }
+            public int Id { get; set; }
+        }
+
+        [Alias("Person")]
+        private class AliasedModel : IMaterialize
+        {
+            public int Id { get; set; }
+
+            public void OnAfterMaterialize(IDataRecord source)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        private class CustomConventionModel
+        {
+            public int OId { get; set; }
+            public double PropertyDouble { get; set; }
+        }
+
+        private class FooWithAutoIncrement
+        {
+            [Key(AutoIncrementMethodType.Custom)]
+            public int Id { get; set; }
+
+            public double PropertyDouble { get; set; }
+        }
+
+        private enum TestEnum
+        {
+            Value1,
+            Value2,
+            Value3
+        }
+
+        private class TestConverter : IConverter
+        {
+            public object Convert(object value)
+            {
+                throw new NotImplementedException();
+            }
+
+            public object ConvertBack(object value)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region Tests
+
         [Fact]
-        public void UseAliasAttributeForGettingNames()
+        public void ReturnColumnsWithCorrectNames()
         {
             var modelMapper = new ConventionModelMapper();
-
             var tableInfo = modelMapper.GetTableInfo<Foo>();
 
             var columns = tableInfo.Columns.ToList();
 
-            columns[1].Name.Should().Be("PostCode", "Becouse have alias.");
-            columns[2].Name.Should().Be("FirstName", "Becouse have alias.");
+            columns.Count.Should().Be(6);
+            columns[0].Name.Should().Be("PostCode", "Property \"Code\" has alias \"PostCode\".");
+            columns[1].Name.Should().Be("FirstName", "Property \"PropertyString\" has alias \"FirstName\".");
+            columns[2].Name.Should().Be("LastName");
+            columns[3].Name.Should().Be("PropertyDouble");
+            columns[4].Name.Should().Be("PropertyEnum");
+            columns[5].Name.Should().Be("DataTypeProperty");
         }
 
         [Fact]
@@ -42,20 +154,6 @@ namespace Kros.KORM.UnitTests.Metadata
         }
 
         [Fact]
-        public void UseConventionForGettingNamesWhenAliasDoesNotExist()
-        {
-            var modelMapper = new ConventionModelMapper();
-
-            var tableInfo = modelMapper.GetTableInfo<Foo>();
-
-            var columns = tableInfo.Columns.ToList();
-
-            columns[0].Name.Should().Be("Id");
-            columns[3].Name.Should().Be("LastName");
-            columns[4].Name.Should().Be("PropertyDouble");
-        }
-
-        [Fact]
         public void UseConventionForGettingTableNameWhenAliasDoesNotExist()
         {
             var modelMapper = new ConventionModelMapper();
@@ -66,29 +164,54 @@ namespace Kros.KORM.UnitTests.Metadata
         }
 
         [Fact]
-        public void UseAliasForGettingTableName()
+        public void UseAliasForTableName()
         {
             var modelMapper = new ConventionModelMapper();
+            var tableInfo = modelMapper.GetTableInfo<AliasedModel>();
 
-            var tableInfo = modelMapper.GetTableInfo<Foo1>();
-
-            tableInfo.Name.Should().Be("Person", "Becouse have alias.");
+            tableInfo.Name.Should().Be("Person", $"Model \"{nameof(AliasedModel)}\" has table alias \"Person\".");
         }
 
         [Fact]
-        public void GetTableInfoWithPrimaryKey()
+        public void GetTableInfoWithPrimaryKeyByAttribute()
         {
             var modelMapper = new ConventionModelMapper();
+            var tableInfo = modelMapper.GetTableInfo<PrivateKeyWithAttributeModel>();
 
-            var tableInfo = modelMapper.GetTableInfo<Foo>();
+            const string pkMessage = "Column \"RecordId\" is attributed as key and attribute has precedence over convention (\"Id\" column).";
+            const int propertiesCount = 3;
+            tableInfo.Columns.Should().HaveCount(propertiesCount,
+                "\"{0}\" has {1} properties.", nameof(PrivateKeyWithAttributeModel), propertiesCount);
+            tableInfo.Columns.Count(c => c.IsPrimaryKey).Should().Be(1, pkMessage);
 
             var key = tableInfo.PrimaryKey.ToList();
-
-            key.Should().HaveCount(2, "Becouse class Foo have to property with Key attribute");
-            key[0].Name.Should().Be("Id");
+            key.Should().HaveCount(1, pkMessage);
+            key[0].Name.Should().Be("RecordId");
             key[0].IsPrimaryKey.Should().BeTrue();
-            key[1].Name.Should().Be("PostCode");
+        }
+
+        [Fact]
+        public void GetTableInfoWithCompositePrimaryKey()
+        {
+            var modelMapper = new ConventionModelMapper();
+            var tableInfo = modelMapper.GetTableInfo<CompositePrivateKeyModel>();
+
+            const string pkMessage = "3 columns are attributed as key.";
+            const int propertiesCount = 4;
+            tableInfo.Columns.Should().HaveCount(propertiesCount,
+                "\"{0}\" has {1} properties.", nameof(CompositePrivateKeyModel), propertiesCount);
+            tableInfo.Columns.Count(c => c.IsPrimaryKey).Should().Be(3, pkMessage);
+
+            var key = tableInfo.PrimaryKey.ToList();
+            key.Should().HaveCount(3, pkMessage);
+            key[0].Name.Should().Be("RecordId1");
+            key[0].IsPrimaryKey.Should().BeTrue();
+
+            key[1].Name.Should().Be("RecordId2");
             key[1].IsPrimaryKey.Should().BeTrue();
+
+            key[2].Name.Should().Be("RecordId3");
+            key[2].IsPrimaryKey.Should().BeTrue();
         }
 
         [Fact]
@@ -96,39 +219,39 @@ namespace Kros.KORM.UnitTests.Metadata
         {
             var modelMapper = new ConventionModelMapper();
 
-            var tableInfo = modelMapper.GetTableInfo<Foo1>();
+            const string pkMessage = "No attributed key was found, co column \"Id\" is primary key by convention.";
+
+            var tableInfo = modelMapper.GetTableInfo<PrivateKeyWithConventionModel>();
+            tableInfo.Columns.Should().HaveCount(2);
+            tableInfo.Columns.Count(c => c.IsPrimaryKey).Should().Be(1, pkMessage);
 
             var key = tableInfo.PrimaryKey.ToList();
+            key.Should().HaveCount(1, pkMessage);
 
-            key.Should().HaveCount(1, "Becouse Foo1 dont have key attribute, but have one property which match Id convention");
-            key[0].Name.Should().Be("Id");
+            key[0].Name.Should().Be("Id", "Column \"Id\" is primary key by convention.");
             key[0].IsPrimaryKey.Should().BeTrue();
         }
 
         [Fact]
-        public void GetTableInfoWithoutPrimarKeyWhenDontHaveKeyAttributeAndNoConventionMatch()
+        public void GetTableInfoWithoutPrimarKey()
         {
             var modelMapper = new ConventionModelMapper();
+            var tableInfo = modelMapper.GetTableInfo<NoPrivateKeyModel>();
 
-            var tableInfo = modelMapper.GetTableInfo<Foo2>();
-
-            var key = tableInfo.PrimaryKey.ToList();
-            bool anyKey = key.Any(p => p.IsPrimaryKey);
-
-            key.Should().HaveCount(0);
-            anyKey.Should().BeFalse();
+            tableInfo.Columns.Should().HaveCount(2);
+            tableInfo.Columns.Count(c => c.IsPrimaryKey).Should().Be(0);
+            tableInfo.PrimaryKey.Should().HaveCount(0);
         }
 
         [Fact]
         public void GetTableInfoWithColumnConverter()
         {
             var modelMapper = new ConventionModelMapper();
-
             var tableInfo = modelMapper.GetTableInfo<Foo>();
 
-            var columns = tableInfo.Columns.ToList();
+            var columnWithConverter = tableInfo.Columns.Single(c => c.Name == "PropertyEnum");
 
-            columns[5].Converter.Should().BeOfType<TestConverter>();
+            columnWithConverter.Converter.Should().BeOfType<TestConverter>();
         }
 
         [Fact]
@@ -176,7 +299,7 @@ namespace Kros.KORM.UnitTests.Metadata
         }
 
         [Fact]
-        public void UseNewConventionForGettingTableInfo()
+        public void UseCustomConvention()
         {
             var modelMapper = new ConventionModelMapper
             {
@@ -203,12 +326,12 @@ namespace Kros.KORM.UnitTests.Metadata
                 }
             };
 
-            var tableInfo = modelMapper.GetTableInfo<Foo2>();
+            var tableInfo = modelMapper.GetTableInfo<CustomConventionModel>();
+
+            tableInfo.Name.Should().Be("customconventionmodel");
 
             var columns = tableInfo.Columns.ToList();
-
-            tableInfo.Name.Should().Be("foo2");
-
+            columns.Count.Should().Be(2);
             columns[1].Name.Should().Be("PROPERTYDOUBLE");
 
             tableInfo.PrimaryKey.Should().HaveCount(1);
@@ -220,7 +343,7 @@ namespace Kros.KORM.UnitTests.Metadata
         {
             var modelMapper = new ConventionModelMapper();
 
-            var tableInfo = modelMapper.GetTableInfo<Foo1>();
+            var tableInfo = modelMapper.GetTableInfo<AliasedModel>();
             tableInfo.OnAfterMaterialize.Name.Should().Be("OnAfterMaterialize");
         }
 
@@ -244,82 +367,11 @@ namespace Kros.KORM.UnitTests.Metadata
             modelMapper.GetInjector<Foo>().Should().NotBeNull();
         }
 
+        #endregion
+
         public void Dispose()
         {
             ConverterAttribute.ClearCache();
-        }
-
-        private class Foo
-        {
-            [Key()]
-            public int Id { get; set; }
-
-            [Key()]
-            [Alias("PostCode")]
-            public string Code { get; set; }
-
-            [Alias("FirstName")]
-            public string PropertyString { get; set; }
-
-            public string LastName { get; set; }
-
-            public double PropertyDouble { get; set; }
-
-            [Converter(typeof(TestConverter))]
-            public TestEnum PropertyEnum { get; set; }
-
-            public int ReadOnlyProperty { get { return 5; } }
-
-            public string DataTypeProperty { get; set; }
-
-            [NoMap()]
-            public int Ignore { get; set; }
-        }
-
-        [Alias("Person")]
-        private class Foo1 : IMaterialize
-        {
-            public int Id { get; set; }
-
-            public void OnAfterMaterialize(IDataRecord source)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        private class Foo2
-        {
-            public int OId { get; set; }
-
-            public double PropertyDouble { get; set; }
-        }
-
-        private class FooWithAutoIncrement
-        {
-            [Key(AutoIncrementMethodType.Custom)]
-            public int Id { get; set; }
-
-            public double PropertyDouble { get; set; }
-        }
-
-        private enum TestEnum
-        {
-            Value1,
-            Value2,
-            Value3
-        }
-
-        private class TestConverter : IConverter
-        {
-            public object Convert(object value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public object ConvertBack(object value)
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }

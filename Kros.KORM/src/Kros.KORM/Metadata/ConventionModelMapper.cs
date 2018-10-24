@@ -27,17 +27,17 @@ namespace Kros.KORM.Metadata
         /// </summary>
         public ConventionModelMapper()
         {
-            this.MapColumnName = (columnInfo, type) =>
+            MapColumnName = (columnInfo, type) =>
             {
                 return columnInfo.PropertyInfo.Name;
             };
 
-            this.MapTableName = (tableInfo, tableType) =>
+            MapTableName = (tableInfo, tableType) =>
             {
                 return tableType.Name;
             };
 
-            this.MapPrimaryKey = (tableInfo) =>
+            MapPrimaryKey = (tableInfo) =>
             {
                 return OnMapPrimaryKey(tableInfo);
             };
@@ -175,7 +175,7 @@ namespace Kros.KORM.Metadata
 
             tableInfo.Name = GetTableName(tableInfo, modelType);
 
-            foreach (var key in this.MapPrimaryKey(tableInfo))
+            foreach (var key in MapPrimaryKey(tableInfo))
             {
                 key.IsPrimaryKey = true;
             }
@@ -207,7 +207,7 @@ namespace Kros.KORM.Metadata
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                name = this.MapTableName(tableInfo, modelType);
+                name = MapTableName(tableInfo, modelType);
             }
 
             return name;
@@ -236,7 +236,7 @@ namespace Kros.KORM.Metadata
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                name = this.MapColumnName(columnInfo, modelType);
+                name = MapColumnName(columnInfo, modelType);
             }
 
             return name;
@@ -265,22 +265,33 @@ namespace Kros.KORM.Metadata
 
         private static IEnumerable<ColumnInfo> OnMapPrimaryKey(TableInfo tableInfo)
         {
-            var ret = new List<ColumnInfo>();
+            ColumnInfo pkConvention = null;
+            var pkAttributes = new List<(ColumnInfo Column, KeyAttribute Attribute)>();
 
             foreach (var column in tableInfo.Columns)
             {
                 var attributes = column.PropertyInfo.GetCustomAttributes(typeof(KeyAttribute), true);
                 if (attributes.Length == 1)
                 {
-                    column.AutoIncrementMethodType = (attributes[0] as KeyAttribute).AutoIncrementMethodType;
                     column.IsPrimaryKey = true;
-                    ret.Add(column);
+                    pkAttributes.Add((column, attributes[0] as KeyAttribute));
                 }
                 else if (column.Name.Equals(ID_NAME, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    column.IsPrimaryKey = true;
-                    ret.Add(column);
+                    pkConvention = column;
                 }
+            }
+
+            var ret = new List<ColumnInfo>();
+            if (pkAttributes.Count > 0)
+            {
+                pkAttributes[0].Column.AutoIncrementMethodType = pkAttributes[0].Attribute.AutoIncrementMethodType;
+                ret.AddRange(pkAttributes.Select(item => item.Column));
+            }
+            else if (pkConvention != null)
+            {
+                pkConvention.IsPrimaryKey = true;
+                ret.Add(pkConvention);
             }
 
             return ret;
