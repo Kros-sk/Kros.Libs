@@ -165,6 +165,40 @@ $@" CREATE PROCEDURE [dbo].[WaitForTwoSeconds] AS
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
+        public void ExplicitTransactionShould_CommitDataAfterOtherTransactionEndWithRollback(bool openConnection)
+        {
+            DoTestWithConnection(openConnection, ExplicitTransactionCommitDataAfterOtherTransactionEndWithRollback, CreateDatabase);
+        }
+
+        private void ExplicitTransactionCommitDataAfterOtherTransactionEndWithRollback(TestDatabase korm)
+        {
+            using (var transaction = korm.BeginTransaction())
+            {
+                var dbSet = korm.Query<Invoice>().AsDbSet();
+
+                dbSet.Add(CreateTestData());
+                dbSet.CommitChanges();
+
+                transaction.Rollback();
+
+                DatabaseShouldBeEmpty(korm);
+            }
+            using (var transaction = korm.BeginTransaction())
+            {
+                var dbSet = korm.Query<Invoice>().AsDbSet();
+
+                dbSet.Add(CreateTestData());
+                dbSet.CommitChanges();
+
+                transaction.Commit();
+
+                DatabaseShouldContainInvoices(korm.ConnectionString, CreateTestData());
+            }
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
         public void ExplicitTransactionShould_RollbackData(bool openConnection)
         {
             DoTestWithConnection(openConnection, ExplicitTransactionRollbackData, CreateDatabase);
