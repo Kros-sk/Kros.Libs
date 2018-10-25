@@ -312,14 +312,12 @@ namespace Kros.KORM.Metadata
             List<(ColumnInfo Column, KeyAttribute Attribute)> pkAttributes,
             string tableName)
         {
-            var uniqueOrders = new HashSet<int>(pkAttributes.Select(item => item.Attribute.Order));
-            if (uniqueOrders.Count != pkAttributes.Count)
+            if (pkAttributes.Select(item => item.Attribute.Order).Distinct().Count() != pkAttributes.Count)
             {
                 throw new CompositePrimaryKeyException(Resources.CompositePrimaryKeyMustHaveOrderedColumns, tableName);
             }
 
-            var uniqueNames = new HashSet<string>(pkAttributes.Select(item => item.Attribute.Name));
-            if (uniqueNames.Count > 1)
+            if (pkAttributes.Select(item => item.Attribute.Name).Distinct().Count() > 1)
             {
                 throw new CompositePrimaryKeyException(Resources.CompositePrimaryKeyMustHaveSameNameInAllColumns, tableName);
             }
