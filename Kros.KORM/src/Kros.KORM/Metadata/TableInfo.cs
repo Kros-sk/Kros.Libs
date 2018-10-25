@@ -72,12 +72,7 @@ namespace Kros.KORM.Metadata
         /// Gets the columns, which are part of primary key.
         /// </summary>
         public IEnumerable<ColumnInfo> PrimaryKey
-        {
-            get
-            {
-                return _columns.Where(x => x.Value.IsPrimaryKey).Select(p => p.Value);
-            }
-        }
+            => _columns.Values.Where(column => column.IsPrimaryKey).OrderBy(column => column.PrimaryKeyOrder);
 
         /// <summary>
         /// Gets the columns.
@@ -85,13 +80,7 @@ namespace Kros.KORM.Metadata
         /// <value>
         /// The columns.
         /// </value>
-        public IEnumerable<ColumnInfo> Columns
-        {
-            get
-            {
-                return _columns.Values;
-            }
-        }
+        public IEnumerable<ColumnInfo> Columns => _columns.Values;
 
         #endregion
 
@@ -108,10 +97,7 @@ namespace Kros.KORM.Metadata
         public ColumnInfo GetColumnInfo(string columnName)
         {
             Check.NotNull(columnName, nameof(columnName));
-
-            ColumnInfo column = null;
-
-            return (!_columns.TryGetValue(columnName, out column) ? null : column);
+            return _columns.TryGetValue(columnName, out ColumnInfo column) ? column : null;
         }
 
         /// <summary>
@@ -129,8 +115,8 @@ namespace Kros.KORM.Metadata
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns></returns>
-        public ColumnInfo GetColumnInfoByPropertyName(string propertyName) =>
-            (!_properties.Value.TryGetValue(propertyName, out ColumnInfo column) ? null : column);
+        public ColumnInfo GetColumnInfoByPropertyName(string propertyName)
+            => _properties.Value.TryGetValue(propertyName, out ColumnInfo column) ? column : null;
 
         #endregion
     }
