@@ -38,7 +38,7 @@ namespace Kros.KORM.Query.Sql
             }
             else
             {
-                _orderByString = CreateOrderByString(orderByExpression);
+                _orderByString = string.Format("{0} {1}", OrderByExpression.OrderByStatement, orderByExpression.OrderByPart);
                 return orderByExpression;
             }
         }
