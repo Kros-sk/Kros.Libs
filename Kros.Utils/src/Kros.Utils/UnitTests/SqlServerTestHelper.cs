@@ -175,7 +175,8 @@ namespace Kros.UnitTests
             {
                 InitialCatalog = databaseName,
                 Pooling = false,
-                PersistSecurityInfo = true
+                PersistSecurityInfo = true,
+                ConnectTimeout = 2
             };
 
             return new SqlConnection(builder.ToString());

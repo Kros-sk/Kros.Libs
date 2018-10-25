@@ -126,6 +126,15 @@
   <data name="CannotOpenConnectionWhenGeneratingPrimaryKeys" xml:space="preserve">
     <value>There was a failure to open the database connection at the time the primary keys are generated. Try add 'Persist Security Info=TRUE' to the connection string.</value>
   </data>
+  <data name="CompositePrimaryKeyCanNotHaveAutoIncrementColumn" xml:space="preserve">
+    <value>Primary key of the model is composite. All of its columns must have {0} set to {1}.</value>
+  </data>
+  <data name="CompositePrimaryKeyMustHaveOrderedColumns" xml:space="preserve">
+    <value>Primary key of the model is composite. All of its columns must have unique order.</value>
+  </data>
+  <data name="CompositePrimaryKeyMustHaveSameNameInAllColumns" xml:space="preserve">
+    <value>Primary key of the model is composite. The name of the key must be the same for all its columns.</value>
+  </data>
   <data name="ConstantIsNotSupported" xml:space="preserve">
     <value>The constant for '{0}' is not supported.</value>
   </data>

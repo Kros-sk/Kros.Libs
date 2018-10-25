@@ -36,6 +36,11 @@ namespace Kros.KORM.Metadata
         public bool IsPrimaryKey { get; set; }
 
         /// <summary>
+        /// Gets or sets the order of the column, if it is in composite primary key.
+        /// </summary>
+        public int PrimaryKeyOrder { get; set; }
+
+        /// <summary>
         /// Type of primary key auto increment method.
         /// </summary>
         public AutoIncrementMethodType AutoIncrementMethodType { get; set; } = AutoIncrementMethodType.None;
