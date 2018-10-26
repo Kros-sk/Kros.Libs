@@ -127,6 +127,7 @@ namespace Kros.KORM.Data
             {
                 _topTransaction = new Transaction(this, new ConnectionHelper(_connection), isolationLevel);
                 _transactions.Push(_topTransaction);
+                _canCommit = true;
             }
             else
             {
