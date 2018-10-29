@@ -57,7 +57,7 @@ namespace Kros.KORM.Query.Sql
             _skip = 0;
             _columnsPosition = 0;
             LinqParameters = new Parameters();
-            _orders = new List<OrderBy>();
+            Orders.Clear();
 
             Visit(expression);
 
@@ -69,6 +69,11 @@ namespace Kros.KORM.Query.Sql
 
             return new QueryInfo(SqlBuilder.ToString(), CreateQueryReader());
         }
+
+        /// <summary>
+        /// List of ORDER BY parts for the query.
+        /// </summary>
+        protected List<string> Orders { get; } = new List<string>();
 
         /// <summary>
         /// General builder for the SQL query.
@@ -97,7 +102,7 @@ namespace Kros.KORM.Query.Sql
 
         private void CheckSkip()
         {
-            if ((_skip > 0) && (_orders.Count == 0))
+            if ((_skip > 0) && (Orders.Count == 0))
             {
                 throw new InvalidOperationException(Resources.SkipWithoutOrderByInQuery);
             }
@@ -108,6 +113,27 @@ namespace Kros.KORM.Query.Sql
         /// </summary>
         /// <returns>Implementation of <see cref="IDataReaderEnvelope"/> or <see langword="null"/>.</returns>
         protected virtual IDataReaderEnvelope CreateQueryReader() => _skip > 0 ? new LimitOffsetDataReader(Top, Skip) : null;
+
+        /// <summary>
+        /// Adds ORDER BY clause to the query.
+        /// </summary>
+        protected virtual void AddOrderBy()
+        {
+            if (Orders.Count > 0)
+            {
+                SqlBuilder.Append(" ");
+                SqlBuilder.Append(CreateOrderByString());
+            }
+        }
+
+        /// <summary>
+        /// Creates ORDER BY string.
+        /// </summary>
+        /// <returns>String.</returns>
+        protected string CreateOrderByString()
+            => Orders.Count == 0
+            ? string.Empty
+            : OrderByExpression.OrderByStatement + " " + string.Join(", ", Orders.AsEnumerable().Reverse());
 
         /// <summary>
         /// Adds limit (Top) and offset (Skip) clauses to the query.
@@ -236,19 +262,9 @@ namespace Kros.KORM.Query.Sql
         /// </returns>
         public virtual Expression VisitOrderBy(OrderByExpression orderByExpression)
         {
-            SqlBuilder.Append(" ");
-            SqlBuilder.Append(CreateOrderByString(orderByExpression));
-
+            Orders.Add(orderByExpression.OrderByPart);
             return orderByExpression;
         }
-
-        /// <summary>
-        /// Creates an <c>ORDER BY</c> string for the SQL query.
-        /// </summary>
-        /// <param name="orderByExpression">Input expression.</param>
-        /// <returns>String.</returns>
-        protected string CreateOrderByString(OrderByExpression orderByExpression)
-            => string.Format("{0} {1}", OrderByExpression.OrderByStatement, orderByExpression.OrderByPart);
 
         #region LINQ
 
@@ -572,30 +588,12 @@ namespace Kros.KORM.Query.Sql
             Descending
         }
 
-        /// <summary>
-        /// Class which has information about order statement.
-        /// </summary>
-        protected class OrderBy
-        {
-            /// <summary>
-            /// Gets or sets the name of the columna.
-            /// </summary>
-            public string ColumnaName { get; set; }
-
-            /// <summary>
-            /// Gets or sets the type.
-            /// </summary>
-            public OrderType Type { get; set; }
-        }
-
-        private List<OrderBy> _orders;
-
         private Expression VisitOrderBy(MethodCallExpression expression, OrderType orderType)
         {
             var lambda = (LambdaExpression)StripQuotes(expression.Arguments[1]);
 
             var ret = Visit(lambda);
-            _orders.Add(new OrderBy() { ColumnaName = LinqStringBuilder.ToString(), Type = orderType });
+            Orders.Add(LinqStringBuilder.ToString() + " " + (orderType == OrderType.Ascending ? "ASC" : "DESC"));
             LinqStringBuilder.Clear();
 
             return ret;
@@ -1002,19 +1000,6 @@ namespace Kros.KORM.Query.Sql
             /// Clears this instance.
             /// </summary>
             public void Clear() => _params.Clear();
-        }
-
-        private void AddOrderBy()
-        {
-            if (_orders.Count > 0)
-            {
-                string TypeToString(OrderType type) => type == OrderType.Ascending ? "ASC" : "DESC";
-
-                VisitOrderBy(
-                    new OrderByExpression(
-                        string.Join(", ", _orders.AsEnumerable<OrderBy>().Reverse()
-                            .Select(p => $"{p.ColumnaName} {TypeToString(p.Type)}"))));
-            }
         }
 
         #endregion

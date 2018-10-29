@@ -12,6 +12,18 @@ namespace Kros.KORM.MsAccess.UnitTests.Query.Sql
 {
     public class LinqFunctionTranslatorShould : LinqTranslatorTestBase
     {
+        #region nested Types
+
+        [Alias("People")]
+        public new class Person
+        {
+            public int Id { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+        }
+
+        #endregion
+
         /// <summary>
         /// Create visitor for translate query to SQL.
         /// </summary>
@@ -28,7 +40,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Query.Sql
             AreSame(
                 query,
                 new QueryInfo(
-                    "SELECT Id, FirstName FROM People ORDER BY Id ASC",
+                    "SELECT Id, FirstName, LastName FROM People ORDER BY Id ASC",
                     new LimitOffsetDataReader(0, 10)),
                 null);
         }
@@ -44,7 +56,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Query.Sql
             AreSame(
                 query,
                 new QueryInfo(
-                    "SELECT Id, FirstName FROM People ORDER BY Id ASC",
+                    "SELECT Id, FirstName, LastName FROM People ORDER BY Id ASC",
                     new LimitOffsetDataReader(5, 10)),
                 null);
         }
@@ -60,7 +72,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Query.Sql
             AreSame(
                 query,
                 new QueryInfo(
-                    "SELECT Id, FirstName FROM People WHERE ((Id = @1)) ORDER BY Id ASC",
+                    "SELECT Id, FirstName, LastName FROM People WHERE ((Id = @1)) ORDER BY Id ASC",
                     new LimitOffsetDataReader(0, 10)),
                 5);
         }
@@ -77,7 +89,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Query.Sql
             AreSame(
                 query,
                 new QueryInfo(
-                    "SELECT Id, FirstName FROM People WHERE ((Id = @1)) ORDER BY Id ASC",
+                    "SELECT Id, FirstName, LastName FROM People WHERE ((Id = @1)) ORDER BY Id ASC",
                     new LimitOffsetDataReader(5, 10)),
                 5);
         }
@@ -95,7 +107,7 @@ namespace Kros.KORM.MsAccess.UnitTests.Query.Sql
             AreSame(
                 query,
                 new QueryInfo(
-                    "SELECT Id, FirstName FROM People WHERE ((Id > @1)) ORDER BY Id ASC, FirstName DESC",
+                    "SELECT Id, FirstName, LastName FROM People WHERE ((Id > @1)) ORDER BY Id ASC, FirstName DESC",
                     new LimitOffsetDataReader(5, 10)),
                 5);
         }
@@ -140,11 +152,29 @@ namespace Kros.KORM.MsAccess.UnitTests.Query.Sql
                             @"SELECT TOP 1 IIF(EXISTS(SELECT '' FROM People WHERE ((Id > @1))), 1, 0) FROM People", 5);
         }
 
-        [Alias("People")]
-        public new class Person
+        [Fact]
+        public void CreateCorrectOrderByIfItIsSpecifiedByStringAndAlsoByExpression()
         {
-            public int Id { get; set; }
-            public string FirstName { get; set; }
+            var query = Query<Person>()
+                .OrderBy("Id DESC")
+                .OrderByDescending(p => p.FirstName)
+                .OrderBy(p => p.LastName);
+
+            AreSame(
+                query,
+                "SELECT Id, FirstName, LastName FROM People ORDER BY Id DESC, FirstName DESC, LastName ASC");
+        }
+
+        [Fact]
+        public void NotThrowWhenUsedSkipWithStringOrderBy()
+        {
+            var visitor = CreateVisitor();
+            var query = Query<Person>()
+                .OrderBy("Id DESC")
+                .Skip(10);
+            Action action = () => visitor.GenerateSql(query.Expression);
+
+            action.Should().NotThrow();
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System.Linq.Expressions;
-using Kros.KORM.Metadata;
+﻿using Kros.KORM.Metadata;
 using Kros.KORM.Query.Expressions;
 using Kros.KORM.Query.Providers;
+using System.Linq.Expressions;
 
 namespace Kros.KORM.Query.Sql
 {
@@ -18,8 +18,6 @@ namespace Kros.KORM.Query.Sql
         private const string CteQueryLimitOffset =
             "WITH Results_CTE AS ({0}) SELECT * FROM Results_CTE WHERE __RowNum__ > {1} AND __RowNum__ <= {2}";
 
-        private string _orderByString;
-
         /// <summary>
         /// Creates an instance of the generator with specified database mapper <paramref name="databaseMapper"/>.
         /// </summary>
@@ -29,17 +27,11 @@ namespace Kros.KORM.Query.Sql
         }
 
         /// <inheritdoc/>
-        public override Expression VisitOrderBy(OrderByExpression orderByExpression)
+        protected override void AddOrderBy()
         {
             if (Skip == 0)
             {
-                _orderByString = string.Empty;
-                return base.VisitOrderBy(orderByExpression);
-            }
-            else
-            {
-                _orderByString = CreateOrderByString(orderByExpression);
-                return orderByExpression;
+                base.AddOrderBy();
             }
         }
 
@@ -52,9 +44,9 @@ namespace Kros.KORM.Query.Sql
             }
             else
             {
-                if (!string.IsNullOrEmpty(_orderByString))
+                if (Orders.Count > 0)
                 {
-                    SqlBuilder.Insert(ColumnsPosition, $", ROW_NUMBER() OVER({_orderByString}) AS __RowNum__");
+                    SqlBuilder.Insert(ColumnsPosition, $", ROW_NUMBER() OVER({CreateOrderByString()}) AS __RowNum__");
                 }
                 string baseSql = SqlBuilder.ToString();
                 SqlBuilder.Clear();

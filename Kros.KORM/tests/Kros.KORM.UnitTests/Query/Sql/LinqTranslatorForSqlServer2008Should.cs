@@ -107,6 +107,31 @@ namespace Kros.KORM.UnitTests.Query.Sql
             AreSame(query, new QueryInfo(expectedQuery, null), 5);
         }
 
+        [Fact]
+        public void CreateCorrectOrderByIfItIsSpecifiedByStringAndAlsoByExpression()
+        {
+            var query = Query<Person>()
+                .OrderBy("Id DESC")
+                .OrderByDescending(p => p.FirstName)
+                .OrderBy(p => p.LastName);
+
+            AreSame(
+                query,
+                "SELECT Id, FirstName, LastName, PostAddress FROM People ORDER BY Id DESC, FirstName DESC, LastName ASC");
+        }
+
+        [Fact]
+        public void NotThrowWhenUsedSkipWithStringOrderBy()
+        {
+            var visitor = CreateVisitor();
+            var query = Query<Person>()
+                .OrderBy("Id DESC")
+                .Skip(10);
+            Action action = () => visitor.GenerateSql(query.Expression);
+
+            action.Should().NotThrow();
+        }
+
         #endregion
 
         #region Helpers
