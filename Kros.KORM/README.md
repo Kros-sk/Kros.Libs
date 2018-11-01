@@ -72,7 +72,7 @@ foreach (var person in people)
 }
 ```
 
-Supported Linq methods are ```Where, FirstOrDefault, Take, Sum, Max, Min, OrderBy, OrderByDescending, ThenBy, ThenByDescending, Count, Any.```
+Supported Linq methods are ```Where, FirstOrDefault, Take, Sum, Max, Min, OrderBy, OrderByDescending, ThenBy, ThenByDescending, Count, Any, Skip.```
 
 Other methods, such as ```Select, GroupBy, Join``` are not supported at this moment because of their complexity.
 
