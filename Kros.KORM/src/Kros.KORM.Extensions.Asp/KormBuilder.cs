@@ -10,7 +10,6 @@ namespace Kros.KORM.Extensions.Asp
     /// </summary>
     public class KormBuilder
     {
-
         private ConnectionStringSettings _connectionString;
 
         /// <summary>
