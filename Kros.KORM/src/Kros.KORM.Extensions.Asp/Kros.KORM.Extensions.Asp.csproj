@@ -9,11 +9,21 @@
     <Description>This package contains extensios for project Kros.KORM for AspNet Core projects.</Description>
     <Copyright>Copyright © KROS a.s.</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <RootNamespace>Kros.KORM.Extensions.Asp</RootNamespace>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
-    <Product>Kros.KORM.Extensions.Asp</Product>
+    <RootNamespace>Kros.KORM.Extensions.Asp</RootNamespace>    <Product>Kros.KORM.Extensions.Asp</Product>
     <AssemblyName>Kros.KORM.Extensions.Asp</AssemblyName>
     <DocumentationFile>bin\Release\Kros.KORM.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Kros.KORM.Extensions.Asp</PackageId>
+    <PackageProjectUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.KORM/README.md#asp.net-core-extensions</PackageProjectUrl>
+    <PackageTags>
+      Kros;KORM;Asp.Net Core;Kros.KORM
+    </PackageTags>
+    <PackageLicenseUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://en.gravatar.com/userimage/137934964/524e95fbd8c2e8779e02819ab6902bef.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Kros-sk/Kros.Libs</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
