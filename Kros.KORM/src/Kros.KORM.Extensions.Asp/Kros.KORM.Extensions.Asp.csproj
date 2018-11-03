@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Company>KROS a.s.</Company>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>KROS a.s.</Authors>
     <Title>Kros.KORM</Title>
     <Description>This package contains extensios for project Kros.KORM for AspNet Core projects.</Description>
