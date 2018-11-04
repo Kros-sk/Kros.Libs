@@ -16,6 +16,7 @@ Kros.KORM is available from:
 
 * Nuget [__Kros.KORM__](https://www.nuget.org/packages/Kros.KORM/)
 * Nuget [__Kros.KORM.MsAccess__](https://www.nuget.org/packages/Kros.KORM.MsAccess/)
+* Nuget [__Kros.KORM.Extensions.Asp__](https://www.nuget.org/packages/Kros.KORM.Extensions.Asp/)
 
 ## This topic contains following sections
 
@@ -31,6 +32,7 @@ Kros.KORM is available from:
 * [SQL commands executing](#sql-commands-executing)
 * [Logging](#logging)
 * [Supported database types](#supported-database-types)
+* [ASP.NET Core extensions](#asp.net-core-extensions)
 * [Unit and performance tests](#unit-and-performance-tests)
 
 ### Query
@@ -614,6 +616,36 @@ public class CustomQueryProviderFactory : IQueryProviderFactory
     {
         QueryProviderFactories.Register<CustomConnection>("System.Data.CustomDb", new CustomQueryProviderFactory());
     }
+}
+```
+
+### ASP.NET Core extensions
+For simple integration into ASP.NET Core projects, the [__Kros.KORM.Extensions.Asp__](https://www.nuget.org/packages/Kros.KORM.Extensions.Asp/) package was created.
+
+You can use the `AddKorm` extension method to register `IDatabase` to the DI container.
+
+```
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddKorm(Configuration);
+}
+```
+
+The configuration file *(typically `appsettings.json`)* must contain a section `ConnectionString`.
+```
+  "ConnectionString": {
+    "ProviderName": "System.Data.SqlClient",
+    "ConnectionString": "Server=servername\\instancename;Initial Catalog=database;Persist Security Info=False;"
+  }
+```
+
+If you need to initialize the database for [IIdGenerator](https://kros-sk.github.io/Kros.Libs.Documentation/api/Kros.Utils/Kros.Data.IIdGenerator.html) then you can call `InitDatabaseForIdGenerator`.
+
+```
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddKorm(Configuration)
+        .InitDatabaseForIdGenerator();
 }
 ```
 

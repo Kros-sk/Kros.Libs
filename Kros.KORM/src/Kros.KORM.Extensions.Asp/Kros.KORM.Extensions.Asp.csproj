@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Company>KROS a.s.</Company>
+    <Version>0.2.0</Version>
+    <Authors>KROS a.s.</Authors>
+    <Title>Kros.KORM</Title>
+    <Description>This package contains extensios for project Kros.KORM for AspNet Core projects.</Description>
+    <Copyright>Copyright © KROS a.s.</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RootNamespace>Kros.KORM.Extensions.Asp</RootNamespace>    <Product>Kros.KORM.Extensions.Asp</Product>
+    <AssemblyName>Kros.KORM.Extensions.Asp</AssemblyName>
+    <DocumentationFile>bin\Release\Kros.KORM.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Kros.KORM.Extensions.Asp</PackageId>
+    <PackageProjectUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.KORM/README.md#asp.net-core-extensions</PackageProjectUrl>
+    <PackageTags>
+      Kros;KORM;Asp.Net Core;Kros.KORM
+    </PackageTags>
+    <PackageLicenseUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://en.gravatar.com/userimage/137934964/524e95fbd8c2e8779e02819ab6902bef.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Kros-sk/Kros.Libs</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kros.KORM\Kros.KORM.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
