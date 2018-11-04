@@ -38,7 +38,7 @@ namespace Kros.KORM.Extensions.Asp
         /// </list>
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If <paramref name="services"/> or <paramref name="configuration"/> is null;
+        /// If <paramref name="services"/> or <paramref name="configuration"/> is <see langword="null"/>;
         /// </exception>
         public static KormBuilder AddKorm(this IServiceCollection services, IConfiguration configuration)
         {
