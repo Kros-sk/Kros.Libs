@@ -11,7 +11,7 @@ namespace Kros.KORM.Extensions.Asp
     /// Extensions for registering <see cref="IDatabase"/> into DI container.
     /// </summary>
     /// <example>
-    ///"ConnectionString": {
+    /// "ConnectionString": {
     ///   "ProviderName": "System.Data.SqlClient",
     ///   "ConnectionString": "Server=servername\\instancename;Initial Catalog=database;Persist Security Info=False;"
     /// }
@@ -37,8 +37,16 @@ namespace Kros.KORM.Extensions.Asp
         /// </item>
         /// </list>
         /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="services"/> or <paramref name="configuration"/> is null;
+        /// </exception>
         public static KormBuilder AddKorm(this IServiceCollection services, IConfiguration configuration)
-            => AddKorm(services, configuration.GetSection(ConnectionStringSectionName));
+        {
+            Check.NotNull(configuration, nameof(configuration));
+            Check.NotNull(services, nameof(services));
+
+            return AddKorm(services, configuration.GetSection(ConnectionStringSectionName));
+        }
 
         /// <summary>
         /// Register KORM into DI container.
@@ -49,13 +57,16 @@ namespace Kros.KORM.Extensions.Asp
         /// <exception cref="InvalidOperationException">
         /// <list type="bullet">
         /// <item>
-        /// If 'ConnectionString' section is missing in configuration file.
+        /// If <paramref name="configurationSection"/> doesn't exist in configuration file.
         /// </item>
         /// <item>
         /// If <see cref="ConnectionStringSettings.ConnectionString"/> or
         /// <see cref="ConnectionStringSettings.ProviderName"/> are not filled.
         /// </item>
         /// </list>
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When <paramref name="services"/> or <paramref name="configurationSection"/> is null;
         /// </exception>
         public static KormBuilder AddKorm(this IServiceCollection services, IConfigurationSection configurationSection)
         {

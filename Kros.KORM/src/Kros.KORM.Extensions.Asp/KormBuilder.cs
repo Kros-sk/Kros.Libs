@@ -6,7 +6,7 @@ using System.Configuration;
 namespace Kros.KORM.Extensions.Asp
 {
     /// <summary>
-    /// Builder for initialization <see cref="IDatabase"/>.
+    /// Builder for initialization of <see cref="IDatabase"/>.
     /// </summary>
     public class KormBuilder
     {
