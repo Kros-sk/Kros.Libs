@@ -32,7 +32,7 @@ Kros.KORM is available from:
 * [SQL commands executing](#sql-commands-executing)
 * [Logging](#logging)
 * [Supported database types](#supported-database-types)
-* [ASP.NET Core extensions](#asp.net-core-extensions)
+* [ASP.NET Core extensions](#aspnet-core-extensions)
 * [Unit and performance tests](#unit-and-performance-tests)
 
 ### Query
