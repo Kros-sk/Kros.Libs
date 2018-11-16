@@ -40,6 +40,13 @@ namespace Kros.Net
         }
 
         /// <inheritdoc cref="NetworkChecker(Uri, Uri, TimeSpan, TimeSpan)"/>
+        public NetworkChecker(Uri serviceAddress, IHttpMessageHandlerFacotry httpMessageHandlerFactory)
+            : this(serviceAddress, null, DefaultRequestTimeout, DefaultResponseCacheExpiration)
+        {
+            HttpMessageHandlerFactory = Check.NotNull(httpMessageHandlerFactory, nameof(httpMessageHandlerFactory));
+        }
+
+        /// <inheritdoc cref="NetworkChecker(Uri, Uri, TimeSpan, TimeSpan)"/>
         public NetworkChecker(Uri serviceAddress, TimeSpan requestTimeout, TimeSpan responseCacheExpiration)
             : this(serviceAddress, null, requestTimeout, responseCacheExpiration)
         {
@@ -83,6 +90,11 @@ namespace Kros.Net
         /// Address of a proxy server.
         /// </summary>
         public Uri ProxyAddress { get; }
+
+        /// <summary>
+        /// Factory to create <see cref="HttpMessageHandler"/>.
+        /// </summary>
+        public IHttpMessageHandlerFacotry HttpMessageHandlerFactory { get; }
 
         /// <summary>
         /// Maximum time for waiting for the response from server. If the response will not
@@ -130,12 +142,19 @@ namespace Kros.Net
 
         internal virtual HttpMessageHandler CreateMessageHandler()
         {
-            var handler = new HttpClientHandler();
-            if (ProxyAddress != null)
+            if (HttpMessageHandlerFactory != null)
             {
-                handler.Proxy = new WebProxy(ProxyAddress);
+                return HttpMessageHandlerFactory.CreateHttpMessageHandler();
             }
-            return handler;
+            else
+            {
+                var handler = new HttpClientHandler();
+                if (ProxyAddress != null)
+                {
+                    handler.Proxy = new WebProxy(ProxyAddress);
+                }
+                return handler;
+            }
         }
 
         #endregion
