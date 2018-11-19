@@ -22,6 +22,7 @@ namespace Kros.Net
         private static readonly TimeSpan DefaultRequestTimeout = TimeSpan.FromSeconds(1);
         private static readonly TimeSpan DefaultResponseCacheExpiration = TimeSpan.FromMinutes(3);
         private DateTime _lastSuccessResponseTime;
+        private readonly Func<HttpMessageHandler> _httpMessageHandlerFactory;
 
         #endregion
 
@@ -40,10 +41,10 @@ namespace Kros.Net
         }
 
         /// <inheritdoc cref="NetworkChecker(Uri, Uri, TimeSpan, TimeSpan)"/>
-        public NetworkChecker(Uri serviceAddress, IHttpMessageHandlerFacotry httpMessageHandlerFactory)
+        public NetworkChecker(Uri serviceAddress, Func<HttpMessageHandler> httpMessageHandlerFactory)
             : this(serviceAddress, null, DefaultRequestTimeout, DefaultResponseCacheExpiration)
         {
-            HttpMessageHandlerFactory = Check.NotNull(httpMessageHandlerFactory, nameof(httpMessageHandlerFactory));
+            _httpMessageHandlerFactory = Check.NotNull(httpMessageHandlerFactory, nameof(httpMessageHandlerFactory));
         }
 
         /// <inheritdoc cref="NetworkChecker(Uri, Uri, TimeSpan, TimeSpan)"/>
@@ -92,11 +93,6 @@ namespace Kros.Net
         public Uri ProxyAddress { get; }
 
         /// <summary>
-        /// Factory to create <see cref="HttpMessageHandler"/>.
-        /// </summary>
-        public IHttpMessageHandlerFacotry HttpMessageHandlerFactory { get; }
-
-        /// <summary>
         /// Maximum time for waiting for the response from server. If the response will not
         /// came in this time, we consider that the internet is not available. Default timeout is 1 second.
         /// </summary>
@@ -142,9 +138,9 @@ namespace Kros.Net
 
         internal virtual HttpMessageHandler CreateMessageHandler()
         {
-            if (HttpMessageHandlerFactory != null)
+            if (_httpMessageHandlerFactory != null)
             {
-                return HttpMessageHandlerFactory.CreateHttpMessageHandler();
+                return _httpMessageHandlerFactory();
             }
             else
             {
