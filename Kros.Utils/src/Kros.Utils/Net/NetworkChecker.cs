@@ -22,6 +22,7 @@ namespace Kros.Net
         private static readonly TimeSpan DefaultRequestTimeout = TimeSpan.FromSeconds(1);
         private static readonly TimeSpan DefaultResponseCacheExpiration = TimeSpan.FromMinutes(3);
         private DateTime _lastSuccessResponseTime;
+        private readonly Func<HttpMessageHandler> _httpMessageHandlerFactory;
 
         #endregion
 
@@ -37,6 +38,19 @@ namespace Kros.Net
         public NetworkChecker(Uri serviceAddress, Uri proxyAddress)
             : this(serviceAddress, proxyAddress, DefaultRequestTimeout, DefaultResponseCacheExpiration)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NetworkChecker"/> class.
+        /// </summary>
+        /// <param name="serviceAddress">The address for requests checking internet availability. It must be <c>http</c>
+        /// or <c>https</c> address.</param>
+        /// <param name="httpMessageHandlerFactory">Factory function to create <see cref="HttpMessageHandler"/>
+        /// which will be used.</param>
+        public NetworkChecker(Uri serviceAddress, Func<HttpMessageHandler> httpMessageHandlerFactory)
+            : this(serviceAddress, null, DefaultRequestTimeout, DefaultResponseCacheExpiration)
+        {
+            _httpMessageHandlerFactory = Check.NotNull(httpMessageHandlerFactory, nameof(httpMessageHandlerFactory));
         }
 
         /// <inheritdoc cref="NetworkChecker(Uri, Uri, TimeSpan, TimeSpan)"/>
@@ -130,12 +144,19 @@ namespace Kros.Net
 
         internal virtual HttpMessageHandler CreateMessageHandler()
         {
-            var handler = new HttpClientHandler();
-            if (ProxyAddress != null)
+            if (_httpMessageHandlerFactory != null)
             {
-                handler.Proxy = new WebProxy(ProxyAddress);
+                return _httpMessageHandlerFactory();
             }
-            return handler;
+            else
+            {
+                var handler = new HttpClientHandler();
+                if (ProxyAddress != null)
+                {
+                    handler.Proxy = new WebProxy(ProxyAddress);
+                }
+                return handler;
+            }
         }
 
         #endregion
