@@ -40,7 +40,6 @@ namespace Kros.Net
         {
         }
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="NetworkChecker"/> class.
         /// </summary>
