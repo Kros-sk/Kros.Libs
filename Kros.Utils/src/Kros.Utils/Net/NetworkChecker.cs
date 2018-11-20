@@ -40,7 +40,14 @@ namespace Kros.Net
         {
         }
 
-        /// <inheritdoc cref="NetworkChecker(Uri, Uri, TimeSpan, TimeSpan)"/>
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NetworkChecker"/> class.
+        /// </summary>
+        /// <param name="serviceAddress">The address for requests checking internet availability. It must be <c>http</c>
+        /// or <c>https</c> address.</param>
+        /// <param name="httpMessageHandlerFactory">Factory function to create <see cref="HttpMessageHandler"/>
+        /// which will be used.</param>
         public NetworkChecker(Uri serviceAddress, Func<HttpMessageHandler> httpMessageHandlerFactory)
             : this(serviceAddress, null, DefaultRequestTimeout, DefaultResponseCacheExpiration)
         {
