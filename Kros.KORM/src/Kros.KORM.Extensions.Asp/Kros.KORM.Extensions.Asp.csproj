@@ -20,7 +20,7 @@
     <PackageTags>
       Kros;KORM;Asp.Net Core;Kros.KORM
     </PackageTags>
-    <PackageLicenseUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://en.gravatar.com/userimage/137934964/524e95fbd8c2e8779e02819ab6902bef.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/Kros-sk/Kros.Libs</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

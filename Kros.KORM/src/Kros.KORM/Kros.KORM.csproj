@@ -22,7 +22,7 @@
     <PackageProjectUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/README.md</PackageProjectUrl>
     <PackageTags>Kros;KORM;ORM;Database;DAL;SQL;Database;MSSQL;Data;BulkInsert;BulkOperation;BulkCopy;
     BulkUpdate;Bulk Insert;Bulk Update</PackageTags>
-    <PackageLicenseUrl>https://github.com/Kros-sk/Kros.Libs/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://en.gravatar.com/userimage/137934964/524e95fbd8c2e8779e02819ab6902bef.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/Kros-sk/Kros.Libs</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
