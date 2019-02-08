@@ -204,7 +204,7 @@ namespace Kros.KORM
             => _queryProvider.ExecuteNonQuery(query, parameters);
 
         /// <inheritdoc/>
-        public async Task<int> ExecuteNonQueryAsync(string query) =>await  _queryProvider.ExecuteNonQueryAsync(query);
+        public async Task<int> ExecuteNonQueryAsync(string query) => await _queryProvider.ExecuteNonQueryAsync(query);
 
         /// <inheritdoc/>
         public async Task<int> ExecuteNonQueryAsync(string query, CommandParameterCollection parameters)
