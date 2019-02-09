@@ -304,28 +304,10 @@ namespace Kros.KORM.Query
             return await command.ExecuteNonQueryAsync();
         }
 
-        /// <summary>
-        /// Executes arbitrary query.
-        /// </summary>
-        /// <param name="query">Arbitrary SQL query. It should not be SELECT query.</param>
-        /// <returns>
-        /// Number of affected rows.
-        /// </returns>
-        public int ExecuteNonQuery(string query)
-        {
-            return ExecuteNonQuery(query, null);
-        }
+        /// <inheritdoc/>
+        public int ExecuteNonQuery(string query) => ExecuteNonQuery(query, null);
 
-        /// <summary>
-        /// Executes arbitrary query with parameters.
-        /// </summary>
-        /// <param name="query">Arbitrary SQL query. It should not be SELECT query.</param>
-        /// <param name="parameters">The query parameters.</param>
-        /// <returns>
-        /// Number of affected rows.
-        /// </returns>
-        /// <exception cref="ArgumentException">Value of any of the parameters is NULL and its data type
-        /// (<see cref="CommandParameter.DataType"/>) is not set.</exception>
+        /// <inheritdoc/>
         public int ExecuteNonQuery(string query, CommandParameterCollection parameters)
         {
             CheckCommandParameters(parameters);
@@ -333,15 +315,28 @@ namespace Kros.KORM.Query
             using (OpenConnection())
             using (DbCommand command = CreateCommand(query, parameters))
             {
-                return command.ExecuteNonQuery();
+                return ExecuteNonQueryCommand(command);
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<int> ExecuteNonQueryAsync(string query) => await ExecuteNonQueryAsync(query, null);
+
+        /// <inheritdoc/>
+        public async Task<int> ExecuteNonQueryAsync(string query, CommandParameterCollection parameters)
+        {
+            CheckCommandParameters(parameters);
+
+            using (OpenConnection())
+            using (DbCommand command = CreateCommand(query, parameters))
+            {
+                return await ExecuteNonQueryCommandAsync(command);
             }
         }
 
         /// <inheritdoc cref="IQueryProvider.ExecuteStoredProcedure{TResult}(string)"/>
         public TResult ExecuteStoredProcedure<TResult>(string storedProcedureName)
-        {
-            return ExecuteStoredProcedure<TResult>(storedProcedureName, null);
-        }
+            => ExecuteStoredProcedure<TResult>(storedProcedureName, null);
 
         /// <inheritdoc cref="IQueryProvider.ExecuteStoredProcedure{TResult}(string, CommandParameterCollection)"/>
         public TResult ExecuteStoredProcedure<TResult>(string storedProcedureName, CommandParameterCollection parameters)

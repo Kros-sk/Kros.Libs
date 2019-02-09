@@ -125,6 +125,27 @@ namespace Kros.KORM.Query
         int ExecuteNonQuery(string query, CommandParameterCollection parameters);
 
         /// <summary>
+        /// Asynchronously executes arbitrary query.
+        /// </summary>
+        /// <param name="query">Arbitrary SQL query. It should not be SELECT query.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// numbers of affected rows.
+        /// </returns>
+        Task<int> ExecuteNonQueryAsync(string query);
+
+        /// <summary>
+        /// Asynchronously executes arbitrary query with parameters.
+        /// </summary>
+        /// <param name="query">Arbitrary SQL query. It should not be SELECT query.</param>
+        /// <param name="parameters">The query parameters.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// numbers of affected rows.
+        /// </returns>
+        Task<int> ExecuteNonQueryAsync(string query, CommandParameterCollection parameters);
+
+        /// <summary>
         /// Executes the stored procedure with parameters and returns its result. The result can be scalar value
         /// (primitive or complex &#8211; class type), or a list of values
         /// (<see cref="IEnumerable{T}">IEnumerable&lt;T&gt;</see>).

@@ -241,6 +241,16 @@ namespace Kros.KORM.UnitTests.Query.Sql
                 throw new NotImplementedException();
             }
 
+            public Task<int> ExecuteNonQueryAsync(string query)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<int> ExecuteNonQueryAsync(string query, CommandParameterCollection parameters)
+            {
+                throw new NotImplementedException();
+            }
+
             public int ExecuteNonQueryCommand(IDbCommand command)
             {
                 throw new NotImplementedException();

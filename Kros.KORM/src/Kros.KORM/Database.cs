@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
+using System.Threading.Tasks;
 
 namespace Kros.KORM
 {
@@ -195,27 +196,19 @@ namespace Kros.KORM
         /// <typeparam name="T">Type of model, for which querying.</typeparam>
         public IQuery<T> Query<T>() => new Query<T>(_databaseMapper, _queryProvider);
 
-        /// <summary>
-        /// Executes arbitrary query.
-        /// </summary>
-        /// <param name="query">Arbitrary SQL query. It should not be SELECT query.</param>
-        /// <returns>
-        /// Number of affected rows.
-        /// </returns>
+        /// <inheritdoc/>
         public int ExecuteNonQuery(string query) => _queryProvider.ExecuteNonQuery(query);
 
-        /// <summary>
-        /// Executes arbitrary query with parameters.
-        /// </summary>
-        /// <param name="query">Arbitrary SQL query. It should not be SELECT query.</param>
-        /// <param name="parameters">The query parameters.</param>
-        /// <returns>
-        /// Number of affected rows.
-        /// </returns>
-        /// <exception cref="ArgumentException">Value of any of the parameters is NULL and its data type
-        /// (<see cref="CommandParameter.DataType"/>) is not set.</exception>
+        /// <inheritdoc/>
         public int ExecuteNonQuery(string query, CommandParameterCollection parameters)
             => _queryProvider.ExecuteNonQuery(query, parameters);
+
+        /// <inheritdoc/>
+        public async Task<int> ExecuteNonQueryAsync(string query) => await _queryProvider.ExecuteNonQueryAsync(query);
+
+        /// <inheritdoc/>
+        public async Task<int> ExecuteNonQueryAsync(string query, CommandParameterCollection parameters)
+            => await _queryProvider.ExecuteNonQueryAsync(query, parameters);
 
         /// <summary>
         /// Executes the query, and returns the first column of the first row in the result set returned by the query.

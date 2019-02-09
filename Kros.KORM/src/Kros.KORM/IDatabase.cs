@@ -5,6 +5,7 @@ using Kros.KORM.Query;
 using System;
 using System.Data;
 using System.Data.Common;
+using System.Threading.Tasks;
 
 namespace Kros.KORM
 {
@@ -85,6 +86,27 @@ namespace Kros.KORM
         /// Number of affected rows.
         /// </returns>
         int ExecuteNonQuery(string query, CommandParameterCollection parameters);
+
+        /// <summary>
+        /// Asynchronously executes arbitrary query.
+        /// </summary>
+        /// <param name="query">Arbitrary SQL query. It should not be SELECT query.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// numbers of affected rows.
+        /// </returns>
+        Task<int> ExecuteNonQueryAsync(string query);
+
+        /// <summary>
+        /// Asynchronously executes arbitrary query with parameters.
+        /// </summary>
+        /// <param name="query">Arbitrary SQL query. It should not be SELECT query.</param>
+        /// <param name="parameters">The query parameters.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the
+        /// numbers of affected rows.
+        /// </returns>
+        Task<int> ExecuteNonQueryAsync(string query, CommandParameterCollection parameters);
 
         /// <summary>
         /// Executes the query, and returns the first column of the first row in the result set returned by the query.

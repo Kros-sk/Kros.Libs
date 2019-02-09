@@ -356,6 +356,16 @@ namespace Kros.KORM.UnitTests
             }
 
             public bool SupportsPrepareCommand() => true;
+
+            public Task<int> ExecuteNonQueryAsync(string query)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<int> ExecuteNonQueryAsync(string query, CommandParameterCollection parameters)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         #endregion

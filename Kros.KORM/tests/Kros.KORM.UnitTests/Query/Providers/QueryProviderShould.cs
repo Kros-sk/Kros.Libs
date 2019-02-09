@@ -16,6 +16,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Kros.KORM.UnitTests.Query.Providers
@@ -270,6 +271,38 @@ END";
 
                 QueryProvider provider = CreateQueryProvider(helper.Connection);
                 int result = provider.ExecuteNonQuery(query);
+                result.Should().Be(3); // Deleted 3 rows.
+            }
+        }
+
+        [Fact]
+        public async Task ExecuteNonQueryCommandAsync()
+        {
+            using (SqlServerTestHelper helper = CreateHelper(CreateTable_TestTable))
+            {
+                var query = $"INSERT INTO {Table_TestTable} (Id, Number, Description) VALUES (@Id, @Number, @Description)";
+                var parameters = new CommandParameterCollection
+                {
+                    { "@Id", 6 },
+                    { "@Number", 666 },
+                    { "@Description", "Sed ac lobortis magna." }
+                };
+
+                QueryProvider provider = CreateQueryProvider(helper.Connection);
+                int result = await provider.ExecuteNonQueryAsync(query, parameters);
+                result.Should().Be(1); // Inserted 1 row.
+            }
+        }
+
+        [Fact]
+        public async Task ExecuteNonQueryCommandWithoutParametersAsync()
+        {
+            using (SqlServerTestHelper helper = CreateHelper(CreateTable_TestTable))
+            {
+                var query = $"DELETE FROM {Table_TestTable}";
+
+                QueryProvider provider = CreateQueryProvider(helper.Connection);
+                int result = await provider.ExecuteNonQueryAsync(query);
                 result.Should().Be(3); // Deleted 3 rows.
             }
         }
