@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Kros.Extensions
+namespace System.Linq
 {
     /// <summary>
     /// General extension methods for IEnumerable (<see cref="System.Collections.Generic.IEnumerable{T}" />).

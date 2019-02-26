@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using Kros.Extensions;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Kros.Utils.UnitTests.Extensions
