@@ -11,7 +11,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests
     public class KormBuilderShould : SqlServerDatabaseTestBase
     {
         protected override string BaseConnectionString
-            => "Server=(local)\\SQL2016; UID=sa;PWD=Password12!; Persist Security Info = 'TRUE'";
+            => IntegrationTestConfig.ConnectionString;
 
         [Fact]
         public void InitDatabaseForIdGenerator()

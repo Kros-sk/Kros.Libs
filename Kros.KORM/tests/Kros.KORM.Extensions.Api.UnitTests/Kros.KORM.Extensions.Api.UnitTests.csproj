@@ -9,6 +9,10 @@
   <ItemGroup>
     <None Remove="Resources\AnotherSqlScripts\20190227001_InitDatabase.sql" />
     <None Remove="Resources\AnotherSqlScripts\20190227002_AddProjectTable.sql" />
+    <None Remove="Resources\ScriptsForRunner\ExecuteInitialMigration\20190301001_AddPeopleTable.sql" />
+    <None Remove="Resources\ScriptsForRunner\MigrateToSpecificVersion\20190301001_AddPeopleTable.sql" />
+    <None Remove="Resources\ScriptsForRunner\MigrateToSpecificVersion\20190301002_AddProjectsTable.sql" />
+    <None Remove="Resources\ScriptsForRunner\MigrateToSpecificVersion\20190301003_AddContactsTable.sql" />
     <None Remove="Sql scripts\20190228001_InitDatabase.sql" />
     <None Remove="Sql scripts\20190301001_AddPeopleTable.sql" />
     <None Remove="Sql scripts\20190301002_AddProjectTable.sql" />
@@ -17,6 +21,16 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\AnotherSqlScripts\20190227001_InitDatabase.sql" />
     <EmbeddedResource Include="Resources\AnotherSqlScripts\20190227002_AddProjectTable.sql" />
+    <EmbeddedResource Include="Resources\ScriptsForRunner\ExecuteInitialMigration\20190301001_AddPeopleTable.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ScriptsForRunner\MigrateToSpecificVersion\20190301003_AddContactsTable.sql" />
+    <EmbeddedResource Include="Resources\ScriptsForRunner\MigrateToSpecificVersion\20190301002_AddProjectsTable.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ScriptsForRunner\MigrateToSpecificVersion\20190301001_AddPeopleTable.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Sql scripts\20190301002_AddProjectTable.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -46,6 +60,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\ScriptsForRunner\MigrateToSpecificVersion\20190301003_AddContactsTable.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="appsettings.missingsection.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
