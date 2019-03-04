@@ -25,7 +25,7 @@ namespace Kros.KORM.Migrations.Providers
         protected override string FolderFullPath => _folderPath;
 
         /// <inheritdoc/>
-        public override async Task<string> LoadScriptAsync(ScriptInfo scriptInfo)
+        public override async Task<string> GetScriptAsync(ScriptInfo scriptInfo)
             => await File.ReadAllTextAsync(scriptInfo.Path);
 
         /// <inheritdoc/>

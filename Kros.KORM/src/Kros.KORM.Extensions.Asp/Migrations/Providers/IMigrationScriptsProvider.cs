@@ -15,10 +15,10 @@ namespace Kros.KORM.Migrations.Providers
         IEnumerable<ScriptInfo> GetScripts();
 
         /// <summary>
-        /// Load script.
+        /// Get script content.
         /// </summary>
         /// <param name="scriptInfo">Script info.</param>
         /// <returns>Script content.</returns>
-        Task<string> LoadScriptAsync(ScriptInfo scriptInfo);
+        Task<string> GetScriptAsync(ScriptInfo scriptInfo);
     }
 }

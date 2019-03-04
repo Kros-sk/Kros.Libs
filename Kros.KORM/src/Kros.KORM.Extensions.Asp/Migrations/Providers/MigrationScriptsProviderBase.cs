@@ -30,7 +30,7 @@ namespace Kros.KORM.Migrations.Providers
                     var splits = r.Substring(startIndex + 1, r.Length - startIndex - extension.Length - 1)
                         .Split(idNameSeparator);
 
-                    return new ScriptInfo()
+                    return new ScriptInfo(this)
                     {
                         Id = long.Parse(splits[0]),
                         Name = splits[1],
@@ -47,6 +47,6 @@ namespace Kros.KORM.Migrations.Providers
         protected abstract IEnumerable<string> GetScriptPaths();
 
         /// <inheritdoc />
-        public abstract Task<string> LoadScriptAsync(ScriptInfo scriptInfo);
+        public abstract Task<string> GetScriptAsync(ScriptInfo scriptInfo);
     }
 }

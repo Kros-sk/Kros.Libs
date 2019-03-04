@@ -23,7 +23,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
             scripts.Count.Should().Be(3);
             scripts[0].Should()
                 .BeEquivalentTo(
-                new ScriptInfo()
+                new ScriptInfo(provider)
                 {
                     Id = 20190228001,
                     Name = "InitDatabase",
@@ -31,7 +31,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
                 });
             scripts[1].Should()
                 .BeEquivalentTo(
-                new ScriptInfo()
+                new ScriptInfo(provider)
                 {
                     Id = 20190301001,
                     Name = "AddPeopleTable",
@@ -39,7 +39,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
                 });
             scripts[2].Should()
                 .BeEquivalentTo(
-                new ScriptInfo()
+                new ScriptInfo(provider)
                 {
                     Id = 20190301002,
                     Name = "AddProjectTable",
@@ -61,7 +61,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
             scripts.Count.Should().Be(2);
             scripts[0].Should()
                 .BeEquivalentTo(
-                new ScriptInfo()
+                new ScriptInfo(provider)
                 {
                     Id = 20190227001,
                     Name = "InitDatabase",
@@ -69,7 +69,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
                 });
             scripts[1].Should()
                 .BeEquivalentTo(
-                new ScriptInfo()
+                new ScriptInfo(provider)
                 {
                     Id = 20190227002,
                     Name = "AddProjectTable",
@@ -81,7 +81,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
         public async Task LoadScript()
         {
             var provider = AssemblyMigrationScriptsProvider.Default();
-            var script = await provider.LoadScriptAsync(new ScriptInfo()
+            var script = await provider.GetScriptAsync(new ScriptInfo(provider)
             {
                 Id = 20190228001,
                 Name = "InitDatabase",

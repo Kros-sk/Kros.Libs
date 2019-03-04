@@ -37,33 +37,36 @@ namespace Kros.KORM.Migrations
             await InitMigrationsHistoryTable();
 
             var lastMigration = GetLastMigrationInfo() ?? new Migration() { MigrationId = 0 };
-            var migrationScripts = _migrationOptions.Providers.SelectMany(p => p.GetScripts().Select(s => new
-            {
-                Script = s,
-                Provider = p
-            }))
-            .OrderBy(p => p.Script.Id)
-            .Where(p => p.Script.Id > lastMigration.MigrationId)
-            .ToList();
+            var migrationScripts = GetMigrationScriptsToExecution(lastMigration).ToList();
 
             if (migrationScripts.Any())
             {
-                using (var transaction = _database.BeginTransaction())
-                {
-                    Migration newMigration = await CreateNewMigrationInfo(migrationScripts.Select(p => p.Script));
-
-                    foreach (var scriptInfo in migrationScripts)
-                    {
-                        var script = await scriptInfo.Provider.LoadScriptAsync(scriptInfo.Script);
-                        await ExecuteScript(script);
-                    }
-
-                    await UpdateLastMigrationInfo(newMigration);
-
-                    transaction.Commit();
-                }
+                await ExecuteMigrationScripts(migrationScripts);
             }
         }
+
+        private async Task ExecuteMigrationScripts(IEnumerable<ScriptInfo> migrationScripts)
+        {
+            using (var transaction = _database.BeginTransaction())
+            {
+                Migration newMigration = await CreateNewMigrationInfo(migrationScripts);
+
+                foreach (var scriptInfo in migrationScripts)
+                {
+                    var script = await scriptInfo.GetScriptAsync();
+                    await ExecuteMigrationScript(script);
+                }
+
+                await UpdateLastMigrationInfo(newMigration);
+
+                transaction.Commit();
+            }
+        }
+
+        private IEnumerable<ScriptInfo> GetMigrationScriptsToExecution(Migration lastMigration)
+            => _migrationOptions.Providers.SelectMany(p => p.GetScripts())
+            .OrderBy(p => p.Id)
+            .Where(p => p.Id > lastMigration.MigrationId);
 
         private async Task<Migration> CreateNewMigrationInfo(IEnumerable<ScriptInfo> migrationScripts)
         {
@@ -93,7 +96,7 @@ namespace Kros.KORM.Migrations
             await dbSet.CommitChangesAsync();
         }
 
-        private async Task ExecuteScript(string script)
+        private async Task ExecuteMigrationScript(string script)
         {
             Regex regex = new Regex("^GO", RegexOptions.IgnoreCase | RegexOptions.Multiline);
             string[] lines = regex.Split(script);
@@ -112,11 +115,11 @@ namespace Kros.KORM.Migrations
         private async Task InitMigrationsHistoryTable()
         {
             var sql = $"IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = '{Migration.TableName}' AND type = 'U')" +
-                    Environment.NewLine + GetSqlIdGeneratorTableScript();
+                    Environment.NewLine + GetMigrationHistoryTableScript();
             await _database.ExecuteNonQueryAsync(sql);
         }
 
-        private string GetSqlIdGeneratorTableScript() =>
+        private string GetMigrationHistoryTableScript() =>
             GetResourceContent("Kros.KORM.Extensions.Asp.Resources.MigrationsHistoryTableScript.sql");
 
         private static string GetResourceContent(string resourceName)

@@ -42,7 +42,7 @@ namespace Kros.KORM.Migrations.Providers
         }
 
         /// <inheritdoc/>
-        public override async Task<string> LoadScriptAsync(ScriptInfo scriptInfo)
+        public override async Task<string> GetScriptAsync(ScriptInfo scriptInfo)
         {
             var resourceStream = _assembly.GetManifestResourceStream(scriptInfo.Path);
             using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
