@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Reflection;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Kros.KORM.Extensions.Api.UnitTests.Migrations
@@ -38,44 +39,44 @@ $@"CREATE TABLE [dbo].[People](
 ) ON [PRIMARY]
 ";
         private static string InsertIntoMigrationHistory =
-$@"INSERT INTO __KormMigrationsHistory VALUES (20190301001, 'InitDatabase', 'FromUnitTests', '20190301')";
+$@"INSERT INTO __KormMigrationsHistory VALUES (20190228001, 'Old', 'FromUnitTests', '20190228')
+INSERT INTO __KormMigrationsHistory VALUES (20190228002, 'Old', 'FromUnitTests', '20190228')
+INSERT INTO __KormMigrationsHistory VALUES (20190301001, 'InitDatabase', 'FromUnitTests', '20190301')";
 
         #endregion
 
         protected override string BaseConnectionString
             => IntegrationTestConfig.ConnectionString;
 
-        [Theory()]
-        [InlineData(null, "__KormMigrationsHistory")]
-        [InlineData("__myTableName", "__myTableName")]
-        public void ExecuteInitialMigration(string historyTableName, string expectedHistoryTableName)
+        [Fact]
+        public async Task ExecuteInitialMigration()
         {
-            using (var helper = CreateHelper(nameof(ExecuteInitialMigration), historyTableName))
+            using (var helper = CreateHelper(nameof(ExecuteInitialMigration)))
             {
-                helper.Runner.Migrate();
+                await helper.Runner.MigrateAsync();
 
-                TableShouldExist(expectedHistoryTableName);
+                TableShouldExist("__KormMigrationsHistory");
                 TableShouldExist("People");
 
-                DatabaseVersionShouldBe(20190301001, expectedHistoryTableName);
+                DatabaseVersionShouldBe(20190301001);
             }
         }
 
         [Fact]
-        public void MigrateToLastVersion()
+        public async Task MigrateToLastVersion()
         {
             using (var helper = CreateHelper(nameof(MigrateToLastVersion)))
             {
                 InitDatabase();
 
-                helper.Runner.Migrate();
+                await helper.Runner.MigrateAsync();
 
                 TableShouldExist("People");
                 TableShouldExist("Projects");
                 TableShouldExist("ProjectDetails");
                 TableShouldExist("Contacts");
 
-                DatabaseVersionShouldBe(2019030103);
+                DatabaseVersionShouldBe(20190301003);
             }
         }
 
@@ -113,33 +114,29 @@ $@"INSERT INTO __KormMigrationsHistory VALUES (20190301001, 'InitDatabase', 'Fro
             }
         }
 
-        private void DatabaseVersionShouldBe(long databaseVersion, string historyTableName = "__KormMigrationsHistory")
+        private void DatabaseVersionShouldBe(long databaseVersion)
         {
             ExecuteCommand((cmd) =>
             {
-                cmd.CommandText = $"SELECT TOP 1 MigrationId FROM {historyTableName} ORDER BY MigrationId";
+                cmd.CommandText = $"SELECT TOP 1 MigrationId FROM __KormMigrationsHistory ORDER BY MigrationId DESC";
                 ((long)cmd.ExecuteScalar())
                     .Should().Be(databaseVersion);
             });
         }
 
-        private Helper CreateHelper(string folderName, string historyTableName = null)
+        private Helper CreateHelper(string folderName)
         {
-            return new Helper(new Database(ServerHelper.Connection), folderName, historyTableName);
+            return new Helper(new Database(ServerHelper.Connection), folderName);
         }
 
         private class Helper : IDisposable
         {
             private IDatabase _database;
 
-            public Helper(Database database, string folderName, string historyTableName = null)
+            public Helper(Database database, string folderName)
             {
                 _database = database;
                 var options = new MigrationOptions();
-                if (historyTableName != null)
-                {
-                    options.HistoryTableName = historyTableName;
-                }
 
                 options.AddAssemblyScriptsProvider(
                     Assembly.GetExecutingAssembly(),

@@ -1,4 +1,6 @@
-﻿namespace Kros.KORM.Migrations
+﻿using System.Threading.Tasks;
+
+namespace Kros.KORM.Migrations
 {
     /// <summary>
     /// Interface which describe class for execution database migrations.
@@ -8,6 +10,6 @@
         /// <summary>
         /// Execute database migrations
         /// </summary>
-        void Migrate();
+        Task MigrateAsync();
     }
 }

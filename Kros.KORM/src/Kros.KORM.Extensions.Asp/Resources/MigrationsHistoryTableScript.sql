@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[#TABLENAME#](
+﻿CREATE TABLE [dbo].[__KormMigrationsHistory](
     [MigrationId] [bigint] NOT NULL,
     [MigrationName] [nvarchar](255) NOT NULL,
     [ProductInfo] [nvarchar](255) NOT NULL,

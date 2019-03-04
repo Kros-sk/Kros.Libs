@@ -20,14 +20,9 @@ namespace Kros.KORM.Migrations
         }
 
         /// <summary>
-        /// Database table name with migrations history.
-        /// </summary>
-        public string HistoryTableName { get; set; } = "__KormMigrationsHistory";
-
-        /// <summary>
         /// List of <see cref="IMigrationScriptsProvider"/>.
         /// </summary>
-        public IEnumerable<IMigrationScriptsProvider> Providers { get; set; }
+        public IEnumerable<IMigrationScriptsProvider> Providers => _providers;
 
         /// <summary>
         /// Register new <see cref="IMigrationScriptsProvider"/>.
