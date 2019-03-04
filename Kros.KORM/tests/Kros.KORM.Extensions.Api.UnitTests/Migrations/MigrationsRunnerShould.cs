@@ -21,7 +21,7 @@ $@"CREATE TABLE [dbo].[__KormMigrationsHistory](
     [MigrationName] [nvarchar](255) NOT NULL,
     [ProductInfo] [nvarchar](255) NOT NULL,
     [Updated] [datetime2] NULL,
-    CONSTRAINT [PK_MigrationHistory] PRIMARY KEY CLUSTERED 
+    CONSTRAINT [PK_MigrationHistory] PRIMARY KEY CLUSTERED
     (
         [MigrationId] ASC
     )
@@ -45,17 +45,19 @@ $@"INSERT INTO __KormMigrationsHistory VALUES (20190301001, 'InitDatabase', 'Fro
         protected override string BaseConnectionString
             => IntegrationTestConfig.ConnectionString;
 
-        [Fact]
-        public void ExecuteInitialMigration()
+        [Theory()]
+        [InlineData(null, "__KormMigrationsHistory")]
+        [InlineData("__myTableName", "__myTableName")]
+        public void ExecuteInitialMigration(string historyTableName, string expectedHistoryTableName)
         {
-            using (var helper = CreateHelper(nameof(ExecuteInitialMigration)))
+            using (var helper = CreateHelper(nameof(ExecuteInitialMigration), historyTableName))
             {
                 helper.Runner.Migrate();
 
-                TableShouldExist("__KormMigrationsHistory");
+                TableShouldExist(expectedHistoryTableName);
                 TableShouldExist("People");
 
-                DatabaseVersionShouldBe(20190301001);
+                DatabaseVersionShouldBe(20190301001, expectedHistoryTableName);
             }
         }
 
@@ -111,29 +113,33 @@ $@"INSERT INTO __KormMigrationsHistory VALUES (20190301001, 'InitDatabase', 'Fro
             }
         }
 
-        private void DatabaseVersionShouldBe(long databaseVersion)
+        private void DatabaseVersionShouldBe(long databaseVersion, string historyTableName = "__KormMigrationsHistory")
         {
             ExecuteCommand((cmd) =>
             {
-                cmd.CommandText = $"SELECT TOP 1 MigrationId FROM __KormMigrationsHistory ORDER BY MigrationId";
+                cmd.CommandText = $"SELECT TOP 1 MigrationId FROM {historyTableName} ORDER BY MigrationId";
                 ((long)cmd.ExecuteScalar())
                     .Should().Be(databaseVersion);
             });
         }
 
-        private Helper CreateHelper(string folderName)
+        private Helper CreateHelper(string folderName, string historyTableName = null)
         {
-            return new Helper(new Database(ServerHelper.Connection), folderName);
+            return new Helper(new Database(ServerHelper.Connection), folderName, historyTableName);
         }
 
         private class Helper : IDisposable
         {
             private IDatabase _database;
 
-            public Helper(Database database, string folderName)
+            public Helper(Database database, string folderName, string historyTableName = null)
             {
                 _database = database;
                 var options = new MigrationOptions();
+                if (historyTableName != null)
+                {
+                    options.HistoryTableName = historyTableName;
+                }
 
                 options.AddAssemblyScriptsProvider(
                     Assembly.GetExecutingAssembly(),
