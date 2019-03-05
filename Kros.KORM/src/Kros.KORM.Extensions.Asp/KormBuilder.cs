@@ -65,15 +65,16 @@ namespace Kros.KORM.Extensions.Asp
             IConfiguration configuration,
             Action<MigrationOptions> setupAction = null)
         {
+            IConfigurationSection migrationsConfig = GetMigrationsSection(configuration);
+            _autoMigrate = migrationsConfig.GetSection(AutoMigrateSectionName).Get<bool>();
+
+            var connectionString = migrationsConfig
+                .GetSection(ConnectionStringSectionName).Get<ConnectionStringSettings>();
+
             Services
                 .AddMemoryCache()
                 .AddTransient((Func<IServiceProvider, IMigrationsRunner>)((s) =>
                 {
-                    IConfigurationSection migrationsConfig = GetMigrationsSection(configuration);
-                    _autoMigrate = migrationsConfig.GetSection(AutoMigrateSectionName).Get<bool>();
-
-                    var connectionString = migrationsConfig
-                        .GetSection(ConnectionStringSectionName).Get<ConnectionStringSettings>();
                     var database = new Database(connectionString);
 
                     MigrationOptions options = SetupMigrationOptions(setupAction);
