@@ -1,4 +1,5 @@
 ﻿using Kros.Data;
+using Kros.KORM.Extensions.Asp.Properties;
 using Kros.KORM.Migrations;
 using Kros.KORM.Migrations.Middleware;
 using Kros.Utils;
@@ -66,29 +67,50 @@ namespace Kros.KORM.Extensions.Asp
         {
             Services
                 .AddMemoryCache()
-                .AddTransient<IMigrationsRunner>((s) =>
+                .AddTransient((Func<IServiceProvider, IMigrationsRunner>)((s) =>
                 {
-                    var migrationConfig = configuration.GetSection(MigrationSectionName);
-                    _autoMigrate = migrationConfig.GetSection(AutoMigrateSectionName).Get<bool>();
-                    var connectionString = migrationConfig
+                    IConfigurationSection migrationsConfig = GetMigrationsSection(configuration);
+                    _autoMigrate = migrationsConfig.GetSection(AutoMigrateSectionName).Get<bool>();
+
+                    var connectionString = migrationsConfig
                         .GetSection(ConnectionStringSectionName).Get<ConnectionStringSettings>();
                     var database = new Database(connectionString);
-                    MigrationOptions options = null;
 
-                    if (setupAction is null)
-                    {
-                        options = MigrationOptions.Default();
-                    }
-                    else
-                    {
-                        options = new MigrationOptions();
-                        setupAction?.Invoke(options);
-                    }
+                    MigrationOptions options = SetupMigrationOptions(setupAction);
 
                     return new MigrationsRunner(database, options);
-                });
+                }));
 
             return this;
+        }
+
+        private static MigrationOptions SetupMigrationOptions(Action<MigrationOptions> setupAction)
+        {
+            MigrationOptions options = null;
+
+            if (setupAction is null)
+            {
+                options = MigrationOptions.Default();
+            }
+            else
+            {
+                options = new MigrationOptions();
+                setupAction?.Invoke(options);
+            }
+
+            return options;
+        }
+
+        private static IConfigurationSection GetMigrationsSection(IConfiguration configuration)
+        {
+            var migrationsConfig = configuration.GetSection(MigrationSectionName);
+            if (!migrationsConfig.Exists())
+            {
+                throw new InvalidOperationException(
+                    string.Format(Resources.ConfigurationSectionIsMissing, MigrationSectionName));
+            }
+
+            return migrationsConfig;
         }
 
         /// <summary>
