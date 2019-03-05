@@ -30,7 +30,7 @@ namespace Kros.Net
 
         /// <inheritdoc cref="NetworkChecker(Uri, Uri, TimeSpan, TimeSpan)"/>
         public NetworkChecker(Uri serviceAddress)
-            : this(serviceAddress, null, DefaultRequestTimeout, DefaultResponseCacheExpiration)
+            : this(serviceAddress, (Uri) null, DefaultRequestTimeout, DefaultResponseCacheExpiration)
         {
         }
 
@@ -48,14 +48,34 @@ namespace Kros.Net
         /// <param name="httpMessageHandlerFactory">Factory function to create <see cref="HttpMessageHandler"/>
         /// which will be used.</param>
         public NetworkChecker(Uri serviceAddress, Func<HttpMessageHandler> httpMessageHandlerFactory)
-            : this(serviceAddress, null, DefaultRequestTimeout, DefaultResponseCacheExpiration)
+            : this(serviceAddress, httpMessageHandlerFactory, DefaultRequestTimeout, DefaultResponseCacheExpiration)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NetworkChecker"/> class.
+        /// </summary>
+        /// <param name="serviceAddress">The address for requests checking internet availability. It must be <c>http</c>
+        /// or <c>https</c> address.</param>
+        /// <param name="httpMessageHandlerFactory">Factory function to create <see cref="HttpMessageHandler"/>
+        /// which will be used.</param>
+        /// <param name="requestTimeout">Maximum time for waiting for the response from server. If the response will not
+        /// came in this time, we consider that the internet is not available.</param>
+        /// <param name="responseCacheExpiration">Time during which the last response will be remembered
+        /// and so no requests to <paramref name="serviceAddress"/> will be performed.
+        public NetworkChecker(
+            Uri serviceAddress,
+            Func<HttpMessageHandler> httpMessageHandlerFactory,
+            TimeSpan requestTimeout,
+            TimeSpan responseCacheExpiration)
+            : this(serviceAddress,(Uri) null, requestTimeout, responseCacheExpiration)
         {
             _httpMessageHandlerFactory = Check.NotNull(httpMessageHandlerFactory, nameof(httpMessageHandlerFactory));
         }
 
         /// <inheritdoc cref="NetworkChecker(Uri, Uri, TimeSpan, TimeSpan)"/>
         public NetworkChecker(Uri serviceAddress, TimeSpan requestTimeout, TimeSpan responseCacheExpiration)
-            : this(serviceAddress, null, requestTimeout, responseCacheExpiration)
+            : this(serviceAddress, (Uri) null, requestTimeout, responseCacheExpiration)
         {
         }
 
