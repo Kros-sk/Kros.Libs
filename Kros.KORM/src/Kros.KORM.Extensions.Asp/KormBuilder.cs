@@ -1,7 +1,12 @@
 ﻿using Kros.Data;
+using Kros.KORM.Migrations;
+using Kros.KORM.Migrations.Middleware;
 using Kros.Utils;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Configuration;
+using System.Threading.Tasks;
 
 namespace Kros.KORM.Extensions.Asp
 {
@@ -42,6 +47,62 @@ namespace Kros.KORM.Extensions.Asp
             }
 
             return this;
+        }
+
+        private const string MigrationSectionName = "KormMigrations";
+        private const string ConnectionStringSectionName = "ConnectionString";
+        private const string AutoMigrateSectionName = "AutoMigrate";
+        private bool _autoMigrate = false;
+
+        /// <summary>
+        /// Adds configuration for <see cref="MigrationsMiddleware"/> into <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
+        /// <param name="setupAction">Setup migration options.</param>
+        /// <returns><see cref="IServiceCollection"/></returns>
+        public KormBuilder AddKormMigrations(
+            IConfiguration configuration,
+            Action<MigrationOptions> setupAction = null)
+        {
+            Services
+                .AddMemoryCache()
+                .AddTransient<IMigrationsRunner>((s) =>
+                {
+                    var migrationConfig = configuration.GetSection(MigrationSectionName);
+                    _autoMigrate = migrationConfig.GetSection(AutoMigrateSectionName).Get<bool>();
+                    var connectionString = migrationConfig
+                        .GetSection(ConnectionStringSectionName).Get<ConnectionStringSettings>();
+                    var database = new Database(connectionString);
+                    MigrationOptions options = null;
+
+                    if (setupAction is null)
+                    {
+                        options = MigrationOptions.Default();
+                    }
+                    else
+                    {
+                        options = new MigrationOptions();
+                        setupAction?.Invoke(options);
+                    }
+
+                    return new MigrationsRunner(database, options);
+                });
+
+            return this;
+        }
+
+        /// <summary>
+        /// Execute database migration.
+        /// </summary>
+        public void Migrate()
+        {
+            if (_autoMigrate)
+            {
+                Services.BuildServiceProvider()
+                        .GetService<IMigrationsRunner>()
+                        .MigrateAsync()
+                        .Wait();
+            }
         }
     }
 }
