@@ -68,7 +68,7 @@ namespace Kros.Net
             Func<HttpMessageHandler> httpMessageHandlerFactory,
             TimeSpan requestTimeout,
             TimeSpan responseCacheExpiration)
-            : this(serviceAddress,(Uri) null, requestTimeout, responseCacheExpiration)
+            : this(serviceAddress, (Uri) null, requestTimeout, responseCacheExpiration)
         {
             _httpMessageHandlerFactory = Check.NotNull(httpMessageHandlerFactory, nameof(httpMessageHandlerFactory));
         }
