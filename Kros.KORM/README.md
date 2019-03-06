@@ -700,7 +700,7 @@ However, you need to add middleware:
 ```CSharp
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
-  app.UseMigrations(o =>
+  app.UseKormMigrations(o =>
   {
     o.Url = "/kormmigration";
   });
