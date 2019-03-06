@@ -33,6 +33,7 @@ Kros.KORM is available from:
 * [Logging](#logging)
 * [Supported database types](#supported-database-types)
 * [ASP.NET Core extensions](#aspnet-core-extensions)
+* [Database migrations](#database-migrations)
 * [Unit and performance tests](#unit-and-performance-tests)
 
 ### Query
@@ -648,6 +649,82 @@ public void ConfigureServices(IServiceCollection services)
         .InitDatabaseForIdGenerator();
 }
 ```
+
+### Database migrations
+For simple database migration, you must call:
+```C#
+public void ConfigureServices(IServiceCollection services)
+{
+  services.AddKorm(Configuration)
+	.AddKormMigrations()
+	.Migrate();
+}	
+```
+The previous code requires the `KormMigration` section in the configurations:
+
+```json
+"KormMigrations": {
+  "ConnectionString": {
+    "ProviderName": "System.Data.SqlClient",
+    "ConnectionString": "Server=servername\\instancename;Initial Catalog=database;Persist Security Info=False;"
+  },
+  "AutoMigrate": "True"
+}
+```
+
+Korm performs migrations that default searches in the main assembly in the `Sql scripts` directory. The script file name must match pattern `{migrationId}_{MigrationName}.sql`. 
+`MigrationId` is increasing number over time.
+
+For example: `20190301001_AddPeopleTable.sql`
+```sql
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].People(
+	[Id] [int] NOT NULL,
+	[Name] [nvarchar](255)
+CONSTRAINT [PK_People] PRIMARY KEY CLUSTERED
+(
+	[Id] ASC
+) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+```
+
+You can disable auto migrations when you start the service by setting `AutoUpgrade: False`.
+
+Migration can also be executed through an HTTP query. By calling the `../ kormmigration` endpoint, the necessary migration will be executed.
+However, you need to add middleware:
+
+```CSharp
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+{
+  app.UseMigrations(o =>
+  {
+    o.Url = "/kormmigration";
+  });
+}
+```
+
+If you have scripts stored in a different way (for example, somewhere on a disk or in another assembly, ...), you can configure your own providers to get these scripts.
+
+```CSharp
+public void ConfigureServices(IServiceCollection services)
+{
+  services.AddKorm(Configuration)
+    .AddKormMigrations(o =>
+    {
+        var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartWith("Demo.DatabaseLayer"));
+        o.AddAssemblyScriptsProvider(assembly, "Demo.DatabaseLayer.Resources");
+        o.AddFileScriptsProvider(@"C:\scripts\");
+        o.AddScriptsProvider(new MyCustomScriptsProvider());
+    })
+    .Migrate();
+}	
+```
+
+KORM creates a `__KormMigrationsHistory` table in which it has a history of individual migrations.
 
 ### Unit and performance tests
 
