@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Kros.KORM.Migrations.Providers
 {
     /// <summary>
-    /// Base class for migration scripts profider
+    /// Base class for migration scripts provider.
     /// </summary>
     public abstract class MigrationScriptsProviderBase : IMigrationScriptsProvider
     {

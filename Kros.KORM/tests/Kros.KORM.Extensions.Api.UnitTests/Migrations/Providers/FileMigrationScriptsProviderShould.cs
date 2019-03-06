@@ -22,7 +22,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
         }
 
         [Fact]
-        public void GetScriptFromDefinedAsemblyAndNamespace()
+        public void GetScriptFromDefinedFolder()
         {
             var provider = new FileMigrationScriptsProvider(_folderFullPath);
             var scripts = provider.GetScripts().ToList();
