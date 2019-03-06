@@ -49,15 +49,15 @@ namespace Kros.KORM.Migrations
         {
             using (var transaction = _database.BeginTransaction())
             {
-                Migration newMigration = await CreateNewMigrationInfo(migrationScripts);
-
                 foreach (var scriptInfo in migrationScripts)
                 {
+                    Migration newMigration = await CreateNewMigrationInfo(scriptInfo);
+
                     var script = await scriptInfo.GetScriptAsync();
                     await ExecuteMigrationScript(script);
-                }
 
-                await UpdateLastMigrationInfo(newMigration);
+                    await UpdateLastMigrationInfo(newMigration);
+                }
 
                 transaction.Commit();
             }
@@ -68,12 +68,12 @@ namespace Kros.KORM.Migrations
             .OrderBy(p => p.Id)
             .Where(p => p.Id > lastMigration.MigrationId);
 
-        private async Task<Migration> CreateNewMigrationInfo(IEnumerable<ScriptInfo> migrationScripts)
+        private async Task<Migration> CreateNewMigrationInfo(ScriptInfo scriptInfo)
         {
             var newMigration = new Migration()
             {
-                MigrationId = migrationScripts.Last().Id,
-                MigrationName = migrationScripts.Last().Name,
+                MigrationId = scriptInfo.Id,
+                MigrationName = scriptInfo.Name,
                 Updated = null,
                 ProductInfo = Assembly.GetEntryAssembly().FullName
             };

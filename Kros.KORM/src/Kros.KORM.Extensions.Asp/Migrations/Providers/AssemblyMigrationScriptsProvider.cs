@@ -36,7 +36,7 @@ namespace Kros.KORM.Migrations.Providers
         /// <returns><see cref="AssemblyMigrationScriptsProvider"/>.</returns>
         internal static AssemblyMigrationScriptsProvider Default()
         {
-            var assembly = Assembly.GetCallingAssembly();
+            var assembly = Assembly.GetEntryAssembly();
 
             return new AssemblyMigrationScriptsProvider(assembly, $"{assembly.GetName().Name}.{DefaultResourceNamespace}");
         }

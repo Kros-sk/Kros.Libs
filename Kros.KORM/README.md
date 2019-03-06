@@ -656,7 +656,7 @@ For simple database migration, you must call:
 public void ConfigureServices(IServiceCollection services)
 {
   services.AddKorm(Configuration)
-	.AddKormMigrations()
+	.AddKormMigrations(Configuration)
 	.Migrate();
 }	
 ```
@@ -702,7 +702,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
   app.UseKormMigrations(o =>
   {
-    o.Url = "/kormmigration";
+    o.EndpointUrl = "/kormmigration";
   });
 }
 ```
@@ -713,7 +713,7 @@ If you have scripts stored in a different way (for example, somewhere on a disk 
 public void ConfigureServices(IServiceCollection services)
 {
   services.AddKorm(Configuration)
-    .AddKormMigrations(o =>
+    .AddKormMigrations(Configuration, o =>
     {
         var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartWith("Demo.DatabaseLayer"));
         o.AddAssemblyScriptsProvider(assembly, "Demo.DatabaseLayer.Resources");

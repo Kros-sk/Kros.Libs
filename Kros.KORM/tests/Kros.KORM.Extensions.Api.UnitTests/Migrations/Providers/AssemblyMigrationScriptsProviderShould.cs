@@ -17,7 +17,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
             string GetNamespace(string fileName)
                 => $"Kros.KORM.Extensions.Api.UnitTests.Sql_scripts.{fileName}.sql";
 
-            var provider = AssemblyMigrationScriptsProvider.Default();
+            AssemblyMigrationScriptsProvider provider = CreateDefaultAssembly();
             var scripts = provider.GetScripts().ToList();
 
             scripts.Count.Should().Be(3);
@@ -46,6 +46,11 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
                     Path = GetNamespace("20190301002_AddProjectTable")
                 });
         }
+
+        private static AssemblyMigrationScriptsProvider CreateDefaultAssembly()
+            => new AssemblyMigrationScriptsProvider(
+                Assembly.GetExecutingAssembly(),
+                "Kros.KORM.Extensions.Api.UnitTests.Sql_scripts");
 
         [Fact]
         public void GetScriptFromDefinedAsemblyAndNamespace()
@@ -80,7 +85,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
         [Fact]
         public async Task LoadScript()
         {
-            var provider = AssemblyMigrationScriptsProvider.Default();
+            var provider = CreateDefaultAssembly();
             var script = await provider.GetScriptAsync(new ScriptInfo(provider)
             {
                 Id = 20190228001,
