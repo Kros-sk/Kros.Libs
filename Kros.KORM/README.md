@@ -694,7 +694,7 @@ GO
 
 You can disable auto migrations when you start the service by setting `AutoUpgrade: False`.
 
-Migration can also be executed through an HTTP query. By calling the `../ kormmigration` endpoint, the necessary migration will be executed.
+Migration can also be executed through an HTTP query. By calling the `../kormmigration` endpoint, the necessary migration will be executed.
 However, you need to add middleware:
 
 ```CSharp
