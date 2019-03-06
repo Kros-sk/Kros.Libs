@@ -8,7 +8,7 @@ namespace Kros.KORM.Migrations
     public interface IMigrationsRunner
     {
         /// <summary>
-        /// Execute database migrations
+        /// Execute database migrations.
         /// </summary>
         Task MigrateAsync();
     }

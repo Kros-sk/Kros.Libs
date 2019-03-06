@@ -60,14 +60,13 @@ namespace Kros.KORM.Extensions.Asp
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         /// <param name="setupAction">Setup migration options.</param>
-        /// <returns><see cref="IServiceCollection"/></returns>
+        /// <returns>This instance of <see cref="KormBuilder"/>.</returns>
         public KormBuilder AddKormMigrations(
             IConfiguration configuration,
             Action<MigrationOptions> setupAction = null)
         {
             IConfigurationSection migrationsConfig = GetMigrationsSection(configuration);
             _autoMigrate = migrationsConfig.GetSection(AutoMigrateSectionName).Get<bool>();
-
             var connectionString = migrationsConfig
                 .GetSection(ConnectionStringSectionName).Get<ConnectionStringSettings>();
 

@@ -14,6 +14,7 @@ namespace Kros.KORM.Migrations.Middleware
         private const string WasMigrationExecutedKey = "WasMigrationExecuted";
 
         private readonly RequestDelegate _next;
+        private readonly MigrationMiddlewareOptions _options;
         private readonly IMemoryCache _cache;
         private readonly IMigrationsRunner _migrationsRunner;
 
@@ -23,12 +24,15 @@ namespace Kros.KORM.Migrations.Middleware
         /// <param name="next">The next delegate.</param>
         /// <param name="cache">Memory cache.</param>
         /// <param name="migrationsRunner">Migrations runner.</param>
+        /// <param name="options"></param>
         public MigrationsMiddleware(
             RequestDelegate next,
             IMemoryCache cache,
-            IMigrationsRunner migrationsRunner)
+            IMigrationsRunner migrationsRunner,
+            MigrationMiddlewareOptions options)
         {
             _next = next;
+            _options = Check.NotNull(options, nameof(options));
             _cache = Check.NotNull(cache, nameof(cache));
             _migrationsRunner = Check.NotNull(migrationsRunner, nameof(migrationsRunner));
         }
@@ -53,7 +57,7 @@ namespace Kros.KORM.Migrations.Middleware
         private void SetupCache()
         {
             var options = new MemoryCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromMinutes(5));
+                .SetSlidingExpiration(_options.SlidingExirationBetweenTwoMigrations);
             _cache.Set(WasMigrationExecutedKey, true, options);
         }
     }

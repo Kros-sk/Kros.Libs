@@ -33,7 +33,7 @@ namespace Microsoft.AspNetCore.Builder
             var options = new MigrationMiddlewareOptions();
             setupAction?.Invoke(options);
 
-            return app.Map(options.EndpointUrl, builder => builder.UseMiddleware<MigrationsMiddleware>());
+            return app.Map(options.EndpointUrl, builder => builder.UseMiddleware<MigrationsMiddleware>(options));
         }
     }
 }
