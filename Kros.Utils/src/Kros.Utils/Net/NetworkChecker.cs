@@ -63,6 +63,7 @@ namespace Kros.Net
         /// came in this time, we consider that the internet is not available.</param>
         /// <param name="responseCacheExpiration">Time during which the last response will be remembered
         /// and so no requests to <paramref name="serviceAddress"/> will be performed.
+        /// </param>
         public NetworkChecker(
             Uri serviceAddress,
             Func<HttpMessageHandler> httpMessageHandlerFactory,
