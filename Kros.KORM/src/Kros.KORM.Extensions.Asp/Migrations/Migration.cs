@@ -23,12 +23,12 @@ namespace Kros.KORM.Migrations
         public string MigrationName { get; set; }
 
         /// <summary>
-        /// Information about project, which execute this migration.
+        /// Information about project, which executed this migration.
         /// </summary>
         public string ProductInfo { get; set; }
 
         /// <summary>
-        /// Information, when was executed migration.
+        /// Information, when the migration was executed.
         /// </summary>
         /// <remarks>
         /// If value is <see langword="null" />, migration has not been completed.

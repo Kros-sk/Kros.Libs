@@ -5,7 +5,7 @@ using System.Reflection;
 namespace Kros.KORM.Migrations
 {
     /// <summary>
-    /// Migration options
+    /// Migration options.
     /// </summary>
     public class MigrationOptions
     {
@@ -42,7 +42,7 @@ namespace Kros.KORM.Migrations
         /// <summary>
         /// Register new <see cref="FileMigrationScriptsProvider"/>.
         /// </summary>
-        /// <param name="folderPath">Path to folder with migration scripts.</param>
+        /// <param name="folderPath">Path to folder where migration scripts are stored.</param>
         public void AddFileScriptsProvider(string folderPath)
             => AddScriptsProvider(new FileMigrationScriptsProvider(folderPath));
     }

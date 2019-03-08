@@ -1,7 +1,6 @@
 ﻿using Kros.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
-using System;
 using System.Threading.Tasks;
 
 namespace Kros.KORM.Migrations.Middleware
@@ -24,7 +23,7 @@ namespace Kros.KORM.Migrations.Middleware
         /// <param name="next">The next delegate.</param>
         /// <param name="cache">Memory cache.</param>
         /// <param name="migrationsRunner">Migrations runner.</param>
-        /// <param name="options"></param>
+        /// <param name="options">Migration options.</param>
         public MigrationsMiddleware(
             RequestDelegate next,
             IMemoryCache cache,
@@ -57,7 +56,7 @@ namespace Kros.KORM.Migrations.Middleware
         private void SetupCache()
         {
             var options = new MemoryCacheEntryOptions()
-                .SetSlidingExpiration(_options.SlidingExirationBetweenTwoMigrations);
+                .SetSlidingExpiration(_options.SlidingExpirationBetweenMigrations);
             _cache.Set(WasMigrationExecutedKey, true, options);
         }
     }

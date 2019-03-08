@@ -9,7 +9,7 @@ namespace Microsoft.AspNetCore.Builder
     public static class BuilderExtensions
     {
         /// <summary>
-        /// Add database migrations middleware into application pipeline.
+        /// Adds database migrations middleware into application pipeline.
         /// </summary>
         /// <param name="app">The application builder.</param>
         /// <returns>
@@ -19,7 +19,7 @@ namespace Microsoft.AspNetCore.Builder
             => app.UseKormMigrations(null);
 
         /// <summary>
-        /// Add database migrations middlewre into application pipeline.
+        /// Adds database migrations middlewre into application pipeline.
         /// </summary>
         /// <param name="app">The application builder.</param>
         /// <param name="setupAction">Configure middleware/</param>

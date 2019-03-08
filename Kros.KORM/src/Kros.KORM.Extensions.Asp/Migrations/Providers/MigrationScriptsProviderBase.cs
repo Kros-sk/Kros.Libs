@@ -24,7 +24,7 @@ namespace Kros.KORM.Migrations.Providers
             var startIndex = FolderFullPath.Length;
 
             return scriptPaths
-                .Where(r => r.StartsWith(FolderFullPath) && r.EndsWith(extension, StringComparison.CurrentCultureIgnoreCase))
+                .Where(r => r.StartsWith(FolderFullPath) && r.EndsWith(extension, StringComparison.OrdinalIgnoreCase))
                 .Select(r =>
                 {
                     var splits = r.Substring(startIndex + 1, r.Length - startIndex - extension.Length - 1)

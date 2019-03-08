@@ -127,11 +127,9 @@ namespace Kros.KORM.Migrations
             var assembly = Assembly.GetExecutingAssembly();
 
             using (var stream = assembly.GetManifestResourceStream(resourceName))
+            using (var reader = new StreamReader(stream))
             {
-                using (var reader = new StreamReader(stream))
-                {
-                    return reader.ReadToEnd();
-                }
+                return reader.ReadToEnd();
             }
         }
     }
