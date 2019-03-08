@@ -12,6 +12,11 @@ namespace Kros.KORM.Migrations
         internal const string TableName = "__KormMigrationsHistory";
 
         /// <summary>
+        /// None migration.
+        /// </summary>
+        public static Migration None { get; } = new Migration() { MigrationId = 0 };
+
+        /// <summary>
         /// Migration Id.
         /// </summary>
         [Key]

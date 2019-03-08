@@ -67,7 +67,7 @@ namespace Kros.KORM.Extensions.Asp
             Action<MigrationOptions> setupAction = null)
         {
             IConfigurationSection migrationsConfig = GetMigrationsSection(configuration);
-            _autoMigrate = migrationsConfig.GetSection(AutoMigrateSectionName).Get<bool>();
+            _autoMigrate = migrationsConfig.GetValue(AutoMigrateSectionName, false);
             var connectionString = migrationsConfig
                 .GetSection(ConnectionStringSectionName).Get<ConnectionStringSettings>();
 
@@ -121,9 +121,9 @@ namespace Kros.KORM.Extensions.Asp
             if (_autoMigrate)
             {
                 Services.BuildServiceProvider()
-                        .GetService<IMigrationsRunner>()
-                        .MigrateAsync()
-                        .Wait();
+                    .GetService<IMigrationsRunner>()
+                    .MigrateAsync()
+                    .Wait();
             }
         }
     }

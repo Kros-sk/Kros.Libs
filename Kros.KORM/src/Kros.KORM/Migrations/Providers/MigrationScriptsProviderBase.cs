@@ -24,17 +24,17 @@ namespace Kros.KORM.Migrations.Providers
             var startIndex = FolderFullPath.Length;
 
             return scriptPaths
-                .Where(r => r.StartsWith(FolderFullPath) && r.EndsWith(extension, StringComparison.OrdinalIgnoreCase))
-                .Select(r =>
+                .Where(s => s.StartsWith(FolderFullPath) && s.EndsWith(extension, StringComparison.OrdinalIgnoreCase))
+                .Select(s =>
                 {
-                    var splits = r.Substring(startIndex + 1, r.Length - startIndex - extension.Length - 1)
+                    var splits = s.Substring(startIndex + 1, s.Length - startIndex - extension.Length - 1)
                         .Split(idNameSeparator);
 
                     return new ScriptInfo(this)
                     {
                         Id = long.Parse(splits[0]),
                         Name = splits[1],
-                        Path = r
+                        Path = s
                     };
                 })
                 .OrderBy(s => s.Id);

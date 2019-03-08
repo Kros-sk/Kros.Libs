@@ -36,8 +36,8 @@ namespace Kros.KORM.Migrations
         {
             await InitMigrationsHistoryTable();
 
-            var lastMigration = GetLastMigrationInfo() ?? new Migration() { MigrationId = 0 };
-            var migrationScripts = GetMigrationScriptsToExecution(lastMigration).ToList();
+            var lastMigration = GetLastMigrationInfo() ?? Migration.None;
+            var migrationScripts = GetMigrationScriptsToExecute(lastMigration).ToList();
 
             if (migrationScripts.Any())
             {
@@ -63,7 +63,7 @@ namespace Kros.KORM.Migrations
             }
         }
 
-        private IEnumerable<ScriptInfo> GetMigrationScriptsToExecution(Migration lastMigration)
+        private IEnumerable<ScriptInfo> GetMigrationScriptsToExecute(Migration lastMigration)
             => _migrationOptions.Providers.SelectMany(p => p.GetScripts())
             .OrderBy(p => p.Id)
             .Where(p => p.Id > lastMigration.MigrationId);
@@ -115,7 +115,7 @@ namespace Kros.KORM.Migrations
         private async Task InitMigrationsHistoryTable()
         {
             var sql = $"IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = '{Migration.TableName}' AND type = 'U')" +
-                    Environment.NewLine + Properties.Resources.MigrationsHistoryTableScript;
+                Environment.NewLine + Properties.Resources.MigrationsHistoryTableScript;
 
             await _database.ExecuteNonQueryAsync(sql);
         }
