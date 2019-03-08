@@ -32,12 +32,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Resources\MigrationsHistoryTableScript.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\MigrationsHistoryTableScript.sql" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Kros.KORM\Kros.KORM.csproj" />

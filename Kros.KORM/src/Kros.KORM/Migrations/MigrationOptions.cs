@@ -11,14 +11,6 @@ namespace Kros.KORM.Migrations
     {
         private List<IMigrationScriptsProvider> _providers = new List<IMigrationScriptsProvider>();
 
-        internal static MigrationOptions Default()
-        {
-            var options = new MigrationOptions();
-            options.AddScriptsProvider(AssemblyMigrationScriptsProvider.Default());
-
-            return options;
-        }
-
         /// <summary>
         /// List of <see cref="IMigrationScriptsProvider"/>.
         /// </summary>

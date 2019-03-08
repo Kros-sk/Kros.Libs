@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
+namespace Kros.KORM.UnitTests.Migrations.Providers
 {
     public class AssemblyMigrationScriptsProviderShould
     {
@@ -15,7 +15,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
         public void GetScriptsFromDefaultNamespace()
         {
             string GetNamespace(string fileName)
-                => $"Kros.KORM.Extensions.Api.UnitTests.Sql_scripts.{fileName}.sql";
+                => $"Kros.KORM.UnitTests.Sql_scripts.{fileName}.sql";
 
             AssemblyMigrationScriptsProvider provider = CreateDefaultAssembly();
             var scripts = provider.GetScripts().ToList();
@@ -50,17 +50,17 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
         private static AssemblyMigrationScriptsProvider CreateDefaultAssembly()
             => new AssemblyMigrationScriptsProvider(
                 Assembly.GetExecutingAssembly(),
-                "Kros.KORM.Extensions.Api.UnitTests.Sql_scripts");
+                "Kros.KORM.UnitTests.Sql_scripts");
 
         [Fact]
         public void GetScriptFromDefinedAsemblyAndNamespace()
         {
             string GetNamespace(string fileName)
-                => $"Kros.KORM.Extensions.Api.UnitTests.Resources.AnotherSqlScripts.{fileName}.sql";
+                => $"Kros.KORM.UnitTests.Resources.AnotherSqlScripts.{fileName}.sql";
 
             var provider = new AssemblyMigrationScriptsProvider(
                 Assembly.GetExecutingAssembly(),
-                "Kros.KORM.Extensions.Api.UnitTests.Resources.AnotherSqlScripts");
+                "Kros.KORM.UnitTests.Resources.AnotherSqlScripts");
             var scripts = provider.GetScripts().ToList();
 
             scripts.Count.Should().Be(2);
@@ -90,23 +90,12 @@ namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
             {
                 Id = 20190228001,
                 Name = "InitDatabase",
-                Path = "Kros.KORM.Extensions.Api.UnitTests.Sql_scripts.20190228001_InitDatabase.sql"
+                Path = "Kros.KORM.UnitTests.Sql_scripts.20190228001_InitDatabase.sql"
             });
 
-            var expected = await GetStringFromResourceFileAsync(
-                "Kros.KORM.Extensions.Api.UnitTests.Sql_scripts.20190228001_InitDatabase.sql");
+            var expected = Properties.Resources._20190228001_InitDatabase;
 
             script.Should().Be(expected);
-        }
-
-        private static async Task<string> GetStringFromResourceFileAsync(string resourceFile)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceStream = assembly.GetManifestResourceStream(resourceFile);
-            using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
-            {
-                return await reader.ReadToEndAsync();
-            }
         }
     }
 }

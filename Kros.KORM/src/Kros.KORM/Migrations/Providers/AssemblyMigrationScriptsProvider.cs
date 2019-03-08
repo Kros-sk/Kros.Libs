@@ -34,7 +34,7 @@ namespace Kros.KORM.Migrations.Providers
         /// Create defaut <see cref="AssemblyMigrationScriptsProvider"/>, which load script from executing assembly.
         /// </summary>
         /// <returns><see cref="AssemblyMigrationScriptsProvider"/>.</returns>
-        internal static AssemblyMigrationScriptsProvider Default()
+        public static AssemblyMigrationScriptsProvider GetEntryAssemblyProvider()
         {
             var assembly = Assembly.GetEntryAssembly();
 

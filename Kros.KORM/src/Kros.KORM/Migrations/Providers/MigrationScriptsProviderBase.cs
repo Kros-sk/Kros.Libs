@@ -19,7 +19,7 @@ namespace Kros.KORM.Migrations.Providers
         public IEnumerable<ScriptInfo> GetScripts()
         {
             const string extension = ".sql";
-            const string idNameSeparator = "_";
+            const char idNameSeparator = '_';
             var scriptPaths = GetScriptPaths();
             var startIndex = FolderFullPath.Length;
 

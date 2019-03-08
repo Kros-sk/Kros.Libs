@@ -115,22 +115,9 @@ namespace Kros.KORM.Migrations
         private async Task InitMigrationsHistoryTable()
         {
             var sql = $"IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = '{Migration.TableName}' AND type = 'U')" +
-                    Environment.NewLine + GetMigrationHistoryTableScript();
+                    Environment.NewLine + Properties.Resources.MigrationsHistoryTableScript;
+
             await _database.ExecuteNonQueryAsync(sql);
-        }
-
-        private string GetMigrationHistoryTableScript() =>
-            GetResourceContent("Kros.KORM.Extensions.Asp.Resources.MigrationsHistoryTableScript.sql");
-
-        private static string GetResourceContent(string resourceName)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
-            using (var reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
         }
     }
 }

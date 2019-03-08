@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Kros.Data;
 using Kros.KORM.Migrations;
+using Kros.KORM.UnitTests.Integration;
 using Kros.UnitTests;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Kros.KORM.Extensions.Api.UnitTests.Migrations
+namespace Kros.KORM.UnitTests.Migrations
 {
     public class MigrationsRunnerShould : SqlServerDatabaseTestBase
     {
@@ -140,7 +141,7 @@ INSERT INTO __KormMigrationsHistory VALUES (20190301001, 'InitDatabase', 'FromUn
 
                 options.AddAssemblyScriptsProvider(
                     Assembly.GetExecutingAssembly(),
-                    $"Kros.KORM.Extensions.Api.UnitTests.Resources.ScriptsForRunner.{folderName}");
+                    $"Kros.KORM.UnitTests.Resources.ScriptsForRunner.{folderName}");
 
                 Runner = new MigrationsRunner(_database, options);
             }

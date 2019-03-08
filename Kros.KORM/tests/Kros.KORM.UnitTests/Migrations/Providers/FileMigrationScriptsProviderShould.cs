@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xunit;
 using static System.IO.Path;
 
-namespace Kros.KORM.Extensions.Api.UnitTests.Migrations.Providers
+namespace Kros.KORM.UnitTests.Migrations.Providers
 {
     public class FileMigrationScriptsProviderShould
     {

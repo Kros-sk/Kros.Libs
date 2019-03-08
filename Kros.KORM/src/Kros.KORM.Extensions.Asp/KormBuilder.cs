@@ -2,6 +2,7 @@
 using Kros.KORM.Extensions.Asp.Properties;
 using Kros.KORM.Migrations;
 using Kros.KORM.Migrations.Middleware;
+using Kros.KORM.Migrations.Providers;
 using Kros.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -86,16 +87,15 @@ namespace Kros.KORM.Extensions.Asp
 
         private static MigrationOptions SetupMigrationOptions(Action<MigrationOptions> setupAction)
         {
-            MigrationOptions options = null;
+            MigrationOptions options = new MigrationOptions();
 
-            if (setupAction is null)
+            if (setupAction != null)
             {
-                options = MigrationOptions.Default();
+                setupAction.Invoke(options);
             }
             else
             {
-                options = new MigrationOptions();
-                setupAction?.Invoke(options);
+                options.AddScriptsProvider(AssemblyMigrationScriptsProvider.GetEntryAssemblyProvider());
             }
 
             return options;
