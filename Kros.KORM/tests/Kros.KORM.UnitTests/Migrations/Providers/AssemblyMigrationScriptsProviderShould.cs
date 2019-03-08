@@ -17,37 +17,33 @@ namespace Kros.KORM.UnitTests.Migrations.Providers
             string GetNamespace(string fileName)
                 => $"Kros.KORM.UnitTests.Sql_scripts.{fileName}.sql";
 
-            AssemblyMigrationScriptsProvider provider = CreateDefaultAssembly();
+            AssemblyMigrationScriptsProvider provider = CreateDefaultProvider();
             var scripts = provider.GetScripts().ToList();
 
             scripts.Count.Should().Be(3);
-            scripts[0].Should()
-                .BeEquivalentTo(
+            scripts.Should().Equals(new[] {
                 new ScriptInfo(provider)
                 {
                     Id = 20190228001,
                     Name = "InitDatabase",
                     Path = GetNamespace("20190228001_InitDatabase")
-                });
-            scripts[1].Should()
-                .BeEquivalentTo(
+                },
                 new ScriptInfo(provider)
                 {
                     Id = 20190301001,
                     Name = "AddPeopleTable",
                     Path = GetNamespace("20190301001_AddPeopleTable")
-                });
-            scripts[2].Should()
-                .BeEquivalentTo(
+                },
                 new ScriptInfo(provider)
                 {
                     Id = 20190301002,
                     Name = "AddProjectTable",
                     Path = GetNamespace("20190301002_AddProjectTable")
-                });
+                }
+            });
         }
 
-        private static AssemblyMigrationScriptsProvider CreateDefaultAssembly()
+        private static AssemblyMigrationScriptsProvider CreateDefaultProvider()
             => new AssemblyMigrationScriptsProvider(
                 Assembly.GetExecutingAssembly(),
                 "Kros.KORM.UnitTests.Sql_scripts");
@@ -64,28 +60,27 @@ namespace Kros.KORM.UnitTests.Migrations.Providers
             var scripts = provider.GetScripts().ToList();
 
             scripts.Count.Should().Be(2);
-            scripts[0].Should()
-                .BeEquivalentTo(
+            scripts.Should().Equals(new[]
+            {
                 new ScriptInfo(provider)
                 {
                     Id = 20190227001,
                     Name = "InitDatabase",
                     Path = GetNamespace("20190227001_InitDatabase")
-                });
-            scripts[1].Should()
-                .BeEquivalentTo(
+                },
                 new ScriptInfo(provider)
                 {
                     Id = 20190227002,
                     Name = "AddProjectTable",
                     Path = GetNamespace("20190227002_AddProjectTable")
-                });
+                }
+            });
         }
 
         [Fact]
         public async Task LoadScript()
         {
-            var provider = CreateDefaultAssembly();
+            var provider = CreateDefaultProvider();
             var script = await provider.GetScriptAsync(new ScriptInfo(provider)
             {
                 Id = 20190228001,

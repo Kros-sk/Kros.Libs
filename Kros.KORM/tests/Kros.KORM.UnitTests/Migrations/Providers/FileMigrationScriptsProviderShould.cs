@@ -11,7 +11,7 @@ namespace Kros.KORM.UnitTests.Migrations.Providers
 {
     public class FileMigrationScriptsProviderShould
     {
-        private string _folderFullPath;
+        private readonly string _folderFullPath;
 
         public FileMigrationScriptsProviderShould()
         {

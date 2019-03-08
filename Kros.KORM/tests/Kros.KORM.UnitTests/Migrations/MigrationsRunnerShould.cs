@@ -17,7 +17,7 @@ namespace Kros.KORM.UnitTests.Migrations
 
         #region Sql Scripts
 
-        private static string CreateTable_MigrationHistory =
+        private readonly static string CreateTable_MigrationHistory =
 $@"CREATE TABLE [dbo].[__KormMigrationsHistory](
     [MigrationId] [bigint] NOT NULL,
     [MigrationName] [nvarchar](255) NOT NULL,
@@ -29,7 +29,7 @@ $@"CREATE TABLE [dbo].[__KormMigrationsHistory](
     )
 ) ON [PRIMARY]
 ";
-        private static string CreateTable_People =
+        private readonly static string CreateTable_People =
 $@"CREATE TABLE [dbo].[People](
     [Id] [int] NOT NULL,
     [Name] [nvarchar](255) NOT NULL
@@ -39,7 +39,7 @@ $@"CREATE TABLE [dbo].[People](
     )
 ) ON [PRIMARY]
 ";
-        private static string InsertIntoMigrationHistory =
+        private readonly static string InsertIntoMigrationHistory =
 $@"INSERT INTO __KormMigrationsHistory VALUES (20190228001, 'Old', 'FromUnitTests', '20190228')
 INSERT INTO __KormMigrationsHistory VALUES (20190228002, 'Old', 'FromUnitTests', '20190228')
 INSERT INTO __KormMigrationsHistory VALUES (20190301001, 'InitDatabase', 'FromUnitTests', '20190301')";
@@ -85,7 +85,7 @@ INSERT INTO __KormMigrationsHistory VALUES (20190301001, 'InitDatabase', 'FromUn
         {
             ExecuteCommand((cmd) =>
             {
-                foreach (var script in new List<string>() {
+                foreach (var script in new[] {
                     CreateTable_MigrationHistory ,
                     CreateTable_People,
                     InsertIntoMigrationHistory })
@@ -132,7 +132,7 @@ INSERT INTO __KormMigrationsHistory VALUES (20190301001, 'InitDatabase', 'FromUn
 
         private class Helper : IDisposable
         {
-            private IDatabase _database;
+            private readonly IDatabase _database;
 
             public Helper(Database database, string folderName)
             {
@@ -146,7 +146,7 @@ INSERT INTO __KormMigrationsHistory VALUES (20190301001, 'InitDatabase', 'FromUn
                 Runner = new MigrationsRunner(_database, options);
             }
 
-            public MigrationsRunner Runner { get; set; }
+            public MigrationsRunner Runner { get; }
 
             public void Dispose()
             {

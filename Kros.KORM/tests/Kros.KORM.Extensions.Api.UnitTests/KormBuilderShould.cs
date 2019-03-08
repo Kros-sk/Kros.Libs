@@ -28,9 +28,9 @@ namespace Kros.KORM.Extensions.Api.UnitTests
         private KormBuilder CreateKormBuilder()
         {
             var connectionSettings = new ConnectionStringSettings(
-                            "Default",
-                            ServerHelper.Connection.ConnectionString,
-                            "System.Data.SqlClient");
+                "Default",
+                ServerHelper.Connection.ConnectionString,
+                "System.Data.SqlClient");
 
             var kormBuilder = new KormBuilder(new ServiceCollection(), connectionSettings);
 
