@@ -12,7 +12,7 @@ namespace Kros.KORM.Migrations.Providers
     /// </summary>
     public class AssemblyMigrationScriptsProvider : MigrationScriptsProviderBase
     {
-        private const string DefaultResourceNamespace = "Sql_scripts";
+        private const string DefaultResourceNamespace = "SqlScripts";
         private readonly Assembly _assembly;
         private readonly string _resourceNamespace;
 

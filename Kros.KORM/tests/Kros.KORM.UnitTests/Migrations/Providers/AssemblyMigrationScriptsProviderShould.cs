@@ -15,7 +15,7 @@ namespace Kros.KORM.UnitTests.Migrations.Providers
         public void GetScriptsFromDefaultNamespace()
         {
             string GetNamespace(string fileName)
-                => $"Kros.KORM.UnitTests.Sql_scripts.{fileName}.sql";
+                => $"Kros.KORM.UnitTests.SqlScripts.{fileName}.sql";
 
             AssemblyMigrationScriptsProvider provider = CreateDefaultProvider();
             var scripts = provider.GetScripts().ToList();
@@ -46,7 +46,7 @@ namespace Kros.KORM.UnitTests.Migrations.Providers
         private static AssemblyMigrationScriptsProvider CreateDefaultProvider()
             => new AssemblyMigrationScriptsProvider(
                 Assembly.GetExecutingAssembly(),
-                "Kros.KORM.UnitTests.Sql_scripts");
+                "Kros.KORM.UnitTests.SqlScripts");
 
         [Fact]
         public void GetScriptFromDefinedAsemblyAndNamespace()
@@ -85,7 +85,7 @@ namespace Kros.KORM.UnitTests.Migrations.Providers
             {
                 Id = 20190228001,
                 Name = "InitDatabase",
-                Path = "Kros.KORM.UnitTests.Sql_scripts.20190228001_InitDatabase.sql"
+                Path = "Kros.KORM.UnitTests.SqlScripts.20190228001_InitDatabase.sql"
             });
 
             var expected = Properties.Resources._20190228001_InitDatabase;
