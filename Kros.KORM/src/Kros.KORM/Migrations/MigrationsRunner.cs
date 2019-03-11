@@ -54,7 +54,6 @@ namespace Kros.KORM.Migrations
             {
                 foreach (var scriptInfo in migrationScripts)
                 {
-
                     var script = await scriptInfo.GetScriptAsync();
 
                     await ExecuteMigrationScript(script);
