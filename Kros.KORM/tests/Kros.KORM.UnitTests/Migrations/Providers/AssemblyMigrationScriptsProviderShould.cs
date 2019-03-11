@@ -88,9 +88,20 @@ namespace Kros.KORM.UnitTests.Migrations.Providers
                 Path = "Kros.KORM.UnitTests.SqlScripts.20190228001_InitDatabase.sql"
             });
 
-            var expected = Properties.Resources._20190228001_InitDatabase;
+            var expected = await GetStringFromResourceFileAsync(
+                "Kros.KORM.UnitTests.SqlScripts.20190228001_InitDatabase.sql");
 
             script.Should().Be(expected);
+        }
+
+        private static async Task<string> GetStringFromResourceFileAsync(string resourceFile)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceStream = assembly.GetManifestResourceStream(resourceFile);
+            using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
+            {
+                return await reader.ReadToEndAsync();
+            }
         }
     }
 }
