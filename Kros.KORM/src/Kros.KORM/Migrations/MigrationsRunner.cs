@@ -7,6 +7,7 @@ using Kros.KORM.Migrations.Providers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace Kros.KORM.Migrations
 {
@@ -115,9 +116,19 @@ namespace Kros.KORM.Migrations
         private async Task InitMigrationsHistoryTable()
         {
             var sql = $"IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = '{Migration.TableName}' AND type = 'U')" +
-                Environment.NewLine + Properties.Resources.MigrationsHistoryTableScript;
+                Environment.NewLine + await GetResourceContent("Kros.KORM.Resources.MigrationsHistoryTableScript.sql");
 
             await _database.ExecuteNonQueryAsync(sql);
+        }
+
+        private static async Task<string> GetResourceContent(string resourceFile)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceStream = assembly.GetManifestResourceStream(resourceFile);
+            using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
+            {
+                return await reader.ReadToEndAsync();
+            }
         }
     }
 }
