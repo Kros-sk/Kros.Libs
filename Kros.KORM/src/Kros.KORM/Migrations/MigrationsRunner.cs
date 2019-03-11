@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Text;
+using Kros.KORM.Query;
+using Kros.Extensions;
 
 namespace Kros.KORM.Migrations
 {
@@ -52,12 +54,11 @@ namespace Kros.KORM.Migrations
             {
                 foreach (var scriptInfo in migrationScripts)
                 {
-                    Migration newMigration = await CreateNewMigrationInfo(scriptInfo);
 
                     var script = await scriptInfo.GetScriptAsync();
-                    await ExecuteMigrationScript(script);
 
-                    await UpdateLastMigrationInfo(newMigration);
+                    await ExecuteMigrationScript(script);
+                    await AddNewMigrationInfo(scriptInfo);
                 }
 
                 transaction.Commit();
@@ -69,32 +70,19 @@ namespace Kros.KORM.Migrations
             .OrderBy(p => p.Id)
             .Where(p => p.Id > lastMigration.MigrationId);
 
-        private async Task<Migration> CreateNewMigrationInfo(ScriptInfo scriptInfo)
+        private async Task AddNewMigrationInfo(ScriptInfo scriptInfo)
         {
-            var newMigration = new Migration()
-            {
-                MigrationId = scriptInfo.Id,
-                MigrationName = scriptInfo.Name,
-                Updated = null,
-                ProductInfo = Assembly.GetEntryAssembly().FullName
-            };
+            const string sql = "INSERT INTO [" + Migration.TableName + "] VALUES (@Id, @Name, @Info, @Updated)";
 
-            var dbSet = _database.Query<Migration>()
-                .AsDbSet();
-            dbSet.Add(newMigration);
-            await dbSet.CommitChangesAsync();
-
-            return newMigration;
-        }
-
-        private async Task UpdateLastMigrationInfo(Migration newMigration)
-        {
-            newMigration.Updated = DateTime.Now;
-            var dbSet = _database.Query<Migration>()
-                .AsDbSet();
-            dbSet.Edit(newMigration);
-
-            await dbSet.CommitChangesAsync();
+            await _database.ExecuteNonQueryAsync(
+                sql,
+                new CommandParameterCollection()
+                {
+                    { "@Id", scriptInfo.Id },
+                    { "@Name", scriptInfo.Name },
+                    { "@Info", Assembly.GetEntryAssembly().FullName },
+                    { "@Updated", DateTime.Now }
+                });
         }
 
         private async Task ExecuteMigrationScript(string script)
