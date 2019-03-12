@@ -350,6 +350,15 @@ namespace Kros.KORM.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Script &apos;{0}&apos; doesn&apos;t exist in assembly &apos;{1}&apos;..
+        /// </summary>
+        internal static string ScriptDoesNotExist {
+            get {
+                return ResourceManager.GetString("ScriptDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to When Skip method is used, OrderBy must be specified..
         /// </summary>
         internal static string SkipWithoutOrderByInQuery {

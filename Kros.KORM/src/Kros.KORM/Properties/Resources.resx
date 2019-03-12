@@ -211,6 +211,9 @@
   <data name="ResultMustBeGenericIEnumerable" xml:space="preserve">
     <value>Result type must be generic type IEnumerable&lt;T&gt;.</value>
   </data>
+  <data name="ScriptDoesNotExist" xml:space="preserve">
+    <value>Script '{0}' doesn't exist in assembly '{1}'.</value>
+  </data>
   <data name="SkipWithoutOrderByInQuery" xml:space="preserve">
     <value>When Skip method is used, OrderBy must be specified.</value>
   </data>

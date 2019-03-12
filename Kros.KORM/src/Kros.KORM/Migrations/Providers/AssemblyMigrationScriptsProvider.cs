@@ -4,6 +4,8 @@ using System.Reflection;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System;
+using Kros.Extensions;
 
 namespace Kros.KORM.Migrations.Providers
 {
@@ -44,7 +46,15 @@ namespace Kros.KORM.Migrations.Providers
         /// <inheritdoc/>
         public override async Task<string> GetScriptAsync(ScriptInfo scriptInfo)
         {
+            Check.NotNull(scriptInfo, nameof(scriptInfo));
+
             var resourceStream = _assembly.GetManifestResourceStream(scriptInfo.Path);
+
+            if (resourceStream is null)
+            {
+                throw new ArgumentException(Properties.Resources.ScriptDoesNotExist.Format(scriptInfo.Path, _assembly.FullName));
+            }
+
             using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
             {
                 return await reader.ReadToEndAsync();
