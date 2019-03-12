@@ -6,13 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System;
 using Kros.Extensions;
+using System.Linq;
 
 namespace Kros.KORM.Migrations.Providers
 {
     /// <summary>
     /// Migration scripts provider, which load scripts from assembly.
     /// </summary>
-    public class AssemblyMigrationScriptsProvider : MigrationScriptsProviderBase
+    public class AssemblyMigrationScriptsProvider : IMigrationScriptsProvider
     {
         private const string DefaultResourceNamespace = "SqlScripts";
         private readonly Assembly _assembly;
@@ -29,9 +30,6 @@ namespace Kros.KORM.Migrations.Providers
             _resourceNamespace = Check.NotNullOrWhiteSpace(resourceNamespace, nameof(resourceNamespace));
         }
 
-        /// <inheritdoc />
-        protected override string FolderFullPath => _resourceNamespace;
-
         /// <summary>
         /// Create defaut <see cref="AssemblyMigrationScriptsProvider"/>, which load script from executing assembly.
         /// </summary>
@@ -44,7 +42,7 @@ namespace Kros.KORM.Migrations.Providers
         }
 
         /// <inheritdoc/>
-        public override async Task<string> GetScriptAsync(ScriptInfo scriptInfo)
+        public async Task<string> GetScriptAsync(ScriptInfo scriptInfo)
         {
             Check.NotNull(scriptInfo, nameof(scriptInfo));
 
@@ -62,6 +60,7 @@ namespace Kros.KORM.Migrations.Providers
         }
 
         /// <inheritdoc/>
-        protected override IEnumerable<string> GetScriptPaths() => _assembly.GetManifestResourceNames();
+        public IEnumerable<ScriptInfo> GetScripts()
+            => this.GetScripts(_assembly.GetManifestResourceNames(), _resourceNamespace);
     }
 }

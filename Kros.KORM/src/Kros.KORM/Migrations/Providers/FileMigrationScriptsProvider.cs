@@ -8,7 +8,7 @@ namespace Kros.KORM.Migrations.Providers
     /// <summary>
     /// Migration scripts provider, which load scripts from disk.
     /// </summary>
-    public class FileMigrationScriptsProvider : MigrationScriptsProviderBase
+    public class FileMigrationScriptsProvider : IMigrationScriptsProvider
     {
         private readonly string _folderPath;
 
@@ -22,13 +22,11 @@ namespace Kros.KORM.Migrations.Providers
         }
 
         /// <inheritdoc/>
-        protected override string FolderFullPath => _folderPath;
-
-        /// <inheritdoc/>
-        public override async Task<string> GetScriptAsync(ScriptInfo scriptInfo)
+        public async Task<string> GetScriptAsync(ScriptInfo scriptInfo)
             => await Task.FromResult(File.ReadAllText(scriptInfo.Path));
 
         /// <inheritdoc/>
-        protected override IEnumerable<string> GetScriptPaths() => Directory.GetFiles(_folderPath);
+        public IEnumerable<ScriptInfo> GetScripts()
+            => this.GetScripts(Directory.GetFiles(_folderPath), _folderPath);
     }
 }
