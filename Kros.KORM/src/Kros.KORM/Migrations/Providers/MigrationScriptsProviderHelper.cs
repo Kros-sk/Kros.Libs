@@ -17,19 +17,27 @@ namespace Kros.KORM.Migrations.Providers
             var startIndex = folder.Length;
 
             return scriptPaths
-                .Where(s => s.StartsWith(folder) && s.EndsWith(extension, StringComparison.OrdinalIgnoreCase))
-                .Select(s =>
+                .Where(path => path.StartsWith(folder) && path.EndsWith(extension, StringComparison.OrdinalIgnoreCase))
+                .Select(path =>
                 {
-                    var splits = s.Substring(startIndex + 1, s.Length - startIndex - extension.Length - 1)
+                    var splits = path.Substring(startIndex + 1, path.Length - startIndex - extension.Length - 1)
                         .Split(idNameSeparator);
 
-                    return new ScriptInfo(provider)
+                    if (splits.Length == 2 && long.TryParse(splits[0], out var id))
                     {
-                        Id = long.Parse(splits[0]),
-                        Name = splits[1],
-                        Path = s
-                    };
+                        return new ScriptInfo(provider)
+                        {
+                            Id = long.Parse(splits[0]),
+                            Name = splits[1],
+                            Path = path
+                        };
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 })
+                .Where(s => s != null)
                 .OrderBy(s => s.Id);
         }
     }
