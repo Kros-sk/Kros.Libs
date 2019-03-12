@@ -50,7 +50,8 @@ namespace Kros.KORM.Migrations.Providers
 
             if (resourceStream is null)
             {
-                throw new ArgumentException(Properties.Resources.ScriptDoesNotExist.Format(scriptInfo.Path, _assembly.FullName));
+                throw new ArgumentException(
+                    string.Format(Properties.Resources.ScriptDoesNotExist, scriptInfo.Path, _assembly.FullName));
             }
 
             using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
