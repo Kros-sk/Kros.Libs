@@ -84,10 +84,23 @@ namespace Kros.KORM.Migrations
                 });
         }
 
+        private static Regex _scriptLinesRegex;
+
+        private static Regex ScriptLinesRegex
+        {
+            get
+            {
+                if (_scriptLinesRegex is null)
+                {
+                    _scriptLinesRegex = new Regex("^GO", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                }
+                return _scriptLinesRegex;
+            }
+        }
+
         private async Task ExecuteMigrationScript(string script)
         {
-            Regex regex = new Regex("^GO", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            string[] lines = regex.Split(script);
+            string[] lines = ScriptLinesRegex.Split(script);
 
             foreach (string line in lines.Where(p => p.Length > 0))
             {
