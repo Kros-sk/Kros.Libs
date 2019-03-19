@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Text;
 using Kros.KORM.Query;
-using Kros.Extensions;
 
 namespace Kros.KORM.Migrations
 {
@@ -50,17 +49,18 @@ namespace Kros.KORM.Migrations
 
         private async Task ExecuteMigrationScripts(IEnumerable<ScriptInfo> migrationScripts)
         {
-            using (var transaction = _database.BeginTransaction())
+            foreach (var scriptInfo in migrationScripts)
             {
-                foreach (var scriptInfo in migrationScripts)
+                using (var transaction = _database.BeginTransaction())
                 {
                     var script = await scriptInfo.GetScriptAsync();
 
                     await ExecuteMigrationScript(script);
                     await AddNewMigrationInfo(scriptInfo);
+
+                    transaction.Commit();
                 }
 
-                transaction.Commit();
             }
         }
 
