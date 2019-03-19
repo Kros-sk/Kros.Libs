@@ -60,7 +60,6 @@ namespace Kros.KORM.Migrations
 
                     transaction.Commit();
                 }
-
             }
         }
 
