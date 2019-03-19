@@ -20,7 +20,6 @@ namespace Kros.KORM.UnitTests.Migrations.Providers
             AssemblyMigrationScriptsProvider provider = CreateDefaultProvider();
             var scripts = provider.GetScripts().ToList();
 
-            scripts.Count.Should().Be(3);
             scripts.Should().Equals(new[] {
                 new ScriptInfo(provider)
                 {
@@ -59,7 +58,6 @@ namespace Kros.KORM.UnitTests.Migrations.Providers
                 "Kros.KORM.UnitTests.Resources.AnotherSqlScripts");
             var scripts = provider.GetScripts().ToList();
 
-            scripts.Count.Should().Be(2);
             scripts.Should().Equals(new[]
             {
                 new ScriptInfo(provider)

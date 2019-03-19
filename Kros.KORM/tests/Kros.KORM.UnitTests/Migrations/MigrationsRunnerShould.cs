@@ -4,7 +4,6 @@ using Kros.KORM.Migrations;
 using Kros.KORM.UnitTests.Integration;
 using Kros.UnitTests;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Threading.Tasks;

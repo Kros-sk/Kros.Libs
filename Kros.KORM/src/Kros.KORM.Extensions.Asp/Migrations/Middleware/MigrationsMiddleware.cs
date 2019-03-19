@@ -1,7 +1,6 @@
 ﻿using Kros.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace Kros.KORM.Migrations.Middleware
