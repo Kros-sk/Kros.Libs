@@ -7,6 +7,7 @@
   <ItemGroup>
     <None Remove="Resources\AnotherSqlScripts\20190227001_InitDatabase.sql" />
     <None Remove="Resources\AnotherSqlScripts\20190227002_AddProjectTable.sql" />
+    <None Remove="Resources\AnotherSqlScripts\20190227003_Script_with_separator.sql" />
     <None Remove="Resources\AnotherSqlScripts\IgnoredScript.sql" />
     <None Remove="Resources\AnotherSqlScripts\IgnoredScript.two.sql" />
     <None Remove="Resources\ScriptsForRunner\ExecuteInitialMigration\20190301001_AddPeopleTable.sql" />
@@ -20,9 +21,10 @@
     <None Remove="SqlScripts\20190301002_AddProjectTable.sql" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\AnotherSqlScripts\20190227001_InitDatabase.sql" />
     <EmbeddedResource Include="Resources\AnotherSqlScripts\IgnoredScript.two.sql" />
     <EmbeddedResource Include="Resources\AnotherSqlScripts\IgnoredScript.sql" />
-    <EmbeddedResource Include="Resources\AnotherSqlScripts\20190227001_InitDatabase.sql" />
+    <EmbeddedResource Include="Resources\AnotherSqlScripts\20190227003_Script_with_separator.sql" />
     <EmbeddedResource Include="Resources\AnotherSqlScripts\20190227002_AddProjectTable.sql" />
     <EmbeddedResource Include="Resources\ScriptsForRunner\ExecuteInitialMigration\20190301001_AddPeopleTable.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

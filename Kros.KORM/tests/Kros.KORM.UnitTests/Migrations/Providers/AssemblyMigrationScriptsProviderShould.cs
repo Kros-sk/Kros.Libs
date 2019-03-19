@@ -71,6 +71,12 @@ namespace Kros.KORM.UnitTests.Migrations.Providers
                     Id = 20190227002,
                     Name = "AddProjectTable",
                     Path = GetNamespace("20190227002_AddProjectTable")
+                },
+                new ScriptInfo(provider)
+                {
+                    Id = 20190227003,
+                    Name = "Script_with_separator",
+                    Path = GetNamespace("20190227002_Script_with_separator")
                 }
             });
         }

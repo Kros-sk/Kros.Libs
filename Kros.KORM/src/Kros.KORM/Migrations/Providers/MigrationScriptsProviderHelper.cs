@@ -12,7 +12,6 @@ namespace Kros.KORM.Migrations.Providers
             string folder)
         {
             const string extension = ".sql";
-            const char idNameSeparator = '_';
             var startIndex = folder.Length;
 
             return scriptPaths
@@ -20,7 +19,7 @@ namespace Kros.KORM.Migrations.Providers
                 .Select(path =>
                 {
                     var splits = path.Substring(startIndex + 1, path.Length - startIndex - extension.Length - 1)
-                        .Split(idNameSeparator);
+                        .Split(new []{ '_' }, 2);
 
                     if (splits.Length == 2 && long.TryParse(splits[0], out var id))
                     {
