@@ -5,8 +5,6 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System;
-using Kros.Extensions;
-using System.Linq;
 
 namespace Kros.KORM.Migrations.Providers
 {
