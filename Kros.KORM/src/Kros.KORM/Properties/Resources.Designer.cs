@@ -19,7 +19,7 @@ namespace Kros.KORM.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -223,6 +223,25 @@ namespace Kros.KORM.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE TABLE [dbo].[__KormMigrationsHistory](
+        ///    [MigrationId] [bigint] NOT NULL,
+        ///    [MigrationName] [nvarchar](255) NOT NULL,
+        ///    [ProductInfo] [nvarchar](255) NOT NULL,
+        ///    [Updated] [datetime2] NULL,
+        ///    CONSTRAINT [PK___KormMigrationsHistory] PRIMARY KEY CLUSTERED
+        ///    (
+        ///        [MigrationId] ASC
+        ///    )
+        ///) ON [PRIMARY]
+        ///.
+        /// </summary>
+        internal static string MigrationsHistoryTableScript {
+            get {
+                return ResourceManager.GetString("MigrationsHistoryTableScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ModelBuilder instance ({0}) does not have method {1}({2})..
         /// </summary>
         internal static string MissongMethodInModelBuilder {
@@ -327,6 +346,15 @@ namespace Kros.KORM.Properties {
         internal static string ResultMustBeGenericIEnumerable {
             get {
                 return ResourceManager.GetString("ResultMustBeGenericIEnumerable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Script &apos;{0}&apos; doesn&apos;t exist in assembly &apos;{1}&apos;..
+        /// </summary>
+        internal static string ScriptDoesNotExist {
+            get {
+                return ResourceManager.GetString("ScriptDoesNotExist", resourceCulture);
             }
         }
         

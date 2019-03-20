@@ -1,8 +1,11 @@
 ﻿using FluentAssertions;
 using Kros.Data;
 using Kros.KORM.Extensions.Asp;
+using Kros.KORM.Migrations;
 using Kros.UnitTests;
 using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
+using System;
 using System.Configuration;
 using Xunit;
 
@@ -11,10 +14,18 @@ namespace Kros.KORM.Extensions.Api.UnitTests
     public class KormBuilderShould : SqlServerDatabaseTestBase
     {
         protected override string BaseConnectionString
-            => "Server=(local)\\SQL2016; UID=sa;PWD=Password12!; Persist Security Info = 'TRUE'";
+            => IntegrationTestConfig.ConnectionString;
 
         [Fact]
         public void InitDatabaseForIdGenerator()
+        {
+            KormBuilder kormBuilder = CreateKormBuilder();
+            kormBuilder.InitDatabaseForIdGenerator();
+
+            CheckTableAndProcedure();
+        }
+
+        private KormBuilder CreateKormBuilder()
         {
             var connectionSettings = new ConnectionStringSettings(
                 "Default",
@@ -22,9 +33,67 @@ namespace Kros.KORM.Extensions.Api.UnitTests
                 "System.Data.SqlClient");
 
             var kormBuilder = new KormBuilder(new ServiceCollection(), connectionSettings);
-            kormBuilder.InitDatabaseForIdGenerator();
 
-            CheckTableAndProcedure();
+            return kormBuilder;
+        }
+
+        [Fact]
+        public void ThrowExceptionWhenAddMigrationsWithoutConfigurationSection()
+        {
+            var kormBuilder = CreateKormBuilder();
+            var (configuration, _) = ConfigurationHelper.CreateHelpers("missingsection");
+
+            Action action = () =>
+            {
+                kormBuilder.AddKormMigrations(configuration);
+            };
+
+            action.Should()
+                .Throw<InvalidOperationException>()
+                .WithMessage("*Configuration section 'KormMigrations' is missing.*");
+        }
+
+        [Fact]
+        public void AddMigrationsToContainer()
+        {
+            var kormBuilder = CreateKormBuilder();
+            var (configuration, _) = ConfigurationHelper.CreateHelpers("standard");
+
+            kormBuilder.AddKormMigrations(configuration);
+
+            kormBuilder.Services.BuildServiceProvider()
+                .GetService<IMigrationsRunner>()
+                .Should().NotBeNull();
+        }
+
+        [Fact]
+        public void ExecuteMigrations()
+        {
+            var kormBuilder = CreateKormBuilder();
+            var (configuration, _) = ConfigurationHelper.CreateHelpers("standard");
+
+            kormBuilder.AddKormMigrations(configuration);
+            var migrationRunner = Substitute.For<IMigrationsRunner>();
+            kormBuilder.Services.AddSingleton<IMigrationsRunner>(migrationRunner);
+
+            kormBuilder.Migrate();
+
+            migrationRunner.Received().MigrateAsync();
+        }
+
+        [Fact]
+        public void NotExecuteMigrationsWhenAutoUpgrateIsOff()
+        {
+            var kormBuilder = CreateKormBuilder();
+            var (configuration, _) = ConfigurationHelper.CreateHelpers("autoupdateoff");
+
+            kormBuilder.AddKormMigrations(configuration);
+            var migrationRunner = Substitute.For<IMigrationsRunner>();
+            kormBuilder.Services.AddSingleton<IMigrationsRunner>(migrationRunner);
+
+            kormBuilder.Migrate();
+
+            migrationRunner.DidNotReceive().MigrateAsync();
         }
 
         private void CheckTableAndProcedure()

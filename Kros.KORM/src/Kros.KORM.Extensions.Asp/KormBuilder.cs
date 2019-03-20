@@ -1,7 +1,14 @@
 ﻿using Kros.Data;
+using Kros.KORM.Extensions.Asp.Properties;
+using Kros.KORM.Migrations;
+using Kros.KORM.Migrations.Middleware;
+using Kros.KORM.Migrations.Providers;
 using Kros.Utils;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Configuration;
+using System.Threading.Tasks;
 
 namespace Kros.KORM.Extensions.Asp
 {
@@ -42,6 +49,82 @@ namespace Kros.KORM.Extensions.Asp
             }
 
             return this;
+        }
+
+        private const string MigrationSectionName = "KormMigrations";
+        private const string ConnectionStringSectionName = "ConnectionString";
+        private const string AutoMigrateSectionName = "AutoMigrate";
+        private bool _autoMigrate = false;
+
+        /// <summary>
+        /// Adds configuration for <see cref="MigrationsMiddleware"/> into <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
+        /// <param name="setupAction">Setup migration options.</param>
+        /// <returns>This instance of <see cref="KormBuilder"/>.</returns>
+        public KormBuilder AddKormMigrations(
+            IConfiguration configuration,
+            Action<MigrationOptions> setupAction = null)
+        {
+            IConfigurationSection migrationsConfig = GetMigrationsSection(configuration);
+            _autoMigrate = migrationsConfig.GetValue(AutoMigrateSectionName, false);
+            var connectionString = migrationsConfig
+                .GetSection(ConnectionStringSectionName).Get<ConnectionStringSettings>();
+
+            Services
+                .AddMemoryCache()
+                .AddTransient((Func<IServiceProvider, IMigrationsRunner>)((s) =>
+                {
+                    var database = new Database(connectionString);
+
+                    MigrationOptions options = SetupMigrationOptions(setupAction);
+
+                    return new MigrationsRunner(database, options);
+                }));
+
+            return this;
+        }
+
+        private static MigrationOptions SetupMigrationOptions(Action<MigrationOptions> setupAction)
+        {
+            MigrationOptions options = new MigrationOptions();
+
+            if (setupAction != null)
+            {
+                setupAction.Invoke(options);
+            }
+            else
+            {
+                options.AddScriptsProvider(AssemblyMigrationScriptsProvider.GetEntryAssemblyProvider());
+            }
+
+            return options;
+        }
+
+        private static IConfigurationSection GetMigrationsSection(IConfiguration configuration)
+        {
+            var migrationsConfig = configuration.GetSection(MigrationSectionName);
+            if (!migrationsConfig.Exists())
+            {
+                throw new InvalidOperationException(
+                    string.Format(Resources.ConfigurationSectionIsMissing, MigrationSectionName));
+            }
+
+            return migrationsConfig;
+        }
+
+        /// <summary>
+        /// Execute database migration.
+        /// </summary>
+        public void Migrate()
+        {
+            if (_autoMigrate)
+            {
+                Services.BuildServiceProvider()
+                    .GetService<IMigrationsRunner>()
+                    .MigrateAsync()
+                    .Wait();
+            }
         }
     }
 }

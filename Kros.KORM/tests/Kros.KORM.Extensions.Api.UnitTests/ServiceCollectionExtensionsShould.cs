@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Kros.KORM.Extensions.Asp;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Xunit;
@@ -12,7 +11,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests
         [Fact]
         public void AddKormToContainer()
         {
-            var (configuration, services) = CreateHelpers("standard");
+            var (configuration, services) = ConfigurationHelper.CreateHelpers("standard");
 
             services.AddKorm(configuration);
 
@@ -24,7 +23,7 @@ namespace Kros.KORM.Extensions.Api.UnitTests
         [Fact]
         public void ThrowExceptionWhenConfigurationSectionIsMissing()
         {
-            var (configuration, services) = CreateHelpers("missingsection");
+            var (configuration, services) = ConfigurationHelper.CreateHelpers("missingsection");
 
             Action action = () =>
             {
@@ -35,15 +34,5 @@ namespace Kros.KORM.Extensions.Api.UnitTests
                 .Throw<InvalidOperationException>()
                 .WithMessage("*Configuration section 'ConnectionString' is missing.*");
         }
-
-        #region Helpers
-
-        private static IConfigurationRoot GetConfiguration(string configName)
-            => new ConfigurationBuilder().AddJsonFile($"appsettings.{configName}.json").Build();
-
-        private static (IConfigurationRoot configuration, IServiceCollection services) CreateHelpers(string configName)
-            => (GetConfiguration(configName), new ServiceCollection());
-
-        #endregion
     }
 }
