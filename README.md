@@ -1,6 +1,6 @@
 # Kros.Libs
 
-This repo has moved to new locations. New locations can be found below.
+This repo has moved to new locations, see below.
 
 ## Kros.Utils
 
