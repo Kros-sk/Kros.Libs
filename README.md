@@ -1,35 +1,19 @@
 # Kros.Libs
 
-This repo contains Kros.Utils, Kros.Utils.MsAccess, Kros.KORM and Kros.KORM.MsAccess libraries.
+This repo has moved to new locations. New locations can be found below.
 
-## Kros.Utils [![Build status](https://ci.appveyor.com/api/projects/status/5ws8h5jp777wsalb/branch/master?svg=true)](https://ci.appveyor.com/project/Kros/kros-libs/branch/master)
+## Kros.Utils
 
-Universal library of various tools to simplify the work of the programmer. It is platform-independent (also applicable to desktop applications and server services) and is independent of third-party libraries.
+[Kros.Utils](https://github.com/Kros-sk/Kros.Utils)
 
-[Kros.Utils Readme](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.Utils/README.md "Kros.Utils")
+## Kros.Utils.MsAccess
 
-## Kros.Utils.MsAccess [![Build status](https://ci.appveyor.com/api/projects/status/5ws8h5jp777wsalb/branch/master?svg=true)](https://ci.appveyor.com/project/Kros/kros-libs/branch/master)
+[Kros.Utils.MsAccess](https://github.com/Kros-sk/Kros.Utils.MsAccess)
 
-Kros.Utils library extension for MS Access support. Only applicable in the full .NET framework.
+## Kros.KORM
 
-[Kros.Utils.MsAccess Readme](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.Utils/README.md "Kros.Utils.MsAccess")
+[Kros.KORM](https://github.com/Kros-sk/Kros.KORM)
 
-## Kros.KORM [![Build status](https://ci.appveyor.com/api/projects/status/xebjpdbakd45mfs4/branch/master?svg=true)](https://ci.appveyor.com/project/Kros/kros-libs-u2wo6/branch/master)
+## Kros.KORM.MsAccess
 
-Simple and fast micro-ORM framework for .NET.
-
-[Kros.KORM Readme](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.KORM/README.md "Kros.KORM")
-
-## Kros.KORM.MsAccess [![Build status](https://ci.appveyor.com/api/projects/status/xebjpdbakd45mfs4/branch/master?svg=true)](https://ci.appveyor.com/project/Kros/kros-libs-u2wo6/branch/master)
-
-Kros.KORM library extension for MS Access support. Only applicable in the full .NET framework.
-
-[Kros.KORM.MsAccess Readme](https://github.com/Kros-sk/Kros.Libs/blob/master/Kros.KORM/README.md "Kros.KORM.MsAccess")
-
-## Documentation
-
-For configuration, general information and examples [see the documentation](https://kros-sk.github.io/Kros.Libs.Documentation/).
-
-## Contributing Guide
-
-To contribute with new topics/information or make changes, see [contributing](https://github.com/Kros-sk/Kros.Libs/blob/master/CONTRIBUTING.md) for instructions and guidelines.
+[Kros.KORM.MsAccess](https://github.com/Kros-sk/Kros.KORM.MsAccess)
